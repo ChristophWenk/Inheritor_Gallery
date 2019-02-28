@@ -1,0 +1,40 @@
+group 'ch.fhnw'
+version '0.1'
+
+subprojects {
+	group 'ch.fhnw'
+	version '0.1'
+	
+	apply plugin: 'java'
+	
+	sourceCompatibility = JavaVersion.VERSION_11
+	targetCompatibility = JavaVersion.VERSION_11
+	
+	repositories {
+	    mavenCentral()
+	}
+	
+	sourceSets {
+	    main {
+	        resources {
+	            srcDirs = ["src/main/java", "src/main/resources"]
+	        }
+	    }
+	}
+	
+	dependencies {
+		testImplementation('org.junit.jupiter:junit-jupiter:5.4.0')
+	}
+	
+	test {
+		useJUnitPlatform()
+		testLogging {
+			events "passed", "skipped", "failed"
+		}
+	}
+}
+
+
+
+
+

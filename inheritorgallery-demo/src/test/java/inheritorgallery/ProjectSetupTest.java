@@ -1,0 +1,22 @@
+package inheritorgallery;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+/**
+ * @author Dieter Holz
+ */
+class ProjectSetupTest {
+
+    @Test
+    void testJunitConfiguration(){
+        //given
+
+        //when
+
+        //then
+
+        assertTrue(true, "Mit diesem Test wird nur überprüft ob JUnit richtig ins Projekt integriert wurde");
+    }
+}

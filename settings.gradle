@@ -1,0 +1,4 @@
+rootProject.name = 'InheritorGallery'
+
+include 'inheritorgallery-core'
+include 'inheritorgallery-demo'
