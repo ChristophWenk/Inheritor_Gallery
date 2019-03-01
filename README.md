@@ -9,7 +9,7 @@
 
 - Christoph Wenk
   - christoph.wenk@students.fhnw.ch
-  - Skype: ...
+  - Skype: christoph_wenk
   - GitHub: ChristophWenk
   
 - Barbara Scheuner
