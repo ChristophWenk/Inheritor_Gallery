@@ -4,7 +4,7 @@
  
 - Dimitri Muralt
   - dimitri.muralt@students.fhnw.ch
-  - Skype: ...
+  - Skype: live:dimitri.muralt
   - GitHub: dimitrimuralt
 
 - Christoph Wenk
