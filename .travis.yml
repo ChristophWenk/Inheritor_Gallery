@@ -1,0 +1,9 @@
+language: java
+
+deploy:
+  provider: releases
+  api_key: e9bef81874bd3bd8491ad08b1b23854b10b79682
+  file: README.md
+  skip_cleanup: true
+  on:
+    tags: true
