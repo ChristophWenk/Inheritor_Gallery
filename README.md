@@ -1,5 +1,8 @@
 # InheritorGallery
 
+### Build Information
+[![Build Status](https://travis-ci.com/FHNW-IP5-IP6/InheritorGallery.svg?token=qWRopjoJzCncJVxseK5R&branch=master)](https://travis-ci.com/FHNW-IP5-IP6/InheritorGallery)
+
 ### Team
  
 - Dimitri Muralt

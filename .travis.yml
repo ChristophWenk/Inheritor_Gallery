@@ -1,0 +1,16 @@
+language: java
+
+before_install:
+  - sudo wget https://github.com/bell-sw/Liberica/releases/download/11.0.2/bellsoft-jdk11.0.2-linux-amd64.deb
+  - sudo apt-get update -q
+  - sudo apt-get install ./bellsoft-jdk11.0.2-linux-amd64.deb -y
+  - export JAVA_HOME=/usr/lib/jvm/jdk-11-bellsoft-amd64
+  - echo $JAVA_HOME
+
+deploy:
+  provider: releases
+  api_key: e9bef81874bd3bd8491ad08b1b23854b10b79682
+  file: README.md
+  skip_cleanup: true
+  on:
+    tags: true
