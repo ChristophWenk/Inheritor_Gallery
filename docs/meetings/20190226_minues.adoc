@@ -59,7 +59,7 @@ Kann auch andere Darstellungsform als Standard UML sein. +
 Bsp: Kombination von Klasse und geerbter Klasse. +
 Testgruppe hat von DI 15.00 bis 18.00 Schule oop1
 
-image::images/InheritorGalleryOverview01.jpg[Meeting1, 300, 200]
+image::../images/InheritorGalleryOverview01.jpg[InheritorGalleryOverview01.jpg, 460, 320]
 
 = Todo
 
