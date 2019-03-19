@@ -2,16 +2,38 @@
 
 == Allgemeine Fragen
 - Umfang des Projektplans: Gemäss Bewertungskriterien möglichst detailliert. Korrekt so?
+--> Wird besprochen
 - Inhalt: "Unerwartete Analyse der Aufgabenstellung" -> Sollte das nicht Inhalt des Berichts sein? Was bedeutet das genau?
-- Meetings: Einmal pro Monat 17.30 am Dienstagabend immer noch ok?
+- Meetings: Einmal pro Monat 17.30 am Dienstagabend immer noch ok? -> Skype auch spontan möglich.
+- GUI Builder sind eher nicht empfehlenswert. Von Hand ausprogrammieren.
+- Meilensteine: Zwischenpräsentation. Wie sieht es im Somemr aus?
+
+== Bewertungsbogen
+- Block Theoretische Arbeit:
+Entwurf für Autorensystem -> Wie soll sich eine Übung dem Studierenden präsentieren?
+Ist JShell richtiges vorgehen? Welche Standard UML Bibliotheken gibt es? Bewertung der Evaluation und wie gehen wir weiter?
+- Block Praktische Arbeit: Core-Teil Didaktischer Inhalt ist nicht Teil der Arbeit.
+- Block Analyse von Ergebnissen: Aussagekräftige Usability Tests sind wichtig. Ist man besser als die Lehrmaterialen die momentan verfügbar sind?
+Haben die Studierenden den Stoff jetzt gut verstanden?
+Mit Papierprototypen früh arbeiten. Prototyping.
+- Praktische Arbeit erhält am meisten Gewichtung.
+- Block Betreuung: Wenn man immer gepushed werden muss -> Schlecht. Wenn man von sich aus mit Fragen kommt -> Gut. SPOC JShell: Raphael Siegrist.
+- Block Dokumentation.
+- Block Zwischenpräsentation: Zwischen Projektwoche und Sommerferien -> Gegen Ende Semester (Letzte 5 Semesterwochen). Ca. nach Hälfte der Arbeit.
+- Block Kommunikation extern: Mit Betreuer
+- Block Projektvereinbarung: Analyse ist nicht Teil der Projektvereinbarung.
 
 == Requirements
-Besprechen der Anforderungen.
+Besprechen der Anforderungen. Für Details siehe Requirements Dokument.
 
-== Projektvereinbarung
+- JLink -> Mit Build aufrufen. So kann man Applikation ausliefern mit integrierter Runtime.
+- Klassendiagramme können auch als Standard UML-Klassendiagramme dargestellt werden. Besser wäre jedoch eine inoovative neue Darstellungsform.
+- Autorensystem: Aufgabenstellungen können hardcoded irgendwo abelegt werden. Es wird keine spezielle Usability verlangt. Evtl. als Ascidoc -> Kann geparst werden.
+- Package UML wird nicht benötigt. Static wird nicht benötigt.
+- Jshell: Zeilenweises Verarbeiten des Java Codes. Soll benutzt werden für Interaktion mit Applikation.
+- Casting in scope.
+- Compile error triggern mit JShell in scope. Compile Error genügt.
+- Interfaces, abstrakte Klassen instanzieren -> Compile Error genügt.
 
-
-== Todo
-
-
-== Nächstes Meeting: [Datum], [Zeit] Raum:
+== Nächstes Meeting: 09. April, 17.00 Raum:
+Traktanden: Projektvereinbarung besprechen.
