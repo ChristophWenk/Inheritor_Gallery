@@ -1,0 +1,17 @@
+= Traktanden
+
+== Allgemeine Fragen
+- Umfang des Projektplans: Gemäss Bewertungskriterien möglichst detailliert. Korrekt so?
+- Inhalt: "Unerwartete Analyse der Aufgabenstellung" -> Sollte das nicht Inhalt des Berichts sein? Was bedeutet das genau?
+- Meetings: Einmal pro Monat 17.30 am Dienstagabend immer noch ok?
+
+== Requirements
+Besprechen der Anforderungen.
+
+== Projektvereinbarung
+
+
+== Todo
+
+
+== Nächstes Meeting: [Datum], [Zeit] Raum:
