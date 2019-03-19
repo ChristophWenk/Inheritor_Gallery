@@ -4,6 +4,29 @@
 high, medium > muss Ziele
 low > kann Ziele
 
+
+.UseCases
+|===
+|# | Bezeichnung |
+
+|UC-1
+|Übung importieren
+|low
+
+|UC-2
+|Objekte instanzieren
+|high
+
+|UC-3
+|Mit Objekten interagieren
+|high
+
+|UC-4
+|Klassen erstellen und bearbeiten
+|high
+
+|===
+
 .Requirements
 |===
 |Name | Description | Prio
@@ -12,14 +35,14 @@ low > kann Ziele
 |Sprache
 a|Sprache Dokumentation: Deutsch
 Sprache Code: Englisch
-|
+|OK
 
 |Standalone
 a|Keine Abhängigkeiten zu anderen Applikationen,
 keine Plugin
 
 * Liberica Runtime benötigt zur Ausführung?
-|high
+|obsolete
 
 
 |Klassendiagramm
@@ -28,7 +51,8 @@ keine Plugin
 
 |Klassendiagramm
 |UML dynamisch (bei Klassencode Änderung)
-|low
+keine Rekomplilierung
+|medium
 
 
 |UML Parser
@@ -43,7 +67,7 @@ Class: class, abstract, interface
 Attribute: visibility, name, type
 
 Methods: visibility, name,
-input parameter, return, static
+input parameter, return
 
 image::images/umlConnections.jpg[umlConnections.jpg, 460, 320]
 
@@ -60,7 +84,7 @@ Beziehungen:
 
 * uses, assosiation/aggragation, cardinality (out of scope?)
 
-|low
+|none
 
 |Anleitung
 |statischer Text
@@ -70,9 +94,6 @@ Input: txt, markdown, adoc?
 
 |Shell
 |Zeilenweises ausführen?
-Blockweises auführen?
-
-OSGI?
 |high
 
 |showInstance();
@@ -112,7 +133,7 @@ fahrzeug1.print();  >>Fahrzeug: fahrzeug1-remastered fährt 23.0
 fahrzeug2.print();  >>Fahrzeug: fahrzeug1-remastered fährt 23.0
 >> ? Point to copied class ?
 ----
-|high
+|medium
 
 |showModifiability();
 a|[source,java]
@@ -158,7 +179,7 @@ cabrio.print();  >>Auto:     auto1 fährt 20.0
 
 >> ??? overwrite final Methods not possible out of scope?
 ----
-|high
+|none
 
 |methodsAvailableByRef();
 a|[source,java]
@@ -172,7 +193,7 @@ Auto auto2 = (Auto) auto1;
 auto2.getColor();
 >> instanceof in scope?
 ----
-|high (without casting)
+|high  with casting
 
 |isAlsoA();
 a|[source,java]
@@ -182,7 +203,7 @@ Fahrrad rad        = new Fahrrad("rad1", 48);
 Auto auto          = new Auto("auto1", 20,430, 2);
 Cabriolet cabrio   = new Cabriolet("cabrio1", 20,150, 4);
 
->> visualize or compile error enough?
+>> compile error enough!!
 
 >> assign to parent class ok .. is also a ...
 fahrzeug = rad;
