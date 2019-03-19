@@ -1,44 +1,78 @@
 = Requirements
 
+
+high, medium > muss Ziele
+low > kann Ziele
+
 .Requirements
 |===
 |Name | Description | Prio
 
 
-|Standalone
+|Sprache
+a|Sprache Dokumentation: Deutsch
+Sprache Code: Englisch
 |
+
+|Standalone
+a|Keine Abhängigkeiten zu anderen Applikationen,
+keine Plugin
+
+* Liberica Runtime benötigt zur Ausführung?
+|high
+
+
+|Klassendiagramm
+|UML statisch?
 |high
 
 |Klassendiagramm
-|statisch
-|high
+|UML dynamisch (bei Klassencode Änderung)
+|low
 
-|Anleitung
-|statischer Text
-|high
-
-
-|Terminal
-|Funktionaliät einer Main Methode
-|high
 
 |UML Parser
 a|
-Input 1..*  .java Files
+Lernsystem Input: 1..*  .java Files
 wird dargestellt als UML
 
 image::images/umlClassMethodAttribute.jpg[umlClassMethodAttribute.jpg, 460, 320]
+
+Class: class, abstract, interface
+
 Attribute: visibility, name, type
 
-Methods: visibility, name, input parameter, return
+Methods: visibility, name,
+input parameter, return, static
+
+image::images/umlConnections.jpg[umlConnections.jpg, 460, 320]
 
 Beziehungen:
 
 * extends, implements
+|high
+
+|UML Parser
+a|
+Package
+
+Beziehungen:
+
 * uses, assosiation/aggragation, cardinality (out of scope?)
 
-image::images/umlConnections.jpg[umlConnections.jpg, 460, 320]
+|low
 
+|Anleitung
+|statischer Text
+Input: txt, markdown, adoc?
+|high
+
+
+|Shell
+|Zeilenweises ausführen?
+Blockweises auführen?
+
+OSGI?
 |high
 
 |showInstance();
@@ -50,24 +84,23 @@ fahrzeug1.print();
 ----
 |high
 
-|showAvailableAttributes();
-a|
-----
-public, private, protected
-in Terminal or Visualisation?
-----
-|
-
 |showAvailableMethods();
-a|
+a|[source,java]
 ----
-public, private, protected
-in Terminal or Visualisation?
+Visualisation
 ----
-|
+|high
+
+
+|showAvailableAttributes();
+a|[source,java]
+----
+Visualisation
+----
+|high
 
 |showReference();
-a|
+a|[source,java]
 ----
 Fahrzeug fahrzeug1  = new Fahrzeug("fahrzeug1", 23);
 Fahrzeug fahrzeug2 = fahrzeug1;
@@ -82,11 +115,11 @@ fahrzeug2.print();  >>Fahrzeug: fahrzeug1-remastered fährt 23.0
 |high
 
 |showModifiability();
-a|
+a|[source,java]
 ----
 >>final, static Variable
 >>Fahrzeug.gravity = 1; >>compile error, no changes allowed
->>show similar to UML?
+>>UML representation ok
 
 >>static Method call changes value in all instances
 Fahrzeug fahrzeug1  = new Fahrzeug("fahrzeug1", 33);
@@ -103,7 +136,7 @@ System.out.println(fahrzeug2.getDieselTax());  >>20.0
 |high
 
 |objectMethods();
-a|
+a|[source,java]
 ----
 >>(==), equals(),
 >> clone()  > shallow Copy, deep copy
@@ -111,7 +144,7 @@ a|
 |low
 
 |methodExecuted();
-a|
+a|[source,java]
 ----
 Fahrzeug fahrzeug  = new Fahrzeug("fahrzeug1", 50);
 Auto auto          = new Auto("auto1", 20, 430, 2);
@@ -127,11 +160,12 @@ cabrio.print();  >>Auto:     auto1 fährt 20.0
 ----
 |high
 
-|methodsAvailable();
-a|
+|methodsAvailableByRef();
+a|[source,java]
 ----
 Fahrzeug auto1   = new Auto("auto1", 66, 430, 2);
->>auto.getColor();  >> only methods declared in Reference class available
+>>auto.getColor();
+>> only methods declared in Reference class available
 
 >> Casting in scope?
 Auto auto2 = (Auto) auto1;
@@ -141,7 +175,7 @@ auto2.getColor();
 |high (without casting)
 
 |isAlsoA();
-a|
+a|[source,java]
 ----
 Fahrzeug fahrzeug  = new Fahrzeug("fahrzeug1", 0);
 Fahrrad rad        = new Fahrrad("rad1", 48);
@@ -162,7 +196,7 @@ auto = cabrio;
 |low
 
 |ReferenceVsObject();
-a|
+a|[source,java]
 ----
 Fahrzeug f1 = new Fahrzeug("fahrzeug1", 0);
 Auto a      = new Auto("auto1",20, 430, 2);
@@ -181,10 +215,10 @@ System.out.println(f2 instanceof Object);    >>True
 
 System.out.println(f1 instanceof Auto);      >>False
 ----
-|high
+|medium
 
 |abstactClass();
-a|
+a|[source,java]
 ----
 >>instantiation not possible, visualize or compile error?
 >>Item item = new Item();
@@ -193,23 +227,23 @@ a|
 Item item = new Auto("auto1",77, 430, 2);
 item.print();  >>Auto:     auto1 fährt 20.0
 
->> method from abstract class can be executed
+>> implemented method from abstract class can be executed
 item.setWeight(10);
 System.out.println(item.getWeight());  >>10.0
 ----
-|high
+|medium
 
 |interfaces();
-a|
+a|[source,java]
 ----
 >>method getPrice
 Buyable fahrrad = new AntiqueBuyableFahrrad("rad1", 48,"Mittelalter",9999);
 
->>only getPrice() callable
+>>only getPrice() (= Buyable interface method) callable
 fahrrad.getPrice();
 
 >>visualize that Buyable interface
 ----
-|high
+|medium
 
 |===
