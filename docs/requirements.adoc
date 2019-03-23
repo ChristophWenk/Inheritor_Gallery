@@ -154,7 +154,7 @@ Fahrzeug.setDieselTax(20);
 System.out.println(fahrzeug1.getDieselTax());  >>20.0
 System.out.println(fahrzeug2.getDieselTax());  >>20.0
 ----
-|high
+|none
 
 |objectMethods();
 a|[source,java]
@@ -179,7 +179,7 @@ cabrio.print();  >>Auto:     auto1 fährt 20.0
 
 >> ??? overwrite final Methods not possible out of scope?
 ----
-|none
+|high
 
 |methodsAvailableByRef();
 a|[source,java]
