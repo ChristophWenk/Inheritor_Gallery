@@ -52,7 +52,7 @@ keine Plugin
 |Klassendiagramm
 |UML dynamisch (bei Klassencode Änderung)
 keine Rekomplilierung
-|medium
+|none
 
 
 |UML Parser
