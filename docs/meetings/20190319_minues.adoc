@@ -35,5 +35,5 @@ Besprechen der Anforderungen. Für Details siehe Requirements Dokument.
 - Compile error triggern mit JShell in scope. Compile Error genügt.
 - Interfaces, abstrakte Klassen instanzieren -> Compile Error genügt.
 
-== Nächstes Meeting: 09. April, 17.00 Raum:
+== Nächstes Meeting: 09. April, 17.00 Raum: 5.2C07
 Traktanden: Projektvereinbarung besprechen.
