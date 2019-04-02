@@ -1,19 +1,19 @@
 = Traktanden
 
-=== Unterschied IP34 zu IP5
+== Unterschied IP34 zu IP5
 IP34 Fokus auf PM, Kommunikation
 
 IP5  Fokus auf Produkt, Stunden nicht erfassen
 Grobplanung sinnvoll (Meilensteine), Usability Tests
 
-=== Ist der offizielle Termin des Projektabschlusses 16.08.2019 in Ordnung? Sind bereits weitere Deadlines/Meilensteine bekannt?
+== Ist der offizielle Termin des Projektabschlusses 16.08.2019 in Ordnung? Sind bereits weitere Deadlines/Meilensteine bekannt?
 Abgabetermin 16.08.2019 passt.
 
 *Abwesenheiten* +
 Barbara Scheuner: KW17, 28, 29 +
 Dieter Holz: wahrscheinlich KW 31.. +
 Dimitri Muralt KW 31, 32 +
-Christoph Wenk tbd
+Christoph Wenk KW 26, 31, 32
 
 ca. ⅔ der Arbeit wird während des Semesters erledigt und ⅓ im Sommer.
 
@@ -22,30 +22,30 @@ ca. ⅔ der Arbeit wird während des Semesters erledigt und ⅓ im Sommer.
 6 * 10h (während Sommer KW 30-36)
 
 
-=== Bewertungskriterien
+== Bewertungskriterien
 Excel via Mail verschickt. Gewichtung wird noch mit Herrn Holz besprochen und allenfalls angepasst.
 Projektvereinbarung wird erstellt. Beinhaltet Minimalziele und zusätzliche Ziele.
 
-=== Art der Requirements-Erfassung (Gitlab, Github, Jira)
+== Art der Requirements-Erfassung (Gitlab, Github, Jira)
 Eher nicht Word-Files herumschicken
 Github -> Herr Holz setzt Projekt auf.
 ASCII Files in Github
 Requirements werden in GitHub erfasst per Issue
 Open Source, Lizenz muss abgeklärt werden
 
-=== Mögliche Constraints: Tools, Prozesse
+== Mögliche Constraints: Tools, Prozesse
 keine
 
-=== Kommunikationskanal und Häufigkeit. Bsp: Mail, Github, Face to Face
+== Kommunikationskanal und Häufigkeit. Bsp: Mail, Github, Face to Face
 Feedback darf immer eingeholt werden, auch wenn Fragen zur Doku bestehen.
 Kommunikationskanal: GitHub
 Face-To-Face einmal monatlich Abends Dienstag 17:30
 
-=== Dokumentation Detaillierungsgrad allgemein
+== Dokumentation Detaillierungsgrad allgemein
 Produkt im Code, im Code dokumentiert. Bericht beinhaltet Entscheidungen, Architektur.
 Doku minimal halten -> Produkt zählt.
 
-=== Requirements Engineering (Vorbereitung auf nächstes Meeting Issues aufsetzen)
+== Requirements Engineering (Vorbereitung auf nächstes Meeting Issues aufsetzen)
 Eine Applikation
 Päckli mit einer Anleitung
 Bild
@@ -61,7 +61,7 @@ Testgruppe hat von DI 15.00 bis 18.00 Schule oop1
 
 image::../images/InheritorGalleryOverview01.jpg[InheritorGalleryOverview01.jpg, 460, 320]
 
-= Todo
+== Todo
 
 - Projektvereinbarung erstellen +
 Barbara Scheuner erstellt Template. Christoph Wenk und Dimitri nehmen allenfalls Anpassungen vor.
@@ -70,4 +70,4 @@ Barbara Scheuner erstellt Template. Christoph Wenk und Dimitri nehmen allenfalls
 
 - Protokoll Meeting auf Github
 
-= Nächstes Meeting: 19.März, 17:30 Raum: C07
+== Nächstes Meeting: 19.März, 17:30 Raum: C07
