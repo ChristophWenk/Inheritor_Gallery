@@ -40,22 +40,22 @@ Für beide Teile
 
 - Evaluation bestehender Ansätze und Lösungen
 - Evaluation geeigneter Technologien
-- Entwurf eines geeigneten User-Interfaces
-- systematische Usability-Tests zur Weiterentwicklung der User-Interfaces
 
 Für die Lernumgebung
 
+- Entwurf eines geeigneten User-Interfaces
+- systematische Usability-Tests zur Weiterentwicklung der User-Interfaces
 - Entwurf der Visualisierung von Instanzen von Klassen mit mehreren Oberklassen und Interfaces
 - dynamische Veränderung der Visualisierung je nach Programmzustand
 
 == Rahmenbedingungen
 In folgenden Abschnitten wird zwischen Dokumenten und Komponenten, die zu erstellen bzw. nicht zu erstellen sind, unterschieden.
 
-=== In scope
+=== In Scope
 
-.Deliverables
+.Ergebisse
 |===
-|Deliverable | Inhalt
+|Ergebisse | Inhalt
 
 |Projektvereinbarung
 a|
@@ -82,7 +82,7 @@ a|
 
 |===
 
-=== Out of scope
+=== Out of Scope
 - Admin GUI
 
 == Anforderungen
@@ -96,7 +96,7 @@ a|
 |Übung importieren
 
 |UC-2
-|Objekte instanzieren
+|Objekte instanziieren
 
 |UC-3
 |Mit Objekten interagieren
@@ -108,13 +108,111 @@ a|
 === Funktionale Anforderungen
 .Funktionale Anforderungen
 |===
-|# | UC | Prio | Bezeichnung | Beschreibung
+| UC | Bezeichnung | Beschreibung | Prio
 
-|tbd
-|tbd
-|tbd
-|tbd
-|tbd
+|UC-1
+|UML Parser
+a|Importiert werden 1..*  .java Files. Diese werden geparst und als UML dargestellt.
+
+Konkret werden folgende UML Eigenschaften dargestellt:
+* Klassenart: class, abstract, interface
+* Attribute mit Sichtbarkeit, Name und Typ.
+* Methoden mit Sichtbarkeit, Name, Inputparameter und Rückgabewert
+* Polymorphie-Beziehungen: extends und implements
+
+Der Input kann nachträglich nicht mehr geändert werden. Das heisst, wenn der Klassencode
+angepasst wurde, muss die Übung neu importiert werden.
+|high
+
+|UC-1
+|Anleitung
+|Die Übungs-Anleitung wird als statischer Text importiert.
+|high
+
+|UC-2
+|Shell
+|Es soll eine Shell vorhanden sein, in der Studierende zeilenweise Java Code
+ eingeben können.
+ Für die Übung relevanter Code soll dabei interpretiert werden können.
+|high
+
+|UC-2
+|Zeige Instanz
+|Via Shell kann mithilfe von Java Code eine Instanz aus der bestehenden
+Klassenstruktur erstellt werden. Diese wird auf der Oberfläche angezeigt.
+Bsp.:
+Fahrzeug fahrzeug1  = new Fahrzeug("fahrzeug1", 22);
+----
+|high
+
+|UC-2
+|Zeige verfügbare Methoden
+|Zu einer erstellten Instanz sind die verfügbaren Methoden sichtbar.
+Diese Methoden können ausgeführt werden.
+----
+|high
+
+|UC-2
+|Zeige verfügbare Attribute
+|Zu einer erstellten Instanz sind die verfügbaren Klassen Attribute sichtbar.
+----
+|high
+
+|UC-2
+|Zeige Werte der verfügbaren Attribute
+|Die Werte der Attribute einer erstellten Instanz werden angezeigt.
+Bsp.: Fahrzeug fahrzeug1  = new Fahrzeug("fahrzeug1", 22);
+name = "fahrzeug1"
+geschwindigkeit = 22
+|medium
+
+
+|UC-2
+|Zeige Referenz auf Kopie
+|Es kann eine Kopie einer Instanz angelegt werden. Die neue Instanz ist als
+Kopie in der Visualisierung zu erkennen.
+Bsp.:
+Fahrzeug fahrzeug1  = new Fahrzeug("fahrzeug1", 23);
+Fahrzeug fahrzeug2 = fahrzeug1;
+|medium
+
+|UC-3
+|Ausführen von Objekt Methoden
+|Die Methode (==), equals() und clone() können auf vorhandene Instanzen
+angewendet werden.
+|low
+
+|UC-3
+|Methode ausgeführt bei Polymorphie
+|Sofern mehrere Methoden aufgrund von Vererbung vorhanden sind, soll visualisiert
+werden, welche der Methoden soeben ausgeführt wurden.
+|high
+
+|UC-3
+|Zeige verfügbare Methoden in Bezug auf Referenz
+|Bsp.: Fahrzeug auto1   = new Auto("auto1", 66, 430, 2);
+Nur Methoden in Referenzklasse können ausgeführt werden.
+Methoden aus Objektklasse sind sichtbar, jedoch als nicht ausführbar erkennbar.
+
+Bsp.:
+Fahrzeug f2  = new Auto("auto1",20, 430, 2);
+>> f2 ist Referenz von Fahrzeug  (Fahrzeug _ ) definiert verfügbare Methoden
+>> f2 ist Objekt von Auto (new ...) näheste Methodenomplementation verwendet
+|medium
+
+|UC-3
+|Abstrakte Klasse
+|Die Instanziierung einer abstrakten Klasse führt zu einem Kompilierfehler
+und wird in der Shell angezeigt.
+Implementierte Methoden in abstrakter Klasse können ausgeführt werden und werden
+bei Ausführung als ausgeführte Methode gekennzeichnet.
+|medium
+
+|UC-2
+|Interface
+|Die Instanziierung eines Interfaces führt zu einem Kompilierfehler.
+|
+
 
 |===
 
@@ -125,31 +223,34 @@ a|
 |# | Beschreibung
 
 |NF-1
-|Die Applikation soll mit Liberica JDK 11 lauffähig sein.
+|Die Applikation soll mit jlink lauffähig sein.
 
 |NF-2
 |Die Applikation muss von Java-Programmieranfängern zu bedienen sein.
 
 |NF-3
-|tbd
+|Die Dokumentation wird in Deutsch erfasst.
 
 |NF-4
-|tbd
+|Die Applikation soll eigenständig ausgeführt werden können.
 
 |===
 
 
-
-
-
-
 == Produkteinsatz
 === Anwendungsbereiche
+Die Lernumgebung soll im Unterricht eingesetzt werden.
 === Zielgruppe
+Zielgruppe sind Programmieranfänger auf Sekundär- oder Tertiärstufe.
 
 == Projektplanung
-=== Meetings
+Die Projektplanung besteht aus Meilensteinen und Issues auf Github. Die Meilensteine enthalten Enddaten und diesen werden
+Issues zugeteilt. Ein agiles Vorgehen wird bevorzugt und die Projektplanung wird auf ein Minimum beschränkt.
 
+=== Meetings
+Es werden monatlich Face-to-Face Meetings stattfinden, jeweils Diestags um 17:30.
+Weitere Fragen können jederzeit via Github Issues mit der @User Funktion gestellt
+werden. Bei Bedarf kann anschliessend ein Skype Meeting vereinbart werden.
 
 == Freigabe / Genehmigung
 
