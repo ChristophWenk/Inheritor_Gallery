@@ -1,0 +1,10 @@
+= Traktanden
+
+== Projektvereinbarung
+Besprechen der Projektvereinbarung.
+
+
+== Klärung von offenen Fragen
+
+== Nächstes Meeting
+[Tag].[Monat], [Zeit] Raum: [Raum]
