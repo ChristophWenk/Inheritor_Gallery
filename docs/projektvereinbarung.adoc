@@ -80,6 +80,8 @@ a|
 - Technologien / Software
 - Fazit
 
+
+|Produkt
 |===
 
 === Out of Scope
@@ -164,7 +166,7 @@ Diese Methoden können ausgeführt werden.
 Bsp.: Fahrzeug fahrzeug1  = new Fahrzeug("fahrzeug1", 22);
 name = "fahrzeug1"
 geschwindigkeit = 22
-|medium
+|high
 
 
 |UC-2
@@ -211,7 +213,7 @@ bei Ausführung als ausgeführte Methode gekennzeichnet.
 |UC-2
 |Interface
 |Die Instanziierung eines Interfaces führt zu einem Kompilierfehler.
-|
+|medium
 
 
 |===
@@ -223,16 +225,13 @@ bei Ausführung als ausgeführte Methode gekennzeichnet.
 |# | Beschreibung
 
 |NF-1
-|Die Applikation soll mit jlink lauffähig sein.
+|Die Applikation soll mit jlink lauffähig sein und somit eigenständig ausgeführt werden können.
 
 |NF-2
-|Die Applikation muss von Java-Programmieranfängern zu bedienen sein.
+|Die Applikation muss von Java-Programmieranfängern (1. Semester FHNW) zu bedienen sein.
 
 |NF-3
 |Die Dokumentation wird in Deutsch erfasst.
-
-|NF-4
-|Die Applikation soll eigenständig ausgeführt werden können.
 
 |===
 
@@ -240,8 +239,9 @@ bei Ausführung als ausgeführte Methode gekennzeichnet.
 == Produkteinsatz
 === Anwendungsbereiche
 Die Lernumgebung soll im Unterricht eingesetzt werden.
+
 === Zielgruppe
-Zielgruppe sind Programmieranfänger auf Sekundär- oder Tertiärstufe.
+Zielgruppe sind Programmieranfänger auf Sekundär- oder Tertiärstufe. Im spezifischen 1. Semester der FHNW.
 
 == Projektplanung
 Die Projektplanung besteht aus Meilensteinen und Issues auf Github. Die Meilensteine enthalten Enddaten und diesen werden
