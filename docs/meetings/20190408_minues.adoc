@@ -1,10 +1,19 @@
 = Traktanden
 
-== Projektvereinbarung
 Besprechen der Projektvereinbarung.
 
+== Projektvereinbarung
+
+Besprechen der Projektvereinbarung.
+
+Die Projektvereibarung wurde besprochen und angepasst.
+Die gesamte Projektvereinbarung wurde im folgenden Pull Request
+besprochen und gemerged:
+
+https://github.com/FHNW-IP5-IP6/InheritorGallery/pull/12
 
 == Klärung von offenen Fragen
+Der Einsatz eines Kanban Boards in Githun wird geprüft.
 
 == Nächstes Meeting
-[Tag].[Monat], [Zeit] Raum: [Raum]
+Noch nicht vereinbart. Nach Bedarf.
