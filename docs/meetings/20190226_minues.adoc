@@ -70,4 +70,5 @@ Barbara Scheuner erstellt Template. Christoph Wenk und Dimitri nehmen allenfalls
 
 - Protokoll Meeting auf Github
 
-== Nächstes Meeting: 19.März, 17:30 Raum: C07
+== Nächstes Meeting
+19.März, 17:30 Raum: C07
