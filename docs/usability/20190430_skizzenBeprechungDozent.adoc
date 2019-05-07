@@ -56,15 +56,7 @@ Referenz bestimmt die Sicht |
 Gibt es Fehler, Unstimmigkeiten, Unschönheiten? |
 Was gelungen, passend? Im Endpdukt?
 
-| Skizze 1:
 |
-|
-|
-|
-|
-|
-
-| Skizze 2:
 |
 |
 |
@@ -72,29 +64,6 @@ Was gelungen, passend? Im Endpdukt?
 |
 |
 
-| Skizze 3:
-|
-|
-|
-|
-|
-|
-
-| Skizze 4:
-|
-|
-|
-|
-|
-|
-
-| Skizze 5:
-|
-|
-|
-|
-|
-|
 
 
 |===
@@ -117,3 +86,5 @@ Evlt. für alle Entwürfe:
 
 -> Legosteine TODO: Darstellung der Methoden bei Legosteinen muss nochmal überdacht werden,
 sodass diese klarer wird.
+
+image::../images/20190507_DiskussionErsteSkinnen.jpg[20190507_DiskussionErsteSkinnen.jpg, 460, 320]
