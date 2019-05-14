@@ -29,3 +29,10 @@ Start: 16:15
 Return oder print auf Konsole darstellen ok, Ausgeführte Methode highlight
 
 image::../images/20190513_BesprechungSkizzen.jpg[20190513_BesprechungSkizzen.jpg, 460, 320]
+
+image::../images/20190514_BesprechungSkizzen.jpg[20190514_BesprechungSkizzen.jpg, 460, 320]
+
+
+
+
+
