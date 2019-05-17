@@ -30,6 +30,15 @@ Return oder print auf Konsole darstellen ok, Ausgeführte Methode highlight
 
 image::../images/20190513_BesprechungSkizzen.jpg[20190513_BesprechungSkizzen.jpg, 460, 320]
 
+
+Konstruktor ebenfalls anzeigen und als Konstruktor hervorheben.
+Evlt. ein Steinnoppen als Konstuktor darstellen, da der
+Konstrktor fix ist.
+
+Interface gestrichelt darstellen.
+Interafce bis zum Boden verlängern.
+
+
 image::../images/20190514_BesprechungSkizzen.jpg[20190514_BesprechungSkizzen.jpg, 460, 320]
 
 

@@ -1,0 +1,80 @@
+
+= Usablity Test Student
+
+== Test Objekt
+Ausgedruckter HiFi Prototyp. Aufgabe ist es die Codezeilen auszuführen und die erstellten
+Instanzen zu beschreiben.
+Das verwendete Klassendiagramm wurde von den Studierenden in der
+vorhergehden Lektion soeben in einer Übung verwendet.
+
+
+
+.Findings
+|===
+| Typ Idee, Problem, Lob | Beobachtung | Handlungsempfehlung
+
+|Lob
+| 0:50 Klassendiagramm ist übersichtlich
+|
+
+|Lob
+|1:58 Symbol m = Method, Schloss = private klar
+|
+
+|Problem
+|2:10 Symbol f = field (attribut), C = Class (Klasse), C + Helm
+|3:00 Variante 1: Mit Hover Erklärungen zu den Abkürzungen zeigen
+Variante 2: Abkürzungen auch in Deutsch anbieten
+
+|Problem
+|4:20 Kreis für Referenz verwirrend,sieht aus wie ein Tank
+|Kreis für Referenz evtl. gestalterisch ansprechender gestalten
+
+|Lob
+|4:30 Farblich gekennzeichnete Klasse hilft zur Orientierung
+|
+
+
+|Lob
+|4:40 Klar, dass es sich um Bauklötze handelt
+|
+
+|Lob
+|5:10 Verdrehte Reihenfolge der Legos, macht selbsterklärend Sinn,
+Kindklasse baut auf Elternklasse auf.
+|
+
+|Lob
+|6:25, 7:25 Überschriebene Methode wird druch farbliche Kennzeichnung klar
+|
+
+|Lob
+| 10:35 Es wird klar, dass aufgrund des Kreises die Sicht gemeint ist, dass man
+nur die Informationen im Kreis benuzten kann.
+|
+
+|Idee
+|14:00 Es wäre schöner, wenn man die Kötze klarer trennt, z.B. mit einem
+weissen Abstand dazwischen.
+|Abstände zwischen den Legosteine klarer darstellen, z.B. zum zusätzlicher weisser Linie dazwischen
+
+|Idee
+| Musiker m statt nur m schreiben
+| Refernz Typen zusätzlich neben dem Referenz Namen anzeigen, z.B. "Musiker m"
+
+|Lob
+|15:35 Visualisierung hilfreich zum Lernen
+|
+
+|Idee
+|16:10 Mehr explizize Informationen. Insbesondere Musiker m statt nur m schreiben.
+Und den Kreis Kennzeichnen
+|Weitere Kontext Informationen explizit zeigen. z.B. bei Hover auf Referenz
+"Referenz = definiert die Sicht, bearbeitbarer Bereich"
+
+|===
+
+image::../images/20190517_UsabilityTest.jpg[20190517_UsabilityTest.jpg, 460, 320]
+
+
+
