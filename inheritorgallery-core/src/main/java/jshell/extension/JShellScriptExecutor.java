@@ -8,6 +8,7 @@ import jdk.jshell.SourceCodeAnalysis;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -20,7 +21,7 @@ import java.util.Scanner;
  * @since 5/27/2017.
  */
 public class JShellScriptExecutor {
-    JShell jshell;
+    private JShell jshell;
 
     public JShellScriptExecutor() {
         jshell = JShell.create();
@@ -91,14 +92,22 @@ public class JShellScriptExecutor {
         String input;
 
         input = "System.out.println(\"Very simple test\")";
-        JShell jshell = JShell.create();
+        //JShell jshell = JShell.create();
         jshell.eval(input);
     }
 
     private void jShellInteraction() {
         String input;
-        String fileName = "inheritorgallery-core/src/main/resources/jshell/classImport.jsh";
-        evaluate(fileName);
+
+        jshell.addToClasspath("inheritorgallery-core/lib");
+        jshell.eval("import jshell.testClasses.*;");
+
+        List<SnippetEvent> snippetEventList =
+        jshell.eval("Person p = new Person();");
+        jshell.eval("System.out.println(p.getFirstName());");
+
+        System.out.println("Size of EventList: " + snippetEventList.size());
+        System.out.println("Value of Event: " + snippetEventList.get(0).value());
 
         Scanner scanner = new Scanner(System.in);
         while((input = scanner.nextLine()) != null) {
