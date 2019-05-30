@@ -1,4 +1,4 @@
-package jshell.testClasses;
+package jshell.workingClasses;
 
 public class Person {
     private String firstName;

@@ -99,8 +99,8 @@ public class JShellScriptExecutor {
     private void jShellInteraction() {
         String input;
 
-        jshell.addToClasspath("inheritorgallery-core/lib");
-        jshell.eval("import jshell.testClasses.*;");
+        jshell.addToClasspath("inheritorgallery-core/src/main/resources/jshell/classLibrary");
+        jshell.eval("import jshell.workingClasses.*;");
 
         List<SnippetEvent> snippetEventList =
         jshell.eval("Person p = new Person();");
