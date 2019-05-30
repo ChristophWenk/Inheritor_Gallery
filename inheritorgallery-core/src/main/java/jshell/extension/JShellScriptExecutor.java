@@ -63,7 +63,7 @@ public class JShellScriptExecutor {
             }
     }
 
-    public void snippetEventHandler(SnippetEvent snippetEvent){
+    private void snippetEventHandler(SnippetEvent snippetEvent){
         String value = snippetEvent.value();
         if(!Objects.isNull(value) && value.trim().length() > 0) {
             // Prints output of code evaluation
@@ -88,7 +88,7 @@ public class JShellScriptExecutor {
         return s.substring(b, e + 1);
     }
 
-    private void executeSingleLineOfCode() {
+    public void executeSingleLineOfCode() {
         String input;
 
         input = "System.out.println(\"Very simple test\")";
@@ -96,7 +96,7 @@ public class JShellScriptExecutor {
         jshell.eval(input);
     }
 
-    private void jShellInteraction() {
+    public void jShellInteraction() {
         String input;
 
         jshell.addToClasspath("inheritorgallery-core/src/main/resources/jshell/classLibrary");
