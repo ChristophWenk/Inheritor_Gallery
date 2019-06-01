@@ -4,6 +4,7 @@ import jdk.jshell.JShell;
 import jdk.jshell.Snippet;
 import jdk.jshell.SnippetEvent;
 import jdk.jshell.SourceCodeAnalysis;
+import jshell.workingClasses.Person;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -119,12 +120,27 @@ public class JShellScriptExecutor {
         System.out.println("Snippet type: " + kind); // Variable / Import / Method
         System.out.println("Snippet source code: " + source);
 
+        Person t = new Person();
+        System.out.println(t.getFirstName());
+
+        System.out.println(jshell.eval("Persond p = new Person();"));
+
         // Infinite JShell evaluation loop
         Scanner scanner = new Scanner(System.in);
         while((input = scanner.nextLine()) != null) {
             // Try the following input:
             // System.out.println("Test");
-            jshell.eval(input);
+            if (input.contains("//") || input.contains("/*")) {
+                System.out.println("Comments are not allowed as input. Remove comments and try again.");
+                continue;
+            }
+
+            List<SnippetEvent> snippetEventsList = jshell.eval(input);
+            if (snippetEventsList.get(0).status().name().contains("REJECTED")) {
+                System.out.println("Could not process input. Please verify the correctness of your statement.");
+            }
+            else {
+            }
         }
     }
 
