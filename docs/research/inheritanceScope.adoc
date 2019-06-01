@@ -84,7 +84,7 @@ instanceof
 // It is stored in stack they can be contained in other objects
 // (then they are not really variables, but fields), which puts them on the heap also.
 
-= Todo ppt08 Fahrzeug Übung visualisieren
+== Todo ppt08 Fahrzeug Übung visualisieren
 
 
 == oop1 09 Abstrakte Klassen und Interfaces

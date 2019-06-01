@@ -1,0 +1,35 @@
+= Java to UML Parser
+
+Dieses Dokument sammelt mögliche Lösungen um aus .java Files
+UML darzustellen.
+
+== Reflection
+
+* Reflection is commonly used by programs which require the ability to examine or modify the runtime behavior
+of applications running in the Java virtual machine.
+https://docs.oracle.com/javase/tutorial/reflect/
+https://www.javatpoint.com/java-reflection
+
+* private fields and methods
+http://tutorials.jenkov.com/java-reflection/private-fields-and-methods.html
+
+
+== Java.lang.Class.getMethods() Method
+
+* Nur public Methoden
+https://www.tutorialspoint.com/java/lang/class_getmethods.htm
+
+
+== Teilweise vorgefertigte Lösungen
+
+* eher unflexibel, weil diverse Tools benötigt werden
+https://github.com/rishirajrandive/uml-parser
+
+* Favorit: einfach, mächtig und flexibel
+https://github.com/javaparser/javaparser
+https://github.com/javaparser/javaparser-maven-sample +
+siehe Auch javaparservisited.pdf
+
+
+* benutzt javaparser und yuml für uml visualisierung
+https://github.com/shubhamvadhera/uml-parser
