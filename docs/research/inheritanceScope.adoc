@@ -1,0 +1,109 @@
+= Java Vererbung
+
+Eine für Programmieranfänger geeignete Visualisierung von Instanzen müsste:
+
+* die verfügbaren Methoden und Attribute und deren Ursprungs-Klasse
+bzw. Interface nachvollziehbar machen
+* den statischen und dynamischen Typ eines Attributs bzw. einer Variablen
+berücksichtigen
+
+=== oop1 05 Klassen und Objekte
+
+int x = 8;  // primitiv
+Person p1 = new Person();  // Objekt, Referenztyp
+
+int x2 = x;
+Person p2 = p1;
+
+x2 = 10;
+p2.jahrgang = 1999;
+
+=== oop1 06
+Klassenmodifikator
+public, keiner = innerhalb Pakets
+
+Variablen
+
+* public
+* private   = innerhalb eigener Klasse
+* protected = innerhalb Paket + Unterklassen
+
+* final     = nur Initialisierung, danach keine Änderung
+* static    = Klassenvariable, keine Instanziierung, z.B. Pi, Integer.MAX_VALUE
+* default   = package-private
+
+Methoden
+
+* public
+* private = innerhalb Klasse
+* protected = innerhalb Paket + Unterklassen
+
+* static  = Klassenmethode, nicht an Instanz gebunden,
+Verwenden keine Attribute der Klasse,
+Erhalten alle Informationen über Parameter, z.B. sin(x)
+
+Konstruktor: überladen, this()
+
+Objekte: (==), equals(), clone() (schallow copy, deep copy nicht nötig?)
+----
+???
+static void setAktuellesJahr(int aJahr)
+Aufruf soll: Person.setAktuellesJahr(2019);
+Aufruf ist : p1.setAktuellesJahr(2019);   warum auch möglich ?
+----
+
+== oop1 07 UML
+
+== oop1 08 Vererbung
+
+Land
+Monarchie, Demokratie extends Land
+
+wenn beide Klasse print implementieren unterste Methode
+super.print()
+
+Ausnahme
+public final print()
+
+Referenz von Oberklasse
+Land monaco = new Monarchie()
+monaco.print() // ok, methode aus Objekt Monarchie verwendet, nicht Referenztyp
+monaco.getMonarch() // nok, weil getMonarch nicht in Klasse Land vorhanden
+
+Casting auch Teil von Inheritor Gallery?
+Land monaco = new Monarchie()
+Monarchie m = (Monarchie) monaco;
+
+instanceof
+
+//https://stackoverflow.com/questions/5160485/object-vs-reference-in-java
+//Object: An instance of class that is created dynamically.
+// It is stored in heap.
+
+//Reference: A variable that points to some object in memory.
+// It is stored in stack they can be contained in other objects
+// (then they are not really variables, but fields), which puts them on the heap also.
+
+= Todo ppt08 Fahrzeug Übung visualisieren
+
+
+== oop1 09 Abstrakte Klassen und Interfaces
+
+Abpstrakte Klassen: abstrakte Methoden möglich
+
+public abstract void print();
+// static, final, private Methoden können nicht abstrakt sein
+
+Abstrakte Methoden, müssen überschrieben werden
+Keine Instanzen möglich
+
+Monarchie m1 = new Monarchie(); // ok
+Land land = new Land() // nok
+Land land = monaco; //ok
+
+extends maximal nur eine Klasse, in Java keine Mehrfachvererbung
+implements: mehrere Interfaces möglich
+
+Interface: keine Attribute, nur abstrakte Methoden
+
+Arrays von Interfaces
