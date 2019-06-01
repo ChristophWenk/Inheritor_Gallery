@@ -5,6 +5,8 @@ import jdk.jshell.Snippet;
 import jdk.jshell.SnippetEvent;
 import jdk.jshell.SourceCodeAnalysis;
 import jshell.workingClasses.Person;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -23,6 +25,8 @@ import java.util.Scanner;
  */
 public class JShellScriptExecutor {
     private JShell jshell;
+
+    private static Logger logger = LoggerFactory.getLogger(JShellScriptExecutor.class);
 
     public JShellScriptExecutor() {
         jshell = JShell.create();
@@ -123,9 +127,8 @@ public class JShellScriptExecutor {
         Person t = new Person();
         System.out.println(t.getFirstName());
 
-        System.out.println(jshell.eval("Persond p = new Person();"));
-
         // Infinite JShell evaluation loop
+        logger.info("Beginning evaluation loop");
         Scanner scanner = new Scanner(System.in);
         while((input = scanner.nextLine()) != null) {
             // Try the following input:
