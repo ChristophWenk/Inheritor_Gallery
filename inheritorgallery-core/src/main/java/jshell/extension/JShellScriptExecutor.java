@@ -29,8 +29,8 @@ public class JShellScriptExecutor {
 
     public void runExecutor(){
         String fileName = "inheritorgallery-core/src/main/resources/jshell/test_input.jsh";
-        evaluate(fileName);
-        executeSingleLineOfCode();
+        //evaluate(fileName);
+        //executeSingleLineOfCode();
         jShellInteraction();
     }
 
@@ -104,15 +104,26 @@ public class JShellScriptExecutor {
 
         List<SnippetEvent> snippetEventList =
         jshell.eval("Person p = new Person();");
+
         jshell.eval("System.out.println(p.getFirstName());");
+
+        // How to retrieve all kinds of information about the snippet
+        SnippetEvent event = snippetEventList.get(0);
+        Snippet snippet = event.snippet();
+        Snippet.Kind kind = snippet.kind();
+        String source = snippet.source();
 
         System.out.println("Size of EventList: " + snippetEventList.size());
         System.out.println("Value of Event: " + snippetEventList.get(0).value());
+        System.out.println("Snippet content: " + snippet); // Variable / Import / Method
+        System.out.println("Snippet type: " + kind); // Variable / Import / Method
+        System.out.println("Snippet source code: " + source);
 
+        // Infinite JShell evaluation loop
         Scanner scanner = new Scanner(System.in);
         while((input = scanner.nextLine()) != null) {
             // Try the following input:
-            // System.out.println("Perfect Test of this method");
+            // System.out.println("Test");
             jshell.eval(input);
         }
     }
