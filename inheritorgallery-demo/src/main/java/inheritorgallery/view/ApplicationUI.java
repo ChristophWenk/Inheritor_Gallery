@@ -28,7 +28,7 @@ public class ApplicationUI extends BorderPane implements ViewMixin {
         // Layouts
 
         this.setCenter(consolePane);
-        this.setRight(instancePane);
+        //this.setRight(instancePane);
 
     }
 }
