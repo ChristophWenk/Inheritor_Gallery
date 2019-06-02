@@ -127,22 +127,22 @@ public class JShellScriptExecutor {
         }
     }
 
-    public void acceptInput(String jShellCommand) {
+    public String processInput(String jShellCommand) {
         String input = jShellCommand;
+        String output = "";
         if (input.contains("//") || input.contains("/*")) {
             logger.info("Comment received. Asking user for new input.");
-            System.out.println("Comments are not allowed as input. Remove comments and try again.");
-
+            return output = ("Comments are not allowed as input. Remove comments and try again.");
         }
 
         List<SnippetEvent> snippetEventsList = jshell.eval(input);
         if (snippetEventsList.get(0).status().name().contains("REJECTED")) {
             logger.info("Invalid input received: " + snippetEventsList.get(0).snippet().source());
-            System.out.println("Could not process input. Please verify the correctness of your statement.");
+            return output = ("Could not process input. Please verify the correctness of your statement.");
         }
         else {
+            return snippetEventsList.get(0).value();
         }
-
     }
 
 

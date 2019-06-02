@@ -33,6 +33,8 @@ public class ConsolePane extends GridPane implements ViewMixin {
 
         // Layout
         jshellInputTextField.setText("Enter a Java command...");
+        //jshellOutputTextArea.setDisable(true);
+        jshellOutputTextArea.setEditable(false);
         submitButton.setText("Submit");
 
         // Add controls
@@ -44,7 +46,8 @@ public class ConsolePane extends GridPane implements ViewMixin {
     @Override
     public void setupEventHandlers() {
         submitButton.setOnAction(event -> {
-            jShellScriptExecutor.acceptInput(jshellInputTextField.getText());
+            String jShellCommand = jShellScriptExecutor.processInput(jshellInputTextField.getText());
+            jshellOutputTextArea.appendText(jShellCommand + "\n");
         });
     }
 }
