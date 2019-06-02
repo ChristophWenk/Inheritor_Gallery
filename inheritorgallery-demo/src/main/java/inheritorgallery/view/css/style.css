@@ -1,0 +1,33 @@
+/*
+.root {
+    -fx-padding: 20px;
+}
+
+#commonLabel {
+    -fx-padding: 10 10 10 10px;
+}
+#overviewCountryName {
+    -fx-font-size: 40px;
+    -fx-padding: 10 10 10 10px;
+}
+#overviewContinentName {
+    -fx-font-size: 15px;
+    -fx-padding: 0 10 10 10px;
+}
+#overviewCapitalName {
+    -fx-font-size: 15px;
+    -fx-padding: 0 10 30 10px;
+}
+#overviewArea {
+    -fx-font-size: 15px;
+    -fx-padding: 10 10 30 10px;
+}
+
+.text-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent lightgrey transparent;
+}
+.split-pane {
+    -fx-padding: 10 10 10 10px;
+}
+*/

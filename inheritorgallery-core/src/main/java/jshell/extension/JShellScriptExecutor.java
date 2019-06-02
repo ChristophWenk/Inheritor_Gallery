@@ -30,6 +30,10 @@ public class JShellScriptExecutor {
 
     public JShellScriptExecutor() {
         jshell = JShell.create();
+        jshell.addToClasspath("inheritorgallery-core/src/main/resources/jshell/classLibrary");
+        jshell.eval("import jshell.workingClasses.*;");
+
+        //showAllJShellMethods();
     }
 
     public void runExecutor(){
@@ -94,21 +98,58 @@ public class JShellScriptExecutor {
     }
 
     public void executeSingleLineOfCode() {
-        String input;
-
-        input = "System.out.println(\"Very simple test\")";
-        //JShell jshell = JShell.create();
+        String input = "System.out.println(\"Very simple test\")";
         jshell.eval(input);
     }
 
     public void jShellInteraction() {
         String input;
 
-        jshell.addToClasspath("inheritorgallery-core/src/main/resources/jshell/classLibrary");
-        jshell.eval("import jshell.workingClasses.*;");
+        // Infinite JShell evaluation loop
+        logger.info("Beginning evaluation loop");
+        Scanner scanner = new Scanner(System.in);
+        while((input = scanner.nextLine()) != null) {
+            // Try the following input:
+            // System.out.println("Test");
+            if (input.contains("//") || input.contains("/*")) {
+                logger.info("Comment received. Asking user for new input.");
+                System.out.println("Comments are not allowed as input. Remove comments and try again.");
+                continue;
+            }
 
+            List<SnippetEvent> snippetEventsList = jshell.eval(input);
+            if (snippetEventsList.get(0).status().name().contains("REJECTED")) {
+                logger.info("Invalid input received: " + snippetEventsList.get(0).snippet().source());
+                System.out.println("Could not process input. Please verify the correctness of your statement.");
+            }
+            else {
+            }
+        }
+    }
+
+    public void acceptInput(String jShellCommand) {
+        String input = jShellCommand;
+        if (input.contains("//") || input.contains("/*")) {
+            logger.info("Comment received. Asking user for new input.");
+            System.out.println("Comments are not allowed as input. Remove comments and try again.");
+
+        }
+
+        List<SnippetEvent> snippetEventsList = jshell.eval(input);
+        if (snippetEventsList.get(0).status().name().contains("REJECTED")) {
+            logger.info("Invalid input received: " + snippetEventsList.get(0).snippet().source());
+            System.out.println("Could not process input. Please verify the correctness of your statement.");
+        }
+        else {
+        }
+
+    }
+
+
+
+    private void showAllJShellMethods() {
         List<SnippetEvent> snippetEventList =
-        jshell.eval("Person p = new Person();");
+                jshell.eval("Person p = new Person();");
 
         jshell.eval("System.out.println(p.getFirstName());");
 
@@ -120,31 +161,12 @@ public class JShellScriptExecutor {
 
         System.out.println("Size of EventList: " + snippetEventList.size());
         System.out.println("Value of Event: " + snippetEventList.get(0).value());
-        System.out.println("Snippet content: " + snippet); // Variable / Import / Method
+        System.out.println("Snippet content: " + snippet); 
         System.out.println("Snippet type: " + kind); // Variable / Import / Method
         System.out.println("Snippet source code: " + source);
 
         Person t = new Person();
         System.out.println(t.getFirstName());
-
-        // Infinite JShell evaluation loop
-        logger.info("Beginning evaluation loop");
-        Scanner scanner = new Scanner(System.in);
-        while((input = scanner.nextLine()) != null) {
-            // Try the following input:
-            // System.out.println("Test");
-            if (input.contains("//") || input.contains("/*")) {
-                System.out.println("Comments are not allowed as input. Remove comments and try again.");
-                continue;
-            }
-
-            List<SnippetEvent> snippetEventsList = jshell.eval(input);
-            if (snippetEventsList.get(0).status().name().contains("REJECTED")) {
-                System.out.println("Could not process input. Please verify the correctness of your statement.");
-            }
-            else {
-            }
-        }
     }
 
 }
