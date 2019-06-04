@@ -33,3 +33,18 @@ siehe Auch javaparservisited.pdf
 
 * benutzt javaparser und yuml für uml visualisierung
 https://github.com/shubhamvadhera/uml-parser
+
+== Javaparser
+
+Javaparser API kann .java Files parser und diese in einer
+Baumartiger Struktur speichern. Dabei können alle nötigen Informationen
+herausgefunden werden, welche für die Erstellung eines UMLs relevant sind.
+Das Javaparser Projekt ist gut dokumentiert und wird beispielsweise
+von IntelliJ und Github verwendet.
+
+== JavaSymbolSolver
+
+Als Teil des Javaparser kann zudem javaSymbolSolver verwendet werden.
+Dieser kann theretisch Herkunft der Methodenaufrufe und Variablendeklarationen bestimmen.
+Dieses Projekt ist allerdings noch sehr neu und gemäss dem Auhtor wenig verbreitet und dokumentiert.
+Die Verwendung der javaSymbolSolver API ist eher umsändlich.
