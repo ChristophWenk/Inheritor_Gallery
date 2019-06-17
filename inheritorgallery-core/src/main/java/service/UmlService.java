@@ -36,7 +36,7 @@ public class UmlService {
         Node node = ltd.get(0); // assuming no nested classes
         ClassOrInterfaceDeclaration coi = (ClassOrInterfaceDeclaration) node;
 
-        return new UmlPM(coi.getName());
+        return new UmlPM(coi.getName().toString());
 
     }
 }
