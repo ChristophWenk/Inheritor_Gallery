@@ -5,6 +5,8 @@ import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import presentationmodel.uml.UmlPM;
+import service.UmlService;
 
 /**
  * @author Christoph Wenk, Dimitri Muralt
@@ -28,8 +30,10 @@ public class AppStarter extends Application {
         primaryStage.setHeight(300);
         primaryStage.show();
      */
+        UmlService umlService = new UmlService();
+        UmlPM pm = umlService.createUmlPM();
 
-        Parent rootPane = new ApplicationUI();
+        Parent rootPane = new ApplicationUI(pm);
 
         Scene scene = new Scene(rootPane);
         String stylesheet = AppStarter.class.getResource("view/css/style.css").toExternalForm();
