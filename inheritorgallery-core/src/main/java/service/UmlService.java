@@ -1,43 +1,42 @@
-package javaparser;
+package service;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.*;
+import presentationmodel.uml.UmlPM;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 
-public class BasicParser {
+public class UmlService {
 
-    private static Logger logger = Logger.getLogger(BasicParser.class.getName());
+    private static Logger logger = Logger.getLogger(UmlService.class.getName());
     //private static final String FILE_PATH = "inheritanceDummy/src/inheritanceDummyDemo/FahrzeugTest.java";
+    // TODO Dynamic Path
     private static final String FILE_PATH = "inheritorgallery-core/src/main/java/jshell/workingClasses/Person.java";
 
-    public static void main(String[] args) throws Exception {
-        CompilationUnit cu = StaticJavaParser.parse(new File(FILE_PATH));
-        parse(cu);
-
-    }
-
-    private static void parse(CompilationUnit cu) {
+    public UmlPM createUmlPM() {
+        CompilationUnit cu = new CompilationUnit();
+        cu = StaticJavaParser.parse(new String("public class Person {}"));
+//        try {
+//            cu = StaticJavaParser.parse(new File(FILE_PATH));
+//
+//        } catch (FileNotFoundException e) {
+//            // TODO Catch exception with useful error message
+//            e.printStackTrace();
+//        }
 
         NodeList<TypeDeclaration<?>> ltd = cu.getTypes();
         Node node = ltd.get(0); // assuming no nested classes
         ClassOrInterfaceDeclaration coi = (ClassOrInterfaceDeclaration) node;
 
-        List<FieldDeclaration> fields = coi.getFields();
-        logger.info(String.valueOf(fields));
-
-        List<String> methods = coi.getMethods().stream()
-                .map(
-                        m -> m.getAccessSpecifier() + " " + m.getType() + " " + m.getName() + " " + m.getParameters())
-                .collect(Collectors.toList());
-        logger.info(String.valueOf(methods));
+        return new UmlPM(coi.getName());
 
     }
 }
