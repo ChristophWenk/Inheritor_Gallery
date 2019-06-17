@@ -1,0 +1,78 @@
+= Diskussion erste Skizzen
+
+
+Besondere Schwierigkeiten für Studierende gemäss Interview:
+
+* Objekt behält Eigenschaft (Infos sind nicht verloren), wenn Oberklasse zugewiesen
+* Methoden nicht mehr aufrufbar, wenn Oberklasse zugewiesen
+* Bei überschriebenen Methoden wird die Methode genommen, die zum Objekt passt.
+
+Konzepte Vererbung gemäss Interview:
+
+* Subklasse ist eine Spezialisierung, Umfang Funktionalität grösser
+* Referenz bestimmt die Sicht (Metapher Pfeil, Brille, Fernrohr)
+
+Allgemeine Fragen:
+
+* Gibt es Fehler, Unstimmigkeiten, Unschönheiten? |
+* Was finden Sie besonders gelungen, passend? Was hiervon könnten Sie sich im Endpdukt vorstellen?
+
+
+.Diskussion erste Skizzen
+|===
+| Skizze  |
+Objekt behält Eigenschaft aber Methoden nicht mehr aufrufbar wenn Oberklasse zugewiesen |
+Bei Überschreiben Methode, die zum Objekt passt. |
+Subklasse ist eine Spezialisierung, Umfang Funktionalität grösser |
+Referenz bestimmt die Sicht |
+Gibt es Fehler, Unstimmigkeiten, Unschönheiten? |
+Was gelungen, passend? Im Endpdukt?
+
+| Skizze 1:
+|
+|
+|
+|
+|
+|
+
+| Skizze 2:
+|
+|
+|
+|
+|
+|
+
+| Skizze 3:
+|
+|
+|
+|
+|
+|
+
+| Skizze 4:
+|
+|
+|
+|
+|
+|
+
+| Skizze 5:
+|
+|
+|
+|
+|
+|
+
+
+|===
+
+
+Evlt. für alle Entwürfe:
+
+==== Welchen Entwurf, oder welche Teile der einzelnen Entwürfe finden Sie sinnvoll?
+
