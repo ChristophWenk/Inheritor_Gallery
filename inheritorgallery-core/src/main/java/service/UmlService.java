@@ -7,15 +7,11 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.visitor.VoidVisitor;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
-import presentationmodel.uml.UmlPM;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +23,12 @@ public class UmlService {
 
     private static Logger logger = Logger.getLogger(UmlService.class.getName());
 
-
-    public UmlPM createUmlPM() {
+    public List<ClassDTO> getClasses() {
 
         List<CompilationUnit> cus = new ArrayList<>();
         // traverse all files in directory and subdirectories and create i list of CompilationUnit
         try {
-            cus = Files.walk(Paths.get("../inheritorgallery-core/src/main/resources/uml"))
+            cus = Files.walk(Paths.get("../uml"))
                     .filter(path -> path.toString().endsWith(".java"))
                     .map(p -> new File(String.valueOf(p)))
                     .map(File::getAbsolutePath)
@@ -43,29 +38,33 @@ public class UmlService {
             e.printStackTrace();
         }
 
-        //V0
-        CompilationUnit cu = cus.get(9);
+        // create classes from CompilationUnits
+        List<ClassOrInterfaceDeclaration> classDeclarations = new ArrayList<>();
+        VoidVisitor<List<ClassOrInterfaceDeclaration>> classCollector = new ClassCollector();
+        for (CompilationUnit cu : cus) {
+            classCollector.visit(cu, classDeclarations);
+        }
 
-        //Version 1
-        VoidVisitor<?> methodNameVisitor = new MethodNamePrinter();
-        methodNameVisitor.visit(cu, null);
-
-
-        //Version 2
-        List<String> methodNames = new ArrayList<>();
-        VoidVisitor<List<String>> methodNameCollector = new MethodNameCollector();
-        methodNameCollector.visit(cu, methodNames);
-        methodNames.forEach(n -> System.out.println("Method Name Collected: " + n));
-
-
-
-        NodeList<TypeDeclaration<?>> ltd = cu.getTypes();
-        Node node = ltd.get(0); // assuming no nested classes
-        ClassOrInterfaceDeclaration coi = (ClassOrInterfaceDeclaration) node;
-
-        return new UmlPM(coi.getName().toString());
+        return classDeclarations.stream().map(c -> getClassDTO(c)).collect(Collectors.toList());
 
     }
+
+    public ClassDTO getClassDTO(ClassOrInterfaceDeclaration classDeclaration){
+        List<String> fields = classDeclaration.getFields().stream()
+                .map(c -> c.toString())
+                .collect(Collectors.toList());
+
+        List<String> constructors = classDeclaration.getConstructors().stream()
+                .map(c -> c.getDeclarationAsString())
+                .collect(Collectors.toList());
+
+        List<String> methods = classDeclaration.getMethods().stream()
+                .map(c -> c.getDeclarationAsString())
+                .collect(Collectors.toList());
+
+        return new ClassDTO(classDeclaration.getNameAsString(), fields, constructors, methods);
+    }
+
 
     private CompilationUnit getCompilationUnitFromFile(String filepath){
         CompilationUnit cu = new CompilationUnit();
@@ -79,32 +78,11 @@ public class UmlService {
         return cu;
     }
 
-    private File getFileFromResources(String fileName) {
-
-        ClassLoader classLoader = getClass().getClassLoader();
-
-        URL resource = classLoader.getResource(fileName);
-        if (resource == null) {
-            throw new IllegalArgumentException("file is not found in " + fileName);
-        } else {
-            return new File(resource.getFile());
-        }
-    }
-
-
-    private static class MethodNamePrinter extends VoidVisitorAdapter<Void> {
+    private static class ClassCollector extends VoidVisitorAdapter<List<ClassOrInterfaceDeclaration>> {
         @Override
-        public void visit(MethodDeclaration md, Void arg) {
-            super.visit(md, arg);  //ensure child nodes of the current node are also visited
-            System.out.println("Method Name Printed: " + md.getName());
-        }
-    }
-
-    private static class MethodNameCollector extends VoidVisitorAdapter<List<String>> {
-        @Override
-        public void visit(MethodDeclaration md, List<String> collector) {
-            super.visit(md, collector);
-            collector.add(md.getNameAsString()); }
+        public void visit(ClassOrInterfaceDeclaration cd, List<ClassOrInterfaceDeclaration> collector) {
+            super.visit(cd, collector);
+            collector.add(cd); }
     }
 }
 
