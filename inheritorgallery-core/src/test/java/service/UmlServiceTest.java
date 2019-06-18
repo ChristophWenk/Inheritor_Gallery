@@ -23,6 +23,7 @@ class UmlServiceTest {
         //then
 
         assertNotNull(umlPM);
-        //assertEquals("Person", classPM.get(1).getName());
+        assertEquals("Person", umlPM.getClasses().get(0).getName());
+
     }
 }
