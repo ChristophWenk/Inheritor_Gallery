@@ -5,8 +5,17 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import jshell.extension.JShellScriptExecutor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+/**
+ * This pane contains all UI elements for shell interaction.
+ * This includes an input for user commands and an output
+ * area for system outputs.
+ */
 public class ConsolePane extends GridPane implements ViewMixin {
+
+    private static Logger logger = LoggerFactory.getLogger(ConsolePane.class);
 
     private TextArea jshellOutputTextArea;
     private TextField jshellInputTextField;
@@ -16,6 +25,7 @@ public class ConsolePane extends GridPane implements ViewMixin {
 
     public ConsolePane() {
         init();
+        logger.info("Finished initializing ConsolePane");
     }
 
     @Override
@@ -33,7 +43,6 @@ public class ConsolePane extends GridPane implements ViewMixin {
 
         // Layout
         jshellInputTextField.setText("Enter a Java command...");
-        //jshellOutputTextArea.setDisable(true);
         jshellOutputTextArea.setEditable(false);
         submitButton.setText("Submit");
 
