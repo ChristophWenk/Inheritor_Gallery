@@ -24,7 +24,6 @@ public class InteractionPane extends VBox implements ViewMixin {
 
     @Override
     public void layoutControls() {
-
         this.getChildren().addAll(instructionPane,consolePane);
     }
 }

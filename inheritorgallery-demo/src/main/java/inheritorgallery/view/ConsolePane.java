@@ -1,6 +1,7 @@
 package inheritorgallery.view;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -56,6 +57,8 @@ public class ConsolePane extends BorderPane implements ViewMixin {
         inputElements.setSpacing(10);
 
         inputElements.getChildren().addAll(jshellInputTextField,submitButton);
+
+        BorderPane.setAlignment(jshellOutputTextArea, Pos.CENTER_LEFT);
 
         this.setCenter(jshellOutputTextArea);
         this.setBottom(inputElements);

@@ -2,28 +2,15 @@
     -fx-padding: 20px;
 }
 
-#commonLabel {
-    -fx-padding: 10 10 10 10px;
-}
-#overviewCountryName {
-    -fx-font-size: 40px;
-    -fx-padding: 10 10 10 10px;
-}
-#overviewContinentName {
-    -fx-font-size: 15px;
-    -fx-padding: 0 10 10 10px;
-}
-#overviewCapitalName {
-    -fx-font-size: 15px;
-    -fx-padding: 0 10 30 10px;
-}
-#overviewArea {
-    -fx-font-size: 15px;
-    -fx-padding: 10 10 30 10px;
+#jshellOutputTextArea {
+    -fx-max-width: 500px;
 }
 #submitButton {
 }
-
+#browser {
+    -fx-max-width: 500px;
+    -fx-max-height: 500px;
+}
 
 .split-pane {
     -fx-padding: 10 10 10 10px;

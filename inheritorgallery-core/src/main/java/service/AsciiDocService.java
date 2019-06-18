@@ -10,8 +10,8 @@ import static org.asciidoctor.jruby.internal.JRubyAsciidoctor.create;
 
 public class AsciiDocService {
 
-    Asciidoctor asciidoctor;
-    FileService fileService;
+    private Asciidoctor asciidoctor;
+    private FileService fileService;
 
     public AsciiDocService() {
         asciidoctor = create();
