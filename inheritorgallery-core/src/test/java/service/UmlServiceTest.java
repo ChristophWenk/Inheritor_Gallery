@@ -6,7 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class UmlServiceTest {
     private static UmlService umlService;
@@ -21,12 +22,9 @@ class UmlServiceTest {
         //given
         List<ClassDTO> classDTOs =  umlService.getClasses();
         //then
-
         assertNotNull(classDTOs);
         assertEquals(10, classDTOs.size());
         assertEquals("Person",classDTOs.get(9).getName());
-
-
 
     }
 }
