@@ -3,6 +3,7 @@ package service;
 import org.asciidoctor.Asciidoctor;
 
 import java.io.*;
+import java.nio.file.Path;
 
 import static org.asciidoctor.OptionsBuilder.options;
 import static org.asciidoctor.jruby.internal.JRubyAsciidoctor.create;
@@ -10,15 +11,18 @@ import static org.asciidoctor.jruby.internal.JRubyAsciidoctor.create;
 public class AsciiDocService {
 
     Asciidoctor asciidoctor;
+    FileService fileService;
 
     public AsciiDocService() {
         asciidoctor = create();
+        fileService = new FileService();
     }
 
     public String convertFile (String file) {
         FileReader reader = null;
         try {
-            reader = new FileReader(new File(file));
+            Path path = fileService.getPath(file);
+            reader = new FileReader(new File(fileService.getPathAsString(path)));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -33,4 +37,6 @@ public class AsciiDocService {
         StringBuffer htmlBuffer = writer.getBuffer();
         return htmlBuffer.toString();
     }
+
+
 }
