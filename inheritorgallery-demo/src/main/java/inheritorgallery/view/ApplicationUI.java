@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import presentationmodel.uml.UmlPM;
 
-// TODO include PMs
 public class ApplicationUI extends BorderPane implements ViewMixin {
 
     private static Logger logger = LoggerFactory.getLogger(ApplicationUI.class);

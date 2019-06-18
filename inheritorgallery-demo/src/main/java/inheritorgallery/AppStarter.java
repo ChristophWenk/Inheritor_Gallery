@@ -11,7 +11,6 @@ import service.UmlService;
 /**
  * @author Christoph Wenk, Dimitri Muralt
  */
-// TODO Include PM everywhere
 public class AppStarter extends Application {
 
     @Override
@@ -25,7 +24,6 @@ public class AppStarter extends Application {
         String stylesheet = AppStarter.class.getResource("view/css/style.css").toExternalForm();
         scene.getStylesheets().add(stylesheet);
 
-        //primaryStage.titleProperty().bind(pm.applicationTitleProperty());
         primaryStage.setTitle("Inheritor Gallery");
         primaryStage.setScene(scene);
         primaryStage.setWidth(600);

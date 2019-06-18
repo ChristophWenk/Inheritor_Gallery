@@ -27,6 +27,6 @@ public class InstructionPane extends GridPane implements ViewMixin{
         instructionTextArea.setId("instructionTextArea");
 
         // Add controls
-        add(instructionTextArea,1,1,2,1);
+        add(instructionTextArea,1,1,1,1);
     }
 }

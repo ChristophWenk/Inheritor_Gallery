@@ -1,9 +1,11 @@
 package inheritorgallery.view;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import jshell.extension.JShellScriptExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,9 +15,11 @@ import org.slf4j.LoggerFactory;
  * This includes an input for user commands and an output
  * area for system outputs.
  */
-public class ConsolePane extends GridPane implements ViewMixin {
+public class ConsolePane extends BorderPane implements ViewMixin {
 
     private static Logger logger = LoggerFactory.getLogger(ConsolePane.class);
+
+    private HBox inputElements;
 
     private TextArea jshellOutputTextArea;
     private TextField jshellInputTextField;
@@ -30,6 +34,7 @@ public class ConsolePane extends GridPane implements ViewMixin {
 
     @Override
     public void initializeControls() {
+        inputElements = new HBox();
         jshellOutputTextArea = new TextArea();
         jshellInputTextField = new TextField();
         submitButton = new Button();
@@ -40,16 +45,20 @@ public class ConsolePane extends GridPane implements ViewMixin {
         // Set IDs
         jshellOutputTextArea.setId("jshellOutputTextArea");
         jshellInputTextField.setId("jshellInputTextField");
+        submitButton.setId("submitButton");
 
         // Layout
         jshellInputTextField.setText("Enter a Java command...");
         jshellOutputTextArea.setEditable(false);
-        submitButton.setText("Submit");
+        submitButton.setText("Senden");
 
-        // Add controls
-        add(jshellOutputTextArea,1,1,2,1);
-        add(jshellInputTextField,1,2,2,1);
-        add(submitButton,3,2,1,1);
+        inputElements.setPadding(new Insets(10,10,10,0));
+        inputElements.setSpacing(10);
+
+        inputElements.getChildren().addAll(jshellInputTextField,submitButton);
+
+        this.setCenter(jshellOutputTextArea);
+        this.setBottom(inputElements);
     }
 
     @Override
