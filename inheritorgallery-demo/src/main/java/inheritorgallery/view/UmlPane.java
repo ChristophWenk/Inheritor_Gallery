@@ -2,9 +2,13 @@ package inheritorgallery.view;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import presentationmodel.uml.UmlPM;
 
 public class UmlPane extends GridPane implements ViewMixin{
+
+    private static Logger logger = LoggerFactory.getLogger(UmlPane.class);
 
     private final UmlPM model;
 
@@ -13,6 +17,7 @@ public class UmlPane extends GridPane implements ViewMixin{
     public UmlPane(UmlPM model) {
         this.model = model;
         init();
+        logger.info("Finished initializing UmlPane");
     }
 
     @Override

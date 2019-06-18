@@ -1,12 +1,10 @@
 package service;
 
-import javafx.collections.ObservableList;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import presentationmodel.uml.ClassPM;
 import presentationmodel.uml.UmlPM;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class UmlServiceTest {
     private static UmlService umlService;
@@ -23,6 +21,6 @@ class UmlServiceTest {
         //then
 
         assertNotNull(umlPM);
-        //assertEquals("Person", classPM.get(1).getName());
+        //assertEquals("Person", classPM.get(1).getInstructionText());
     }
 }
