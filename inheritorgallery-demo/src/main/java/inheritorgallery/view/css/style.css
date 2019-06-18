@@ -2,16 +2,16 @@
     -fx-padding: 20px;
 }
 
+#jshellInputTextField {
+    -fx-min-width: 300px;
+    -fx-max-width: 300px;
+}
+
 #jshellOutputTextArea {
     -fx-max-width: 500px;
 }
-#submitButton {
-}
+
 #browser {
     -fx-max-width: 500px;
     -fx-max-height: 500px;
-}
-
-.split-pane {
-    -fx-padding: 10 10 10 10px;
 }

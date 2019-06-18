@@ -58,6 +58,7 @@ public class ConsolePane extends BorderPane implements ViewMixin {
 
         inputElements.getChildren().addAll(jshellInputTextField,submitButton);
 
+        BorderPane.setMargin(jshellOutputTextArea,new Insets(10,0,0,0));
         BorderPane.setAlignment(jshellOutputTextArea, Pos.CENTER_LEFT);
 
         this.setCenter(jshellOutputTextArea);

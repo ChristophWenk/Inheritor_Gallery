@@ -12,7 +12,6 @@ public class ApplicationUI extends BorderPane implements ViewMixin {
     private UmlPM model;
 
     private InteractionPane interactionPane;
-    //private ConsolePane consolePane;
     private InstancePane instancePane;
     private UmlPane umlPane;
 
@@ -26,7 +25,6 @@ public class ApplicationUI extends BorderPane implements ViewMixin {
     public void initializeControls() {
         // Initialize panes
         interactionPane = new InteractionPane();
-        //consolePane = new ConsolePane();
         instancePane = new InstancePane();
         umlPane = new UmlPane(model);
     }
@@ -35,12 +33,10 @@ public class ApplicationUI extends BorderPane implements ViewMixin {
     public void layoutControls() {
         // Set IDs
         interactionPane.setId("interactionPane");
-        //consolePane.setId("consolePane");
         instancePane.setId("instancePane");
         umlPane.setId("umlPane");
 
         // Layouts
-        //this.setLeft(consolePane);
         this.setLeft(interactionPane);
         this.setCenter(instancePane);
         this.setRight(umlPane);
