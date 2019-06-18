@@ -31,7 +31,7 @@ public class AppStarter extends Application {
         primaryStage.show();
      */
         UmlService umlService = new UmlService();
-        UmlPM pm = umlService.createUmlPM();
+        UmlPM pm = new UmlPM(umlService);
 
         Parent rootPane = new ApplicationUI(pm);
 

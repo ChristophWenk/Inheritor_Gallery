@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +25,15 @@ public class UmlService {
     private static Logger logger = Logger.getLogger(UmlService.class.getName());
 
     public List<ClassDTO> getClasses() {
+        FileService fileService = new FileService();
+        Path path = fileService.getPath("../uml");
+
 
         List<CompilationUnit> cus = new ArrayList<>();
         // traverse all files in directory and subdirectories and create i list of CompilationUnit
         try {
-            cus = Files.walk(Paths.get("../uml"))
-                    .filter(path -> path.toString().endsWith(".java"))
+            cus = Files.walk(path)
+                    .filter(p -> p.toString().endsWith(".java"))
                     .map(p -> new File(String.valueOf(p)))
                     .map(File::getAbsolutePath)
                     .map(this::getCompilationUnitFromFile)
