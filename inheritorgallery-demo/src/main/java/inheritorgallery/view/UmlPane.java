@@ -6,13 +6,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import presentationmodel.uml.UmlPM;
 
+import java.util.ArrayList;
+
 public class UmlPane extends GridPane implements ViewMixin{
 
     private static Logger logger = LoggerFactory.getLogger(UmlPane.class);
 
     private final UmlPM model;
 
-    private Label classNameLabel;
+    ArrayList<Label> labels = new ArrayList<>();
 
     public UmlPane(UmlPM model) {
         this.model = model;
@@ -22,17 +24,25 @@ public class UmlPane extends GridPane implements ViewMixin{
 
     @Override
     public void initializeControls() {
-        classNameLabel = new Label();
+        for (int i=0 ; i < model.getClasses().size(); i++) {
+            labels.add(new Label());
+        }
+
     }
 
     @Override
     public void layoutControls() {
-        add(classNameLabel,1,1);
+        for (int i=0 ; i < model.getClasses().size(); i++) {
+            add(labels.get(i), 1,i);
+        }
     }
 
     @Override
     public void setupBindings() {
-        classNameLabel.textProperty().bind(model.getClasses().get(0).nameProperty());
+
+        for (int i=0 ; i < model.getClasses().size(); i++) {
+            labels.get(i).textProperty().bind(model.getClasses().get(i).nameProperty());
+        }
     }
 
 }

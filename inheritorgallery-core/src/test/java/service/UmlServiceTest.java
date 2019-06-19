@@ -2,8 +2,11 @@ package service;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import presentationmodel.uml.UmlPM;
 
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class UmlServiceTest {
@@ -17,10 +20,11 @@ class UmlServiceTest {
     @Test
     public void testGetUmlClasses(){
         //given
-        UmlPM umlPM = umlService.createUmlPM();
+        List<ClassDTO> classDTOs =  umlService.getClasses();
         //then
+        assertNotNull(classDTOs);
+        assertEquals(10, classDTOs.size());
+        assertEquals("Person",classDTOs.get(9).getName());
 
-        assertNotNull(umlPM);
-        //assertEquals("Person", classPM.get(1).getInstructionText());
     }
 }
