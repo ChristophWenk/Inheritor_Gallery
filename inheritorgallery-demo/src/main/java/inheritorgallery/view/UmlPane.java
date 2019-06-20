@@ -42,7 +42,6 @@ public class UmlPane extends GridPane implements ViewMixin{
     @Override
     public void setupBindings() {
 
-
     }
 
 }

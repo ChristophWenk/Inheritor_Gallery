@@ -14,7 +14,7 @@ public class UmlClass extends VBox implements ViewMixin {
     private final ClassPM model;
     private Label classNameLabel;
     private ArrayList<Label> fieldLabels, constructorLabels, methodLabels;
-    private Separator separator1,separator2,separator3;
+    private Separator separator1,separator2;
 
 
     public UmlClass(ClassPM model){
@@ -33,7 +33,6 @@ public class UmlClass extends VBox implements ViewMixin {
         methodLabels = new ArrayList<>();
         separator1 = new Separator();
         separator2 = new Separator();
-        separator3 = new Separator();
 
         for (int i = 0; i < model.getFields().size(); i++) {
             fieldLabels.add(new Label());
@@ -60,7 +59,6 @@ public class UmlClass extends VBox implements ViewMixin {
         for (int i=0 ; i < model.getConstructors().size(); i++) {
             getChildren().add(constructorLabels.get(i));
         }
-        getChildren().add(separator3);
         for (int i=0 ; i < model.getMethods().size(); i++) {
             getChildren().add(methodLabels.get(i));
         }

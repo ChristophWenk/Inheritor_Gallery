@@ -23,8 +23,7 @@
     -fx-border-style: dashed;
 }
 #classBox {
-    -fx-border-color: #82d6ff;
+    -fx-border-color: rgba(0, 0, 0, 0.99);
     -fx-border-insets: 5;
     -fx-border-width: 3;
-    -fx-border-style: dashed;
 }
