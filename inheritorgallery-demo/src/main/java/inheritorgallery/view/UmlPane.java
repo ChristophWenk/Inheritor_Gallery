@@ -1,7 +1,6 @@
 package inheritorgallery.view;
 
 import inheritorgallery.view.util.UmlClass;
-import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
