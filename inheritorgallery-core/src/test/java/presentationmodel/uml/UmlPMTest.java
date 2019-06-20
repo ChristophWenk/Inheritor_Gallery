@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import service.UmlService;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class UmlPMTest {
@@ -18,7 +20,7 @@ class UmlPMTest {
     }
 
     @Test
-    public void testGetUmlClasses(){
+    public void getClasses(){
         //given
         //UmlPM umlPM = umlService.createUmlPM();
 
@@ -30,5 +32,18 @@ class UmlPMTest {
         assertEquals(2, classPM.getFields().size());
         assertEquals(2, classPM.getConstructors().size());
         assertEquals(6, classPM.getMethods().size());
+    }
+
+    @Test
+    public void testGetEdges(){
+        //given
+        List<EdgePM> edgePM = pm.getEdges();
+
+        //then
+        assertEquals(7, edgePM.size());
+        assertEquals("Fahrzeug",edgePM.get(edgePM.size()-1).getSource());
+        assertEquals("Item",edgePM.get(edgePM.size()-1).getTarget());
+        assertEquals("extends",edgePM.get(edgePM.size()-1).getType());
+
     }
 }

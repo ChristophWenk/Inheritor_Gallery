@@ -14,6 +14,7 @@ public class ClassPM {
     private final ObservableList<MethodPM> methods = FXCollections.observableArrayList();
 
 
+
     public ClassPM(String name, List<String> fields, List<String> constructors, List<String> methods) {
         setName(name);
         for(String f : fields){this.fields.add((new FieldPM(f)));}
