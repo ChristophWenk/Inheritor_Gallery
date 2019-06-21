@@ -28,7 +28,7 @@ public class UmlService {
 
     public UmlService(){
         FileService fileService = new FileService();
-        Path path = fileService.getPath("../uml");
+        Path path = fileService.getPath("/uml");
 
         List<CompilationUnit> cus = new ArrayList<>();
         // traverse all files in directory and subdirectories and create i list of CompilationUnit
