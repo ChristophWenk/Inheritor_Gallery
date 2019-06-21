@@ -25,7 +25,6 @@ class UmlServiceTest {
         assertNotNull(classDTOs);
         assertEquals(10, classDTOs.size());
         assertEquals("Person",classDTOs.get(9).getName());
-
     }
 
     @Test
