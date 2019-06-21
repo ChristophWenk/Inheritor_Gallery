@@ -33,17 +33,4 @@ class UmlPMTest {
         assertEquals(2, classPM.getConstructors().size());
         assertEquals(6, classPM.getMethods().size());
     }
-
-//    @Test
-//    public void testGetEdges(){
-//        //given
-//        List<EdgePM> edgePM = pm.getEdges();
-//
-//        //then
-//        assertEquals(7, edgePM.size());
-//        assertEquals("Fahrzeug",edgePM.get(edgePM.size()-1).getSource());
-//        assertEquals("Item",edgePM.get(edgePM.size()-1).getTarget());
-//        assertEquals("extends",edgePM.get(edgePM.size()-1).getType());
-//
-//    }
 }
