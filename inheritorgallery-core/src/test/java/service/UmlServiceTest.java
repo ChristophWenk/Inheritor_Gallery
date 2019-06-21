@@ -24,7 +24,7 @@ class UmlServiceTest {
         //then
         assertNotNull(classDTOs);
         assertEquals(10, classDTOs.size());
-        assertEquals("Person",classDTOs.get(9).getName());
+        assertEquals("Antique",classDTOs.get(0).getName());
     }
 
     @Test
@@ -34,9 +34,9 @@ class UmlServiceTest {
         //then
         assertNotNull(edgeDTOs);
         assertEquals(7, edgeDTOs.size());
-        assertEquals("Fahrzeug",edgeDTOs.get(edgeDTOs.size()-1).getSource());
-        assertEquals("Item",edgeDTOs.get(edgeDTOs.size()-1).getTarget());
-        assertEquals("extends",edgeDTOs.get(edgeDTOs.size()-1).getType());
+        assertEquals("AntiqueBuyableFahrrad",edgeDTOs.get(0).getSource());
+        assertEquals("Fahrrad",edgeDTOs.get(0).getTarget());
+        assertEquals("extends",edgeDTOs.get(0).getType());
 
 
     }

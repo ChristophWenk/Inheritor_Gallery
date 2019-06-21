@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -50,7 +51,14 @@ public class UmlService {
             classCollector.visit(cu, classDeclarations);
         }
 
-        classDTOs =  classDeclarations.stream().map(this::classDeclarationToClassDTO).collect(Collectors.toList());
+        classDeclarations = classDeclarations.stream()
+                .sorted(Comparator.comparing(ClassOrInterfaceDeclaration::getNameAsString))
+                .collect(Collectors.toList());
+
+
+        classDTOs =  classDeclarations.stream().map(this::classDeclarationToClassDTO)
+                .collect(Collectors.toList());
+
         edgeDTOs = searchEdges(classDeclarations);
     }
 
@@ -86,11 +94,10 @@ public class UmlService {
     }
 
     private List<EdgeDTO> searchEdges(List<ClassOrInterfaceDeclaration> classDeclarations){
-
         List<EdgeDTO> edgeDTOS = new ArrayList<>();
 
         for(ClassOrInterfaceDeclaration classDeclaration : classDeclarations) {
-            String className = classDeclaration.getNameAsString();
+
 
             List<String> extendsDeclaration = classDeclaration.getExtendedTypes().stream()
                     .map(c -> c.getName().asString())
@@ -99,11 +106,13 @@ public class UmlService {
                     .map(c -> c.getName().asString())
                     .collect(Collectors.toList());
 
+
+
             for (String s : extendsDeclaration) {
-                edgeDTOS.add(new EdgeDTO(className,s,"extends"));
+                edgeDTOS.add(new EdgeDTO(classDeclaration.getNameAsString(),s,"extends"));
             }
             for (String s : implementsDeclaration) {
-                edgeDTOS.add(new EdgeDTO(className,s,"implements"));
+                edgeDTOS.add(new EdgeDTO(classDeclaration.getNameAsString(),s,"implements"));
             }
         }
 
