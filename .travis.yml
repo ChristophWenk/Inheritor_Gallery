@@ -8,7 +8,7 @@ before_install:
   - echo $JAVA_HOME
 
 after_failure:
-  - cat file:///home/travis/build/FHNW-IP5-IP6/InheritorGallery/inheritorgallery-core/build/reports/tests/test/index.html
+  - cat /home/travis/build/FHNW-IP5-IP6/InheritorGallery/inheritorgallery-core/build/reports/tests/test/index.html
 
 deploy:
   provider: releases
