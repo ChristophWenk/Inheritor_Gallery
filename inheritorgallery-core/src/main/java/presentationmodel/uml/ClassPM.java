@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import service.EdgeDTO;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ public class ClassPM {
     private final ObservableList<FieldPM> fields = FXCollections.observableArrayList();
     private final ObservableList<ConstuctorPM> constructors = FXCollections.observableArrayList();
     private final ObservableList<MethodPM> methods = FXCollections.observableArrayList();
+    private final ObservableList<EdgePM> edges = FXCollections.observableArrayList();
 
 
     public ClassPM(String name, List<String> fields, List<String> constructors, List<String> methods) {
@@ -19,6 +21,10 @@ public class ClassPM {
         for(String f : fields){this.fields.add((new FieldPM(f)));}
         for(String c : constructors){this.constructors.add((new ConstuctorPM(c)));}
         for(String m : methods){this.methods.add((new MethodPM(m)));}
+        //for(EdgeDTO e : edgeDTOs){
+        //    this.edges.add(new EdgePM( e.getSource() ,e.getTarget(), e.getType()));
+        //}
+
     }
 
     public void setName(String name) {
@@ -43,5 +49,9 @@ public class ClassPM {
 
     public ObservableList<MethodPM> getMethods() {
         return methods;
+    }
+
+    public ObservableList<EdgePM> getEdges() {
+        return edges;
     }
 }

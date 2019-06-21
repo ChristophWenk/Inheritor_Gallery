@@ -33,3 +33,19 @@ siehe Auch javaparservisited.pdf
 
 * benutzt javaparser und yuml für uml visualisierung
 https://github.com/shubhamvadhera/uml-parser
+
+
+== JavaParser
+
+• the JavaParser class provides a full API for producing an AST from code
+• the StaticJavaParser class provides a quick and simple API for producing an AST from code.
+• the CompilationUnit is the root of the AST
+• the Visitors are classes which are used to find specific parts of the AST
+
+https://tomassetti.me/getting-started-with-javaparser-analyzing-java-code-programmatically/
+https://www.javacodegeeks.com/2017/12/javaparser-generate-analyze-modify-java-code.html
+
+https://github.com/pratiksanglikar/Java-Parser-UML-Generator
+
+
+https://javaconceptoftheday.com/list-all-files-in-directory-in-java/

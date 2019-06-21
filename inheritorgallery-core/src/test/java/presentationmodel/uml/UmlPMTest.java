@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import service.UmlService;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class UmlPMTest {
@@ -18,7 +20,7 @@ class UmlPMTest {
     }
 
     @Test
-    public void testGetUmlClasses(){
+    public void getClasses(){
         //given
         //UmlPM umlPM = umlService.createUmlPM();
 

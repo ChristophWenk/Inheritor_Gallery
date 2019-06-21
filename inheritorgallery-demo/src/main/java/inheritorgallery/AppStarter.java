@@ -42,8 +42,8 @@ public class AppStarter extends Application {
         //primaryStage.titleProperty().bind(pm.applicationTitleProperty());
         primaryStage.setTitle("Inheritor Gallery");
         primaryStage.setScene(scene);
-        primaryStage.setWidth(600);
-        primaryStage.setHeight(300);
+        primaryStage.setWidth(1280);
+        primaryStage.setHeight(640);
         primaryStage.centerOnScreen();
         primaryStage.show();
     }

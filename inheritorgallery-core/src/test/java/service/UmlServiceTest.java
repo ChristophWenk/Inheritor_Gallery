@@ -18,13 +18,26 @@ class UmlServiceTest {
     }
 
     @Test
-    public void testGetUmlClasses(){
+    public void testGetClassDTOs(){
         //given
-        List<ClassDTO> classDTOs =  umlService.getClasses();
+        List<ClassDTO> classDTOs =  umlService.getClassDTOs();
         //then
         assertNotNull(classDTOs);
         assertEquals(10, classDTOs.size());
-        assertEquals("Person",classDTOs.get(9).getName());
+        assertEquals("Antique",classDTOs.get(0).getName());
+    }
+
+    @Test
+    public void testGetEdgeDTOs(){
+        //given
+        List<EdgeDTO> edgeDTOs =  umlService.getEdgeDTOs();
+        //then
+        assertNotNull(edgeDTOs);
+        assertEquals(7, edgeDTOs.size());
+        assertEquals("AntiqueBuyableFahrrad",edgeDTOs.get(0).getSource());
+        assertEquals("Fahrrad",edgeDTOs.get(0).getTarget());
+        assertEquals("extends",edgeDTOs.get(0).getType());
+
 
     }
 }
