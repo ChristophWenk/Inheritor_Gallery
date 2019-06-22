@@ -20,8 +20,7 @@ public class UmlPane extends StackPane implements ViewMixin{
     private final UmlPM model;
 
     private ArrayList<UmlClass> umlClasses;
-    private ArrayList<EdgePM> edges;
-
+    private ArrayList<Line> lines;
     private Line line;
 
     private GridPane gridPane;
@@ -38,7 +37,7 @@ public class UmlPane extends StackPane implements ViewMixin{
     @Override
     public void initializeControls() {
         umlClasses = new ArrayList<>();
-        edges = new ArrayList<>();
+        lines = new ArrayList<>();
         gridPane = new GridPane();
         pane = new Pane();
 
@@ -47,6 +46,10 @@ public class UmlPane extends StackPane implements ViewMixin{
 
         for(ClassPM c : model.getClasses()){
             umlClasses.add(new UmlClass(c));
+        }
+
+        for(EdgePM e : model.getEdges()){
+            lines.add(new Line());
         }
 
     }
@@ -64,22 +67,28 @@ public class UmlPane extends StackPane implements ViewMixin{
 
         Platform.runLater(() -> {
 
-            Optional<UmlClass> source = umlClasses.stream().filter(c->c.getId().equals("Buyable")).findFirst();
-            Optional<UmlClass> target = umlClasses.stream().filter(c->c.getId().equals("AntiqueBuyableFahrrad")).findFirst();
+            for (int i=0 ; i < model.getEdges().size(); i++){
+                int finalI = i;
+                Optional<UmlClass> source = umlClasses.stream().filter(
+                        c -> c.getId().equals(model.getEdges().get(finalI).getSource())).findFirst();
+                Optional<UmlClass> target = umlClasses.stream().filter(
+                        c -> c.getId().equals(model.getEdges().get(finalI).getTarget())).findFirst();
 
-            if(source.isPresent() && target.isPresent()){
-                line.setStartX(umlClasses.get(1).getBoundsInParent().getCenterX());
-                line.setStartY(umlClasses.get(1).getBoundsInParent().getMaxY());
 
-                line.setEndX(umlClasses.get(3).getBoundsInParent().getCenterX());
-                line.setEndY(umlClasses.get(3).getBoundsInParent().getMinY());
+                if (source.isPresent() && target.isPresent()) {
+                    lines.get(i).setStartX(source.get().getBoundsInParent().getCenterX());
+                    lines.get(i).setStartY(source.get().getBoundsInParent().getMaxY());
 
-                pane.getChildren().add(line);
-                getChildren().add(pane);
+                    lines.get(i).setEndX(target.get().getBoundsInParent().getCenterX());
+                    lines.get(i).setEndY(target.get().getBoundsInParent().getMinY());
+
+                    pane.getChildren().add(lines.get(i));
+
+                } else {
+                    logger.error("Class for Edge missing");
+                }
             }
-            else {
-                logger.error("Class for Edge missing");
-            }
+            getChildren().add(pane);
 
         });
 
