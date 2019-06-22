@@ -6,9 +6,12 @@ import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import presentationmodel.uml.ClassPM;
+import presentationmodel.uml.EdgePM;
 import presentationmodel.uml.UmlPM;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class UmlPane extends StackPane implements ViewMixin{
 
@@ -16,9 +19,10 @@ public class UmlPane extends StackPane implements ViewMixin{
 
     private final UmlPM model;
 
-    private ArrayList<UmlClass> umlClasses = new ArrayList<>();
+    private ArrayList<UmlClass> umlClasses;
+    private ArrayList<EdgePM> edges;
 
-    private Line line, line2;
+    private Line line;
 
     private GridPane gridPane;
     private Pane pane;
@@ -33,15 +37,18 @@ public class UmlPane extends StackPane implements ViewMixin{
 
     @Override
     public void initializeControls() {
+        umlClasses = new ArrayList<>();
+        edges = new ArrayList<>();
         gridPane = new GridPane();
         pane = new Pane();
 
         line = new Line();
-        line2 = new Line();
 
-        for (int i=0 ; i < model.getClasses().size(); i++) {
-            umlClasses.add(new UmlClass(model.getClasses().get(i)));
+
+        for(ClassPM c : model.getClasses()){
+            umlClasses.add(new UmlClass(c));
         }
+
     }
 
     @Override
@@ -57,14 +64,23 @@ public class UmlPane extends StackPane implements ViewMixin{
 
         Platform.runLater(() -> {
 
-            line.setStartX(umlClasses.get(1).getBoundsInParent().getCenterX());
-            line.setStartY(umlClasses.get(1).getBoundsInParent().getMaxY());
+            Optional<UmlClass> source = umlClasses.stream().filter(c->c.getId().equals("Buyable")).findFirst();
+            Optional<UmlClass> target = umlClasses.stream().filter(c->c.getId().equals("AntiqueBuyableFahrrad")).findFirst();
 
-            line.setEndX(umlClasses.get(3).getBoundsInParent().getCenterX());
-            line.setEndY(umlClasses.get(3).getBoundsInParent().getMinY());
+            if(source.isPresent() && target.isPresent()){
+                line.setStartX(umlClasses.get(1).getBoundsInParent().getCenterX());
+                line.setStartY(umlClasses.get(1).getBoundsInParent().getMaxY());
 
-            pane.getChildren().addAll(line, line2);
-            getChildren().add(pane);
+                line.setEndX(umlClasses.get(3).getBoundsInParent().getCenterX());
+                line.setEndY(umlClasses.get(3).getBoundsInParent().getMinY());
+
+                pane.getChildren().add(line);
+                getChildren().add(pane);
+            }
+            else {
+                logger.error("Class for Edge missing");
+            }
+
         });
 
     }

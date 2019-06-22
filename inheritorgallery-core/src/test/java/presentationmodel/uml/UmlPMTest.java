@@ -33,4 +33,13 @@ class UmlPMTest {
         assertEquals(2, classPM.getConstructors().size());
         assertEquals(6, classPM.getMethods().size());
     }
+
+    @Test
+    public void testGetAllEdges(){
+        //given
+
+        //then
+
+        assertEquals(7, pm.getEdges().size());
+    }
 }

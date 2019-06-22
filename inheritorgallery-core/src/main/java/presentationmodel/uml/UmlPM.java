@@ -7,6 +7,8 @@ import service.ClassDTO;
 import service.EdgeDTO;
 import service.UmlService;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -15,6 +17,7 @@ public class UmlPM {
     private static Logger logger = Logger.getLogger(UmlService.class.getName());
 
     private final ObservableList<ClassPM> classes = FXCollections.observableArrayList();
+    private final ObservableList<EdgePM> edges = FXCollections.observableArrayList();
     private final ObservableMap<ClassPM,Integer> inheritanceLevel = FXCollections.observableHashMap();
 
     public UmlPM(UmlService service) {
@@ -24,15 +27,16 @@ public class UmlPM {
                     c.getFields(),
                     c.getConstructors(),
                     c.getMethods()
-                    //service.getEdgeDTOs()
             ));
         }
-
         for(EdgeDTO e : service.getEdgeDTOs()){
-
-            getClassByName(e.getSource());
+            edges.add(new EdgePM(e.getSource(),e.getTarget(),e.getType()));
         }
 
+        //for(EdgeDTO e : service.getEdgeDTOs()){
+
+        //    getClassByName(e.getSource());
+        //}
 
     }
 
@@ -43,21 +47,23 @@ public class UmlPM {
 
     }
 
-
     private void setClassInheritanceLevel(ClassPM classNode){
 
-            logger.info(classNode.getName());
-            for(EdgePM edge : classNode.getEdges()){
-                Optional<ClassPM> targetClass =
-                        classes.stream().filter(c -> c.getName().equals(edge.getTarget())).findAny();
-                //logger.info(classNode.getName());
-                //recursive call if class if edge pointing to class
-                //targetClass.ifPresent(this::setClassInheritanceLevel);
-            }
+//            logger.info(classNode.getName());
+//            for(EdgePM edge : classNode.getEdges()){
+//                Optional<ClassPM> targetClass =
+//                        classes.stream().filter(c -> c.getName().equals(edge.getTarget())).findAny();
+//                //logger.info(classNode.getName());
+//                //recursive call if class if edge pointing to class
+//                //targetClass.ifPresent(this::setClassInheritanceLevel);
+//            }
     }
 
     public ObservableList<ClassPM> getClasses() {
         return classes;
     }
 
+    public ObservableList<EdgePM> getEdges() {
+        return edges;
+    }
 }
