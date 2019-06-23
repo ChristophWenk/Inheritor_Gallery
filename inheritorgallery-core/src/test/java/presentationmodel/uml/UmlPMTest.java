@@ -42,4 +42,21 @@ class UmlPMTest {
 
         assertEquals(7, pm.getEdges().size());
     }
+
+    @Test
+    public void testGetClassByName(){
+        //given
+
+        //then
+        assertEquals(pm.getClasses().get(9), pm.getClassByName("Person"));
+
+    }
+    @Test
+    public void testSetClassInheritanceLevel(){
+        //given
+
+        //then
+        //assertEquals(0, pm.getInheritanceLevel().get(pm.getClassByName("Person")));
+
+    }
 }
