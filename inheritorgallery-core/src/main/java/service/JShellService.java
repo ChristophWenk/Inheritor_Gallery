@@ -1,5 +1,6 @@
 package service;
 
+import exceptions.InvalidCodeException;
 import jdk.jshell.JShell;
 import jdk.jshell.SnippetEvent;
 import org.slf4j.Logger;
@@ -36,14 +37,20 @@ public class JShellService {
      * @param code The code the JShell should execute
      * @return The output returned by JShell
      */
-    public String evaluateCode(String code) {
+    public String evaluateCode(String code) throws InvalidCodeException {
         List<SnippetEvent> snippetEventsList = jshell.eval(code);
+        if (snippetEventsList.get(0).status().name().contains("REJECTED")) {
+            throw new InvalidCodeException("Code could not be interpreted by JShell. Please verify the statement.");
+        }
         String value = snippetEventsList.get(0).value();
         return value;
     }
 
-    public List<SnippetEvent> getSnippetEventsList(String code) {
+    public List<SnippetEvent> getSnippetEventsList(String code) throws InvalidCodeException {
         List<SnippetEvent> snippetEventsList = jshell.eval(code);
+        if (snippetEventsList.get(0).status().name().contains("REJECTED")) {
+            throw new InvalidCodeException("Code could not be interpreted by JShell. Please verify the statement.");
+        }
         return snippetEventsList;
     }
 
