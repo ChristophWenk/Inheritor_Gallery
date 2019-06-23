@@ -7,6 +7,7 @@ import service.UmlService;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class UmlPMTest {
     private static UmlService umlService;
@@ -56,7 +57,14 @@ class UmlPMTest {
         //given
 
         //then
-        //assertEquals(0, pm.getInheritanceLevel().get(pm.getClassByName("Person")));
+        assertEquals(3,pm.getInheritanceDeepness());
+
+        assertEquals(0, pm.getInheritanceLevel().get(pm.getClassByName("Item")));
+        assertEquals(1, pm.getInheritanceLevel().get(pm.getClassByName("Fahrzeug")));
+        assertEquals(2, pm.getInheritanceLevel().get(pm.getClassByName("Fahrrad")));
+        assertEquals(3, pm.getInheritanceLevel().get(pm.getClassByName("Cabriolet")));
+        assertEquals(3, pm.getInheritanceLevel().get(pm.getClassByName("Person")));
+
 
     }
 }

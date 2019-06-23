@@ -20,6 +20,7 @@ public class UmlPM {
     private final ObservableList<ClassPM> classes = FXCollections.observableArrayList();
     private final ObservableList<EdgePM> edges = FXCollections.observableArrayList();
     private final Map<ClassPM,Integer> inheritanceLevel = new HashMap<>();
+    private int inheritanceDeepness;
 
     public UmlPM(UmlService service) {
         for(ClassDTO c : service.getClassDTOs()){
@@ -35,7 +36,6 @@ public class UmlPM {
         }
 
         setClassInheritanceLevel(classes, edges);
-
     }
 
 
@@ -43,39 +43,38 @@ public class UmlPM {
         Optional<ClassPM> targetClass =
                 classes.stream().filter(c -> c.getName().equals(s)).findFirst();
         return targetClass.orElse(null);
-
     }
 
     private void setClassInheritanceLevel(List<ClassPM> classes, List<EdgePM> edges){
         List<ClassPM> classesToFilter = new ArrayList<>(classes);
-        List<String> allTargets = edges.stream().map(EdgePM::getTarget).collect(Collectors.toList());
-        List<String> allSources = edges.stream().map(EdgePM::getSource).collect(Collectors.toList());
+        List<EdgePM> edgesToFilter = new ArrayList<>(edges);
 
-        List<ClassPM>  classesInheritNothing =
-                classesToFilter.stream().filter(c -> !allSources.contains(c.getName())).collect(Collectors.toList());
-        for(ClassPM c : classesInheritNothing){
-            inheritanceLevel.put(c,0);
-            logger.info("0 " + c.getName());
+        List<String> remainingTargets;
+
+        int i = 1;
+        while(!classesToFilter.isEmpty()){
+            i--;
+            remainingTargets = edgesToFilter.stream().map(EdgePM::getTarget).collect(Collectors.toList());
+
+            List<String> finalAllTargets = remainingTargets;
+
+            List<ClassPM>  classesNeverInherited =
+                    classesToFilter.stream().filter(c -> !finalAllTargets.contains(c.getName())).collect(Collectors.toList());
+            for(ClassPM c : classesNeverInherited){
+                inheritanceLevel.put(c,i);
+            }
+
+            classesToFilter.removeAll(classesNeverInherited);
+
+            List<String> classesRemoved = classesNeverInherited.stream().map(ClassPM::getName).collect(Collectors.toList());
+
+            edgesToFilter =  edgesToFilter.stream()
+                    .filter(e -> !classesRemoved.contains(e.getSource())).collect(Collectors.toList());
         }
-        classesToFilter.removeAll(classesInheritNothing);
 
-        List<ClassPM>  classesNeverInherited =
-                classesToFilter.stream().filter(c -> !allTargets.contains(c.getName())).collect(Collectors.toList());
-        for(ClassPM c : classesNeverInherited){
-            inheritanceLevel.put(c,0);
-            logger.info("1 " + c.getName());
-        }
-        classesToFilter.removeAll(classesNeverInherited);
+        setInheritanceDeepness(i * -1);
 
-
-//            logger.info(classNode.getName());
-//            for(EdgePM edge : classNode.getEdges()){
-//                Optional<ClassPM> targetClass =
-//                        classes.stream().filter(c -> c.getName().equals(edge.getTarget())).findAny();
-//                //logger.info(classNode.getName());
-//                //recursive call if class if edge pointing to class
-//                //targetClass.ifPresent(this::setClassInheritanceLevel);
-//            }
+        inheritanceLevel.forEach((classPM,level) -> inheritanceLevel.put(classPM,level+getInheritanceDeepness()));
     }
 
     public ObservableList<ClassPM> getClasses() {
@@ -88,5 +87,13 @@ public class UmlPM {
 
     public Map<ClassPM, Integer> getInheritanceLevel() {
         return inheritanceLevel;
+    }
+
+    public int getInheritanceDeepness() {
+        return inheritanceDeepness;
+    }
+
+    public void setInheritanceDeepness(int inheritanceDeepness) {
+        this.inheritanceDeepness = inheritanceDeepness;
     }
 }
