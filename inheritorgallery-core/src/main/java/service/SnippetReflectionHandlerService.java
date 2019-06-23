@@ -64,9 +64,9 @@ public class SnippetReflectionHandlerService {
     /**
      * Filter a method array so that it only contains inherited methods from classes within the same package.
      * These are the only ones that are of interest for a user.
-     * @param methods
-     * @param pkg
-     * @return
+     * @param methods The methods to be filtered
+     * @param pkg The target package that is the filter
+     * @return a list of filtered methods according to the input package
      */
     private List<Method> filterMethods(Method[] methods, String pkg) {
         ArrayList<Method> arrayList = new ArrayList<Method>(Arrays.asList(methods));
