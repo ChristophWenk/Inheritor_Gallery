@@ -46,15 +46,26 @@ public class UmlPM {
 
     }
 
-    private void setClassInheritanceLevel(ObservableList<ClassPM> classes, ObservableList<EdgePM> edges){
+    private void setClassInheritanceLevel(List<ClassPM> classes, List<EdgePM> edges){
+        List<ClassPM> classesToFilter = new ArrayList<>(classes);
         List<String> allTargets = edges.stream().map(EdgePM::getTarget).collect(Collectors.toList());
         List<String> allSources = edges.stream().map(EdgePM::getSource).collect(Collectors.toList());
 
-        List<ClassPM>  classesNeverInterited = classes.stream().filter(c -> !allTargets.contains(c.getName())).collect(Collectors.toList());
-        for(ClassPM c : classesNeverInterited){
+        List<ClassPM>  classesInheritNothing =
+                classesToFilter.stream().filter(c -> !allSources.contains(c.getName())).collect(Collectors.toList());
+        for(ClassPM c : classesInheritNothing){
             inheritanceLevel.put(c,0);
-            //logger.info(c.getName());
+            logger.info("0 " + c.getName());
         }
+        classesToFilter.removeAll(classesInheritNothing);
+
+        List<ClassPM>  classesNeverInherited =
+                classesToFilter.stream().filter(c -> !allTargets.contains(c.getName())).collect(Collectors.toList());
+        for(ClassPM c : classesNeverInherited){
+            inheritanceLevel.put(c,0);
+            logger.info("1 " + c.getName());
+        }
+        classesToFilter.removeAll(classesNeverInherited);
 
 
 //            logger.info(classNode.getName());
