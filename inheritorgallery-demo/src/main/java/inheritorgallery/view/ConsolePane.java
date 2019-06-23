@@ -26,7 +26,7 @@ public class ConsolePane extends BorderPane implements ViewMixin {
     private TextField jshellInputTextField;
     private Button submitButton;
 
-    JShellService jShellService = new JShellService();
+    private JShellService jShellService = JShellService.getInstance();
 
     public ConsolePane() {
         init();
