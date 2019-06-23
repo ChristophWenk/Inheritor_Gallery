@@ -7,7 +7,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import jshell.extension.JShellScriptExecutor;
+import service.JShellService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +26,7 @@ public class ConsolePane extends BorderPane implements ViewMixin {
     private TextField jshellInputTextField;
     private Button submitButton;
 
-    JShellScriptExecutor jShellScriptExecutor = new JShellScriptExecutor();
+    JShellService jShellService = new JShellService();
 
     public ConsolePane() {
         init();
@@ -68,7 +68,7 @@ public class ConsolePane extends BorderPane implements ViewMixin {
     @Override
     public void setupEventHandlers() {
         submitButton.setOnAction(event -> {
-            String jShellCommand = jShellScriptExecutor.processInput(jshellInputTextField.getText());
+            String jShellCommand = jShellService.processInput(jshellInputTextField.getText());
             jshellOutputTextArea.appendText(jShellCommand + "\n");
         });
     }

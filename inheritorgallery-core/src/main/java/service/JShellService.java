@@ -1,10 +1,10 @@
-package jshell.extension;
+package service;
 
 import jdk.jshell.JShell;
 import jdk.jshell.Snippet;
 import jdk.jshell.SnippetEvent;
 import jdk.jshell.SourceCodeAnalysis;
-import jshell.workingClasses.Person;
+import input.Person;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,28 +16,29 @@ import java.util.Objects;
 import java.util.Scanner;
 
 /**
- * This class can execute jshell expressions in sequence
+ * This class can execute input expressions in sequence
  * We can write java commands like shell script and execute it.
- * Just write commands in a way that we give in jshell and save it in a file and execute it.
+ * Just write commands in a way that we give in input and save it in a file and execute it.
  *
  * @author Hemamabara Vamsi, Kotari, extended by Wenk, Christoph & Muralt, Dimitri
  * @since 5/27/2017.
  */
-public class JShellScriptExecutor {
+//TODO Remove all unused code when finished
+public class JShellService {
     private JShell jshell;
 
-    private static Logger logger = LoggerFactory.getLogger(JShellScriptExecutor.class);
+    private static Logger logger = LoggerFactory.getLogger(JShellService.class);
 
-    public JShellScriptExecutor() {
+    public JShellService() {
         jshell = JShell.create();
-        jshell.addToClasspath("inheritorgallery-core/src/main/resources/jshell/classLibrary");
-        jshell.eval("import jshell.workingClasses.*;");
+        jshell.addToClasspath("inheritorgallery-core/src/main/resources/classLibrary");
+        jshell.eval("import input.*;");
 
         //showAllJShellMethods();
     }
 
     public void runExecutor(){
-        String fileName = "inheritorgallery-core/src/main/resources/jshell/test_input.jsh";
+        String fileName = "inheritorgallery-core/src/main/resources/input/test_input.jsh";
         //evaluate(fileName);
         //executeSingleLineOfCode();
         jShellInteraction();
