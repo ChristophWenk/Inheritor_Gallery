@@ -2,6 +2,7 @@ package inheritorgallery.view;
 
 import inheritorgallery.view.util.UmlClass;
 import javafx.application.Platform;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import presentationmodel.uml.UmlPM;
 import java.util.ArrayList;
 import java.util.Optional;
 
+
 public class UmlPane extends StackPane implements ViewMixin{
 
     private static Logger logger = LoggerFactory.getLogger(UmlPane.class);
@@ -23,9 +25,8 @@ public class UmlPane extends StackPane implements ViewMixin{
     private ArrayList<Line> lines;
     private ArrayList<HBox> hBoxes;
     private VBox vBox;
-
-    private GridPane gridPane;
-    private Pane pane;
+    private Pane linePane;
+    private ScrollPane scrollPane;
 
 
 
@@ -40,9 +41,9 @@ public class UmlPane extends StackPane implements ViewMixin{
         umlClasses = new ArrayList<>();
         lines = new ArrayList<>();
         hBoxes = new ArrayList<>();
-        vBox = new VBox();
-        gridPane = new GridPane();
-        pane = new Pane();
+        vBox = new VBox(40);
+        linePane = new Pane();
+        scrollPane = new ScrollPane();
 
         for(ClassPM c : model.getClasses()){
             umlClasses.add(new UmlClass(c));
@@ -52,7 +53,7 @@ public class UmlPane extends StackPane implements ViewMixin{
             lines.add(new Line());
         }
         for (int i = 0; i <= model.getInheritanceDeepness(); i++) {
-            hBoxes.add(new HBox());
+            hBoxes.add(new HBox(20));
         }
 
 
@@ -60,23 +61,18 @@ public class UmlPane extends StackPane implements ViewMixin{
 
     @Override
     public void layoutControls() {
-
-
-//        for (int i=0 ; i < model.getClasses().size(); i++) {
-//            gridPane.add(umlClasses.get(i), model.getInheritanceLevelOfClass(model.getClasses().get(i)),i);
-//        }
-
         for (int i=0 ; i < model.getClasses().size(); i++) {
             hBoxes.get(model.getInheritanceLevelOfClass(model.getClasses().get(i)))
                     .getChildren()
                     .add(umlClasses.get(i));
         }
         vBox.getChildren().addAll(hBoxes);
-        getChildren().add(vBox);
 
+        //scrollPane.setContent(vBox);
+        //scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        //scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
 
-        //getChildren().add(gridPane);
-
+        getChildren().addAll(vBox);
 
         Platform.runLater(() -> {
 
@@ -92,19 +88,25 @@ public class UmlPane extends StackPane implements ViewMixin{
                     //getBoundsInParent() > get x Axis from hBox
                     lines.get(i).setStartX(source.get().getBoundsInParent().getCenterX());
                     //getBoundsInParent() > get y Axis from parent vBox
-                    lines.get(i).setStartY(source.get().getParent().getBoundsInParent().getCenterY());
+                    lines.get(i).setStartY(source.get().getParent().getBoundsInParent().getMinY());
 
                     lines.get(i).setEndX(target.get().getBoundsInParent().getCenterX());
                     lines.get(i).setEndY(target.get().getParent().getBoundsInParent().getMaxY());
 
-                    pane.getChildren().add(lines.get(i));
+                    if(model.getEdges().get(i).getType().equals("extends")){
+                        lines.get(i).getStyleClass().add("extendsLine");
+                    } else if(model.getEdges().get(i).getType().equals("implements")){
+                        lines.get(i).getStyleClass().add("implementsLine");
+                    }
+
+
+                    linePane.getChildren().add(lines.get(i));
 
                 } else {
                     logger.error("Class for Edge missing");
                 }
             }
-            getChildren().add(pane);
-
+            getChildren().add(linePane);
         });
 
     }
