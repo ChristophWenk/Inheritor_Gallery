@@ -64,7 +64,13 @@ class UmlPMTest {
         assertEquals(2, pm.getInheritanceLevel().get(pm.getClassByName("Fahrrad")));
         assertEquals(3, pm.getInheritanceLevel().get(pm.getClassByName("Cabriolet")));
         assertEquals(3, pm.getInheritanceLevel().get(pm.getClassByName("Person")));
+    }
 
-
+    @Test
+    public void testGetInheritanceLevelOfClass(){
+        //given
+        ClassPM c =  pm.getClassByName("Person");
+        //then
+        assertEquals(3,pm.getInheritanceLevelOfClass(c));
     }
 }

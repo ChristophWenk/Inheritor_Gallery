@@ -89,6 +89,10 @@ public class UmlPM {
         return inheritanceLevel;
     }
 
+    public int getInheritanceLevelOfClass(ClassPM c) {
+        return inheritanceLevel.get(c);
+    }
+
     public int getInheritanceDeepness() {
         return inheritanceDeepness;
     }

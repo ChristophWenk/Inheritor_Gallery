@@ -21,7 +21,8 @@ public class UmlPane extends StackPane implements ViewMixin{
 
     private ArrayList<UmlClass> umlClasses;
     private ArrayList<Line> lines;
-    private Line line;
+    private ArrayList<HBox> hBoxes;
+    private VBox vBox;
 
     private GridPane gridPane;
     private Pane pane;
@@ -38,19 +39,22 @@ public class UmlPane extends StackPane implements ViewMixin{
     public void initializeControls() {
         umlClasses = new ArrayList<>();
         lines = new ArrayList<>();
+        hBoxes = new ArrayList<>();
+        vBox = new VBox();
         gridPane = new GridPane();
         pane = new Pane();
-
-        line = new Line();
-
 
         for(ClassPM c : model.getClasses()){
             umlClasses.add(new UmlClass(c));
         }
 
-        for(EdgePM e : model.getEdges()){
+        for(EdgePM ignored : model.getEdges()){
             lines.add(new Line());
         }
+        for (int i = 0; i <= model.getInheritanceDeepness(); i++) {
+            hBoxes.add(new HBox());
+        }
+
 
     }
 
@@ -58,11 +62,20 @@ public class UmlPane extends StackPane implements ViewMixin{
     public void layoutControls() {
 
 
-        for (int i=0 ; i < model.getClasses().size(); i++) {
-            gridPane.add(umlClasses.get(i), 1,i);
-        }
+//        for (int i=0 ; i < model.getClasses().size(); i++) {
+//            gridPane.add(umlClasses.get(i), model.getInheritanceLevelOfClass(model.getClasses().get(i)),i);
+//        }
 
-        getChildren().add(gridPane);
+        for (int i=0 ; i < model.getClasses().size(); i++) {
+            hBoxes.get(model.getInheritanceLevelOfClass(model.getClasses().get(i)))
+                    .getChildren()
+                    .add(umlClasses.get(i));
+        }
+        vBox.getChildren().addAll(hBoxes);
+        getChildren().add(vBox);
+
+
+        //getChildren().add(gridPane);
 
 
         Platform.runLater(() -> {
@@ -76,11 +89,13 @@ public class UmlPane extends StackPane implements ViewMixin{
 
 
                 if (source.isPresent() && target.isPresent()) {
+                    //getBoundsInParent() > get x Axis from hBox
                     lines.get(i).setStartX(source.get().getBoundsInParent().getCenterX());
-                    lines.get(i).setStartY(source.get().getBoundsInParent().getMaxY());
+                    //getBoundsInParent() > get y Axis from parent vBox
+                    lines.get(i).setStartY(source.get().getParent().getBoundsInParent().getCenterY());
 
                     lines.get(i).setEndX(target.get().getBoundsInParent().getCenterX());
-                    lines.get(i).setEndY(target.get().getBoundsInParent().getMinY());
+                    lines.get(i).setEndY(target.get().getParent().getBoundsInParent().getMaxY());
 
                     pane.getChildren().add(lines.get(i));
 
