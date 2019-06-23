@@ -1,7 +1,7 @@
 // java_shell_code contents.
 
 /* If you observe it does not need a class declaration.
- Using the power of jshell,
+ Using the power of input,
  we can write functions and call functions with out creating class,
  just like functional programming */
 

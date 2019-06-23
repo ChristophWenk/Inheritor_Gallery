@@ -1,4 +1,4 @@
-package jshell.workingClasses;
+package input.workingClasses;
 
 public class Person {
     private String firstName;
