@@ -73,6 +73,5 @@ public class SnippetReflectionHandlerService {
         return arrayList.stream()
         .filter(method -> method.toString().contains(pkg))
         .collect(Collectors.toList());
-
     }
 }

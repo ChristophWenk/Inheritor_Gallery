@@ -11,7 +11,6 @@ import java.util.List;
 /**
  * Singleton JShellService
  */
-//TODO Remove all unused code when finished
 public class JShellService {
     private JShell jshell;
 

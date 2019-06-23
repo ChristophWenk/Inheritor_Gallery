@@ -1,5 +1,6 @@
 package service;
 
+import exceptions.InvalidCodeException;
 import jdk.jshell.SnippetEvent;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,12 @@ class SnippetReflectionHandlerServiceTest {
     @Test
     void testGetClassName() {
         String input = "Auto auto = new Auto();";
-        List<SnippetEvent> snippetEventsList = jShellService.getSnippetEventsList(input);
+        List<SnippetEvent> snippetEventsList = null;
+        try {
+            snippetEventsList = jShellService.getSnippetEventsList(input);
+        } catch (InvalidCodeException e) {
+            e.printStackTrace();
+        }
 
         assertEquals("Auto",handlerService.getClassName(snippetEventsList.get(0)));
     }
