@@ -35,7 +35,7 @@ class SnippetReflectionHandlerServiceTest {
 
         String s = jShellService.processInput(input);
 
-        //assertEquals("Auto",handlerService.getMethods(snippetEventsList.get(0)));
+        //assertEquals("Auto",handlerService.getClassMethods(snippetEventsList.get(0)));
     }
 
 }

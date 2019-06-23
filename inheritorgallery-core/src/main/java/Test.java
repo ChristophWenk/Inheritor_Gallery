@@ -23,7 +23,7 @@ public class Test {
         } catch (InvalidCodeException e) {
             e.printStackTrace();
         }
-        handlerService.getMethods(snippetEventsList.get(0));
+        handlerService.getClassMethods(snippetEventsList.get(0));
     }
 
     public static void simpleTest() {
