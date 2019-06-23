@@ -19,7 +19,8 @@ public class UmlClass extends VBox implements ViewMixin {
 
     public UmlClass(ClassPM model){
         this.model = model;
-        this.setId("classBox");
+        this.setId(model.getName());
+        this.getStyleClass().add("classBox");
         init();
     }
 
@@ -28,6 +29,7 @@ public class UmlClass extends VBox implements ViewMixin {
     public void initializeControls() {
         classNameLabel = new Label();
         classNameLabel.setId("classNameLabel");
+
         fieldLabels = new ArrayList<>();
         constructorLabels = new ArrayList<>();
         methodLabels = new ArrayList<>();
