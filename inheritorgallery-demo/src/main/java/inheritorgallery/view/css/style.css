@@ -1,0 +1,37 @@
+.root {
+    -fx-padding: 20px;
+}
+
+#jshellInputTextField {
+    -fx-min-width: 300px;
+    -fx-max-width: 300px;
+}
+
+#jshellOutputTextArea {
+    -fx-max-width: 500px;
+}
+
+#browser {
+    -fx-max-width: 500px;
+    -fx-max-height: 500px;
+}
+
+/*#classNameLabel {*/
+/*    -fx-border-color: #ff6f13;*/
+/*    -fx-border-insets: 5;*/
+/*    -fx-border-width: 3;*/
+/*    -fx-border-style: dashed;*/
+/*}
+ */
+.classBox {
+    -fx-border-color: rgba(0, 0, 0, 0.99);
+    -fx-border-width: 3;
+}
+.implementsLine {
+    -fx-stroke-width: 3;
+    -fx-stroke-dash-array: 8;
+}
+
+.extendsLine {
+    -fx-stroke-width: 3;
+}
