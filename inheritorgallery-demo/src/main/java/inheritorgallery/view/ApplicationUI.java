@@ -1,6 +1,8 @@
 package inheritorgallery.view;
 
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import presentationmodel.uml.UmlPM;
@@ -36,10 +38,14 @@ public class ApplicationUI extends BorderPane implements ViewMixin {
         instancePane.setId("instancePane");
         umlPane.setId("umlPane");
 
+        ScrollPane umlScrollPane = new ScrollPane(umlPane);
+        umlScrollPane.setPannable(true);
+        umlScrollPane.setPrefWidth(600);
+
         // Layouts
         this.setLeft(interactionPane);
         this.setCenter(instancePane);
-        this.setRight(umlPane);
+        this.setRight(umlScrollPane);
 
     }
 }
