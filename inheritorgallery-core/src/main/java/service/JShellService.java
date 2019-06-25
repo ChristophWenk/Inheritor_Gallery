@@ -6,6 +6,7 @@ import jdk.jshell.SnippetEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -20,7 +21,10 @@ public class JShellService {
 
     private JShellService() {
         jshell = JShell.create();
-        jshell.addToClasspath("inheritorgallery-core/src/main/resources/classLibrary");
+        String classpath = System.getProperty("java.class.path");
+        String[] classpathEntries = classpath.split(File.pathSeparator);
+        for (String cp : classpathEntries)
+            jshell.addToClasspath(cp);
         jshell.eval("import input.*;");
     }
 
