@@ -2,6 +2,9 @@ package service;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import service.uml.ClassDTO;
+import service.uml.EdgeDTO;
+import service.uml.UmlService;
 
 
 import java.util.List;

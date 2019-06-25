@@ -1,6 +1,7 @@
 package service;
 
 import org.junit.jupiter.api.Test;
+import service.jshell.JShellService;
 
 import static org.junit.jupiter.api.Assertions.*;
 
