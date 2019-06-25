@@ -1,4 +1,4 @@
-package input;
+package inheritanceDummyDemo;
 
 public abstract class Item {
     private double weight;

@@ -1,4 +1,4 @@
-package input;
+package inheritanceDummyDemo;
 
 public class Fahrzeug extends Item {
 
@@ -20,18 +20,18 @@ public class Fahrzeug extends Item {
     }
 
     @Override
-    public Fahrzeug clone(){
-        return new Fahrzeug(this.name, this.speed);
+    public input.Fahrzeug clone(){
+        return new input.Fahrzeug(this.name, this.speed);
     }
 
-    public boolean equals(Fahrzeug f){
+    public boolean equals(input.Fahrzeug f){
         return f != null && f.name.equals(this.name);
     }
 
     @Override
     public boolean equals(Object obj){
-        if (obj instanceof Fahrzeug){
-            Fahrzeug f = (Fahrzeug) obj;
+        if (obj instanceof input.Fahrzeug){
+            input.Fahrzeug f = (input.Fahrzeug) obj;
             return f.name.equals(this.name);
         }
         return false;
@@ -67,3 +67,4 @@ public class Fahrzeug extends Item {
     }
 
 }
+
