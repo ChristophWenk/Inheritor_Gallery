@@ -2,13 +2,11 @@ package presentationmodel.uml;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
-import service.ClassDTO;
-import service.EdgeDTO;
-import service.UmlService;
+import service.uml.ClassDTO;
+import service.uml.EdgeDTO;
+import service.uml.UmlService;
 
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 

@@ -1,4 +1,4 @@
-package presentationmodel;
+package presentationmodel.instruction;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;

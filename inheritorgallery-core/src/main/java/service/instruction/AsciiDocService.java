@@ -1,6 +1,7 @@
-package service;
+package service.instruction;
 
 import org.asciidoctor.Asciidoctor;
+import service.FileService;
 
 import java.io.*;
 import java.nio.file.Path;

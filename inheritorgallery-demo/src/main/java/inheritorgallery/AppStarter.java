@@ -6,7 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import presentationmodel.uml.UmlPM;
-import service.UmlService;
+import service.uml.UmlService;
 
 /**
  * @author Christoph Wenk, Dimitri Muralt

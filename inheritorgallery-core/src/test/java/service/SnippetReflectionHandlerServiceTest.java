@@ -1,6 +1,8 @@
 package service;
 
 import org.junit.jupiter.api.BeforeAll;
+import service.jshell.JShellService;
+import service.jshell.SnippetReflectionHandlerService;
 
 class SnippetReflectionHandlerServiceTest {
 

@@ -1,4 +1,4 @@
-package service;
+package service.jshell;
 
 import exceptions.InvalidCodeException;
 import jdk.jshell.SnippetEvent;

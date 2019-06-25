@@ -5,8 +5,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.web.WebView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import presentationmodel.InstructionPM;
-import service.AsciiDocService;
+import presentationmodel.instruction.InstructionPM;
+import service.instruction.AsciiDocService;
 
 public class InstructionPane extends GridPane implements ViewMixin{
 

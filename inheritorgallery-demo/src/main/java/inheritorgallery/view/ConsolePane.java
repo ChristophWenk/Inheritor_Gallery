@@ -7,7 +7,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import service.JShellService;
+import service.jshell.JShellService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,4 +1,4 @@
-package service;
+package service.uml;
 
 import java.util.List;
 
