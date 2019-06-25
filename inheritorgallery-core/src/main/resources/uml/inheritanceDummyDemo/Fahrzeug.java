@@ -19,24 +19,6 @@ public class Fahrzeug extends Item {
         System.out.println("Fahrzeug: "+name+" fährt "+speed);
     }
 
-    @Override
-    public input.Fahrzeug clone(){
-        return new input.Fahrzeug(this.name, this.speed);
-    }
-
-    public boolean equals(input.Fahrzeug f){
-        return f != null && f.name.equals(this.name);
-    }
-
-    @Override
-    public boolean equals(Object obj){
-        if (obj instanceof input.Fahrzeug){
-            input.Fahrzeug f = (input.Fahrzeug) obj;
-            return f.name.equals(this.name);
-        }
-        return false;
-    }
-
     public String toString(){
         //System.out.println(name+" fährt "+speed);
         return "Fahrzeug "+name+" fährt "+speed;
