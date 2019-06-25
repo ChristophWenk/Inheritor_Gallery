@@ -50,12 +50,12 @@ public class SnippetReflectionHandlerService {
         String referenceName = snippet.name();
         String pkg = "";
 
-        try {
-            pkg = jShellService.evaluateCode(referenceName + ".getClass().getPackage();");
-        } catch (InvalidCodeException e) {
-            logger.error("Invalid code: " + snippetEvent.snippet().source());
-            e.printStackTrace();
-        }
+        //try {
+            pkg = jShellService.processInput(referenceName + ".getClass().getPackage();");
+        //} catch (InvalidCodeException e) {
+        //    logger.error("Invalid code: " + snippetEvent.snippet().source());
+         //   e.printStackTrace();
+        //}
         String[] pkgNameParts = pkg.split(" ");
         String pkgName = pkgNameParts[1];
         return pkgName;
