@@ -34,8 +34,13 @@ siehe Auch javaparservisited.pdf
 * benutzt javaparser und yuml für uml visualisierung
 https://github.com/shubhamvadhera/uml-parser
 
-
 == JavaParser
+
+Javaparser API kann .java Files parser und diese in einer
+Baumartiger Struktur speichern. Dabei können alle nötigen Informationen
+herausgefunden werden, welche für die Erstellung eines UMLs relevant sind.
+Das Javaparser Projekt ist gut dokumentiert und wird beispielsweise
+von IntelliJ und Github verwendet.
 
 • the JavaParser class provides a full API for producing an AST from code
 • the StaticJavaParser class provides a quick and simple API for producing an AST from code.
@@ -47,5 +52,11 @@ https://www.javacodegeeks.com/2017/12/javaparser-generate-analyze-modify-java-co
 
 https://github.com/pratiksanglikar/Java-Parser-UML-Generator
 
-
 https://javaconceptoftheday.com/list-all-files-in-directory-in-java/
+
+== JavaSymbolSolver
+
+Als Teil des Javaparser kann zudem javaSymbolSolver verwendet werden.
+Dieser kann theretisch Herkunft der Methodenaufrufe und Variablendeklarationen bestimmen.
+Dieses Projekt ist allerdings noch sehr neu und gemäss dem Auhtor wenig verbreitet und dokumentiert.
+Die Verwendung der javaSymbolSolver API ist eher umsändlich.
