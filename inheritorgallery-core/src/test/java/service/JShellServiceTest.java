@@ -25,14 +25,31 @@ class JShellServiceTest {
     }
 
     @Test
-    void testGetInstances(){
+    void testGetMethods(){
         String input =
                 "Person p = new Person();"+
-                "import java.lang.reflect.Method;";
+                "import java.lang.reflect.Method;" +
+                "import java.lang.reflect.Field;";
         jShellService.processInput(input);
 
+        //order of methods retured is not always the same
         input = "p.getClass().getMethods()[0].getName();";
         assertEquals("\"toString\"", jShellService.processInput(input));
+
+        input = "Class cls = null;" +
+                "try {Class cls = Class.forName(\"input.Person\");" +
+                "        } catch (ClassNotFoundException e) { e.printStackTrace();}";
+
+        assertEquals("null", jShellService.processInput(input));
+
+        assertEquals("sayGreeting", jShellService.getInstances());
+
+    }
+
+    @Test
+    void testGetInstancesLocal(){
+        jShellService.testGetInstancesLocal();
+
 
     }
 

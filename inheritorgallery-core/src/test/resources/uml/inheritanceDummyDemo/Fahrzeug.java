@@ -1,4 +1,4 @@
-package inheritanceDummyDemo;
+package input;
 
 public class Fahrzeug extends Item {
 
