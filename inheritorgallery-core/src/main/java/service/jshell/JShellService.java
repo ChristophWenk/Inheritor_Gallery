@@ -90,6 +90,10 @@ public class JShellService {
         return snippetEvent.value().replace("\"","");
     }
 
+    public void updateInstance(){
+
+    }
+
     public void testGetInstancesLocal(){
         Fahrzeug f = new Fahrzeug("tesla", 20);
         Item i = new Fahrzeug("tesla", 20);

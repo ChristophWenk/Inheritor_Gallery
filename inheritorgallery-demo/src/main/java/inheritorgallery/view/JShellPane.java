@@ -1,14 +1,11 @@
 package inheritorgallery.view;
 
-import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import presentationmodel.jshell.JShellPM;
-import service.jshell.JShellService;
+import presentationmodel.instance.InstanceStatePM;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,17 +18,16 @@ public class JShellPane extends BorderPane implements ViewMixin {
 
     private static Logger logger = LoggerFactory.getLogger(JShellPane.class);
 
-    private JShellPM jShellPM;
+    private InstanceStatePM instanceStatePM;
 
     private HBox inputElements;
 
-    private TextArea jshellOutputTextArea;
     private TextField jshellInputTextField;
     private ListView<String> commandHistoryList;
     private Button submitButton;
 
-    public JShellPane(JShellPM jShellPM) {
-        this.jShellPM = jShellPM;
+    public JShellPane(InstanceStatePM instanceStatePM) {
+        this.instanceStatePM = instanceStatePM;
         init();
         logger.info("Finished initializing JShellPane");
     }
@@ -39,13 +35,10 @@ public class JShellPane extends BorderPane implements ViewMixin {
     @Override
     public void initializeControls() {
         inputElements = new HBox();
-        jshellOutputTextArea = new TextArea();
         jshellInputTextField = new TextField();
         submitButton = new Button();
 
-        commandHistoryList = new ListView<>(jShellPM.getCommandHistory());
-
-
+        commandHistoryList = new ListView<>(instanceStatePM.getCommandHistory());
     }
 
     @Override
@@ -56,9 +49,6 @@ public class JShellPane extends BorderPane implements ViewMixin {
         submitButton.setId("submitButton");
 
         // Layout
-        commandHistoryList.setItems(jShellPM.getCommandHistory());
-
-
         jshellInputTextField.setText("Enter a Java command...");
         commandHistoryList.setEditable(false);
         submitButton.setText("Senden");
@@ -79,15 +69,11 @@ public class JShellPane extends BorderPane implements ViewMixin {
     @Override
     public void setupEventHandlers() {
         submitButton.setOnAction(event ->
-                jShellPM.setInput(jshellInputTextField.getText()));
+                instanceStatePM.setJShellInput(jshellInputTextField.getText()));
     }
 
     @Override
     public void setupBindings() {
-        //commandHistoryList.itemsProperty().bind(jShellPM.getCommandHistory());
-//        jShellService.evaluateCode(jshellInputTextField.getText());
-//        jshellOutputTextArea.appendText(jShellCommand + "\n");
-//
-
+        commandHistoryList.setItems(instanceStatePM.getCommandHistory());
     }
 }

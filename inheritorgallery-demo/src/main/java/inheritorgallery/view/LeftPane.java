@@ -3,19 +3,19 @@ package inheritorgallery.view;
 import javafx.scene.layout.VBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import presentationmodel.jshell.JShellPM;
+import presentationmodel.instance.InstanceStatePM;
 
 public class LeftPane extends VBox implements ViewMixin {
 
     private static Logger logger = LoggerFactory.getLogger(LeftPane.class);
 
-    private JShellPM jShellPM;
+    private InstanceStatePM instanceStatePM;
 
     private InstructionPane instructionPane;
     private JShellPane jShellPane;
 
-    public LeftPane(JShellPM jShellPM) {
-        this.jShellPM = jShellPM;
+    public LeftPane(InstanceStatePM instanceStatePM) {
+        this.instanceStatePM = instanceStatePM;
         init();
         logger.info("Finished initializing LeftPane");
     }
@@ -23,7 +23,7 @@ public class LeftPane extends VBox implements ViewMixin {
     @Override
     public void initializeControls() {
         instructionPane  = new InstructionPane();
-        jShellPane = new JShellPane(jShellPM);
+        jShellPane = new JShellPane(instanceStatePM);
     }
 
     @Override

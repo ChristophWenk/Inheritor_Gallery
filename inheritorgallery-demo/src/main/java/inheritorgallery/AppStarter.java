@@ -5,7 +5,7 @@ import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import presentationmodel.jshell.JShellPM;
+import presentationmodel.instance.InstanceStatePM;
 import presentationmodel.uml.UmlPM;
 import service.uml.UmlService;
 
@@ -21,9 +21,9 @@ public class AppStarter extends Application {
         UmlService umlService = new UmlService();
         UmlPM umlPM = new UmlPM(umlService);
 
-        JShellPM jShellPM = new JShellPM();
+        InstanceStatePM instanceStatePM = new InstanceStatePM();
 
-        Parent rootPane = new ApplicationUI(jShellPM, umlPM);
+        Parent rootPane = new ApplicationUI(instanceStatePM, umlPM);
 
 
 
