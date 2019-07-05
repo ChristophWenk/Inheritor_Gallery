@@ -7,7 +7,9 @@ import input.Fahrzeug;
 import input.Item;
 import input.Person;
 import jdk.jshell.JShell;
+import jdk.jshell.Snippet;
 import jdk.jshell.SnippetEvent;
+import jdk.jshell.VarSnippet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,27 +68,50 @@ public class JShellService {
             return "Could not process input. Please verify the correctness of your statement.";
         } else {
             return snippetEventsList.get(0).value();
-
         }
     }
 
-    public String getInstances() {
-        Person p = new Person();
-
-        Optional<Method> s = Arrays.stream(p.getClass().getMethods()).filter(c -> c.getName().equals("sayGreeting")).findFirst();
-        if(s.isPresent()) {
-            return s.get().getName();
+    public Snippet evaluateCode(String code) throws InvalidCodeException {
+        List<SnippetEvent> snippetEventsList = jshell.eval(code);
+        if (!snippetEventsList.get(0).status().name().contains("VALID")) {
+            throw new InvalidCodeException("Code could not be interpreted by JShell. Please verify the statement.");
         }
-        return null;
+        return snippetEventsList.get(0).snippet();
+    }
 
+    public String getRefName(Snippet snippet){
+        VarSnippet varSnippet = (VarSnippet) snippet;
+        return varSnippet.name();
+    }
+
+    public String getRefType(Snippet snippet){
+        VarSnippet varSnippet = (VarSnippet) snippet;
+        return varSnippet.typeName();
+    }
+
+    public String getClassForReference(String reference){
+        String input1 =
+                "Item i1 = new Fahrzeug(\"tesla\", 20);";
+
+
+        String input = reference+".getClass().getName();";
+        Snippet snippet = null;
+        try {
+            jShellService.evaluateCode(input1);
+            snippet = jShellService.evaluateCode(input);
+        } catch (InvalidCodeException e) {
+            e.printStackTrace();
+        }
+        VarSnippet varSnippet = (VarSnippet) snippet;
+
+
+
+        return null;
     }
 
     public void testGetInstancesLocal(){
         Fahrzeug f = new Fahrzeug("tesla", 20);
         Item i = new Fahrzeug("tesla", 20);
-
-        logger.info(getReferenceType(f));
-        logger.info(getReferenceType(i));
 
         logger.info(f.toString()+" "+ f.getClass().getDeclaredMethods().length);
         logger.info(i.toString()+" "+ i.getClass().getDeclaredMethods().length);
@@ -99,16 +124,4 @@ public class JShellService {
             logger.info(m.getName());
         }
     }
-
-
-    public String getReferenceType(Item o){
-        return ("Item");
-    }
-    public String getReferenceType(Fahrzeug o){
-        return ("Fahrzeug");
-    }
-
-
-
-
 }
