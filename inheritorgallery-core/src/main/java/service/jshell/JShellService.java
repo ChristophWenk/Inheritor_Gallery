@@ -46,23 +46,16 @@ public class JShellService {
      * @param input The code the JShell should execute
      * @return The output returned by JShell
      */
-    public String processInput(String input) {
-
+    public String cleanseInput(String input) throws InvalidCodeException {
         if (input.contains("//") || input.contains("/*")) {
-            //ToDo: implement cleansing mechanism
-            return "Comments are not allowed as input. Remove comments and try again.";
+            throw new InvalidCodeException("Comments are not allowed.");
         }
-        List<SnippetEvent> snippetEventsList = jshell.eval(input);
-        if (snippetEventsList.get(0).status().name().contains("REJECTED")) {
-            //Todo: eventually throw exception
-            //throw new InvalidCodeException("Code could not be interpreted by JShell. Please verify the statement.");
-            return "Could not process input. Please verify the correctness of your statement.";
-        } else {
-            return snippetEventsList.get(0).value();
-        }
+        return input;
     }
 
     public SnippetEvent evaluateCode(String code) throws InvalidCodeException {
+        code = cleanseInput(code);
+
         List<SnippetEvent> snippetEventsList = jshell.eval(code);
         if (!snippetEventsList.get(0).status().name().contains("VALID")) {
             throw new InvalidCodeException("Code could not be interpreted by JShell. Please verify the statement.");
@@ -70,25 +63,25 @@ public class JShellService {
         return snippetEventsList.get(0);
     }
 
-    public String getRefName(SnippetEvent snippet){
-        VarSnippet varSnippet = (VarSnippet) snippet.snippet();
+    public String getOutputAsString(SnippetEvent snippetEvent){
+        return snippetEvent.value();
+    }
+
+    public String getRefName(SnippetEvent snippetEvent){
+        VarSnippet varSnippet = (VarSnippet) snippetEvent.snippet();
         return varSnippet.name();
     }
 
-    public String getRefType(SnippetEvent snippet){
-        VarSnippet varSnippet = (VarSnippet) snippet.snippet();
+    public String getRefType(SnippetEvent snippetEvent){
+        VarSnippet varSnippet = (VarSnippet) snippetEvent.snippet();
         return varSnippet.typeName();
     }
 
     public String getClassForReference(String reference){
-        String input1 =
-                "Item i1 = new Fahrzeug(\"tesla\", 20);";
-
-
         String input = reference+".getClass().getSimpleName();";
         SnippetEvent snippetEvent = null;
         try {
-            jShellService.evaluateCode(input1);
+            jShellService.evaluateCode(input);
             snippetEvent = jShellService.evaluateCode(input);
         } catch (InvalidCodeException e) {
             e.printStackTrace();

@@ -7,6 +7,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import presentationmodel.jshell.JShellPM;
 import service.jshell.JShellService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,9 +17,11 @@ import org.slf4j.LoggerFactory;
  * This includes an input for user commands and an output
  * area for system outputs.
  */
-public class ConsolePane extends BorderPane implements ViewMixin {
+public class JShellPane extends BorderPane implements ViewMixin {
 
-    private static Logger logger = LoggerFactory.getLogger(ConsolePane.class);
+    private static Logger logger = LoggerFactory.getLogger(JShellPane.class);
+
+    private JShellPM jShellPM;
 
     private HBox inputElements;
 
@@ -28,9 +31,10 @@ public class ConsolePane extends BorderPane implements ViewMixin {
 
     private JShellService jShellService = JShellService.getInstance();
 
-    public ConsolePane() {
+    public JShellPane(JShellPM jShellPM) {
+        this.jShellPM = jShellPM;
         init();
-        logger.info("Finished initializing ConsolePane");
+        logger.info("Finished initializing JShellPane");
     }
 
     @Override
@@ -67,9 +71,16 @@ public class ConsolePane extends BorderPane implements ViewMixin {
 
     @Override
     public void setupEventHandlers() {
-        submitButton.setOnAction(event -> {
-            String jShellCommand = jShellService.processInput(jshellInputTextField.getText());
-            jshellOutputTextArea.appendText(jShellCommand + "\n");
-        });
+//        submitButton.setOnAction(event -> {
+//            String jShellCommand = jShellService.evaluateCode(jshellInputTextField.getText());
+//            jshellOutputTextArea.appendText(jShellCommand + "\n");
+//        });
+
+    }
+
+    @Override
+    public void setupBindings() {
+
+
     }
 }

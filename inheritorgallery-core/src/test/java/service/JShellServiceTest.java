@@ -13,21 +13,6 @@ class JShellServiceTest {
     private static JShellService jShellService = JShellService.getInstance();
 
     @Test
-    void testProcessInput() {
-        String input = "Person p = new Person();";
-        assertEquals("Chris Wenk",jShellService.processInput(input));
-
-        input = "Fahrzeug f = new Fahrzeug(\"tesla\",20);";
-        assertEquals("Fahrzeug tesla fährt 20.0",jShellService.processInput(input));
-
-        input = "wrong input";
-        assertEquals("Could not process input. Please verify the correctness of your statement.",jShellService.processInput(input));
-
-        input = "//";
-        assertEquals("Comments are not allowed as input. Remove comments and try again.",jShellService.processInput(input));
-    }
-
-    @Test
     void testEvaluateCode() {
         String input = "Item i = new Fahrzeug(\"tesla\", 20);";
 
@@ -38,6 +23,30 @@ class JShellServiceTest {
             e.printStackTrace();
         }
         assertNotNull(snippetEvent);
+    }
+
+    @Test
+    void testCleanseInput() {
+        String input = "//";
+
+        assertThrows(InvalidCodeException.class, () -> {
+            jShellService.evaluateCode(input);
+        });
+    }
+
+    @Test
+    void testGetOutputAsString() {
+        String input1 = "Fahrzeug f = new Fahrzeug(\"tesla\", 20);";
+        String input2  = "f.getName();";
+
+        SnippetEvent snippetEvent = null;
+        try {
+            jShellService.evaluateCode(input1);
+            snippetEvent = jShellService.evaluateCode(input2);
+        } catch (InvalidCodeException e) {
+            e.printStackTrace();
+        }
+        assertEquals("\"tesla\"", jShellService.getOutputAsString(snippetEvent));
     }
 
     @Test
@@ -87,42 +96,16 @@ class JShellServiceTest {
     @Test
     void testGetClass() {
         //given
-//        String input =
-//                "Item i1 = new Fahrzeug(\"tesla\", 20);"+
-//                        "import java.lang.reflect.Method;" +
-//                        "import java.lang.reflect.Field;";
-//
-//        try {
-//            jShellService.evaluateCode(input);
-//        } catch (InvalidCodeException e) {
-//            e.printStackTrace();
-//        }
+        String input =
+                "Item i1 = new Fahrzeug(\"tesla\", 20);";
+        try {
+            jShellService.evaluateCode(input);
+        } catch (InvalidCodeException e) {
+            e.printStackTrace();
+        }
 
         //then
         assertEquals("Fahrzeug",jShellService.getClassForReference("i1"));
-    }
-
-    @Test
-    void testGetMethods(){
-        String input =
-                "Person p = new Person();"+
-                "import java.lang.reflect.Method;" +
-                "import java.lang.reflect.Field;";
-
-        jShellService.processInput(input);
-
-        //order of methods retured is not always the same
-        //input = "p.getClass().getMethods()[0].getName();";
-        //assertEquals("\"toString\"", jShellService.processInput(input));
-
-//        input = "Class cls = null;" +
-//                "try {Class cls = Class.forName(\"input.Person\");" +
-//                "        } catch (ClassNotFoundException e) { e.printStackTrace();}";
-//
-//        assertEquals("null", jShellService.processInput(input));
-//
-//        assertEquals("sayGreeting", jShellService.getInstances());
-
     }
 
     @Test
