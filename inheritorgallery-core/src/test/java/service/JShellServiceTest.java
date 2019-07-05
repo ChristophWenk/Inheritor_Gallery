@@ -2,6 +2,7 @@ package service;
 
 import exceptions.InvalidCodeException;
 import jdk.jshell.Snippet;
+import jdk.jshell.SnippetEvent;
 import org.junit.jupiter.api.Test;
 import service.jshell.JShellService;
 
@@ -30,39 +31,39 @@ class JShellServiceTest {
     void testEvaluateCode() {
         String input = "Item i = new Fahrzeug(\"tesla\", 20);";
 
-        Snippet snippet = null;
+        SnippetEvent snippetEvent = null;
         try {
-            snippet = jShellService.evaluateCode(input);
+            snippetEvent = jShellService.evaluateCode(input);
         } catch (InvalidCodeException e) {
             e.printStackTrace();
         }
-        assertNotNull(snippet);
+        assertNotNull(snippetEvent);
     }
 
     @Test
     void testGetRefName() {
         String input = "Item i = new Fahrzeug(\"tesla\", 20);";
-        Snippet snippet = null;
+        SnippetEvent snippetEvent = null;
         try {
-            snippet = jShellService.evaluateCode(input);
+            snippetEvent = jShellService.evaluateCode(input);
         } catch (InvalidCodeException e) {
             e.printStackTrace();
         }
-        assertEquals("i",jShellService.getRefName(snippet));
+        assertEquals("i",jShellService.getRefName(snippetEvent));
     }
 
     @Test
     void testGetRefType() {
         //given
         String input = "Item i1 = new Fahrzeug(\"tesla\", 20);";
-        Snippet snippet = null;
+        SnippetEvent snippetEvent = null;
         try {
-            snippet = jShellService.evaluateCode(input);
+            snippetEvent = jShellService.evaluateCode(input);
         } catch (InvalidCodeException e) {
             e.printStackTrace();
         }
         //then
-        assertEquals("Item",jShellService.getRefType(snippet));
+        assertEquals("Item",jShellService.getRefType(snippetEvent));
     }
 
     @Test
@@ -70,17 +71,17 @@ class JShellServiceTest {
         //given
         String input1 = "Fahrzeug i1 = new Fahrzeug(\"tesla\", 20);";
         String input2 = "Item i2 = i1;";
-        Snippet snippet1 = null;
-        Snippet snippet2 = null;
+        SnippetEvent snippetEvent1 = null;
+        SnippetEvent snippetEvent2 = null;
         try {
-            snippet1 = jShellService.evaluateCode(input1);
-            snippet2 = jShellService.evaluateCode(input2);
+            snippetEvent1 = jShellService.evaluateCode(input1);
+            snippetEvent2 = jShellService.evaluateCode(input2);
         } catch (InvalidCodeException e) {
             e.printStackTrace();
         }
         //then
-        assertEquals("Fahrzeug",jShellService.getRefType(snippet1));
-        assertEquals("Item",jShellService.getRefType(snippet2));
+        assertEquals("Fahrzeug",jShellService.getRefType(snippetEvent1));
+        assertEquals("Item",jShellService.getRefType(snippetEvent2));
     }
 
     @Test

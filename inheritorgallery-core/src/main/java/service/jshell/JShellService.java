@@ -1,11 +1,8 @@
 package service.jshell;
 
-import com.google.common.reflect.TypeToken;
-import com.headius.invokebinder.transform.Collect;
 import exceptions.InvalidCodeException;
 import input.Fahrzeug;
 import input.Item;
-import input.Person;
 import jdk.jshell.JShell;
 import jdk.jshell.Snippet;
 import jdk.jshell.SnippetEvent;
@@ -15,14 +12,8 @@ import org.slf4j.LoggerFactory;
 
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Type;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 /**
  * Singleton JShellService
@@ -71,21 +62,21 @@ public class JShellService {
         }
     }
 
-    public Snippet evaluateCode(String code) throws InvalidCodeException {
+    public SnippetEvent evaluateCode(String code) throws InvalidCodeException {
         List<SnippetEvent> snippetEventsList = jshell.eval(code);
         if (!snippetEventsList.get(0).status().name().contains("VALID")) {
             throw new InvalidCodeException("Code could not be interpreted by JShell. Please verify the statement.");
         }
-        return snippetEventsList.get(0).snippet();
+        return snippetEventsList.get(0);
     }
 
-    public String getRefName(Snippet snippet){
-        VarSnippet varSnippet = (VarSnippet) snippet;
+    public String getRefName(SnippetEvent snippet){
+        VarSnippet varSnippet = (VarSnippet) snippet.snippet();
         return varSnippet.name();
     }
 
-    public String getRefType(Snippet snippet){
-        VarSnippet varSnippet = (VarSnippet) snippet;
+    public String getRefType(SnippetEvent snippet){
+        VarSnippet varSnippet = (VarSnippet) snippet.snippet();
         return varSnippet.typeName();
     }
 
@@ -94,19 +85,16 @@ public class JShellService {
                 "Item i1 = new Fahrzeug(\"tesla\", 20);";
 
 
-        String input = reference+".getClass().getName();";
-        Snippet snippet = null;
+        String input = reference+".getClass().getSimpleName();";
+        SnippetEvent snippetEvent = null;
         try {
             jShellService.evaluateCode(input1);
-            snippet = jShellService.evaluateCode(input);
+            snippetEvent = jShellService.evaluateCode(input);
         } catch (InvalidCodeException e) {
             e.printStackTrace();
         }
-        VarSnippet varSnippet = (VarSnippet) snippet;
 
-
-
-        return null;
+        return snippetEvent.value().replace("\"","");
     }
 
     public void testGetInstancesLocal(){
