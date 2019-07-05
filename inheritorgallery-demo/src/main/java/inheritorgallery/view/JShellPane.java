@@ -1,10 +1,10 @@
 package inheritorgallery.view;
 
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import presentationmodel.jshell.JShellPM;
@@ -27,9 +27,8 @@ public class JShellPane extends BorderPane implements ViewMixin {
 
     private TextArea jshellOutputTextArea;
     private TextField jshellInputTextField;
+    private ListView<String> commandHistoryList;
     private Button submitButton;
-
-    private JShellService jShellService = JShellService.getInstance();
 
     public JShellPane(JShellPM jShellPM) {
         this.jShellPM = jShellPM;
@@ -43,18 +42,25 @@ public class JShellPane extends BorderPane implements ViewMixin {
         jshellOutputTextArea = new TextArea();
         jshellInputTextField = new TextField();
         submitButton = new Button();
+
+        commandHistoryList = new ListView<>(jShellPM.getCommandHistory());
+
+
     }
 
     @Override
     public void layoutControls() {
         // Set IDs
-        jshellOutputTextArea.setId("jshellOutputTextArea");
+        commandHistoryList.setId("jshellOutputTextArea");
         jshellInputTextField.setId("jshellInputTextField");
         submitButton.setId("submitButton");
 
         // Layout
+        commandHistoryList.setItems(jShellPM.getCommandHistory());
+
+
         jshellInputTextField.setText("Enter a Java command...");
-        jshellOutputTextArea.setEditable(false);
+        commandHistoryList.setEditable(false);
         submitButton.setText("Senden");
 
         inputElements.setPadding(new Insets(10,10,10,0));
@@ -62,25 +68,26 @@ public class JShellPane extends BorderPane implements ViewMixin {
 
         inputElements.getChildren().addAll(jshellInputTextField,submitButton);
 
-        BorderPane.setMargin(jshellOutputTextArea,new Insets(10,0,0,0));
-        BorderPane.setAlignment(jshellOutputTextArea, Pos.CENTER_LEFT);
+        BorderPane.setMargin(commandHistoryList,new Insets(10,0,0,0));
+        BorderPane.setAlignment(commandHistoryList, Pos.CENTER_LEFT);
 
-        this.setCenter(jshellOutputTextArea);
+
+        this.setCenter(commandHistoryList);
         this.setBottom(inputElements);
     }
 
     @Override
     public void setupEventHandlers() {
-//        submitButton.setOnAction(event -> {
-//            String jShellCommand = jShellService.evaluateCode(jshellInputTextField.getText());
-//            jshellOutputTextArea.appendText(jShellCommand + "\n");
-//        });
-
+        submitButton.setOnAction(event ->
+                jShellPM.setInput(jshellInputTextField.getText()));
     }
 
     @Override
     public void setupBindings() {
-
+        //commandHistoryList.itemsProperty().bind(jShellPM.getCommandHistory());
+//        jShellService.evaluateCode(jshellInputTextField.getText());
+//        jshellOutputTextArea.appendText(jShellCommand + "\n");
+//
 
     }
 }
