@@ -63,6 +63,15 @@ public class JShellService {
         return snippetEventsList.get(0);
     }
 
+    public InstanceStateDTO getInstanceState(String code){
+
+    //        snippetToInstanceStateDTO(evaluateCode(code))
+        return null;
+    }
+
+
+
+
     public String getOutputAsString(SnippetEvent snippetEvent){
         return snippetEvent.value();
     }

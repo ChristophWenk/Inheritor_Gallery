@@ -18,6 +18,7 @@ public class InstanceStatePM {
             String output = jShellService.getOutputAsString(jShellService.evaluateCode(input));
             commandHistory.addAll(input,output);
 
+
         } catch (InvalidCodeException e) {
             commandHistory.add("Code could not be interpreted by JShell. Please verify the statement.");
         }
