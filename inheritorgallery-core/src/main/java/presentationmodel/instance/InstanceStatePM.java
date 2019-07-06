@@ -53,4 +53,11 @@ public class InstanceStatePM {
         return commandHistory;
     }
 
+    public ObservableList<ObjectPM> getObjectPMs() {
+        return objectPMs;
+    }
+
+    public ObservableList<ReferencePM> getReferencePMs() {
+        return referencePMs;
+    }
 }

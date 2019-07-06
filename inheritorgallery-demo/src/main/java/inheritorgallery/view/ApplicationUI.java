@@ -1,5 +1,7 @@
 package inheritorgallery.view;
 
+import inheritorgallery.view.instances.InstancePane;
+import inheritorgallery.view.uml.UmlPane;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import org.slf4j.Logger;
@@ -29,7 +31,7 @@ public class ApplicationUI extends BorderPane implements ViewMixin {
     public void initializeControls() {
         // Initialize panes
         leftPane = new LeftPane(instanceStatePM);
-        instancePane = new InstancePane();
+        instancePane = new InstancePane(instanceStatePM);
         umlPane = new UmlPane(umlPM);
     }
 
