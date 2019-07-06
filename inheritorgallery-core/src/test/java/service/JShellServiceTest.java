@@ -6,6 +6,7 @@ import jdk.jshell.SnippetEvent;
 import jdk.jshell.VarSnippet;
 import org.junit.jupiter.api.Test;
 import service.jshell.JShellService;
+import service.jshell.ObjectDTO;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,11 +16,15 @@ class JShellServiceTest {
 
     @Test
     void testEvaluateCode() {
-        String input = "Item i = new Fahrzeug(\"tesla\", 20);";
+        String input1 = "Item i = new Fahrzeug(\"tesla\", 20);";
+        String input2    =    "i.getWeight();";
+
 
         SnippetEvent snippetEvent = null;
         try {
-            snippetEvent = jShellService.evaluateCode(input);
+            jShellService.evaluateCode(input1);
+            snippetEvent = jShellService.evaluateCode(input2);
+
         } catch (InvalidCodeException e) {
             e.printStackTrace();
         }
@@ -51,24 +56,30 @@ class JShellServiceTest {
     }
 
     @Test
-    void testGetInstanceDTO() {
-        //String input1 = "Fahrzeug f = new Fahrzeug(\"tesla\", 20);";
+    void testGetObjectDTO() {
+        String input1 = "Fahrzeug f = new Fahrzeug(\"tesla\", 20);";
+        String input2 = "Fahrzeug f2 = new Fahrzeug(\"tesla2\", 20);";
+        String input3 = "Item a;";
+        String input4 = "a = f;";
+//        String input5 = "Item i = new Fahrzeug(\"teslaToBeOverridden\", 20);";
+//        String input6 = "int i = 3;";
 
-        String input =  "int i = 3;";
-
-        SnippetEvent snippetEvent = null;
         try {
-            snippetEvent = jShellService.evaluateCode(input);
+            jShellService.evaluateCode(input1);
+            jShellService.evaluateCode(input2);
+//            jShellService.evaluateCode(input3);
+//            jShellService.evaluateCode(input4);
+            //jShellService.evaluateCode(input5);
+            //jShellService.evaluateCode(input6);
         } catch (InvalidCodeException e) {
             e.printStackTrace();
         }
 
-        //VarSnippet varSnippet = (VarSnippet) snippetEvent.snippet();
-        snippetEvent.snippet().subKind();
+//        for(ObjectDTO o : jShellService.getObjectDTOs()){
+//            System.out.println(o.getObjectId());
+//        }
 
-
-        assertEquals("VAR", snippetEvent.snippet().subKind().kind().toString());
-        assertEquals("VAR_DECLARATION_WITH_INITIALIZER_SUBKIND", snippetEvent.snippet().subKind().toString());
+        assertEquals(2,jShellService.getObjectDTOs().size());
     }
 
     @Test
@@ -97,8 +108,6 @@ class JShellServiceTest {
         assertEquals("Item",jShellService.getRefType(snippetEvent));
     }
 
-
-
     @Test
     void testGetRefTypeSecondReference() {
         //given
@@ -120,8 +129,30 @@ class JShellServiceTest {
     @Test
     void testGetClassForReference() {
         //given
-        String input =
-                "Item i1 = new Fahrzeug(\"tesla\", 20);";
+        String input1 = "Item i1 = new Fahrzeug(\"tesla\", 20);";
+        String input2 = "Fahrzeug f = new Fahrzeug(\"f2\", 20);";
+        String input3 = "Item a;";
+        String input4 = "a = f;";
+        try {
+            jShellService.evaluateCode(input1);
+            jShellService.evaluateCode(input2);
+            jShellService.evaluateCode(input3);
+            jShellService.evaluateCode(input4);
+        } catch (InvalidCodeException e) {
+            e.printStackTrace();
+        }
+
+        //then
+        assertEquals("Fahrzeug",jShellService.getClassForReference("i1"));
+        assertEquals("Fahrzeug",jShellService.getClassForReference("f"));
+        assertEquals("Fahrzeug",jShellService.getClassForReference("a"));
+    }
+
+    @Test
+    void testGetHashcodeForReference() {
+        //given
+        String input = "Item i1 = new Fahrzeug(\"tesla\", 20);";
+
         try {
             jShellService.evaluateCode(input);
         } catch (InvalidCodeException e) {
@@ -129,7 +160,7 @@ class JShellServiceTest {
         }
 
         //then
-        assertEquals("Fahrzeug",jShellService.getClassForReference("i1"));
+        assertNotNull(jShellService.getHashcodeForReference("i1"));
     }
 
     @Test

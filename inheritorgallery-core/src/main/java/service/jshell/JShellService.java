@@ -1,5 +1,6 @@
 package service.jshell;
 
+import com.google.errorprone.annotations.Var;
 import exceptions.InvalidCodeException;
 import input.Fahrzeug;
 import input.Item;
@@ -12,7 +13,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Singleton JShellService
@@ -61,26 +65,51 @@ public class JShellService {
         if (!snippetEventsList.get(0).status().name().contains("VALID")) {
             throw new InvalidCodeException("Code could not be interpreted by JShell. Please verify the statement.");
         }
-        //ToDo: When redeclaring an instance multiple snippets are created. Add Error Handling.
+        //ToDo: When redeclaring an instance multiple snippets are created. Add Error Handling
         return snippetEventsList.get(0);
+
     }
 
-    public InstanceDTO getInstanceDTO(String code){
+    public List<ObjectDTO> getObjectDTOs(){
+        List<ObjectDTO> objectDTOS = new ArrayList<>();
 
-        try {
-            SnippetEvent snippetEvent = evaluateCode(code);
-        } catch (InvalidCodeException e) {
-            e.printStackTrace();
-            return null;
+        String refName;
+
+        List<VarSnippet> variablesList = jshell.variables().collect(Collectors.toList());
+
+        for(VarSnippet varSnippet : variablesList ){
+            refName = getRefName(varSnippet);
+
+            if(getPackageForReference(refName).equals(packageName)){
+                ObjectDTO objectDTO = new ObjectDTO(
+                        getHashcodeForReference(refName),
+                        getClassForReference(refName)
+                );
+                if(!objectDTOS.contains(objectDTO)){  objectDTOS.add(objectDTO); }
+
+            }
         }
+        return objectDTOS;
+    }
 
+    public List<ReferenceDTO> getReferenceDTOs(){
+        List<ReferenceDTO> referenceDTOs = new ArrayList<>();
 
+        String refName = "";
 
-
-        //InstanceDTO
-
-        return null;
-
+        List<VarSnippet> variablesList = jshell.variables().collect(Collectors.toList());
+        for(VarSnippet varSnippet : variablesList ){
+            refName = getRefName(varSnippet);
+            if(getPackageForReference(refName).equals(packageName)){
+                ReferenceDTO referenceDTO = new ReferenceDTO(
+                        getRefType(varSnippet),
+                        refName,
+                        getHashcodeForReference(refName)
+                );
+                referenceDTOs.add(referenceDTO);
+            }
+        }
+        return referenceDTOs;
     }
 
     public String getOutputAsString(SnippetEvent snippetEvent){
@@ -92,8 +121,16 @@ public class JShellService {
         return varSnippet.name();
     }
 
+    public String getRefName(VarSnippet varSnippet){
+        return varSnippet.name();
+    }
+
     public String getRefType(SnippetEvent snippetEvent){
         VarSnippet varSnippet = (VarSnippet) snippetEvent.snippet();
+        return varSnippet.typeName();
+    }
+
+    public String getRefType(VarSnippet varSnippet){
         return varSnippet.typeName();
     }
 
@@ -110,6 +147,18 @@ public class JShellService {
         return snippetEvent.value().replace("\"","");
     }
 
+    public String getHashcodeForReference(String reference){
+        String input = reference+".hashCode();";
+        SnippetEvent snippetEvent = null;
+        try {
+            jShellService.evaluateCode(input);
+            snippetEvent = jShellService.evaluateCode(input);
+        } catch (InvalidCodeException e) {
+            e.printStackTrace();
+        }
+        return snippetEvent.value().replace("\"","");
+    }
+
     public String getPackageForReference(String reference){
         String input = reference+".getClass().getPackage();";
         SnippetEvent snippetEvent = null;
@@ -121,7 +170,7 @@ public class JShellService {
         }
 
         String packageNameFull = snippetEvent.value().replace("\"","");
-
+        //packageNameFull has format "package mypackagename"
         return packageNameFull.split(" ")[1];
     }
 
