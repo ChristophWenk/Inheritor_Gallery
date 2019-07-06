@@ -59,7 +59,7 @@ class JShellServiceTest {
     }
 
     @Test
-    void testGetObjectDTO() {
+    void testGetObjectDTOs() {
         String input1 = "Fahrzeug f = new Fahrzeug(\"tesla\", 20);";
         String input2 = "Fahrzeug f2 = new Fahrzeug(\"tesla2\", 20);";
         String input3 = "Item a;";
@@ -78,6 +78,36 @@ class JShellServiceTest {
             e.printStackTrace();
         }
         assertEquals(2,jShellService.getObjectDTOs().size());
+        assertTrue(jShellService.getObjectDTOs().stream().anyMatch(o -> o.getObjectName().equals("Fahrzeug")));
+        assertTrue(jShellService.getObjectDTOs().stream().noneMatch(o -> o.getObjectName().equals("Item")));
+    }
+
+    @Test
+    void testGetReferenceDTOs() {
+        String input1 = "Fahrzeug f = new Fahrzeug(\"tesla\", 20);";
+        String input2 = "Fahrzeug f2 = new Fahrzeug(\"tesla2\", 20);";
+        String input3 = "Item a;";
+        String input4 = "a = f;";
+        String input5 = "Item i = new Fahrzeug(\"teslaToBeOverridden\", 20);";
+        String input6 = "int i = 3;";
+
+        try {
+            jShellService.evaluateCode(input1);
+            jShellService.evaluateCode(input2);
+            jShellService.evaluateCode(input3);
+            jShellService.evaluateCode(input4);
+            jShellService.evaluateCode(input5);
+            jShellService.evaluateCode(input6);
+        } catch (InvalidCodeException e) {
+            e.printStackTrace();
+        }
+        assertEquals(3,jShellService.getReferenceDTOs().size());
+        assertTrue(jShellService.getReferenceDTOs().stream().anyMatch(o -> o.getRefName().equals("f")));
+        assertTrue(jShellService.getReferenceDTOs().stream().anyMatch(o -> o.getRefName().equals("f2")));
+        assertTrue(jShellService.getReferenceDTOs().stream().anyMatch(o -> o.getRefName().equals("a")));
+        assertTrue(jShellService.getReferenceDTOs().stream().anyMatch(o -> o.getRefType().equals("Fahrzeug")));
+        assertTrue(jShellService.getReferenceDTOs().stream().anyMatch(o -> o.getRefType().equals("Item")));
+
     }
 
     @Test

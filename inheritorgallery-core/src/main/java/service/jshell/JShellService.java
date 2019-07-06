@@ -94,23 +94,24 @@ public class JShellService {
     }
 
     public List<ReferenceDTO> getReferenceDTOs(){
-        List<ReferenceDTO> referenceDTOs = new ArrayList<>();
-
-        String refName = "";
+        List<ReferenceDTO> referenceDTOsList = new ArrayList<>();
+        String refName;
 
         List<VarSnippet> variablesList = jshell.variables().collect(Collectors.toList());
+
         for(VarSnippet varSnippet : variablesList ){
             refName = getRefName(varSnippet);
-            if(getPackageForReference(refName).equals(packageName)){
+
+            if(varSnippet.subKind().toString().contains("VAR_DECLARATION")
+                    && getPackageForReference(refName).equals(packageName)){
                 ReferenceDTO referenceDTO = new ReferenceDTO(
                         getRefType(varSnippet),
                         refName,
                         getHashcodeForReference(refName)
                 );
-                referenceDTOs.add(referenceDTO);
-            }
+                referenceDTOsList.add(referenceDTO); }
         }
-        return referenceDTOs;
+        return referenceDTOsList;
     }
 
     public String getOutputAsString(SnippetEvent snippetEvent){
