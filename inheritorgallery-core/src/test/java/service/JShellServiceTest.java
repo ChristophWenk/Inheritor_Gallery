@@ -3,6 +3,7 @@ package service;
 import exceptions.InvalidCodeException;
 import jdk.jshell.Snippet;
 import jdk.jshell.SnippetEvent;
+import jdk.jshell.VarSnippet;
 import org.junit.jupiter.api.Test;
 import service.jshell.JShellService;
 
@@ -50,6 +51,27 @@ class JShellServiceTest {
     }
 
     @Test
+    void testGetInstanceDTO() {
+        //String input1 = "Fahrzeug f = new Fahrzeug(\"tesla\", 20);";
+
+        String input =  "int i = 3;";
+
+        SnippetEvent snippetEvent = null;
+        try {
+            snippetEvent = jShellService.evaluateCode(input);
+        } catch (InvalidCodeException e) {
+            e.printStackTrace();
+        }
+
+        //VarSnippet varSnippet = (VarSnippet) snippetEvent.snippet();
+        snippetEvent.snippet().subKind();
+
+
+        assertEquals("VAR", snippetEvent.snippet().subKind().kind().toString());
+        assertEquals("VAR_DECLARATION_WITH_INITIALIZER_SUBKIND", snippetEvent.snippet().subKind().toString());
+    }
+
+    @Test
     void testGetRefName() {
         String input = "Item i = new Fahrzeug(\"tesla\", 20);";
         SnippetEvent snippetEvent = null;
@@ -75,6 +97,8 @@ class JShellServiceTest {
         assertEquals("Item",jShellService.getRefType(snippetEvent));
     }
 
+
+
     @Test
     void testGetRefTypeSecondReference() {
         //given
@@ -94,7 +118,7 @@ class JShellServiceTest {
     }
 
     @Test
-    void testGetClass() {
+    void testGetClassForReference() {
         //given
         String input =
                 "Item i1 = new Fahrzeug(\"tesla\", 20);";
@@ -106,6 +130,21 @@ class JShellServiceTest {
 
         //then
         assertEquals("Fahrzeug",jShellService.getClassForReference("i1"));
+    }
+
+    @Test
+    void testGetPackageForReference() {
+        //given
+        String input =
+                "Item i1 = new Fahrzeug(\"tesla\", 20);";
+        try {
+            jShellService.evaluateCode(input);
+        } catch (InvalidCodeException e) {
+            e.printStackTrace();
+        }
+
+        //then
+        assertEquals("input",jShellService.getPackageForReference("i1"));
     }
 
     @Test

@@ -2,6 +2,6 @@ package service.jshell;
 
 import java.util.List;
 
-public class InstanceStateDTO {
+public class InstanceDTO {
 
 }

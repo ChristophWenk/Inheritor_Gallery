@@ -7,8 +7,8 @@ import service.jshell.JShellService;
 
 public class InstanceStatePM {
     private final ObservableList<String > commandHistory = FXCollections.observableArrayList();
-    private final ObservableList<ObjectPM > objectPMS = FXCollections.observableArrayList();
-    private final ObservableList<ReferencePM > referencePMS = FXCollections.observableArrayList();
+    private final ObservableList<ObjectPM > objectPMs = FXCollections.observableArrayList();
+    private final ObservableList<ReferencePM > referencePMs = FXCollections.observableArrayList();
 
     JShellService jShellService = JShellService.getInstance();
 

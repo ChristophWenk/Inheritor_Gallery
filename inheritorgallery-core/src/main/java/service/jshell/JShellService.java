@@ -4,7 +4,6 @@ import exceptions.InvalidCodeException;
 import input.Fahrzeug;
 import input.Item;
 import jdk.jshell.JShell;
-import jdk.jshell.Snippet;
 import jdk.jshell.SnippetEvent;
 import jdk.jshell.VarSnippet;
 import org.slf4j.Logger;
@@ -21,6 +20,8 @@ import java.util.List;
 public class JShellService {
     private JShell jshell;
 
+    private final String packageName = "input";
+
     private static Logger logger = LoggerFactory.getLogger(JShellService.class);
 
     private static JShellService jShellService;
@@ -32,7 +33,7 @@ public class JShellService {
         String[] classpathEntries = classpath.split(File.pathSeparator);
         for (String cp : classpathEntries)
             jshell.addToClasspath(cp);
-        jshell.eval("import input.*;");
+        jshell.eval("import "+packageName+".*;");
     }
 
     public static JShellService getInstance() {
@@ -60,17 +61,27 @@ public class JShellService {
         if (!snippetEventsList.get(0).status().name().contains("VALID")) {
             throw new InvalidCodeException("Code could not be interpreted by JShell. Please verify the statement.");
         }
+        //ToDo: When redeclaring an instance multiple snippets are created. Add Error Handling.
         return snippetEventsList.get(0);
     }
 
-    public InstanceStateDTO getInstanceState(String code){
+    public InstanceDTO getInstanceDTO(String code){
 
-    //        snippetToInstanceStateDTO(evaluateCode(code))
+        try {
+            SnippetEvent snippetEvent = evaluateCode(code);
+        } catch (InvalidCodeException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+
+
+
+        //InstanceDTO
+
         return null;
+
     }
-
-
-
 
     public String getOutputAsString(SnippetEvent snippetEvent){
         return snippetEvent.value();
@@ -99,9 +110,22 @@ public class JShellService {
         return snippetEvent.value().replace("\"","");
     }
 
-    public void updateInstance(){
+    public String getPackageForReference(String reference){
+        String input = reference+".getClass().getPackage();";
+        SnippetEvent snippetEvent = null;
+        try {
+            jShellService.evaluateCode(input);
+            snippetEvent = jShellService.evaluateCode(input);
+        } catch (InvalidCodeException e) {
+            e.printStackTrace();
+        }
 
+        String packageNameFull = snippetEvent.value().replace("\"","");
+
+        return packageNameFull.split(" ")[1];
     }
+
+
 
     public void testGetInstancesLocal(){
         Fahrzeug f = new Fahrzeug("tesla", 20);
