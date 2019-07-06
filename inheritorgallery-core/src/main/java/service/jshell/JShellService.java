@@ -68,7 +68,7 @@ public class JShellService {
     }
 
     public List<ObjectDTO> getObjectDTOs(){
-        List<ObjectDTO> objectDTOS = new ArrayList<>();
+        List<ObjectDTO> objectDTOList = new ArrayList<>();
 
         String refName;
 
@@ -77,16 +77,20 @@ public class JShellService {
         for(VarSnippet varSnippet : variablesList ){
             refName = getRefName(varSnippet);
 
-            if(getPackageForReference(refName).equals(packageName)){
+            if(varSnippet.subKind().toString().contains("VAR_DECLARATION")
+                    && getPackageForReference(refName).equals(packageName)){
                 ObjectDTO objectDTO = new ObjectDTO(
                         getHashcodeForReference(refName),
                         getClassForReference(refName)
                 );
-                if(!objectDTOS.contains(objectDTO)){  objectDTOS.add(objectDTO); }
+                // Check for an existing same item in the list
+                if(objectDTOList.stream()
+                .noneMatch(o -> o.getObjectId().equals(objectDTO.getObjectId())))
+                {  objectDTOList.add(objectDTO); }
 
             }
         }
-        return objectDTOS;
+        return objectDTOList;
     }
 
     public List<ReferenceDTO> getReferenceDTOs(){
@@ -163,8 +167,10 @@ public class JShellService {
             jShellService.evaluateCode(input);
             snippetEvent = jShellService.evaluateCode(input);
         } catch (InvalidCodeException e) {
-            e.printStackTrace();
+            logger.debug("No package name found for reference: " + reference);
+            return " ";
         }
+
 
         String packageNameFull = snippetEvent.value().replace("\"","");
         //packageNameFull has format "package mypackagename"
@@ -189,7 +195,7 @@ public class JShellService {
         }
     }
 
-    public void resetJShell() {
+    public void reset() {
         jshell.snippets().forEach(snippet -> jshell.drop(snippet));
         jshell.eval("import "+packageName+".*;");
     }

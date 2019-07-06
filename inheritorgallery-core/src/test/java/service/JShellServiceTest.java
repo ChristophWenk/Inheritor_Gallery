@@ -14,7 +14,7 @@ class JShellServiceTest {
 
     @BeforeEach
     public void resetJShell() {
-        jShellService.resetJShell();
+        jShellService.reset();
     }
 
     @Test
@@ -64,24 +64,19 @@ class JShellServiceTest {
         String input2 = "Fahrzeug f2 = new Fahrzeug(\"tesla2\", 20);";
         String input3 = "Item a;";
         String input4 = "a = f;";
-//        String input5 = "Item i = new Fahrzeug(\"teslaToBeOverridden\", 20);";
-//        String input6 = "int i = 3;";
+        String input5 = "Item i = new Fahrzeug(\"teslaToBeOverridden\", 20);";
+        String input6 = "int i = 3;";
 
         try {
             jShellService.evaluateCode(input1);
             jShellService.evaluateCode(input2);
-//            jShellService.evaluateCode(input3);
-//            jShellService.evaluateCode(input4);
-            //jShellService.evaluateCode(input5);
-            //jShellService.evaluateCode(input6);
+            jShellService.evaluateCode(input3);
+            jShellService.evaluateCode(input4);
+            jShellService.evaluateCode(input5);
+            jShellService.evaluateCode(input6);
         } catch (InvalidCodeException e) {
             e.printStackTrace();
         }
-
-//        for(ObjectDTO o : jShellService.getObjectDTOs()){
-//            System.out.println(o.getObjectId());
-//        }
-
         assertEquals(2,jShellService.getObjectDTOs().size());
     }
 
