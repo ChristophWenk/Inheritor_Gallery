@@ -1,6 +1,5 @@
 package service.jshell;
 
-import exceptions.InvalidCodeException;
 import jdk.jshell.SnippetEvent;
 import jdk.jshell.VarSnippet;
 import org.slf4j.Logger;

@@ -1,18 +1,21 @@
 package service;
 
 import exceptions.InvalidCodeException;
-import jdk.jshell.Snippet;
 import jdk.jshell.SnippetEvent;
-import jdk.jshell.VarSnippet;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import service.jshell.JShellService;
-import service.jshell.ObjectDTO;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class JShellServiceTest {
 
     private static JShellService jShellService = JShellService.getInstance();
+
+    @BeforeEach
+    public void resetJShell() {
+        jShellService.resetJShell();
+    }
 
     @Test
     void testEvaluateCode() {

@@ -1,6 +1,5 @@
 package service.jshell;
 
-import com.google.errorprone.annotations.Var;
 import exceptions.InvalidCodeException;
 import input.Fahrzeug;
 import input.Item;
@@ -10,13 +9,11 @@ import jdk.jshell.VarSnippet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Singleton JShellService
@@ -190,5 +187,10 @@ public class JShellService {
         for(Method m : f.getClass().getDeclaredMethods()){
             logger.info(m.getName());
         }
+    }
+
+    public void resetJShell() {
+        jshell.snippets().forEach(snippet -> jshell.drop(snippet));
+        jshell.eval("import "+packageName+".*;");
     }
 }
