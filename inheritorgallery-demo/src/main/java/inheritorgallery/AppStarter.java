@@ -6,26 +6,27 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import presentationmodel.instance.InstanceStatePM;
+import presentationmodel.instruction.InstructionPM;
 import presentationmodel.uml.UmlPM;
+import service.instruction.AsciiDocService;
 import service.uml.UmlService;
 
 /**
  * @author Christoph Wenk, Dimitri Muralt
  */
-// TODO Include PM everywhere
 public class AppStarter extends Application {
 
     @Override
     public void start(Stage primaryStage) {
 
         UmlService umlService = new UmlService();
+        AsciiDocService asciiDocService = new AsciiDocService();
+
         UmlPM umlPM = new UmlPM(umlService);
-
         InstanceStatePM instanceStatePM = new InstanceStatePM();
+        InstructionPM instructionPM = new InstructionPM(asciiDocService);
 
-        Parent rootPane = new ApplicationUI(instanceStatePM, umlPM);
-
-
+        Parent rootPane = new ApplicationUI(instanceStatePM, umlPM, instructionPM);
 
         Scene scene = new Scene(rootPane);
 
@@ -39,7 +40,6 @@ public class AppStarter extends Application {
         primaryStage.centerOnScreen();
         primaryStage.show();
     }
-
 
     public static void main(String[] args) {
         launch(args);
