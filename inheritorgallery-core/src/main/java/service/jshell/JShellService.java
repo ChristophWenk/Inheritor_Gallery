@@ -83,7 +83,6 @@ public class JShellService {
         }
         //ToDo: When redeclaring an instance multiple snippets are created. Add Error Handling
         return snippetEventsList.get(0);
-
     }
 
     public List<ObjectDTO> getObjectDTOs(){
@@ -162,7 +161,7 @@ public class JShellService {
             jShellService.evaluateCode(input);
             snippetEvent = jShellService.evaluateCode(input);
         } catch (InvalidCodeException e) {
-            e.printStackTrace();
+            logger.error("There was a problem retrieving the class for reference: " + reference, e);
         }
 
         return snippetEvent.value().replace("\"","");
@@ -175,7 +174,7 @@ public class JShellService {
             jShellService.evaluateCode(input);
             snippetEvent = jShellService.evaluateCode(input);
         } catch (InvalidCodeException e) {
-            e.printStackTrace();
+            logger.error("There was a problem retrieving the hash code for reference: " + reference, e);
         }
         return snippetEvent.value().replace("\"","");
     }
@@ -187,10 +186,9 @@ public class JShellService {
             jShellService.evaluateCode(input);
             snippetEvent = jShellService.evaluateCode(input);
         } catch (InvalidCodeException e) {
-            logger.debug("No package name found for reference: " + reference);
+            logger.debug("No package name found for reference: " + reference, e);
             return "InvalidPackageName";
         }
-
 
         String packageNameFull = snippetEvent.value().replace("\"","");
         //packageNameFull has format "package mypackagename"
@@ -206,7 +204,6 @@ public class JShellService {
 
         logger.info(f.toString()+" "+ f.getClass().getMethods().length);
         logger.info(i.toString()+" "+ i.getClass().getMethods().length);
-
 
         for(Method m : f.getClass().getDeclaredMethods()){
             logger.info(m.getName());
