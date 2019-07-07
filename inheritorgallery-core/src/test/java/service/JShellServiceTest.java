@@ -19,25 +19,29 @@ class JShellServiceTest {
 
     @Test
     void testEvaluateCode() {
+        //given
         String input1 = "Item i = new Fahrzeug(\"tesla\", 20);";
-        String input2    =    "i.getWeight();";
-
-
+        String input2 = "i.getWeight();";
         SnippetEvent snippetEvent = null;
+
+        //when
         try {
             jShellService.evaluateCode(input1);
             snippetEvent = jShellService.evaluateCode(input2);
-
         } catch (InvalidCodeException e) {
             e.printStackTrace();
         }
+
+        //then
         assertNotNull(snippetEvent);
     }
 
     @Test
     void testCleanseInput() {
+        //given
         String input = "//";
 
+        //when, then
         assertThrows(InvalidCodeException.class, () -> {
             jShellService.evaluateCode(input);
         });
@@ -45,21 +49,26 @@ class JShellServiceTest {
 
     @Test
     void testGetOutputAsString() {
+        //given
         String input1 = "Fahrzeug f = new Fahrzeug(\"tesla\", 20);";
         String input2  = "f.getName();";
-
         SnippetEvent snippetEvent = null;
+
+        //when
         try {
             jShellService.evaluateCode(input1);
             snippetEvent = jShellService.evaluateCode(input2);
         } catch (InvalidCodeException e) {
             e.printStackTrace();
         }
+
+        //then
         assertEquals("\"tesla\"", jShellService.getOutputAsString(snippetEvent));
     }
 
     @Test
     void testGetObjectDTOs() {
+        //given
         String input1 = "Fahrzeug f = new Fahrzeug(\"tesla\", 20);";
         String input2 = "Fahrzeug f2 = new Fahrzeug(\"tesla2\", 20);";
         String input3 = "Item a;";
@@ -67,6 +76,7 @@ class JShellServiceTest {
         String input5 = "Item i = new Fahrzeug(\"teslaToBeOverridden\", 20);";
         String input6 = "int i = 3;";
 
+        //when
         try {
             jShellService.evaluateCode(input1);
             jShellService.evaluateCode(input2);
@@ -77,6 +87,8 @@ class JShellServiceTest {
         } catch (InvalidCodeException e) {
             e.printStackTrace();
         }
+
+        //then
         assertEquals(2,jShellService.getObjectDTOs().size());
         assertTrue(jShellService.getObjectDTOs().stream().anyMatch(o -> o.getObjectName().equals("Fahrzeug")));
         assertTrue(jShellService.getObjectDTOs().stream().noneMatch(o -> o.getObjectName().equals("Item")));
@@ -84,6 +96,7 @@ class JShellServiceTest {
 
     @Test
     void testGetReferenceDTOs() {
+        //given
         String input1 = "Fahrzeug f = new Fahrzeug(\"tesla\", 20);";
         String input2 = "Fahrzeug f2 = new Fahrzeug(\"tesla2\", 20);";
         String input3 = "Item a;";
@@ -91,6 +104,7 @@ class JShellServiceTest {
         String input5 = "Item i = new Fahrzeug(\"teslaToBeOverridden\", 20);";
         String input6 = "int i = 3;";
 
+        //when
         try {
             jShellService.evaluateCode(input1);
             jShellService.evaluateCode(input2);
@@ -101,6 +115,8 @@ class JShellServiceTest {
         } catch (InvalidCodeException e) {
             e.printStackTrace();
         }
+
+        //then
         assertEquals(3,jShellService.getReferenceDTOs().size());
         assertTrue(jShellService.getReferenceDTOs().stream().anyMatch(o -> o.getRefName().equals("f")));
         assertTrue(jShellService.getReferenceDTOs().stream().anyMatch(o -> o.getRefName().equals("f2")));
@@ -112,13 +128,18 @@ class JShellServiceTest {
 
     @Test
     void testGetRefName() {
+        //given
         String input = "Item i = new Fahrzeug(\"tesla\", 20);";
         SnippetEvent snippetEvent = null;
+
+        //when
         try {
             snippetEvent = jShellService.evaluateCode(input);
         } catch (InvalidCodeException e) {
             e.printStackTrace();
         }
+
+        //then
         assertEquals("i",jShellService.getRefName(snippetEvent));
     }
 
@@ -127,11 +148,14 @@ class JShellServiceTest {
         //given
         String input = "Item i1 = new Fahrzeug(\"tesla\", 20);";
         SnippetEvent snippetEvent = null;
+
+        //when
         try {
             snippetEvent = jShellService.evaluateCode(input);
         } catch (InvalidCodeException e) {
             e.printStackTrace();
         }
+
         //then
         assertEquals("Item",jShellService.getRefType(snippetEvent));
     }
@@ -143,12 +167,15 @@ class JShellServiceTest {
         String input2 = "Item i2 = i1;";
         SnippetEvent snippetEvent1 = null;
         SnippetEvent snippetEvent2 = null;
+
+        //when
         try {
             snippetEvent1 = jShellService.evaluateCode(input1);
             snippetEvent2 = jShellService.evaluateCode(input2);
         } catch (InvalidCodeException e) {
             e.printStackTrace();
         }
+
         //then
         assertEquals("Fahrzeug",jShellService.getRefType(snippetEvent1));
         assertEquals("Item",jShellService.getRefType(snippetEvent2));
@@ -161,6 +188,8 @@ class JShellServiceTest {
         String input2 = "Fahrzeug f = new Fahrzeug(\"f2\", 20);";
         String input3 = "Item a;";
         String input4 = "a = f;";
+
+        //when
         try {
             jShellService.evaluateCode(input1);
             jShellService.evaluateCode(input2);
@@ -181,6 +210,7 @@ class JShellServiceTest {
         //given
         String input = "Item i1 = new Fahrzeug(\"tesla\", 20);";
 
+        //when
         try {
             jShellService.evaluateCode(input);
         } catch (InvalidCodeException e) {
@@ -194,8 +224,9 @@ class JShellServiceTest {
     @Test
     void testGetPackageForReference() {
         //given
-        String input =
-                "Item i1 = new Fahrzeug(\"tesla\", 20);";
+        String input = "Item i1 = new Fahrzeug(\"tesla\", 20);";
+
+        //when
         try {
             jShellService.evaluateCode(input);
         } catch (InvalidCodeException e) {
@@ -209,8 +240,6 @@ class JShellServiceTest {
     @Test
     void testGetInstancesLocal(){
         jShellService.testGetInstancesLocal();
-
-
     }
 
 }

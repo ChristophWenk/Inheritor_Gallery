@@ -9,16 +9,27 @@ import java.nio.file.Path;
 import static org.asciidoctor.OptionsBuilder.options;
 import static org.asciidoctor.jruby.internal.JRubyAsciidoctor.create;
 
+/**
+ * This class provides tools to convert .adoc files to HTML
+ */
 public class AsciiDocService {
 
     private Asciidoctor asciidoctor;
     private FileService fileService;
 
+    /**
+     * AsciiDocService Constructor
+     */
     public AsciiDocService() {
         asciidoctor = create();
         fileService = new FileService();
     }
 
+    /**
+     * Convert a given .adoc file to HTML
+     * @param file An .adoc file
+     * @return HTML converted file as String
+     */
     public String convertFile (String file) {
         FileReader reader = null;
         try {

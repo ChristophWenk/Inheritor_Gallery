@@ -16,27 +16,38 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Singleton JShellService
+ * Singleton JShellService.
+ * Provides all tools necessary to interact with the JShell API.
+ * There can only be one JShellService instance in the whole application.
+ * JShell manages all the instances created by the user internally.
  */
 public class JShellService {
-    private JShell jshell;
-
-    private final String packageName = "input";
-
     private static Logger logger = LoggerFactory.getLogger(JShellService.class);
 
     private static JShellService jShellService;
+    private JShell jshell;
+    private final String packageName = "input";
 
-
+    /**
+     * JShellService Constructor.
+     */
     private JShellService() {
         jshell = JShell.create();
+
+        // The JVM classpath needs to be explicitly added to JShell so that it is able to use non-JDK classes.
         String classpath = System.getProperty("java.class.path");
         String[] classpathEntries = classpath.split(File.pathSeparator);
         for (String cp : classpathEntries)
             jshell.addToClasspath(cp);
+
+        // Classes need to be explicitly imported to JShell similarly as if we wanted to import one into a class.
         jshell.eval("import "+packageName+".*;");
     }
 
+    /**
+     * Singleton pattern.
+     * @return A Singleton JShellService instance.
+     */
     public static JShellService getInstance() {
         if (jShellService == null) {
             jShellService = new JShellService();
@@ -45,21 +56,29 @@ public class JShellService {
     }
 
     /**
-     * @param input The code the JShell should execute
-     * @return The output returned by JShell
+     * Catch invalid code inputs given by a user.
+     * @param code The code given by the user.
+     * @return The cleansed code.
+     * @throws InvalidCodeException
      */
-    public String cleanseInput(String input) throws InvalidCodeException {
-        if (input.contains("//") || input.contains("/*")) {
+    public String cleanseInput(String code) throws InvalidCodeException {
+        if (code.contains("//") || code.contains("/*")) {
+            logger.error("User entered comment: " + code);
             throw new InvalidCodeException("Comments are not allowed.");
         }
-        return input;
+        return code;
     }
 
+    /**
+     * @param code The code the JShell should execute.
+     * @return The output returned by JShell.
+     */
     public SnippetEvent evaluateCode(String code) throws InvalidCodeException {
         code = cleanseInput(code);
 
         List<SnippetEvent> snippetEventsList = jshell.eval(code);
         if (!snippetEventsList.get(0).status().name().contains("VALID")) {
+            logger.error("User code could not be interpreted by JShell: " + code);
             throw new InvalidCodeException("Code could not be interpreted by JShell. Please verify the statement.");
         }
         //ToDo: When redeclaring an instance multiple snippets are created. Add Error Handling
@@ -83,7 +102,7 @@ public class JShellService {
                         getHashcodeForReference(refName),
                         getClassForReference(refName)
                 );
-                // Check for an existing same item in the list
+                // Check for an existing item in the list
                 if(objectDTOList.stream()
                 .noneMatch(o -> o.getObjectId().equals(objectDTO.getObjectId())))
                 {  objectDTOList.add(objectDTO); }
@@ -169,7 +188,7 @@ public class JShellService {
             snippetEvent = jShellService.evaluateCode(input);
         } catch (InvalidCodeException e) {
             logger.debug("No package name found for reference: " + reference);
-            return " ";
+            return "InvalidPackageName";
         }
 
 
@@ -177,8 +196,6 @@ public class JShellService {
         //packageNameFull has format "package mypackagename"
         return packageNameFull.split(" ")[1];
     }
-
-
 
     public void testGetInstancesLocal(){
         Fahrzeug f = new Fahrzeug("tesla", 20);
@@ -196,6 +213,9 @@ public class JShellService {
         }
     }
 
+    /**
+     * Reset the JShell by removing all code snippets.
+     */
     public void reset() {
         jshell.snippets().forEach(snippet -> jshell.drop(snippet));
         jshell.eval("import "+packageName+".*;");
