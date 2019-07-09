@@ -1,24 +1,30 @@
 package presentationmodel.instance;
 
 import exceptions.InvalidCodeException;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import jnr.ffi.annotations.In;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.jshell.JShellService;
 import service.jshell.ObjectDTO;
 import service.jshell.ReferenceDTO;
+
 import java.util.Optional;
 
 public class InstanceStatePM {
     private static Logger logger = LoggerFactory.getLogger(InstanceStatePM.class);
 
+    private JShellService jShellService = JShellService.getInstance();
+
     private final ObservableList<String > commandHistory = FXCollections.observableArrayList();
     private final ObservableList<ObjectPM> objectPMs = FXCollections.observableArrayList();
+    // Temporary list to avoid getting a listener called multiple times when the list is being updated
+    private final ObservableList<ObjectPM> objectPMsTemp = FXCollections.observableArrayList();
     private final ObservableList<ReferencePM > referencePMs = FXCollections.observableArrayList();
 
-    JShellService jShellService = JShellService.getInstance();
+    private final SimpleListProperty objectPMProperty = new SimpleListProperty(objectPMs);
 
     public void setJShellInput(String input) {
 
@@ -32,13 +38,15 @@ public class InstanceStatePM {
     }
 
     private void updateInstances(){
-        objectPMs.clear();
+        objectPMsTemp.clear();
         for(ObjectDTO objectDTO : jShellService.getObjectDTOs() ){
-            objectPMs.add(new ObjectPM(
+            objectPMsTemp.add(new ObjectPM(
                     objectDTO.getObjectId(),
                     objectDTO.getObjectName()
             ));
         }
+        objectPMs.setAll(objectPMsTemp);
+
         referencePMs.clear();
         for(ReferenceDTO referenceDTO : jShellService.getReferenceDTOs()){
             Optional<ObjectPM> ObjectPMPointedTo = objectPMs.stream()
@@ -64,5 +72,9 @@ public class InstanceStatePM {
 
     public ObservableList<ReferencePM> getReferencePMs() {
         return referencePMs;
+    }
+
+    public ListProperty objectPMProperty() {
+        return objectPMProperty;
     }
 }
