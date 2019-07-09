@@ -3,6 +3,7 @@ package inheritorgallery.view;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import presentationmodel.instance.InstanceStatePM;
@@ -70,6 +71,12 @@ public class JShellPane extends BorderPane implements ViewMixin {
     public void setupEventHandlers() {
         submitButton.setOnAction(event ->
                 instanceStatePM.setJShellInput(jshellInputTextField.getText()));
+        jshellInputTextField.setOnKeyReleased(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                instanceStatePM.setJShellInput((jshellInputTextField.getText()));
+                jshellInputTextField.clear();
+            }
+        });
     }
 
     @Override
