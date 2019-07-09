@@ -222,6 +222,43 @@ class JShellServiceTest {
     }
 
     @Test
+    void testGetMethodsForReference() {
+        //given
+        String input = "Auto a1 = new Auto(\"tesla\", 20,3,3);";
+
+        //when
+        try {
+            jShellService.evaluateCode(input);
+        } catch (InvalidCodeException e) {
+            e.printStackTrace();
+        }
+
+        //then
+        jShellService.getMethodsForReference("a1");
+
+    }
+
+
+    @Test
+    void testGetDeclaringClassOfMethod(){
+        //given
+        String input = "Auto a1 = new Auto(\"tesla\", 20,3,3);";
+        //when
+        try {
+            jShellService.evaluateCode(input);
+        } catch (InvalidCodeException e) {
+            e.printStackTrace();
+        }
+
+
+        jShellService.testReflectionGetDeclaringClassOfMethod();
+        //https://stackoverflow.com/questions/4821704/java-how-to-find-if-a-method-is-overridden-from-base-class?noredirect=1&lq=1
+
+
+    }
+
+
+    @Test
     void testGetPackageForReference() {
         //given
         String input = "Item i1 = new Fahrzeug(\"tesla\", 20);";
@@ -236,10 +273,4 @@ class JShellServiceTest {
         //then
         assertEquals("input",jShellService.getPackageForReference("i1"));
     }
-
-    @Test
-    void testGetInstancesLocal(){
-        jShellService.testGetInstancesLocal();
-    }
-
 }

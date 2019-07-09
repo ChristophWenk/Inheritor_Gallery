@@ -1,8 +1,10 @@
 package service.jshell;
 
 import exceptions.InvalidCodeException;
+import input.Auto;
 import input.Fahrzeug;
 import input.Item;
+import input.Person;
 import jdk.jshell.JShell;
 import jdk.jshell.SnippetEvent;
 import jdk.jshell.VarSnippet;
@@ -158,7 +160,6 @@ public class JShellService {
         String input = reference+".getClass().getSimpleName();";
         SnippetEvent snippetEvent = null;
         try {
-            jShellService.evaluateCode(input);
             snippetEvent = jShellService.evaluateCode(input);
         } catch (InvalidCodeException e) {
             logger.error("There was a problem retrieving the class for reference: " + reference, e);
@@ -171,7 +172,6 @@ public class JShellService {
         String input = reference+".hashCode();";
         SnippetEvent snippetEvent = null;
         try {
-            jShellService.evaluateCode(input);
             snippetEvent = jShellService.evaluateCode(input);
         } catch (InvalidCodeException e) {
             logger.error("There was a problem retrieving the hash code for reference: " + reference, e);
@@ -183,10 +183,9 @@ public class JShellService {
         String input = reference+".getClass().getPackage();";
         SnippetEvent snippetEvent = null;
         try {
-            jShellService.evaluateCode(input);
             snippetEvent = jShellService.evaluateCode(input);
         } catch (InvalidCodeException e) {
-            logger.debug("No package name found for reference: " + reference, e);
+            logger.debug("No package name found for reference: " + reference + ". It might be a primitive type.", e);
             return "InvalidPackageName";
         }
 
@@ -195,18 +194,38 @@ public class JShellService {
         return packageNameFull.split(" ")[1];
     }
 
-    public void testGetInstancesLocal(){
-        Fahrzeug f = new Fahrzeug("tesla", 20);
-        Item i = new Fahrzeug("tesla", 20);
+    public void getMethodsForReference(String reference){
+        String input = reference+".getClass().getMethods();";
+        SnippetEvent snippetEvent = null;
+        try {
+            snippetEvent = jShellService.evaluateCode(input);
+        } catch (InvalidCodeException e) {
+            logger.debug("No methods found reference: " + reference + ". It might be a primitive type.", e);
+            //return "InvalidPackageName";
+        }
 
-        logger.info(f.toString()+" "+ f.getClass().getDeclaredMethods().length);
-        logger.info(i.toString()+" "+ i.getClass().getDeclaredMethods().length);
+        //Method[] m = snippetEvent.value();
+        String[] methodsAsString =  snippetEvent.value().split(",");
+        for(String method : methodsAsString)  logger.info(method);
+    }
 
-        logger.info(f.toString()+" "+ f.getClass().getMethods().length);
-        logger.info(i.toString()+" "+ i.getClass().getMethods().length);
+    public void testReflectionGetDeclaringClassOfMethod(){
+        Auto a1 = new Auto("tesla", 20,3,3);
 
-        for(Method m : f.getClass().getDeclaredMethods()){
-            logger.info(m.getName());
+        for(Method m : a1.getClass().getMethods()){
+            Class<?> declaringClass  = a1.getClass();
+            String sourceClass = declaringClass.getName();
+
+            while(declaringClass.getSuperclass() != null){
+                declaringClass = declaringClass.getSuperclass();
+                try {
+                    declaringClass.getMethod(m.getName(),m.getParameterTypes());
+                    sourceClass = declaringClass.getName();
+                } catch (NoSuchMethodException e) {
+                    //e.printStackTrace();
+                }
+            }
+            logger.info(m + " declared in class " + sourceClass);
         }
     }
 
