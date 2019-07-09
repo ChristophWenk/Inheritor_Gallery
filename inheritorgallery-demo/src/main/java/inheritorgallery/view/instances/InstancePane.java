@@ -1,10 +1,9 @@
 package inheritorgallery.view.instances;
 
 import inheritorgallery.view.ViewMixin;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.layout.*;
-import javafx.util.Callback;
+import javafx.beans.value.ChangeListener;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import presentationmodel.instance.InstanceStatePM;
@@ -12,45 +11,62 @@ import presentationmodel.instance.ObjectPM;
 
 import java.util.ArrayList;
 
-public class InstancePane extends StackPane implements ViewMixin {
+public class InstancePane extends FlowPane implements ViewMixin {
 
     private static Logger logger = LoggerFactory.getLogger(InstancePane.class);
 
-    private final InstanceStatePM model;
-    //private HBox hBox;
-    private final ListView<ObjectPM> objectUnitsListView = new ListView<>();
+    private final InstanceStatePM instanceStatePM;
+    private HBox hBox;
 
-    //private ArrayList<ObjectUnit> objectUnits;
+    private ArrayList<ObjectUnit> objectUnits;
 
-    public InstancePane(InstanceStatePM model){
-        this.model = model;
+    int i = 0;
+
+    private ChangeListener pmStateListener = (observable, oldValue, newValue) -> {
+        System.out.println("==Test " + i + "==");
+        this.render();
+    };
+
+    public InstancePane(InstanceStatePM instanceStatePM){
+        this.instanceStatePM = instanceStatePM;
         init();
-    }
-
-    @Override
-    public void initializeControls() {
-        objectUnitsListView.setItems(model.getObjectPMs());
-        objectUnitsListView.setCellFactory(list -> new ObjectListCell());
-
-
-        //objectUnits = new ArrayList<>();
-        //hBox = new HBox();
-
-        //for(ObjectPM objectPM : model.getObjectPMs()){
-        //    objectUnits.add(new ObjectUnit(objectPM));
-        //}
 
         logger.info("Finished initializing InstancePane");
     }
 
     @Override
+    public void initializeControls() {
+
+        objectUnits = new ArrayList<>();
+        hBox = new HBox();
+    }
+
+    @Override
     public void layoutControls() {
-        //for (int i=0 ; i < model.getObjectPMs().size(); i++) {
+        for (ObjectUnit objectUnit : objectUnits) {
+            this.getChildren().addAll(objectUnits);
+        }
+    }
 
+    @Override
+    public void setupBindings() {
 
-        //}
+    }
 
-        getChildren().addAll(objectUnitsListView);
+    @Override
+    public void setupValueChangedListeners() {
+        instanceStatePM.objectPMProperty().addListener(pmStateListener);
+    }
 
+    public void render() {
+        this.getChildren().removeAll(objectUnits);
+        objectUnits.clear();
+
+        for (ObjectPM objectPM : instanceStatePM.getObjectPMs()) {
+            objectUnits.add(new ObjectUnit(objectPM));
+        }
+
+        this.getChildren().addAll(objectUnits);
+        i++;
     }
 }

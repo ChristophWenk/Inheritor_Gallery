@@ -53,6 +53,10 @@ public class ApplicationUI extends BorderPane implements ViewMixin {
         this.setLeft(leftPane);
         this.setCenter(instancePane);
         this.setRight(umlScrollPane);
+    }
 
+    @Override
+    public void setupEventHandlers() {
+        instancePane.setupValueChangedListeners();
     }
 }
