@@ -43,9 +43,7 @@ public class InstancePane extends FlowPane implements ViewMixin {
 
     @Override
     public void layoutControls() {
-        for (ObjectUnit objectUnit : objectUnits) {
-            this.getChildren().addAll(objectUnits);
-        }
+
     }
 
     @Override
