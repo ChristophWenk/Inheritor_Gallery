@@ -1,6 +1,5 @@
 package service.jshell;
 
-import exceptions.InvalidCodeException;
 import jdk.jshell.SnippetEvent;
 import jdk.jshell.VarSnippet;
 import org.slf4j.Logger;
@@ -30,36 +29,20 @@ public class SnippetReflectionHandlerService {
         return className;
     }
 
-    public List<Method> getClassMethods(SnippetEvent snippetEvent) {
-        VarSnippet snippet = (VarSnippet) snippetEvent.snippet();
-        String className = snippet.typeName();
-        String packageName = getPackage(snippetEvent);
-        Method methods[] = null;
-
-        try {
-            Class cls = Class.forName(packageName + "." + className);
-            methods = cls.getMethods();
-        }
-        catch (Exception e) {
-        }
-        return filterMethods(methods,packageName);
-    }
-
-    private String getPackage(SnippetEvent snippetEvent) {
-        VarSnippet snippet = (VarSnippet) snippetEvent.snippet();
-        String referenceName = snippet.name();
-        String pkg = "";
-
-        try {
-            pkg = jShellService.evaluateCode(referenceName + ".getClass().getPackage();");
-        } catch (InvalidCodeException e) {
-            logger.error("Invalid code: " + snippetEvent.snippet().source());
-            e.printStackTrace();
-        }
-        String[] pkgNameParts = pkg.split(" ");
-        String pkgName = pkgNameParts[1];
-        return pkgName;
-    }
+//    public List<Method> getClassMethods(SnippetEvent snippetEvent) {
+//        VarSnippet snippet = (VarSnippet) snippetEvent.snippet();
+//        String className = snippet.typeName();
+//        String packageName = getPackage(snippetEvent);
+//        Method methods[] = null;
+//
+//        try {
+//            Class cls = Class.forName(packageName + "." + className);
+//            methods = cls.getMethods();
+//        }
+//        catch (Exception e) {
+//        }
+//        return filterMethods(methods,packageName);
+//    }
 
     /**
      * Filter a method array so that it only contains inherited methods from classes within the same package.

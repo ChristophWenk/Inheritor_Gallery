@@ -3,10 +3,12 @@ package service.uml;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.*;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.nodeTypes.NodeWithDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitor;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import service.FileService;
 
 import java.io.File;
@@ -17,13 +19,12 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 
 public class UmlService {
+    private static Logger logger = LoggerFactory.getLogger(UmlService.class);
 
-    private static Logger logger = Logger.getLogger(UmlService.class.getName());
     private List<ClassDTO> classDTOs;
     private List<EdgeDTO> edgeDTOs;
 
@@ -41,7 +42,7 @@ public class UmlService {
                     .map(this::getCompilationUnitFromFile)
                     .collect(Collectors.toList());
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Could not create List of Compilation Units", e);
         }
 
         // create classes from CompilationUnits
@@ -126,8 +127,7 @@ public class UmlService {
         try {
             cu = StaticJavaParser.parse(file);
         } catch (FileNotFoundException e) {
-            // TODO Catch exception with useful error message
-            e.printStackTrace();
+            logger.error("File path not valid: " + filepath, e);
         }
         return cu;
     }

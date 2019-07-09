@@ -1,24 +1,31 @@
 package inheritorgallery.view;
 
+import inheritorgallery.view.instances.InstancePane;
+import inheritorgallery.view.uml.UmlPane;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import presentationmodel.instance.InstanceStatePM;
+import presentationmodel.instruction.InstructionPM;
 import presentationmodel.uml.UmlPM;
 
 public class ApplicationUI extends BorderPane implements ViewMixin {
 
     private static Logger logger = LoggerFactory.getLogger(ApplicationUI.class);
 
-    private UmlPM model;
+    private UmlPM umlPM;
+    private InstanceStatePM instanceStatePM;
+    private InstructionPM instructionPM;
 
-    private InteractionPane interactionPane;
+    private LeftPane leftPane;
     private InstancePane instancePane;
     private UmlPane umlPane;
 
-    public ApplicationUI(UmlPM model) {
-        this.model = model;
+    public ApplicationUI(InstanceStatePM instanceStatePM, UmlPM umlPM, InstructionPM instructionPM) {
+        this.umlPM = umlPM;
+        this.instanceStatePM = instanceStatePM;
+        this.instructionPM = instructionPM;
         init();
         logger.info("Finished initializing ApplicationUI");
     }
@@ -26,15 +33,15 @@ public class ApplicationUI extends BorderPane implements ViewMixin {
     @Override
     public void initializeControls() {
         // Initialize panes
-        interactionPane = new InteractionPane();
-        instancePane = new InstancePane();
-        umlPane = new UmlPane(model);
+        leftPane = new LeftPane(instanceStatePM, instructionPM);
+        instancePane = new InstancePane(instanceStatePM);
+        umlPane = new UmlPane(umlPM);
     }
 
     @Override
     public void layoutControls() {
         // Set IDs
-        interactionPane.setId("interactionPane");
+        leftPane.setId("leftPane");
         instancePane.setId("instancePane");
         umlPane.setId("umlPane");
 
@@ -43,7 +50,7 @@ public class ApplicationUI extends BorderPane implements ViewMixin {
         umlScrollPane.setPrefWidth(600);
 
         // Layouts
-        this.setLeft(interactionPane);
+        this.setLeft(leftPane);
         this.setCenter(instancePane);
         this.setRight(umlScrollPane);
 

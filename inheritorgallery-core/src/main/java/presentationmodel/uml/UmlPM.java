@@ -20,8 +20,8 @@ public class UmlPM {
     private final Map<ClassPM,Integer> inheritanceLevel = new HashMap<>();
     private int inheritanceDeepness;
 
-    public UmlPM(UmlService service) {
-        for(ClassDTO c : service.getClassDTOs()){
+    public UmlPM(UmlService umlService) {
+        for(ClassDTO c : umlService.getClassDTOs()){
             classes.add(new ClassPM(
                     c.getName(),
                     c.getFields(),
@@ -29,7 +29,7 @@ public class UmlPM {
                     c.getMethods()
             ));
         }
-        for(EdgeDTO e : service.getEdgeDTOs()){
+        for(EdgeDTO e : umlService.getEdgeDTOs()){
             edges.add(new EdgePM(e.getSource(),e.getTarget(),e.getType()));
         }
 

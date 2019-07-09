@@ -11,8 +11,12 @@ class AsciiDocServiceTest {
 
     @Test
     void testConvertFile() {
-        assertEquals("<div class=\"paragraph\">\n" +
+        //given
+        String expected = "<div class=\"paragraph\">\n" +
                 "<p>Writing AsciiDoc is <em>easy</em>!</p>\n" +
-                "</div>", asciiDocService.convertFile("/instructions/asciiDocTest.adoc"));
+                "</div>";
+
+        //when, then
+        assertEquals(expected, asciiDocService.convertFile("/instructions/asciiDocTest.adoc"));
     }
 }

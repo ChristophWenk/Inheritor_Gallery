@@ -1,4 +1,4 @@
-package inheritorgallery.view.util;
+package inheritorgallery.view.uml;
 
 
 import inheritorgallery.view.ViewMixin;

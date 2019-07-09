@@ -1,6 +1,6 @@
-package inheritorgallery.view;
+package inheritorgallery.view.uml;
 
-import inheritorgallery.view.util.UmlClass;
+import inheritorgallery.view.ViewMixin;
 import javafx.application.Platform;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 
-public class UmlPane extends StackPane implements ViewMixin{
+public class UmlPane extends StackPane implements ViewMixin {
 
     private static Logger logger = LoggerFactory.getLogger(UmlPane.class);
 
