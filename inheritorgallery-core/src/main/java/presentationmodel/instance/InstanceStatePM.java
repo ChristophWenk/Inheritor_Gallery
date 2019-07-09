@@ -20,6 +20,7 @@ public class InstanceStatePM {
 
     private final ObservableList<String > commandHistory = FXCollections.observableArrayList();
     private final ObservableList<ObjectPM> objectPMs = FXCollections.observableArrayList();
+    private final ObservableList<ObjectPM> objectPMsTemp = FXCollections.observableArrayList();
     private final ObservableList<ReferencePM > referencePMs = FXCollections.observableArrayList();
 
     private final SimpleListProperty objectPMProperty = new SimpleListProperty(objectPMs);
@@ -36,13 +37,14 @@ public class InstanceStatePM {
     }
 
     private void updateInstances(){
-        objectPMs.clear();
+        objectPMsTemp.clear();
         for(ObjectDTO objectDTO : jShellService.getObjectDTOs() ){
-            objectPMs.add(new ObjectPM(
+            objectPMsTemp.add(new ObjectPM(
                     objectDTO.getObjectId(),
                     objectDTO.getObjectName()
             ));
         }
+        objectPMs.addAll(objectPMsTemp);
 
         referencePMs.clear();
         for(ReferenceDTO referenceDTO : jShellService.getReferenceDTOs()){
