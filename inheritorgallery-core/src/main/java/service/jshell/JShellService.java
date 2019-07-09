@@ -2,18 +2,18 @@ package service.jshell;
 
 import exceptions.InvalidCodeException;
 import input.Auto;
-import input.Fahrzeug;
-import input.Item;
-import input.Person;
 import jdk.jshell.JShell;
 import jdk.jshell.SnippetEvent;
 import jdk.jshell.VarSnippet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.swing.text.html.ListView;
 import java.io.File;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,6 +44,7 @@ public class JShellService {
 
         // Classes need to be explicitly imported to JShell similarly as if we wanted to import one into a class.
         jshell.eval("import "+packageName+".*;");
+        jshell.eval("import java.lang.reflect.Field;");
     }
 
     /**
@@ -229,11 +230,53 @@ public class JShellService {
         }
     }
 
+    public List<FieldDTO> getFieldsForReference(String reference){
+        String input1 = "String fieldDTOsString = \"\";";
+        String input2 = "        Class<?> declaringClass  = "+reference+".getClass();";
+        String input3 = " while(declaringClass.getSuperclass() != null) {\n" +
+                "            for (Field f : declaringClass.getDeclaredFields()) {\n" +
+                "                try {\n" +
+                "                    f.setAccessible(true);\n" +
+                "                    fieldDTOsString += \";;\"+declaringClass.getCanonicalName()+\";\"+f.getName()+\";\"+f.get("+reference+").toString();\n" +
+                "                } catch (IllegalAccessException e) {\n" +
+                "                    e.printStackTrace();\n" +
+                "                }\n" +
+                "            }\n" +
+                "            declaringClass = declaringClass.getSuperclass();\n" +
+                "        }";
+        String input4 = "fieldDTOsString;";
+
+        SnippetEvent snippetEvent = null;
+        try {
+            jShellService.evaluateCode(input1);
+            jShellService.evaluateCode(input2);
+            jShellService.evaluateCode(input3);
+            snippetEvent = jShellService.evaluateCode(input4);
+        } catch (InvalidCodeException e) {
+            logger.debug("No methods found reference: " + reference + ". It might be a primitive type.", e);
+        }
+
+        List<FieldDTO> fieldDTOs = new ArrayList<>();
+        /*
+          String formatting source:
+          ";;classField1;nameField1;valueField1;;classField2;nameField2;valueField2"
+          Target:
+          String [classField1;nameField1;valueField1,   classField2;nameField2;valueField2]
+        */
+        String[] fieldDTOsAsString = snippetEvent.value().replace("\"","").substring(2).split(";;");
+        for(String fieldAsString : fieldDTOsAsString){
+            String[] fieldAsArray = fieldAsString.split(";");
+            fieldDTOs.add(new FieldDTO(fieldAsArray[0],fieldAsArray[1],fieldAsArray[2]));
+        }
+        return fieldDTOs;
+    }
+
     /**
      * Reset the JShell by removing all code snippets.
      */
     public void reset() {
         jshell.snippets().forEach(snippet -> jshell.drop(snippet));
         jshell.eval("import "+packageName+".*;");
+        jshell.eval("import java.lang.reflect.Field;");
     }
 }
