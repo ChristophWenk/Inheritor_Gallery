@@ -19,9 +19,9 @@ class UmlPMTest {
         //UmlPM umlPM = umlService.createUmlPM();
 
         //then
-        assertEquals(10, pm.getClasses().size());
+        assertEquals(9, pm.getClasses().size());
 
-        ClassPM classPM = pm.getClasses().get(9);
+        ClassPM classPM = pm.getClasses().get(8);
         assertEquals("Person", classPM.getName());
         assertEquals(2, classPM.getFields().size());
         assertEquals(2, classPM.getConstructors().size());
@@ -42,7 +42,7 @@ class UmlPMTest {
         //given
 
         //then
-        assertEquals(pm.getClasses().get(9), pm.getClassByName("Person"));
+        assertEquals(pm.getClasses().get(8), pm.getClassByName("Person"));
 
     }
     @Test

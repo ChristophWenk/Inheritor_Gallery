@@ -9,7 +9,6 @@ import presentationmodel.instance.InstanceStatePM;
 import presentationmodel.instruction.InstructionPM;
 import presentationmodel.uml.UmlPM;
 import service.instruction.AsciiDocService;
-import service.uml.UmlService;
 
 /**
  * @author Christoph Wenk, Dimitri Muralt
