@@ -1,7 +1,6 @@
 package service;
 
 import exceptions.InvalidCodeException;
-import input.Auto;
 import jdk.jshell.SnippetEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,8 +23,8 @@ class JShellServiceTest {
     @Test
     void testEvaluateCode() {
         //given
-        String input1 = "Item i = new Fahrzeug(\"tesla\", 20);";
-        String input2 = "i.getWeight();";
+        String input1 = "Person p = new Person();";
+        String input2 = "p.getFirstName();";
         SnippetEvent snippetEvent = null;
 
         //when

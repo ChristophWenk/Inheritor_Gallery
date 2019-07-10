@@ -7,11 +7,15 @@ import jdk.jshell.SnippetEvent;
 import jdk.jshell.VarSnippet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import service.FileService;
 
 import javax.swing.text.html.ListView;
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -43,7 +47,28 @@ public class JShellService {
             jshell.addToClasspath(cp);
 
         // Classes need to be explicitly imported to JShell similarly as if we wanted to import one into a class.
-        jshell.eval("import "+packageName+".*;");
+        //jshell.eval("import "+packageName+".*;");
+        //jshell.eval("import java.lang.reflect.Field;");
+        importPackages();
+    }
+
+    private void importPackages(){
+        FileService fileService = new FileService();
+        Path path = fileService.getPath("/"+packageName);
+        logger.info(path.toString());
+        try {
+            Files.walk(path)
+                    .map(e -> new File(e.toString()))
+                    .filter(File::isDirectory)
+                    .map(e -> e.toURI().toString().split(packageName))
+                    .map(e -> packageName+e[1].replace("/","."))
+                    .map(e -> "import "+e+"*;")
+                    //.forEach(e -> logger.info(e));
+                    .forEach(e -> jshell.eval(e));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         jshell.eval("import java.lang.reflect.Field;");
     }
 
@@ -276,7 +301,8 @@ public class JShellService {
      */
     public void reset() {
         jshell.snippets().forEach(snippet -> jshell.drop(snippet));
-        jshell.eval("import "+packageName+".*;");
-        jshell.eval("import java.lang.reflect.Field;");
+        //jshell.eval("import "+packageName+".*;");
+        //jshell.eval("import java.lang.reflect.Field;");
+        importPackages();
     }
 }

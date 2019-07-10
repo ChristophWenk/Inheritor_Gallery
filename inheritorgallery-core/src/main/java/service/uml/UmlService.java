@@ -55,6 +55,7 @@ public class UmlService {
             try {
                 Class c = Class.forName(absoluteClassName);
                 classes.add(c);
+                logger.info(c.getCanonicalName());
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
