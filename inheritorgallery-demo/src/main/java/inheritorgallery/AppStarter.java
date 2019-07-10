@@ -19,10 +19,10 @@ public class AppStarter extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        UmlService umlService = new UmlService();
+
         AsciiDocService asciiDocService = new AsciiDocService();
 
-        UmlPM umlPM = new UmlPM(umlService);
+        UmlPM umlPM = new UmlPM();
         InstanceStatePM instanceStatePM = new InstanceStatePM();
         InstructionPM instructionPM = new InstructionPM(asciiDocService);
 
