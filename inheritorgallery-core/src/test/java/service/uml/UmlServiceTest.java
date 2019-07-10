@@ -1,4 +1,4 @@
-package service;
+package service.uml;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
