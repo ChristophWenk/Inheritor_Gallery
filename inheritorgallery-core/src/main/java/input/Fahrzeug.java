@@ -3,7 +3,7 @@ package input;
 public class Fahrzeug extends Item {
 
     private double speed;
-    public String name;
+    String name;
     private static double dieselTax;
     public static final double gravity = 9.81;
 

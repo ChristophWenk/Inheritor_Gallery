@@ -9,7 +9,7 @@ public class ClassDTO {
     private final String superClassName;
     private final List<String> implementedInterfaces;
     private final List<FieldDTO> fields;
-    private final List<String> constructors;
+    private final List<ConstructorDTO> constructors;
     private final List<String> methods;
 
     public ClassDTO(Boolean isInterface,
@@ -18,7 +18,7 @@ public class ClassDTO {
                     String superClassName,
                     List<String> implementedInterfaces,
                     List<FieldDTO> fields,
-                    List<String> constructors,
+                    List<ConstructorDTO> constructors,
                     List<String> methods){
 
         this.isInterface = isInterface;
@@ -55,7 +55,7 @@ public class ClassDTO {
         return fields;
     }
 
-    public List<String> getConstructors() {
+    public List<ConstructorDTO> getConstructors() {
         return constructors;
     }
 

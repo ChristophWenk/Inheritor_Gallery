@@ -1,28 +1,28 @@
 package service.uml;
 
 public class FieldDTO {
-    private final String fieldAccess;
-    private final String fieldType;
-    private final String fieldName;
+    private final String accessType;
+    private final String type;
+    private final String name;
 
-    public FieldDTO(String fieldAccess,
-                    String fieldType,
-                    String fieldName){
+    public FieldDTO(String accessType,
+                    String type,
+                    String name){
 
-        this.fieldType = fieldType;
-        this.fieldAccess = fieldAccess;
-        this.fieldName = fieldName;
+        this.type = type;
+        this.accessType = accessType;
+        this.name = name;
     }
 
-    public String getFieldAccess() {
-        return fieldAccess;
+    public String getAccessType() {
+        return accessType;
     }
 
-    public String getFieldType() {
-        return fieldType;
+    public String getType() {
+        return type;
     }
 
-    public String getFieldName() {
-        return fieldName;
+    public String getName() {
+        return name;
     }
 }

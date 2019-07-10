@@ -71,13 +71,30 @@ class UmlServiceTest {
     void testClassToClassDTOFields(){
         ClassDTO fahrzeug = umlService.getClassDTOs().get(6);
 
-        assertEquals("private",fahrzeug.getFields().get(0).getFieldAccess());
-        assertEquals("double",fahrzeug.getFields().get(0).getFieldType());
-        assertEquals("speed",fahrzeug.getFields().get(0).getFieldName());
+        assertEquals("private",fahrzeug.getFields().get(0).getAccessType());
+        assertEquals("double",fahrzeug.getFields().get(0).getType());
+        assertEquals("speed",fahrzeug.getFields().get(0).getName());
 
-        assertEquals("public",fahrzeug.getFields().get(1).getFieldAccess());
-        assertEquals("String",fahrzeug.getFields().get(1).getFieldType());
-        assertEquals("name",fahrzeug.getFields().get(1).getFieldName());
+        assertEquals("package",fahrzeug.getFields().get(1).getAccessType());
+        assertEquals("String",fahrzeug.getFields().get(1).getType());
+        assertEquals("name",fahrzeug.getFields().get(1).getName());
+    }
+
+    @Test
+    void testClassToClassDTOConstructors(){
+        ClassDTO person = umlService.getClassDTOs().get(8);
+
+        assertEquals("Person",person.getConstructors().get(0).getName());
+        //constructors seem to be ordered alphabetically by default
+        assertEquals("package",person.getConstructors().get(0).getAccessType());
+        assertEquals(1,person.getConstructors().get(0).getInputParameters().size());
+
+        assertEquals("private",person.getConstructors().get(1).getAccessType());
+        assertEquals(2,person.getConstructors().get(1).getInputParameters().size());
+
+        assertEquals("public",person.getConstructors().get(2).getAccessType());
+        assertEquals(0,person.getConstructors().get(2).getInputParameters().size());
+
     }
 
     @Test

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -64,26 +65,7 @@ public class UmlService {
     }
 
     private ClassDTO getClassDTOForClass(Class c){
-        List<FieldDTO> fields = new ArrayList<>();
-        List<String> constructorsAsString = new ArrayList<>();
         List<String> methodsAsString = new ArrayList<>();
-
-        String superClassName = null;
-        if(c.getSuperclass() != null)
-            superClassName = c.getSuperclass().getCanonicalName();
-
-        List<String> implementedInterfaces = Arrays.stream(c.getInterfaces())
-                .map(Class::getCanonicalName)
-                .collect(Collectors.toList());
-
-        Field[] declaredFields = c.getDeclaredFields();
-        for(Field f : declaredFields){
-            //logger.info(f.toGenericString());
-            fields.add(new FieldDTO(f.toGenericString().split(" ")[0], f.getType().getSimpleName(), f.getName()));
-        }
-
-        Constructor[] constructors = c.getConstructors();
-        for (Constructor constructor : constructors) constructorsAsString.add(constructor.getName());
 
         Method[] methods = c.getDeclaredMethods();
         for(Method method : methods) methodsAsString.add(method.getName());
@@ -92,12 +74,44 @@ public class UmlService {
                 c.isInterface(),
                 c.getCanonicalName(),
                 c.getSimpleName(),
-                superClassName,
-                implementedInterfaces,
-                fields,
-                constructorsAsString,
+                (c.getSuperclass() != null) ?  c.getSuperclass().getCanonicalName() : null,
+                Arrays.stream(c.getInterfaces()) //implemented interfaces
+                        .map(Class::getCanonicalName).collect(Collectors.toList()),
+                getFieldsForClass(c),
+                getConstructorsForClass(c),
                 methodsAsString);
     }
+
+    private List<FieldDTO> getFieldsForClass(Class c){
+        List<FieldDTO> fields = new ArrayList<>();
+
+        Field[] declaredFields = c.getDeclaredFields();
+        for(Field f : declaredFields){
+            String modifier =  Modifier.toString(f.getModifiers()).split(" ")[0];
+            modifier = modifier.equals("") ? "package" : modifier;
+
+            fields.add(new FieldDTO(modifier, f.getType().getSimpleName(), f.getName()));
+        }
+        return fields;
+    }
+
+    private List<ConstructorDTO> getConstructorsForClass(Class c){
+        List<ConstructorDTO> constructors = new ArrayList<>();
+
+        for (Constructor constructor : c.getDeclaredConstructors()) {
+            String modifier =  Modifier.toString(constructor.getModifiers()).split(" ")[0];
+            modifier = modifier.equals("") ? "package" : modifier;
+
+            List<String> params = Arrays.stream(constructor.getParameterTypes())
+                    .map(Class::getSimpleName).collect(Collectors.toList());
+
+            constructors.add(new ConstructorDTO(modifier,c.getSimpleName(),params));
+        }
+
+        return constructors;
+    }
+
+
 
     private List<EdgeDTO> getEdgeDTOs(List<Class> classes) {
         List<EdgeDTO> edgeDTOS = new ArrayList<>();

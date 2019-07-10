@@ -24,7 +24,7 @@ class UmlPMTest {
         ClassPM classPM = pm.getClasses().get(8);
         assertEquals("Person", classPM.getName());
         assertEquals(2, classPM.getFields().size());
-        assertEquals(2, classPM.getConstructors().size());
+        assertEquals(3, classPM.getConstructors().size());
         assertEquals(6, classPM.getMethods().size());
     }
 
