@@ -1,10 +1,14 @@
 package service;
 
 import exceptions.InvalidCodeException;
+import input.Auto;
 import jdk.jshell.SnippetEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import service.jshell.FieldDTO;
 import service.jshell.JShellService;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -257,6 +261,48 @@ class JShellServiceTest {
 
     }
 
+    @Test
+    void testGetFieldsForReference(){
+        //given
+        String input = "Auto a1 = new Auto(\"tesla\", 20,100,3);";
+
+        //when
+        try {
+            jShellService.evaluateCode(input);
+        } catch (InvalidCodeException e) {
+            e.printStackTrace();
+        }
+        List<FieldDTO> fieldDTOs = jShellService.getFieldsForReference("a1");
+
+        //then
+        assertEquals("input.Auto", fieldDTOs.get(0).getDeclaringClass());
+        assertEquals("ps", fieldDTOs.get(0).getFieldName());
+        assertEquals("100", fieldDTOs.get(0).getFieldValue());
+
+        assertEquals("input.Auto", fieldDTOs.get(1).getDeclaringClass());
+        assertEquals("color", fieldDTOs.get(1).getFieldName());
+        assertEquals("3", fieldDTOs.get(1).getFieldValue());
+
+        assertEquals("input.Fahrzeug", fieldDTOs.get(2).getDeclaringClass());
+        assertEquals("speed", fieldDTOs.get(2).getFieldName());
+        assertEquals("20.0", fieldDTOs.get(2).getFieldValue());
+
+        assertEquals("input.Fahrzeug", fieldDTOs.get(3).getDeclaringClass());
+        assertEquals("name", fieldDTOs.get(3).getFieldName());
+        assertEquals("tesla", fieldDTOs.get(3).getFieldValue());
+
+        assertEquals("input.Fahrzeug", fieldDTOs.get(4).getDeclaringClass());
+        assertEquals("dieselTax", fieldDTOs.get(4).getFieldName());
+        assertEquals("0.0", fieldDTOs.get(4).getFieldValue());
+
+        assertEquals("input.Fahrzeug", fieldDTOs.get(5).getDeclaringClass());
+        assertEquals("gravity", fieldDTOs.get(5).getFieldName());
+        assertEquals("9.81", fieldDTOs.get(5).getFieldValue());
+
+        assertEquals("input.Item", fieldDTOs.get(6).getDeclaringClass());
+        assertEquals("weight", fieldDTOs.get(6).getFieldName());
+        assertEquals("0.0", fieldDTOs.get(6).getFieldValue());
+    }
 
     @Test
     void testGetPackageForReference() {

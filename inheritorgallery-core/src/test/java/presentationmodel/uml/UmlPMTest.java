@@ -2,19 +2,15 @@ package presentationmodel.uml;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import service.uml.UmlService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class UmlPMTest {
-    private static UmlService umlService;
     private static UmlPM pm;
 
     @BeforeAll
     public static void setUp() {
-
-        umlService = new UmlService();
-        pm = new UmlPM(umlService);
+        pm = new UmlPM();
     }
 
     @Test

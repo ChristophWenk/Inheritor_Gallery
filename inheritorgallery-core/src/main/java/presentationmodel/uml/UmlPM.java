@@ -19,8 +19,10 @@ public class UmlPM {
     private final ObservableList<EdgePM> edges = FXCollections.observableArrayList();
     private final Map<ClassPM,Integer> inheritanceLevel = new HashMap<>();
     private int inheritanceDeepness;
+    private UmlService umlService;
 
-    public UmlPM(UmlService umlService) {
+    public UmlPM() {
+        umlService = new UmlService();
         for(ClassDTO c : umlService.getClassDTOs()){
             classes.add(new ClassPM(
                     c.getName(),
