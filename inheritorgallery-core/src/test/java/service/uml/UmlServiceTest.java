@@ -85,15 +85,15 @@ class UmlServiceTest {
         ClassDTO person = umlService.getClassDTOs().get(8);
 
         assertEquals("Person",person.getConstructors().get(0).getName());
-        //constructors seem to be ordered alphabetically by default
-        assertEquals("package",person.getConstructors().get(0).getAccessType());
-        assertEquals(1,person.getConstructors().get(0).getInputParameters().size());
 
-        assertEquals("private",person.getConstructors().get(1).getAccessType());
-        assertEquals(2,person.getConstructors().get(1).getInputParameters().size());
+        assertEquals("public",person.getConstructors().get(0).getAccessType());
+        assertEquals(0,person.getConstructors().get(0).getInputParameters().size());
 
-        assertEquals("public",person.getConstructors().get(2).getAccessType());
-        assertEquals(0,person.getConstructors().get(2).getInputParameters().size());
+        assertEquals("package",person.getConstructors().get(1).getAccessType());
+        assertEquals(1,person.getConstructors().get(1).getInputParameters().size());
+
+        assertEquals("private",person.getConstructors().get(2).getAccessType());
+        assertEquals(2,person.getConstructors().get(2).getInputParameters().size());
 
     }
 

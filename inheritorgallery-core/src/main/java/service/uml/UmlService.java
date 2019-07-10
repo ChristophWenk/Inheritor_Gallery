@@ -13,8 +13,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class UmlService {
@@ -98,15 +100,21 @@ public class UmlService {
     private List<ConstructorDTO> getConstructorsForClass(Class c){
         List<ConstructorDTO> constructors = new ArrayList<>();
 
-        for (Constructor constructor : c.getDeclaredConstructors()) {
+        Stream<Constructor> constructorList = Arrays.stream(c.getDeclaredConstructors())
+                .sorted(Comparator.comparing(Constructor::getParameterCount));
+
+        constructorList.forEach(constructor -> {
             String modifier =  Modifier.toString(constructor.getModifiers()).split(" ")[0];
             modifier = modifier.equals("") ? "package" : modifier;
 
+
             List<String> params = Arrays.stream(constructor.getParameterTypes())
                     .map(Class::getSimpleName).collect(Collectors.toList());
-
             constructors.add(new ConstructorDTO(modifier,c.getSimpleName(),params));
-        }
+                }
+        );
+
+
 
         return constructors;
     }
