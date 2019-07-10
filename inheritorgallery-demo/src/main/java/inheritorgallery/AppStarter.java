@@ -18,7 +18,6 @@ public class AppStarter extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-
         AsciiDocService asciiDocService = new AsciiDocService();
 
         UmlPM umlPM = new UmlPM();

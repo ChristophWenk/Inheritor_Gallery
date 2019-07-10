@@ -41,10 +41,30 @@ class UmlServiceTest {
     @Test
     void testGlassToClassDTO(){
         //given
-        ClassDTO classDTO = umlService.getClassDTOs().get(0);
-
+        ClassDTO classDTOAntique = umlService.getClassDTOs().get(0);
         //then
-        assertEquals("Antique",classDTO.getName());
+        assertEquals("input.Antique",classDTOAntique.getFullClassName());
+        assertEquals("Antique",classDTOAntique.getSimpleClassName());
+        assertTrue(classDTOAntique.isInterface());
+        assertEquals(0,classDTOAntique.getImplementedInterfaces().size());
+        assertNull(classDTOAntique.getSuperClassName());
+
+        //given
+        ClassDTO classDTOAntiqueBuyableFahrrad = umlService.getClassDTOs().get(1);
+        //then
+        assertEquals("AntiqueBuyableFahrrad",classDTOAntiqueBuyableFahrrad.getSimpleClassName());
+        assertFalse(classDTOAntiqueBuyableFahrrad.isInterface());
+        assertEquals(2,classDTOAntiqueBuyableFahrrad.getImplementedInterfaces().size());
+        assertEquals("input.Antique",classDTOAntiqueBuyableFahrrad.getImplementedInterfaces().get(0));
+        assertEquals("input.Buyable",classDTOAntiqueBuyableFahrrad.getImplementedInterfaces().get(1));
+        assertEquals("input.Fahrrad",classDTOAntiqueBuyableFahrrad.getSuperClassName());
+
+        //given
+        ClassDTO classDTOFahrrad = umlService.getClassDTOs().get(5);
+        //then
+        assertEquals("Fahrrad",classDTOFahrrad.getSimpleClassName());
+        assertFalse(classDTOFahrrad.isInterface());
+        assertEquals("input.Fahrzeug",classDTOFahrrad.getSuperClassName());
     }
 
     @Test
@@ -57,8 +77,6 @@ class UmlServiceTest {
         assertEquals("AntiqueBuyableFahrrad",edgeDTOs.get(0).getSource());
         assertEquals("Fahrrad",edgeDTOs.get(0).getTarget());
         assertEquals("extends",edgeDTOs.get(0).getType());
-
-
     }
 
 

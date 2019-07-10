@@ -25,7 +25,7 @@ public class UmlPM {
         umlService = new UmlService();
         for(ClassDTO c : umlService.getClassDTOs()){
             classes.add(new ClassPM(
-                    c.getName(),
+                    c.getSimpleClassName(),
                     c.getFields(),
                     c.getConstructors(),
                     c.getMethods()

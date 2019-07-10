@@ -70,6 +70,14 @@ public class UmlService {
 
         String className = c.getSimpleName();
 
+        String superClassName = null;
+        if(c.getSuperclass() != null)
+            superClassName = c.getSuperclass().getCanonicalName();
+
+        List<String> implementedInterfaces = Arrays.stream(c.getInterfaces())
+                .map(Class::getCanonicalName)
+                .collect(Collectors.toList());
+
         Field[] fields = c.getDeclaredFields();
         for(Field field : fields) fieldsAsString.add(field.getName());
 
@@ -79,8 +87,15 @@ public class UmlService {
         Method[] methods = c.getDeclaredMethods();
         for(Method method : methods) methodsAsString.add(method.getName());
 
-        return new ClassDTO(className,fieldsAsString,constructorsAsString,methodsAsString);
-
+        return new ClassDTO(
+                c.isInterface(),
+                c.getCanonicalName(),
+                c.getSimpleName(),
+                superClassName,
+                implementedInterfaces,
+                fieldsAsString,
+                constructorsAsString,
+                methodsAsString);
     }
 
     private List<EdgeDTO> getEdgeDTOs(List<Class> classes) {
