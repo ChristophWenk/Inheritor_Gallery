@@ -8,7 +8,7 @@ public class ClassDTO {
     private final String simpleClassName;
     private final String superClassName;
     private final List<String> implementedInterfaces;
-    private final List<String> fields;
+    private final List<FieldDTO> fields;
     private final List<String> constructors;
     private final List<String> methods;
 
@@ -17,7 +17,7 @@ public class ClassDTO {
                     String simpleClassName,
                     String superClassName,
                     List<String> implementedInterfaces,
-                    List<String> fields,
+                    List<FieldDTO> fields,
                     List<String> constructors,
                     List<String> methods){
 
@@ -51,7 +51,7 @@ public class ClassDTO {
         return simpleClassName;
     }
 
-    public List<String> getFields() {
+    public List<FieldDTO> getFields() {
         return fields;
     }
 

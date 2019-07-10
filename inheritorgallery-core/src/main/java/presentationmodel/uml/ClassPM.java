@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import service.uml.FieldDTO;
 
 import java.util.List;
 
@@ -15,9 +16,10 @@ public class ClassPM {
     //private final ObservableList<EdgePM> edges = FXCollections.observableArrayList();
 
 
-    public ClassPM(String name, List<String> fields, List<String> constructors, List<String> methods) {
+    public ClassPM(String name, List<FieldDTO> fields, List<String> constructors, List<String> methods) {
         setName(name);
-        for(String f : fields){this.fields.add((new FieldPM(f)));}
+        for(FieldDTO f : fields){
+            this.fields.add(new FieldPM(f.getFieldName()));}
         for(String c : constructors){this.constructors.add((new ConstuctorPM(c)));}
         for(String m : methods){this.methods.add((new MethodPM(m)));}
         //for(EdgeDTO e : edgeDTOs){

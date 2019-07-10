@@ -64,11 +64,9 @@ public class UmlService {
     }
 
     private ClassDTO getClassDTOForClass(Class c){
-        List<String> fieldsAsString = new ArrayList<>();
+        List<FieldDTO> fields = new ArrayList<>();
         List<String> constructorsAsString = new ArrayList<>();
         List<String> methodsAsString = new ArrayList<>();
-
-        String className = c.getSimpleName();
 
         String superClassName = null;
         if(c.getSuperclass() != null)
@@ -78,8 +76,11 @@ public class UmlService {
                 .map(Class::getCanonicalName)
                 .collect(Collectors.toList());
 
-        Field[] fields = c.getDeclaredFields();
-        for(Field field : fields) fieldsAsString.add(field.getName());
+        Field[] declaredFields = c.getDeclaredFields();
+        for(Field f : declaredFields){
+            //logger.info(f.toGenericString());
+            fields.add(new FieldDTO(f.toGenericString().split(" ")[0], f.getType().getSimpleName(), f.getName()));
+        }
 
         Constructor[] constructors = c.getConstructors();
         for (Constructor constructor : constructors) constructorsAsString.add(constructor.getName());
@@ -93,7 +94,7 @@ public class UmlService {
                 c.getSimpleName(),
                 superClassName,
                 implementedInterfaces,
-                fieldsAsString,
+                fields,
                 constructorsAsString,
                 methodsAsString);
     }

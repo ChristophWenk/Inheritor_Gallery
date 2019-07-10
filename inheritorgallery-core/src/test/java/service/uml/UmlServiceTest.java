@@ -68,6 +68,19 @@ class UmlServiceTest {
     }
 
     @Test
+    void testClassToClassDTOFields(){
+        ClassDTO fahrzeug = umlService.getClassDTOs().get(6);
+
+        assertEquals("private",fahrzeug.getFields().get(0).getFieldAccess());
+        assertEquals("double",fahrzeug.getFields().get(0).getFieldType());
+        assertEquals("speed",fahrzeug.getFields().get(0).getFieldName());
+
+        assertEquals("public",fahrzeug.getFields().get(1).getFieldAccess());
+        assertEquals("String",fahrzeug.getFields().get(1).getFieldType());
+        assertEquals("name",fahrzeug.getFields().get(1).getFieldName());
+    }
+
+    @Test
     public void testGetEdgeDTOs(){
         //given
         List<EdgeDTO> edgeDTOs =  umlService.getEdgeDTOs();
