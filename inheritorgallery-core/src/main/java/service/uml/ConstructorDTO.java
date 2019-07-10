@@ -3,18 +3,18 @@ package service.uml;
 import java.util.List;
 
 public class ConstructorDTO {
-    private final String accessType;
+    private final String modifier;
     private final String name;
     private List<String> inputParameters;
 
-    public ConstructorDTO(String accessType,String name, List<String> inputParameters){
-        this.accessType = accessType;
+    public ConstructorDTO(String modifier, String name, List<String> inputParameters){
+        this.modifier = modifier;
         this.name = name;
         this.inputParameters = inputParameters;
     }
 
-    public String getAccessType() {
-        return accessType;
+    public String getModifier() {
+        return modifier;
     }
 
     public String getName() {

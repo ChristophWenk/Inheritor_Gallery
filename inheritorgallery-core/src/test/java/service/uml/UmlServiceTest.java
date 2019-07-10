@@ -71,11 +71,11 @@ class UmlServiceTest {
     void testClassToClassDTOFields(){
         ClassDTO fahrzeug = umlService.getClassDTOs().get(6);
 
-        assertEquals("private",fahrzeug.getFields().get(0).getAccessType());
+        assertEquals("private",fahrzeug.getFields().get(0).getModifier());
         assertEquals("double",fahrzeug.getFields().get(0).getType());
         assertEquals("speed",fahrzeug.getFields().get(0).getName());
 
-        assertEquals("package",fahrzeug.getFields().get(1).getAccessType());
+        assertEquals("package",fahrzeug.getFields().get(1).getModifier());
         assertEquals("String",fahrzeug.getFields().get(1).getType());
         assertEquals("name",fahrzeug.getFields().get(1).getName());
     }
@@ -86,14 +86,28 @@ class UmlServiceTest {
 
         assertEquals("Person",person.getConstructors().get(0).getName());
 
-        assertEquals("public",person.getConstructors().get(0).getAccessType());
+        assertEquals("public",person.getConstructors().get(0).getModifier());
         assertEquals(0,person.getConstructors().get(0).getInputParameters().size());
 
-        assertEquals("package",person.getConstructors().get(1).getAccessType());
+        assertEquals("package",person.getConstructors().get(1).getModifier());
         assertEquals(1,person.getConstructors().get(1).getInputParameters().size());
 
-        assertEquals("private",person.getConstructors().get(2).getAccessType());
+        assertEquals("private",person.getConstructors().get(2).getModifier());
         assertEquals(2,person.getConstructors().get(2).getInputParameters().size());
+
+    }
+
+    @Test
+    void testClassToClassDTOMethods(){
+        ClassDTO fahrzeug = umlService.getClassDTOs().get(6);
+
+        assertEquals("input.Fahrzeug",fahrzeug.getFullClassName());
+
+        assertEquals(9,fahrzeug.getMethods().size());
+        assertEquals("public",fahrzeug.getMethods().get(5).getModifier());
+        assertEquals("void",fahrzeug.getMethods().get(5).getReturnType());
+        assertEquals("setDieselTax",fahrzeug.getMethods().get(5).getName());
+        assertEquals("double",fahrzeug.getMethods().get(5).getInputParameters().get(0));
 
     }
 

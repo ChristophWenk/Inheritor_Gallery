@@ -58,7 +58,6 @@ public class UmlService {
             try {
                 Class c = Class.forName(absoluteClassName);
                 classes.add(c);
-                logger.info(c.getCanonicalName());
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
@@ -67,10 +66,6 @@ public class UmlService {
     }
 
     private ClassDTO getClassDTOForClass(Class c){
-        List<String> methodsAsString = new ArrayList<>();
-
-        Method[] methods = c.getDeclaredMethods();
-        for(Method method : methods) methodsAsString.add(method.getName());
 
         return new ClassDTO(
                 c.isInterface(),
@@ -81,7 +76,7 @@ public class UmlService {
                         .map(Class::getCanonicalName).collect(Collectors.toList()),
                 getFieldsForClass(c),
                 getConstructorsForClass(c),
-                methodsAsString);
+                getMethodsForClass(c));
     }
 
     private List<FieldDTO> getFieldsForClass(Class c){
@@ -113,13 +108,33 @@ public class UmlService {
             constructors.add(new ConstructorDTO(modifier,c.getSimpleName(),params));
                 }
         );
-
-
-
         return constructors;
     }
 
+    private List<MethodDTO> getMethodsForClass(Class c){
+        List<MethodDTO> methods = new ArrayList<>();
 
+        //ToDo: sort methods better so that getter and setter are site by side
+        Stream<Method> methodList = Arrays.stream(c.getDeclaredMethods())
+                .sorted(Comparator.comparing(Method::getName));
+
+        methodList.forEach(method -> {
+            String modifier =  Modifier.toString(method.getModifiers()).split(" ")[0];
+            modifier = modifier.equals("") ? "package" : modifier;
+
+            List<String> params = Arrays.stream(method.getParameterTypes())
+                    .map(Class::getSimpleName).collect(Collectors.toList());
+
+            methods.add(new MethodDTO(
+                    modifier,
+                    method.getReturnType().getSimpleName(),
+                    method.getName(),
+                    params
+            ));
+        });
+
+        return methods;
+    }
 
     private List<EdgeDTO> getEdgeDTOs(List<Class> classes) {
         List<EdgeDTO> edgeDTOS = new ArrayList<>();

@@ -10,7 +10,7 @@ public class ClassDTO {
     private final List<String> implementedInterfaces;
     private final List<FieldDTO> fields;
     private final List<ConstructorDTO> constructors;
-    private final List<String> methods;
+    private final List<MethodDTO> methods;
 
     public ClassDTO(Boolean isInterface,
                     String fullClassName,
@@ -19,7 +19,7 @@ public class ClassDTO {
                     List<String> implementedInterfaces,
                     List<FieldDTO> fields,
                     List<ConstructorDTO> constructors,
-                    List<String> methods){
+                    List<MethodDTO> methods){
 
         this.isInterface = isInterface;
         this.fullClassName = fullClassName;
@@ -59,7 +59,7 @@ public class ClassDTO {
         return constructors;
     }
 
-    public List<String> getMethods() {
+    public List<MethodDTO> getMethods() {
         return methods;
     }
 }
