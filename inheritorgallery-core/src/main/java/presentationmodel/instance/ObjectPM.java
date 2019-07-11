@@ -8,6 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import presentationmodel.uml.ClassPM;
 import presentationmodel.uml.UmlPM;
+import service.jshell.FieldDTO;
+
+import java.util.List;
 
 
 public class ObjectPM {
@@ -20,7 +23,7 @@ public class ObjectPM {
 
     private UmlPM umlPM;
 
-    public ObjectPM(UmlPM umlPM, String objectId, String objectFullName){
+    public ObjectPM(UmlPM umlPM, String objectId, String objectFullName, List<FieldDTO> fieldDTOs){
         this.umlPM = umlPM;
         setObjectId(objectId);
         setObjectFullName(objectFullName);
@@ -32,9 +35,10 @@ public class ObjectPM {
         logger.info(objectFullName.getValue());
         ClassPM rootClass = umlPM.getClassByFullName(objectFullName.getValue());
 
+        objectParts.add(rootClass);
         while(rootClass.hasSuperClass()){
-            ;
             rootClass  = umlPM.getClassByFullName(rootClass.getSuperClassName());
+            objectParts.add(rootClass);
         }
     }
 
@@ -60,5 +64,9 @@ public class ObjectPM {
 
     public void setObjectFullName(String objectFullName) {
         this.objectFullName.set(objectFullName);
+    }
+
+    public ObservableList<ClassPM> getObjectParts() {
+        return objectParts;
     }
 }

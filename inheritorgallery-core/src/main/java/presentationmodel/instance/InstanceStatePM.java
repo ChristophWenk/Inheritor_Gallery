@@ -51,7 +51,8 @@ public class InstanceStatePM {
                     new ObjectPM(
                             umlPM,
                             objectDTO.getObjectId(),
-                            objectDTO.getObjectFullName()
+                            objectDTO.getObjectFullName(),
+                            objectDTO.getFieldValues()
             ));
         }
         objectPMs.setAll(objectPMsTemp);

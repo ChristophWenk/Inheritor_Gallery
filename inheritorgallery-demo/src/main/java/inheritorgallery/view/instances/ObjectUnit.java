@@ -5,10 +5,14 @@ import inheritorgallery.view.ViewMixin;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import presentationmodel.instance.ObjectPM;
+import presentationmodel.uml.ClassPM;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ObjectUnit extends VBox implements ViewMixin {
-    private Label objectLabel;
+    private List<Label> objectLabels;
     private ObjectPM model;
 
     public ObjectUnit(ObjectPM model){
@@ -18,16 +22,20 @@ public class ObjectUnit extends VBox implements ViewMixin {
 
     @Override
     public void initializeControls() {
-        objectLabel = new Label();
+        objectLabels = new ArrayList<>();
+
+        for(ClassPM part : model.getObjectParts())
+            objectLabels.add(new Label(part.getFullClassName()));
     }
 
     @Override
     public void layoutControls() {
-        getChildren().addAll(objectLabel);
+
+        getChildren().addAll(objectLabels);
     }
 
     @Override
     public void setupBindings() {
-        objectLabel.textProperty().bind(model.objectFullNameProperty());
+        //objectLabel.textProperty().bind(model.objectFullNameProperty());
     }
 }

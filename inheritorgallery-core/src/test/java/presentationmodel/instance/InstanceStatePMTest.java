@@ -59,4 +59,18 @@ public class InstanceStatePMTest {
         assertEquals("input.Person",instanceStatePM.getObjectPMs().get(0).getObjectFullName());
     }
 
+    @Test
+    void testSetObjectStructure(){
+        //given
+
+        //when
+        instanceStatePM.setJShellInput("Person p1 = new Person();");
+        instanceStatePM.setJShellInput("Fahrzeug f = new Fahrzeug(\"tesla\",20);");
+
+        //then
+        assertEquals(1,instanceStatePM.getObjectPMs().get(0).getObjectParts().size());
+        assertEquals(2,instanceStatePM.getObjectPMs().get(1).getObjectParts().size());
+
+    }
+
 }
