@@ -127,7 +127,8 @@ public class JShellService {
                     && getPackageForReference(refName).equals(packageName)){
                 ObjectDTO objectDTO = new ObjectDTO(
                         getHashcodeForReference(refName),
-                        getClassForReference(refName)
+                        getClassForReference(refName),
+                        getFieldsForReference(refName)
                 );
                 // Check for an existing item in the list
                 if(objectDTOList.stream()
@@ -259,10 +260,12 @@ public class JShellService {
         String input1 = "String fieldDTOsString = \"\";";
         String input2 = "        Class<?> declaringClass  = "+reference+".getClass();";
         String input3 = " while(declaringClass.getSuperclass() != null) {\n" +
-                "            for (Field f : declaringClass.getDeclaredFields()) {\n" +
+                "            for (Field currentField_xyghw : declaringClass.getDeclaredFields()) {\n" +
                 "                try {\n" +
-                "                    f.setAccessible(true);\n" +
-                "                    fieldDTOsString += \";;\"+declaringClass.getCanonicalName()+\";\"+f.getName()+\";\"+f.get("+reference+").toString();\n" +
+                "                    currentField_xyghw.setAccessible(true);\n" +
+                "                    fieldDTOsString += \";;\"+declaringClass.getCanonicalName()+\";\"" +
+                "                                       +currentField_xyghw.getName()+\";\"" +
+                "                                       +currentField_xyghw.get("+reference+").toString();\n" +
                 "                } catch (IllegalAccessException e) {\n" +
                 "                    e.printStackTrace();\n" +
                 "                }\n" +
@@ -288,11 +291,14 @@ public class JShellService {
           Target:
           String [classField1;nameField1;valueField1,   classField2;nameField2;valueField2]
         */
-        String[] fieldDTOsAsString = snippetEvent.value().replace("\"","").substring(2).split(";;");
-        for(String fieldAsString : fieldDTOsAsString){
-            String[] fieldAsArray = fieldAsString.split(";");
-            fieldDTOs.add(new FieldDTO(fieldAsArray[0],fieldAsArray[1],fieldAsArray[2]));
+        if(snippetEvent.value().length() > 2){
+            String[] fieldDTOsAsString = snippetEvent.value().replace("\"","").substring(2).split(";;");
+            for(String fieldAsString : fieldDTOsAsString){
+                String[] fieldAsArray = fieldAsString.split(";");
+                fieldDTOs.add(new FieldDTO(fieldAsArray[0],fieldAsArray[1],fieldAsArray[2]));
+            }
         }
+
         return fieldDTOs;
     }
 

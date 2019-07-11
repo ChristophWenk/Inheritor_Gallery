@@ -33,7 +33,7 @@ public class InstanceStatePMTest {
 
         //then
         assertEquals(1,instanceStatePM.getObjectPMs().size());
-        assertEquals("Person",instanceStatePM.getObjectPMs().get(0).getObjectFullName());
+        assertEquals("input.Person",instanceStatePM.getObjectPMs().get(0).getObjectFullName());
 
         //when
         instanceStatePM.setJShellInput("Person p2 = new Person();");
@@ -53,7 +53,7 @@ public class InstanceStatePMTest {
 
         //then
         assertEquals(1,instanceStatePM.getObjectPMs().size());
-        assertEquals("Person",instanceStatePM.getObjectPMs().get(0).getObjectFullName());
+        assertEquals("input.Person",instanceStatePM.getObjectPMs().get(0).getObjectFullName());
 
     }
 
