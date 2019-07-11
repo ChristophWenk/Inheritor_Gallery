@@ -12,6 +12,8 @@ public class MethodPM {
     private final StringProperty returnType = new SimpleStringProperty();
     private final StringProperty name = new SimpleStringProperty();
     private final ObservableList<String> inputParameters = FXCollections.observableArrayList();
+    private final StringProperty declaredInClass = new SimpleStringProperty();
+    private final StringProperty implementedInClass = new SimpleStringProperty();
 
 
     public MethodPM(String modifier, String returnType, String name, List<String> inputParameters ) {
@@ -59,5 +61,29 @@ public class MethodPM {
 
     public ObservableList<String> getInputParameters() {
         return inputParameters;
+    }
+
+    public String getDeclaredInClass() {
+        return declaredInClass.get();
+    }
+
+    public StringProperty declaredInClassProperty() {
+        return declaredInClass;
+    }
+
+    public void setDeclaredInClass(String declaredInClass) {
+        this.declaredInClass.set(declaredInClass);
+    }
+
+    public String getImplementedInClass() {
+        return implementedInClass.get();
+    }
+
+    public StringProperty implementedInClassProperty() {
+        return implementedInClass;
+    }
+
+    public void setImplementedInClass(String implementedInClass) {
+        this.implementedInClass.set(implementedInClass);
     }
 }

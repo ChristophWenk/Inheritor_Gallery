@@ -8,11 +8,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import presentationmodel.uml.ClassPM;
 import presentationmodel.uml.FieldPM;
+import presentationmodel.uml.MethodPM;
 import presentationmodel.uml.UmlPM;
 import service.jshell.FieldDTO;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 public class ObjectPM {
@@ -32,6 +35,7 @@ public class ObjectPM {
 
         setObjectStructure();
         setFieldValues(fieldDTOs);
+        updateOverridenMethods();
     }
 
     public void setObjectStructure(){
@@ -55,6 +59,46 @@ public class ObjectPM {
             }
         }
 
+    }
+
+    /**
+     *
+     * Set class where a method is implemented by traversing the class tree from most specified object part
+     * first occurency of method is the implementation class the last occurency is the declaration class.
+     *
+     * all duplicate methods are deleted, only the class which declared the method keeps it.
+     */
+
+    private void updateOverridenMethods(){
+        //iterate over all methods and set implementedInClass and declaredInClass
+        //todo: store methods with same name and parameter as already implementation set
+
+
+        objectParts.stream().flatMap(e -> e.getMethods().stream()).forEach(method -> {
+            boolean implementationSet = false;
+
+            for(ClassPM classPM : objectParts) {
+                if(classPM.getMethods().contains(method)){
+                    if(!implementationSet) {
+                        method.setImplementedInClass(classPM.getFullClassName());
+                        implementationSet = true;
+                        logger.info("implemen: "+classPM.getFullClassName()+" "+method.getName());
+
+                    }
+                    logger.info("declared: "+classPM.getFullClassName()+" "+method.getName());
+                    method.setDeclaredInClass(classPM.getFullClassName());
+                }
+            }
+        });
+
+        for(int i = objectParts.size() - 1; i >= 0; i--){
+            //logger.info(objectParts.get(i).getFullClassName());
+        }
+    }
+
+    public boolean equals(MethodPM m1, MethodPM m2){
+        return  m1.getName().equals(m2.getName()) &&
+                m1.getInputParameters().equals(m2.getInputParameters());
     }
 
     public String getObjectId() {

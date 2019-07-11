@@ -4,15 +4,19 @@ import exceptions.InvalidCodeException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import presentationmodel.uml.ClassPM;
 import presentationmodel.uml.FieldPM;
+import presentationmodel.uml.MethodPM;
 import presentationmodel.uml.UmlPM;
 import service.jshell.JShellService;
 import service.jshell.ObjectDTO;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class InstanceStatePMTest {
     private static InstanceStatePM instanceStatePM;
@@ -91,6 +95,21 @@ public class InstanceStatePMTest {
         List<FieldPM> fields = instanceStatePM.getObjectPMs().get(0).getObjectParts().get(1).getFields();
         assertEquals("weight",fields.get(0).getName());
         assertEquals("0.0",fields.get(0).getValue());
+
+    }
+
+    @Test
+    void testUpdateOverridenMethods(){
+        instanceStatePM.setJShellInput("Fahrzeug f = new Fahrzeug(\"tesla\",20);");
+
+
+        List<MethodPM> methods = instanceStatePM.getObjectPMs().get(0).getObjectParts().get(1).getMethods();
+        Optional<MethodPM> method = methods.stream()
+                .filter(e-> e.getDeclaredInClass().equals("input.Item") && e.getName().equals("print"))
+                .findFirst();
+        assertTrue(method.isPresent());
+        assertEquals("input.Item", method.get().getDeclaredInClass());
+        //assertEquals("input.Fahrzeug", method.get().getImplementedInClass());
 
     }
 
