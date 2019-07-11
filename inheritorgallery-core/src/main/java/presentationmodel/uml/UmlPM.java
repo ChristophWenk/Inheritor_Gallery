@@ -35,7 +35,7 @@ public class UmlPM {
             edges.add(new EdgePM(e.getSource(),e.getTarget(),e.getType()));
         }
 
-        setClassInheritanceLevel(classes, edges);
+        setClassInheritanceLevelToHashMap(classes, edges);
     }
 
 
@@ -45,7 +45,7 @@ public class UmlPM {
         return targetClass.orElse(null);
     }
 
-    private void setClassInheritanceLevel(List<ClassPM> classes, List<EdgePM> edges){
+    private void setClassInheritanceLevelToHashMap(List<ClassPM> classes, List<EdgePM> edges){
         List<ClassPM> classesToFilter = new ArrayList<>(classes);
         List<EdgePM> edgesToFilter = new ArrayList<>(edges);
 
@@ -60,6 +60,7 @@ public class UmlPM {
 
             List<ClassPM>  classesNeverInherited =
                     classesToFilter.stream().filter(c -> !finalAllTargets.contains(c.getName())).collect(Collectors.toList());
+
             for(ClassPM c : classesNeverInherited){
                 inheritanceLevel.put(c,i);
             }
