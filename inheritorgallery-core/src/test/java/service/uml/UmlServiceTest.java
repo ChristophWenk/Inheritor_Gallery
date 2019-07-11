@@ -111,17 +111,4 @@ class UmlServiceTest {
 
     }
 
-    @Test
-    public void testGetEdgeDTOs(){
-        //given
-        List<EdgeDTO> edgeDTOs =  umlService.getEdgeDTOs();
-        //then
-        assertNotNull(edgeDTOs);
-        assertEquals(7, edgeDTOs.size());
-        assertEquals("AntiqueBuyableFahrrad",edgeDTOs.get(0).getSource());
-        assertEquals("Fahrrad",edgeDTOs.get(0).getTarget());
-        assertEquals("extends",edgeDTOs.get(0).getType());
-    }
-
-
 }

@@ -56,9 +56,8 @@ public class ClassPM {
                 m.getReturnType(),
                 m.getName(),
                 m.getInputParameters())));}
-        //for(EdgeDTO e : edgeDTOs){
-        //    this.edges.add(new EdgePM( e.getSource() ,e.getTarget(), e.getType()));
-        //}
+
+
 
     }
 

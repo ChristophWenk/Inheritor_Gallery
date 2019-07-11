@@ -23,18 +23,19 @@ public class UmlService {
     private static Logger logger = LoggerFactory.getLogger(UmlService.class);
     private final String packageName = "input";
 
-    private List<ClassDTO> classDTOs;
-    private List<EdgeDTO> edgeDTOs;
-
     public UmlService(){
+
+    }
+
+    public List<ClassDTO> getClassDTOs() {
         FileService fileService = new FileService();
         Path path = fileService.getPath("/"+packageName);
+
         List<Class> classes = getClassesForPath(path);
-        classDTOs =  classes.stream()
+        return  classes.stream()
                 .map(this::getClassDTOForClass)
                 .collect(Collectors.toList());
 
-        edgeDTOs = getEdgeDTOs(classes);
     }
 
     public List<Class> getClassesForPath(Path path){
@@ -136,27 +137,5 @@ public class UmlService {
         return methods;
     }
 
-    private List<EdgeDTO> getEdgeDTOs(List<Class> classes) {
-        List<EdgeDTO> edgeDTOS = new ArrayList<>();
 
-        for(Class clazz : classes) {
-            Class superClass = clazz.getSuperclass();
-            //Todo: Include Object class
-            if(superClass != null && !superClass.getSimpleName().equals("Object"))
-                edgeDTOS.add(new EdgeDTO(clazz.getSimpleName(),superClass.getSimpleName(),"extends"));
-
-            List<Class> implementedInterfaces = Arrays.stream(clazz.getInterfaces()).collect(Collectors.toList());
-            for (Class implementedInterface : implementedInterfaces)
-                edgeDTOS.add(new EdgeDTO(clazz.getSimpleName(),implementedInterface.getSimpleName(),"implements"));
-        }
-        return edgeDTOS;
-    }
-
-    public List<ClassDTO> getClassDTOs() {
-        return classDTOs;
-    }
-
-    public List<EdgeDTO> getEdgeDTOs() {
-        return edgeDTOs;
-    }
 }

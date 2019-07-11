@@ -7,7 +7,6 @@ import javafx.collections.ObservableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.uml.ClassDTO;
-import service.uml.EdgeDTO;
 import service.uml.UmlService;
 
 import java.util.*;
@@ -37,17 +36,21 @@ public class UmlPM {
                     c.getMethods()
             ));
         }
-        for(EdgeDTO e : umlService.getEdgeDTOs()){
-            edges.add(new EdgePM(e.getSource(),e.getTarget(),e.getType()));
-        }
-
         setClassInheritanceLevelToHashMap(classes);
+
+        edges.addAll(getEdgesForClasses(classes));
     }
 
 
     public ClassPM getClassByName(String s){
         Optional<ClassPM> targetClass =
                 classes.stream().filter(c -> c.getName().equals(s)).findFirst();
+        return targetClass.orElse(null);
+    }
+
+    public ClassPM getClassByFullName(String s){
+        Optional<ClassPM> targetClass =
+                classes.stream().filter(c -> c.getFullClassName().equals(s)).findFirst();
         return targetClass.orElse(null);
     }
 
@@ -85,6 +88,25 @@ public class UmlPM {
 
         setInheritanceDeepness(i * -1);
         classes.forEach(c -> c.setInheritanceLevel(c.getInheritanceLevel()+getInheritanceDeepness()));
+    }
+
+    private List<EdgePM> getEdgesForClasses(List<ClassPM> classes) {
+        List<EdgePM> edgePMs = new ArrayList<>();
+
+        for(ClassPM clazz : classes) {
+            ClassPM superClass =   getClassByFullName(clazz.getSuperClassName());
+            //Todo: Include Object class
+            if(superClass != null && !superClass.getName().equals("Object"))
+                edgePMs.add(new EdgePM(clazz.getName(),superClass.getName(),"extends"));
+
+            List<ClassPM> implementedInterfaces = clazz.getImplementedInterfaces().stream()
+                    .map(e -> getClassByFullName(e))
+                    .collect(Collectors.toList());
+
+            for (ClassPM implementedInterface : implementedInterfaces)
+                edgePMs.add(new EdgePM(clazz.getName(),implementedInterface.getName(),"implements"));
+        }
+        return edgePMs;
     }
 
     public ObservableList<ClassPM> getClasses() {
