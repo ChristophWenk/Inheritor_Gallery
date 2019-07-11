@@ -2,7 +2,6 @@ package presentationmodel.uml;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import service.uml.ClassDTO;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -42,6 +41,19 @@ class ClassPMTest {
         assertEquals("Fahrrad",classPMAFahrrad.getName());
         assertFalse(classPMAFahrrad.isIsInterface());
         assertEquals("input.Fahrzeug",classPMAFahrrad.getSuperClassName());
+    }
+
+    @Test
+    void testClassToClassDTOFields(){
+        ClassPM classPMFahrzeug= pm.getClasses().get(6);
+
+        assertEquals("private",classPMFahrzeug.getFields().get(0).getModifier());
+        assertEquals("double",classPMFahrzeug.getFields().get(0).getType());
+        assertEquals("speed",classPMFahrzeug.getFields().get(0).getName());
+
+        assertEquals("package",classPMFahrzeug.getFields().get(1).getModifier());
+        assertEquals("String",classPMFahrzeug.getFields().get(1).getType());
+        assertEquals("name",classPMFahrzeug.getFields().get(1).getName());
     }
 
 }

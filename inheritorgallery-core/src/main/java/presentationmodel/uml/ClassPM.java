@@ -39,7 +39,12 @@ public class ClassPM {
         this.implementedInterfaces.addAll(implementedInterfaces);
 
         for(FieldDTO f : fields){
-            this.fields.add(new FieldPM(f.getName()));}
+            this.fields.add(new FieldPM(
+                    f.getModifier(),
+                    f.getType(),
+                    f.getName(),
+                    null));}
+
         for(ConstructorDTO c : constructors){this.constructors.add((new ConstuctorPM(c.getName())));}
         for(MethodDTO m : methods){this.methods.add((new MethodPM(m.getName())));}
         //for(EdgeDTO e : edgeDTOs){
