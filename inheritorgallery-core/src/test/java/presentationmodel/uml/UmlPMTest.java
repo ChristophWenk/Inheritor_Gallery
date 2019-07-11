@@ -47,23 +47,19 @@ class UmlPMTest {
     }
     @Test
     public void testSetClassInheritanceLevel(){
-        //given
 
-        //then
-        assertEquals(3,pm.getInheritanceDeepness());
+//        assertEquals(0, pm.getInheritanceLevel().get(pm.getClassByName("Item")));
+//        assertEquals(1, pm.getInheritanceLevel().get(pm.getClassByName("Fahrzeug")));
+//        assertEquals(2, pm.getInheritanceLevel().get(pm.getClassByName("Fahrrad")));
+//        assertEquals(3, pm.getInheritanceLevel().get(pm.getClassByName("Cabriolet")));
+//        assertEquals(3, pm.getInheritanceLevel().get(pm.getClassByName("Person")));
 
-        assertEquals(0, pm.getInheritanceLevel().get(pm.getClassByName("Item")));
-        assertEquals(1, pm.getInheritanceLevel().get(pm.getClassByName("Fahrzeug")));
-        assertEquals(2, pm.getInheritanceLevel().get(pm.getClassByName("Fahrrad")));
-        assertEquals(3, pm.getInheritanceLevel().get(pm.getClassByName("Cabriolet")));
-        assertEquals(3, pm.getInheritanceLevel().get(pm.getClassByName("Person")));
+        assertEquals(0, pm.getClassByName("Item").getInheritanceLevel());
+        assertEquals(1, pm.getClassByName("Fahrzeug").getInheritanceLevel());
+        assertEquals(2, pm.getClassByName("Fahrrad").getInheritanceLevel());
+        assertEquals(3, pm.getClassByName("Cabriolet").getInheritanceLevel());
+        assertEquals(3, pm.getClassByName("Person").getInheritanceLevel());
+
     }
 
-    @Test
-    public void testGetInheritanceLevelOfClass(){
-        //given
-        ClassPM c =  pm.getClassByName("Person");
-        //then
-        assertEquals(3,pm.getInheritanceLevelOfClass(c));
-    }
 }
