@@ -51,7 +51,11 @@ public class ClassPM {
                     c.getName(),
                     c.getInputParameters())));}
 
-        for(MethodDTO m : methods){this.methods.add((new MethodPM(m.getName())));}
+        for(MethodDTO m : methods){this.methods.add((new MethodPM(
+                m.getModifier(),
+                m.getReturnType(),
+                m.getName(),
+                m.getInputParameters())));}
         //for(EdgeDTO e : edgeDTOs){
         //    this.edges.add(new EdgePM( e.getSource() ,e.getTarget(), e.getType()));
         //}

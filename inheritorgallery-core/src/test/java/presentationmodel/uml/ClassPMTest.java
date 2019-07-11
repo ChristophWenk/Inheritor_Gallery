@@ -2,7 +2,6 @@ package presentationmodel.uml;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import service.uml.ClassDTO;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -71,6 +70,20 @@ class ClassPMTest {
 
         assertEquals("private",classPMPerson.getConstructors().get(2).getModifier());
         assertEquals(2,classPMPerson.getConstructors().get(2).getInputParameters().size());
+
+    }
+
+    @Test
+    void testClassToClassDTOMethods(){
+        ClassPM classPMFahrzeug= pm.getClasses().get(6);
+
+        assertEquals("input.Fahrzeug",classPMFahrzeug.getFullClassName());
+
+        assertEquals(9,classPMFahrzeug.getMethods().size());
+        assertEquals("public",classPMFahrzeug.getMethods().get(5).getModifier());
+        assertEquals("void",classPMFahrzeug.getMethods().get(5).getReturnType());
+        assertEquals("setDieselTax",classPMFahrzeug.getMethods().get(5).getName());
+        assertEquals("double",classPMFahrzeug.getMethods().get(5).getInputParameters().get(0));
 
     }
 
