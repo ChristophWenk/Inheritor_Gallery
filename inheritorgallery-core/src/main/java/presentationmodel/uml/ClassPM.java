@@ -16,13 +16,28 @@ public class ClassPM {
     private final StringProperty fullClassName = new SimpleStringProperty();
     private final StringProperty name = new SimpleStringProperty();
     private final StringProperty superClassName = new SimpleStringProperty();
+    private final ObservableList<String> implementedInterfaces = FXCollections.observableArrayList();
     private final ObservableList<FieldPM> fields = FXCollections.observableArrayList();
     private final ObservableList<ConstuctorPM> constructors = FXCollections.observableArrayList();
     private final ObservableList<MethodPM> methods = FXCollections.observableArrayList();
 
 
-    public ClassPM(String name, List<FieldDTO> fields, List<ConstructorDTO> constructors, List<MethodDTO> methods) {
+    public ClassPM(
+            Boolean isInterface,
+            String fullClassName,
+            String name,
+            String superClassName,
+            List<String> implementedInterfaces,
+            List<FieldDTO> fields,
+            List<ConstructorDTO> constructors,
+            List<MethodDTO> methods) {
+
+        setIsInterface(isInterface);
+        setFullClassName(fullClassName);
         setName(name);
+        setSuperClassName(superClassName);
+        this.implementedInterfaces.addAll(implementedInterfaces);
+
         for(FieldDTO f : fields){
             this.fields.add(new FieldPM(f.getName()));}
         for(ConstructorDTO c : constructors){this.constructors.add((new ConstuctorPM(c.getName())));}
@@ -91,6 +106,10 @@ public class ClassPM {
 
     public void setSuperClassName(String superClassName) {
         this.superClassName.set(superClassName);
+    }
+
+    public ObservableList<String> getImplementedInterfaces() {
+        return implementedInterfaces;
     }
 
     public ObservableList<FieldPM> getFields() {
