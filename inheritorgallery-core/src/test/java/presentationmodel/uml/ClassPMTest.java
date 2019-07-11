@@ -2,6 +2,7 @@ package presentationmodel.uml;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import service.uml.ClassDTO;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,7 +16,7 @@ class ClassPMTest {
     }
 
     @Test
-    void testGlassToClassDTO(){
+    void testClassToClassPM(){
         //given
         ClassPM classPMAntique = pm.getClasses().get(0);
         //then
@@ -44,7 +45,7 @@ class ClassPMTest {
     }
 
     @Test
-    void testClassToClassDTOFields(){
+    void testClassToClassPMFields(){
         ClassPM classPMFahrzeug= pm.getClasses().get(6);
 
         assertEquals("private",classPMFahrzeug.getFields().get(0).getModifier());
@@ -54,6 +55,23 @@ class ClassPMTest {
         assertEquals("package",classPMFahrzeug.getFields().get(1).getModifier());
         assertEquals("String",classPMFahrzeug.getFields().get(1).getType());
         assertEquals("name",classPMFahrzeug.getFields().get(1).getName());
+    }
+
+    @Test
+    void testClassToClassDTOConstructors(){
+        ClassPM classPMPerson= pm.getClasses().get(8);
+
+        assertEquals("Person",classPMPerson.getConstructors().get(0).getName());
+
+        assertEquals("public",classPMPerson.getConstructors().get(0).getModifier());
+        assertEquals(0,classPMPerson.getConstructors().get(0).getInputParameters().size());
+
+        assertEquals("package",classPMPerson.getConstructors().get(1).getModifier());
+        assertEquals(1,classPMPerson.getConstructors().get(1).getInputParameters().size());
+
+        assertEquals("private",classPMPerson.getConstructors().get(2).getModifier());
+        assertEquals(2,classPMPerson.getConstructors().get(2).getInputParameters().size());
+
     }
 
 }

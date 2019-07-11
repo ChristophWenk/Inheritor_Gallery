@@ -18,7 +18,7 @@ public class ClassPM {
     private final StringProperty superClassName = new SimpleStringProperty();
     private final ObservableList<String> implementedInterfaces = FXCollections.observableArrayList();
     private final ObservableList<FieldPM> fields = FXCollections.observableArrayList();
-    private final ObservableList<ConstuctorPM> constructors = FXCollections.observableArrayList();
+    private final ObservableList<ConstructorPM> constructors = FXCollections.observableArrayList();
     private final ObservableList<MethodPM> methods = FXCollections.observableArrayList();
 
 
@@ -45,7 +45,12 @@ public class ClassPM {
                     f.getName(),
                     null));}
 
-        for(ConstructorDTO c : constructors){this.constructors.add((new ConstuctorPM(c.getName())));}
+        for(ConstructorDTO c : constructors){
+            this.constructors.add((new ConstructorPM(
+                    c.getModifier(),
+                    c.getName(),
+                    c.getInputParameters())));}
+
         for(MethodDTO m : methods){this.methods.add((new MethodPM(m.getName())));}
         //for(EdgeDTO e : edgeDTOs){
         //    this.edges.add(new EdgePM( e.getSource() ,e.getTarget(), e.getType()));
@@ -121,7 +126,7 @@ public class ClassPM {
         return fields;
     }
 
-    public ObservableList<ConstuctorPM> getConstructors() {
+    public ObservableList<ConstructorPM> getConstructors() {
         return constructors;
     }
 
