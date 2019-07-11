@@ -4,10 +4,13 @@ import exceptions.InvalidCodeException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import presentationmodel.uml.FieldPM;
 import presentationmodel.uml.UmlPM;
 import service.jshell.JShellService;
 import service.jshell.ObjectDTO;
 
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -70,6 +73,24 @@ public class InstanceStatePMTest {
         //then
         assertEquals(1,instanceStatePM.getObjectPMs().get(0).getObjectParts().size());
         assertEquals(2,instanceStatePM.getObjectPMs().get(1).getObjectParts().size());
+
+        assertEquals("input.Item",instanceStatePM.getObjectPMs().get(1).getObjectParts().get(1).getFullClassName());
+        assertEquals("input.Fahrzeug",instanceStatePM.getObjectPMs().get(1).getObjectParts().get(0).getFullClassName());
+    }
+
+    @Test
+    void testSetFieldValues(){
+        //given
+
+        //when
+        instanceStatePM.setJShellInput("Fahrzeug f = new Fahrzeug(\"tesla\",20);");
+
+        //then
+        assertEquals(2,instanceStatePM.getObjectPMs().get(0).getObjectParts().size());
+
+        List<FieldPM> fields = instanceStatePM.getObjectPMs().get(0).getObjectParts().get(1).getFields();
+        assertEquals("weight",fields.get(0).getName());
+        assertEquals("0.0",fields.get(0).getValue());
 
     }
 

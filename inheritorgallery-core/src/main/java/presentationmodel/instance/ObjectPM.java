@@ -7,10 +7,12 @@ import javafx.collections.ObservableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import presentationmodel.uml.ClassPM;
+import presentationmodel.uml.FieldPM;
 import presentationmodel.uml.UmlPM;
 import service.jshell.FieldDTO;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public class ObjectPM {
@@ -29,10 +31,10 @@ public class ObjectPM {
         setObjectFullName(objectFullName);
 
         setObjectStructure();
+        setFieldValues(fieldDTOs);
     }
 
     public void setObjectStructure(){
-        logger.info(objectFullName.getValue());
         ClassPM rootClass = umlPM.getClassByFullName(objectFullName.getValue());
 
         objectParts.add(rootClass);
@@ -40,6 +42,19 @@ public class ObjectPM {
             rootClass  = umlPM.getClassByFullName(rootClass.getSuperClassName());
             objectParts.add(rootClass);
         }
+    }
+
+    private void setFieldValues(List<FieldDTO> fieldDTOs){
+        for(ClassPM part : objectParts){
+            for (FieldPM field : part.getFields()){
+                Optional<FieldDTO> fieldOptional =  fieldDTOs.stream()
+                        .filter(e -> e.getDeclaringClass().equals(part.getFullClassName()))
+                        .filter(e -> e.getFieldName().equals(field.getName()))
+                        .findFirst();
+                fieldOptional.ifPresent(fieldDTO -> field.setValue(fieldDTO.getFieldValue()));
+            }
+        }
+
     }
 
     public String getObjectId() {
