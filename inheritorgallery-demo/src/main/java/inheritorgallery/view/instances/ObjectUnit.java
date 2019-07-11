@@ -28,6 +28,6 @@ public class ObjectUnit extends VBox implements ViewMixin {
 
     @Override
     public void setupBindings() {
-        objectLabel.textProperty().bind(model.objectNameProperty());
+        objectLabel.textProperty().bind(model.objectFullNameProperty());
     }
 }

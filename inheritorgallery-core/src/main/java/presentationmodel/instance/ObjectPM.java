@@ -7,11 +7,11 @@ import javafx.beans.property.StringProperty;
 public class ObjectPM {
 
     private final StringProperty objectId = new SimpleStringProperty();
-    private final StringProperty objectName = new SimpleStringProperty();
+    private final StringProperty objectFullName = new SimpleStringProperty();
 
-    public ObjectPM(String objectId, String objectName){
+    public ObjectPM(String objectId, String objectFullName){
         setObjectId(objectId);
-        setObjectName(objectName);
+        setObjectFullName(objectFullName);
     }
 
     public String getObjectId() {
@@ -26,15 +26,15 @@ public class ObjectPM {
         this.objectId.set(objectId);
     }
 
-    public String getObjectName() {
-        return objectName.get();
+    public String getObjectFullName() {
+        return objectFullName.get();
     }
 
-    public StringProperty objectNameProperty() {
-        return objectName;
+    public StringProperty objectFullNameProperty() {
+        return objectFullName;
     }
 
-    public void setObjectName(String objectName) {
-        this.objectName.set(objectName);
+    public void setObjectFullName(String objectFullName) {
+        this.objectFullName.set(objectFullName);
     }
 }

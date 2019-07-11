@@ -14,7 +14,7 @@ public class ObjectListCell extends ListCell<ObjectPM> {
             setGraphic(null);
         }
         else {
-            Label label = new Label(objectPM.getObjectName());
+            Label label = new Label(objectPM.getObjectFullName());
             setGraphic(label);
         }
     }

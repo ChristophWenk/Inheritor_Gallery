@@ -93,8 +93,8 @@ class JShellServiceTest {
 
         //then
         assertEquals(2,jShellService.getObjectDTOs().size());
-        assertTrue(jShellService.getObjectDTOs().stream().anyMatch(o -> o.getObjectName().equals("Fahrzeug")));
-        assertTrue(jShellService.getObjectDTOs().stream().noneMatch(o -> o.getObjectName().equals("Item")));
+        assertTrue(jShellService.getObjectDTOs().stream().anyMatch(o -> o.getObjectFullName().equals("input.Fahrzeug")));
+        assertTrue(jShellService.getObjectDTOs().stream().noneMatch(o -> o.getObjectFullName().equals("input.Item")));
     }
 
     @Test
@@ -203,9 +203,9 @@ class JShellServiceTest {
         }
 
         //then
-        assertEquals("Fahrzeug",jShellService.getClassForReference("i1"));
-        assertEquals("Fahrzeug",jShellService.getClassForReference("f"));
-        assertEquals("Fahrzeug",jShellService.getClassForReference("a"));
+        assertEquals("input.Fahrzeug",jShellService.getClassForReference("i1"));
+        assertEquals("input.Fahrzeug",jShellService.getClassForReference("f"));
+        assertEquals("input.Fahrzeug",jShellService.getClassForReference("a"));
     }
 
     @Test

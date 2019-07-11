@@ -42,7 +42,7 @@ public class InstanceStatePM {
         for(ObjectDTO objectDTO : jShellService.getObjectDTOs() ){
             objectPMsTemp.add(new ObjectPM(
                     objectDTO.getObjectId(),
-                    objectDTO.getObjectName()
+                    objectDTO.getObjectFullName()
             ));
         }
         objectPMs.setAll(objectPMsTemp);

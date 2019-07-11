@@ -183,7 +183,7 @@ public class JShellService {
     }
 
     public String getClassForReference(String reference){
-        String input = reference+".getClass().getSimpleName();";
+        String input = reference+".getClass().getCanonicalName();";
         SnippetEvent snippetEvent = null;
         try {
             snippetEvent = jShellService.evaluateCode(input);
