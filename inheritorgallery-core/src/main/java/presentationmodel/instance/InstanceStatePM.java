@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import presentationmodel.uml.UmlPM;
 import service.jshell.JShellService;
 import service.jshell.ObjectDTO;
 import service.jshell.ReferenceDTO;
@@ -26,6 +27,12 @@ public class InstanceStatePM {
 
     private final SimpleListProperty objectPMProperty = new SimpleListProperty(objectPMs);
 
+    private UmlPM umlPM;
+
+    public InstanceStatePM(UmlPM umlPM){
+        this.umlPM = umlPM;
+    }
+
     public void setJShellInput(String input) {
 
         try {
@@ -40,9 +47,11 @@ public class InstanceStatePM {
     private void updateInstances(){
         objectPMsTemp.clear();
         for(ObjectDTO objectDTO : jShellService.getObjectDTOs() ){
-            objectPMsTemp.add(new ObjectPM(
-                    objectDTO.getObjectId(),
-                    objectDTO.getObjectFullName()
+            objectPMsTemp.add(
+                    new ObjectPM(
+                            umlPM,
+                            objectDTO.getObjectId(),
+                            objectDTO.getObjectFullName()
             ));
         }
         objectPMs.setAll(objectPMsTemp);

@@ -61,6 +61,10 @@ public class ClassPM {
 
     }
 
+    public boolean hasSuperClass(){
+        return this.getSuperClassName() != null && !this.getSuperClassName().equals("java.lang.Object");
+    }
+
     public int getInheritanceLevel() {
         return inheritanceLevel.get();
     }

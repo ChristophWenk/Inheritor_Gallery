@@ -4,6 +4,7 @@ import exceptions.InvalidCodeException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import presentationmodel.uml.UmlPM;
 import service.jshell.JShellService;
 import service.jshell.ObjectDTO;
 
@@ -12,11 +13,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InstanceStatePMTest {
     private static InstanceStatePM instanceStatePM;
+    private static UmlPM umlPM;
     private static JShellService jShellService = JShellService.getInstance();
 
     @BeforeAll
     public static void setUp() {
-        instanceStatePM = new InstanceStatePM();
+        umlPM = new UmlPM();
+        instanceStatePM = new InstanceStatePM(umlPM);
     }
 
     @BeforeEach
@@ -54,7 +57,6 @@ public class InstanceStatePMTest {
         //then
         assertEquals(1,instanceStatePM.getObjectPMs().size());
         assertEquals("input.Person",instanceStatePM.getObjectPMs().get(0).getObjectFullName());
-
     }
 
 }

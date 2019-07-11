@@ -21,7 +21,7 @@ public class AppStarter extends Application {
         AsciiDocService asciiDocService = new AsciiDocService();
 
         UmlPM umlPM = new UmlPM();
-        InstanceStatePM instanceStatePM = new InstanceStatePM();
+        InstanceStatePM instanceStatePM = new InstanceStatePM(umlPM);
         InstructionPM instructionPM = new InstructionPM(asciiDocService);
 
         Parent rootPane = new ApplicationUI(instanceStatePM, umlPM, instructionPM);

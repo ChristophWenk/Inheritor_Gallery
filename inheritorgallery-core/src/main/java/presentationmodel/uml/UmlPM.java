@@ -63,7 +63,7 @@ public class UmlPM {
             i--;
 
             List<String> classesExtended = classesLevelNotSetYet.stream()
-                    .filter(e -> e.getSuperClassName() != null && !e.getSuperClassName().equals("java.lang.Object"))
+                    .filter(e -> e.hasSuperClass())
                     .map(e -> e.getSuperClassName())
                     .distinct()
                     .collect(Collectors.toList());
