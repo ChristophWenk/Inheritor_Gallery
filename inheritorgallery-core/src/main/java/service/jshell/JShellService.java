@@ -285,7 +285,9 @@ public class JShellService {
           Target:
           String [classField1;nameField1;valueField1,   classField2;nameField2;valueField2]
         */
+
         if(snippetEvent.value().length() > 2){
+            //logger.info(snippetEvent.value());
             String[] fieldDTOsAsString = snippetEvent.value().replace("\"","").substring(2).split(";;");
             for(String fieldAsString : fieldDTOsAsString){
                 String[] fieldAsArray = fieldAsString.split(";");
