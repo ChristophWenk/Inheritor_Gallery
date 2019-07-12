@@ -3,8 +3,6 @@ package input;
 public class Auto extends Fahrzeug {
     private int ps;
     private int color;
-    private Object referenceTypeNull;
-    private Person person = new Person();
 
     public Auto(String name, double speed, int ps, int color) {
         super(name, speed);
