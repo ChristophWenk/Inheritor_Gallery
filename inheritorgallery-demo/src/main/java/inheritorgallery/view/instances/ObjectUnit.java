@@ -27,17 +27,14 @@ public class ObjectUnit extends VBox implements ViewMixin {
 
     @Override
     public void initializeControls() {
-        //objectLabels = new ArrayList<>();
         objectParts = new ArrayList<>();
         references = new ArrayList<>();
 
         for(ClassPM part : model.getObjectParts())
             objectParts.add(new ObjectPartUnit(part));
-            //objectLabels.add(new Label(part.getFullClassName()));
 
         for(ReferencePM referencePM : model.getReferences()){
-            logger.info(referencePM.getReferenceName());
-            references.add(new Label(referencePM.getReferenceName()));
+            references.add(new Label(referencePM.getReferenceType() +" "+referencePM.getReferenceName()));
         }
     }
 
@@ -50,6 +47,6 @@ public class ObjectUnit extends VBox implements ViewMixin {
 
     @Override
     public void setupBindings() {
-        //objectLabel.textProperty().bind(model.objectFullNameProperty());
+
     }
 }
