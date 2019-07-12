@@ -38,11 +38,12 @@ public class ObjectPM {
     }
 
     public void setObjectStructure(){
-        ClassPM rootClass = umlPM.getClassByFullName(objectFullName.getValue());
+        ClassPM rootClass = umlPM.getClassByFullName(objectFullName.getValue()).clone();
 
         objectParts.add(rootClass);
+
         while(rootClass.hasSuperClass()){
-            rootClass  = umlPM.getClassByFullName(rootClass.getSuperClassName());
+            rootClass  = umlPM.getClassByFullName(rootClass.getSuperClassName()).clone();
             objectParts.add(rootClass);
         }
     }
@@ -103,7 +104,6 @@ public class ObjectPM {
                         if(!firstMethodDeclarationFound){
                             currentMethod.setImplementedInClass(implementedInClass);
                             firstMethodDeclarationFound = true;
-                            logger.info(objectParts.get(i).getFullClassName()+" "+currentMethod.getName()+" "+currentMethod.getInputParameters()+" "+implementedInClass);
                         }
                         else {
                             methodsToDeleteInObject.add(currentMethod);

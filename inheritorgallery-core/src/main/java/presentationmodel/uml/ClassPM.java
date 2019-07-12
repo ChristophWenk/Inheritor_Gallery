@@ -7,7 +7,9 @@ import service.uml.ConstructorDTO;
 import service.uml.FieldDTO;
 import service.uml.MethodDTO;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ClassPM {
 
@@ -20,6 +22,30 @@ public class ClassPM {
     private final ObservableList<FieldPM> fields = FXCollections.observableArrayList();
     private final ObservableList<ConstructorPM> constructors = FXCollections.observableArrayList();
     private final ObservableList<MethodPM> methods = FXCollections.observableArrayList();
+
+    @Override
+    public ClassPM clone(){
+        List<FieldDTO> fields = new ArrayList<>();
+        List<ConstructorDTO> constructors  = new ArrayList<>();
+        List<MethodDTO> methods  = new ArrayList<>();
+        for(FieldPM f : getFields())
+            fields.add(new FieldDTO(f.getModifier(),f.getType(),f.getName()));
+        for(ConstructorPM c : getConstructors())
+            constructors.add(new ConstructorDTO(c.getModifier(),c.getName(),c.getInputParameters()));
+        for(MethodPM m : getMethods())
+            methods.add(new MethodDTO(m.getModifier(), m.getReturnType(),m.getName(),m.getInputParameters()));
+
+        return new ClassPM(
+                this.isInterface.getValue(),
+                this.fullClassName.getValue(),
+                this.name.getValue(),
+                this.superClassName.getValue(),
+                this.implementedInterfaces,
+                fields,
+                constructors,
+                methods
+                );
+    }
 
 
     public ClassPM(
@@ -60,6 +86,8 @@ public class ClassPM {
 
 
     }
+
+
 
     public boolean hasSuperClass(){
         return this.getSuperClassName() != null && !this.getSuperClassName().equals("java.lang.Object");

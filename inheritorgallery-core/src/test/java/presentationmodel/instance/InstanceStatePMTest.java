@@ -86,15 +86,21 @@ public class InstanceStatePMTest {
         //given
 
         //when
-        instanceStatePM.setJShellInput("Fahrzeug f = new Fahrzeug(\"tesla\",20);");
+        instanceStatePM.setJShellInput("Fahrzeug f1 = new Fahrzeug(\"tesla1\",10);");
+        instanceStatePM.setJShellInput("f1.setWeight(1);");
+        instanceStatePM.setJShellInput("Fahrzeug f2 = new Fahrzeug(\"tesla2\",20);");
+        instanceStatePM.setJShellInput("f2.setWeight(2);");
 
         //then
         assertEquals(2,instanceStatePM.getObjectPMs().get(0).getObjectParts().size());
 
         List<FieldPM> fields = instanceStatePM.getObjectPMs().get(0).getObjectParts().get(1).getFields();
         assertEquals("weight",fields.get(0).getName());
-        assertEquals("0.0",fields.get(0).getValue());
+        assertEquals("1.0",fields.get(0).getValue());
 
+        List<FieldPM> fields2 = instanceStatePM.getObjectPMs().get(1).getObjectParts().get(1).getFields();
+        assertEquals("weight",fields2.get(0).getName());
+        assertEquals("2.0",fields2.get(0).getValue());
     }
 
     @Test
