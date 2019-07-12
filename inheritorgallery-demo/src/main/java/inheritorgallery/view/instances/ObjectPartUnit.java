@@ -22,6 +22,7 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
 
     public ObjectPartUnit(ClassPM model){
         this.model = model;
+        this.getStyleClass().add("classBox");
         init();
     }
 
