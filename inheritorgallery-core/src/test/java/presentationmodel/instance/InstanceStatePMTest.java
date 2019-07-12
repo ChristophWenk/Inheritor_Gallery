@@ -99,55 +99,15 @@ public class InstanceStatePMTest {
 
     @Test
     void testUpdateOverridenMethods(){
-        instanceStatePM.setJShellInput("Fahrzeug f = new Fahrzeug(\"tesla\",20);");
+        instanceStatePM.setJShellInput("Fahrzeug f = new Fahrzeug(\"velo\",20);");
 
 
         List<MethodPM> methods = instanceStatePM.getObjectPMs().get(0).getObjectParts().get(1).getMethods();
         Optional<MethodPM> method = methods.stream()
-                .filter(e-> e.getDeclaredInClass().equals("input.Item") && e.getName().equals("print"))
+                .filter(e -> e.getName().equals("print"))
                 .findFirst();
         assertTrue(method.isPresent());
-        assertEquals("input.Item", method.get().getDeclaredInClass());
-        //assertEquals("input.Fahrzeug", method.get().getImplementedInClass());
-
-    }
-
-    @Test
-    void testIsSameMethod(){
-        instanceStatePM.setJShellInput("Fahrzeug f = new Fahrzeug(\"tesla\",20);");
-        ObjectPM objectPM = instanceStatePM.getObjectPMs().get(0);
-
-        List<MethodPM> methodsOfItem = instanceStatePM.getObjectPMs().get(0).getObjectParts().get(1).getMethods();
-        Optional<MethodPM> method1 = methodsOfItem.stream()
-                .filter(e->
-                        e.getDeclaredInClass().equals("input.Item") &&
-                                e.getName().equals("print")&&
-                                e.getInputParameters().size() == 0)
-                .findFirst();
-
-        List<MethodPM> methodsOfFahrzeug = instanceStatePM.getObjectPMs().get(0).getObjectParts().get(0).getMethods();
-        Optional<MethodPM> method2 = methodsOfFahrzeug.stream()
-                .filter(e->
-                            e.getDeclaredInClass().equals("input.Fahrzeug") &&
-                            e.getName().equals("print")&&
-                            e.getInputParameters().size() == 0)
-                .findFirst();
-
-        Optional<MethodPM> method3 = methodsOfFahrzeug.stream()
-                .filter(e->
-                        e.getDeclaredInClass().equals("input.Fahrzeug") &&
-                                e.getName().equals("print")&&
-                                e.getInputParameters().size() == 1)
-                .findFirst();
-
-        assertTrue(method1.isPresent());
-        assertTrue(method2.isPresent());
-        assertTrue(method3.isPresent());
-
-        assertTrue(objectPM.isSameMethod(method1.get(),method2.get()));
-        assertFalse(objectPM.isSameMethod(method1.get(),method3.get()));
-
-
+        assertEquals("input.Fahrzeug", method.get().getImplementedInClass());
     }
 
 }

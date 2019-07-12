@@ -12,9 +12,8 @@ import presentationmodel.uml.MethodPM;
 import presentationmodel.uml.UmlPM;
 import service.jshell.FieldDTO;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.lang.invoke.MethodHandle;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -70,30 +69,67 @@ public class ObjectPM {
      */
 
     private void updateOverridenMethods(){
-        //iterate over all methods and set implementedInClass and declaredInClass
-        //todo: store methods with same name and parameter as already implementation set
+        List<MethodPM> allMethods = objectParts.stream()
+                .flatMap(e -> e.getMethods().stream())
+                .collect(Collectors.toList());
+        List<MethodPM> duplicateMethods = new ArrayList<>();
 
+        for(MethodPM method : allMethods){
+            List<MethodPM> methodAppearances =
+                allMethods.stream().filter(e -> isSameMethod(e,method)).collect(Collectors.toList());
 
-        objectParts.stream().flatMap(e -> e.getMethods().stream()).forEach(method -> {
-            boolean implementationSet = false;
-
-            for(ClassPM classPM : objectParts) {
-                if(classPM.getMethods().contains(method)){
-                    if(!implementationSet) {
-                        method.setImplementedInClass(classPM.getFullClassName());
-                        implementationSet = true;
-                        logger.info("implemen: "+classPM.getFullClassName()+" "+method.getName());
-
-                    }
-                    logger.info("declared: "+classPM.getFullClassName()+" "+method.getName());
-                    method.setDeclaredInClass(classPM.getFullClassName());
+            if(methodAppearances.size() > 1)   {
+                boolean alreadyAdded  = false;
+                //make sure that duplicate method is added only once
+                for(MethodPM duplicateMethod : duplicateMethods){
+                    if(isSameMethod(method,duplicateMethod)) alreadyAdded = true;
+                }
+                if(!alreadyAdded) {
+                    duplicateMethods.add(method);
                 }
             }
-        });
-
-        for(int i = objectParts.size() - 1; i >= 0; i--){
-            //logger.info(objectParts.get(i).getFullClassName());
         }
+
+        duplicateMethods.forEach(duplicateMethod -> {
+            String implementedInClass = getImplementedInClass(duplicateMethod);
+
+            boolean firstMethodDeclarationFound = false;
+
+            List<MethodPM> methodsToDeleteInObject = new ArrayList<>();
+
+            for (int i = objectParts.size(); i-- > 0; ) {
+                for(MethodPM currentMethod : objectParts.get(i).getMethods()){
+                    if(isSameMethod(currentMethod,duplicateMethod))   {
+                        if(!firstMethodDeclarationFound){
+                            currentMethod.setImplementedInClass(implementedInClass);
+                            firstMethodDeclarationFound = true;
+                            logger.info(objectParts.get(i).getFullClassName()+" "+currentMethod.getName()+" "+currentMethod.getInputParameters()+" "+implementedInClass);
+                        }
+                        else {
+                            methodsToDeleteInObject.add(currentMethod);
+                        }
+                    }
+                }
+            }
+
+            for(ClassPM objectPart : objectParts){
+                for(MethodPM methodToDelete : methodsToDeleteInObject)
+                    objectPart.getMethods().remove(methodToDelete);
+            }
+
+        });
+    }
+
+    private String getImplementedInClass(MethodPM method){
+        for(ClassPM classPM : objectParts) {
+            for(MethodPM methodPM : classPM.getMethods()){
+                if(isSameMethod(methodPM,method))   {
+                    return classPM.getFullClassName();
+                }
+            }
+
+        }
+        return null;
     }
 
     public boolean isSameMethod(MethodPM m1, MethodPM m2){
