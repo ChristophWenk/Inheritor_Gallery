@@ -3,7 +3,7 @@ package input;
 public class Fahrzeug extends Item {
 
     private double speed;
-    private String name;
+    String name;
     private static double dieselTax;
     public static final double gravity = 9.81;
 
@@ -13,6 +13,10 @@ public class Fahrzeug extends Item {
     }
 
     public void print(){
+        System.out.println("Fahrzeug: "+name+" fährt "+speed);
+    }
+
+    public void print(String s){
         System.out.println("Fahrzeug: "+name+" fährt "+speed);
     }
     public void printFahrzeug(){

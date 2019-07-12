@@ -1,41 +1,44 @@
 package presentationmodel.uml;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import service.uml.ClassDTO;
-import service.uml.EdgeDTO;
 import service.uml.UmlService;
 
 import java.util.*;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class UmlPM {
 
-    private static Logger logger = Logger.getLogger(UmlService.class.getName());
+    private static Logger logger = LoggerFactory.getLogger(UmlPM.class);
 
     //ToDo Observable never used, overkill?
     private final ObservableList<ClassPM> classes = FXCollections.observableArrayList();
     private final ObservableList<EdgePM> edges = FXCollections.observableArrayList();
-    private final Map<ClassPM,Integer> inheritanceLevel = new HashMap<>();
-    private int inheritanceDeepness;
+    private final IntegerProperty inheritanceDeepness = new SimpleIntegerProperty();
     private UmlService umlService;
 
     public UmlPM() {
         umlService = new UmlService();
         for(ClassDTO c : umlService.getClassDTOs()){
             classes.add(new ClassPM(
-                    c.getName(),
+                    c.isInterface(),
+                    c.getFullClassName(),
+                    c.getSimpleClassName(),
+                    c.getSuperClassName(),
+                    c.getImplementedInterfaces(),
                     c.getFields(),
                     c.getConstructors(),
                     c.getMethods()
             ));
         }
-        for(EdgeDTO e : umlService.getEdgeDTOs()){
-            edges.add(new EdgePM(e.getSource(),e.getTarget(),e.getType()));
-        }
+        setClassInheritanceLevelToHashMap(classes);
 
-        setClassInheritanceLevel(classes, edges);
+        edges.addAll(getEdgesForClasses(classes));
     }
 
 
@@ -45,36 +48,65 @@ public class UmlPM {
         return targetClass.orElse(null);
     }
 
-    private void setClassInheritanceLevel(List<ClassPM> classes, List<EdgePM> edges){
-        List<ClassPM> classesToFilter = new ArrayList<>(classes);
-        List<EdgePM> edgesToFilter = new ArrayList<>(edges);
+    public ClassPM getClassByFullName(String s){
+        Optional<ClassPM> targetClass =
+                classes.stream().filter(c -> c.getFullClassName().equals(s)).findFirst();
+        return targetClass.orElse(null);
+    }
 
-        List<String> remainingTargets;
+    private void setClassInheritanceLevelToHashMap(List<ClassPM> classes){
+        List<ClassPM> classesLevelNotSetYet = new ArrayList<>(classes);
 
         int i = 1;
-        while(!classesToFilter.isEmpty()){
+
+        while(!classesLevelNotSetYet.isEmpty()){
             i--;
-            remainingTargets = edgesToFilter.stream().map(EdgePM::getTarget).collect(Collectors.toList());
 
-            List<String> finalAllTargets = remainingTargets;
+            List<String> classesExtended = classesLevelNotSetYet.stream()
+                    .filter(e -> e.hasSuperClass())
+                    .map(e -> e.getSuperClassName())
+                    .distinct()
+                    .collect(Collectors.toList());
 
-            List<ClassPM>  classesNeverInherited =
-                    classesToFilter.stream().filter(c -> !finalAllTargets.contains(c.getName())).collect(Collectors.toList());
+            List<String> classesImplemented = classesLevelNotSetYet.stream()
+                    .flatMap(e -> e.getImplementedInterfaces().stream())
+                    .collect(Collectors.toList());
+
+            List<String> classesExtendedOrImplemented = new ArrayList<>(classesExtended);
+            classesExtendedOrImplemented.addAll(classesImplemented);
+
+            List<ClassPM>  classesNeverInherited = classesLevelNotSetYet.stream()
+                    .filter(c -> !classesExtendedOrImplemented.contains(c.getFullClassName()))
+                    .collect(Collectors.toList());
+
             for(ClassPM c : classesNeverInherited){
-                inheritanceLevel.put(c,i);
+                c.setInheritanceLevel(i);
+                classesLevelNotSetYet.remove(c);
             }
 
-            classesToFilter.removeAll(classesNeverInherited);
-
-            List<String> classesRemoved = classesNeverInherited.stream().map(ClassPM::getName).collect(Collectors.toList());
-
-            edgesToFilter =  edgesToFilter.stream()
-                    .filter(e -> !classesRemoved.contains(e.getSource())).collect(Collectors.toList());
         }
 
         setInheritanceDeepness(i * -1);
+        classes.forEach(c -> c.setInheritanceLevel(c.getInheritanceLevel()+getInheritanceDeepness()));
+    }
 
-        inheritanceLevel.forEach((classPM,level) -> inheritanceLevel.put(classPM,level+getInheritanceDeepness()));
+    private List<EdgePM> getEdgesForClasses(List<ClassPM> classes) {
+        List<EdgePM> edgePMs = new ArrayList<>();
+
+        for(ClassPM clazz : classes) {
+            ClassPM superClass =   getClassByFullName(clazz.getSuperClassName());
+            //Todo: Include Object class
+            if(superClass != null && !superClass.getName().equals("Object"))
+                edgePMs.add(new EdgePM(clazz.getName(),superClass.getName(),"extends"));
+
+            List<ClassPM> implementedInterfaces = clazz.getImplementedInterfaces().stream()
+                    .map(e -> getClassByFullName(e))
+                    .collect(Collectors.toList());
+
+            for (ClassPM implementedInterface : implementedInterfaces)
+                edgePMs.add(new EdgePM(clazz.getName(),implementedInterface.getName(),"implements"));
+        }
+        return edgePMs;
     }
 
     public ObservableList<ClassPM> getClasses() {
@@ -85,19 +117,15 @@ public class UmlPM {
         return edges;
     }
 
-    public Map<ClassPM, Integer> getInheritanceLevel() {
-        return inheritanceLevel;
-    }
-
-    public int getInheritanceLevelOfClass(ClassPM c) {
-        return inheritanceLevel.get(c);
-    }
-
     public int getInheritanceDeepness() {
+        return inheritanceDeepness.get();
+    }
+
+    public IntegerProperty inheritanceDeepnessProperty() {
         return inheritanceDeepness;
     }
 
     public void setInheritanceDeepness(int inheritanceDeepness) {
-        this.inheritanceDeepness = inheritanceDeepness;
+        this.inheritanceDeepness.set(inheritanceDeepness);
     }
 }

@@ -1,14 +1,15 @@
 package service;
 
 import exceptions.InvalidCodeException;
-import input.Auto;
 import jdk.jshell.SnippetEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import service.jshell.FieldDTO;
 import service.jshell.JShellService;
+import service.jshell.ObjectDTO;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,8 +25,8 @@ class JShellServiceTest {
     @Test
     void testEvaluateCode() {
         //given
-        String input1 = "Item i = new Fahrzeug(\"tesla\", 20);";
-        String input2 = "i.getWeight();";
+        String input1 = "Person p = new Person();";
+        String input2 = "p.getFirstName();";
         SnippetEvent snippetEvent = null;
 
         //when
@@ -94,8 +95,51 @@ class JShellServiceTest {
 
         //then
         assertEquals(2,jShellService.getObjectDTOs().size());
-        assertTrue(jShellService.getObjectDTOs().stream().anyMatch(o -> o.getObjectName().equals("Fahrzeug")));
-        assertTrue(jShellService.getObjectDTOs().stream().noneMatch(o -> o.getObjectName().equals("Item")));
+        assertTrue(jShellService.getObjectDTOs().stream().anyMatch(o -> o.getObjectFullName().equals("input.Fahrzeug")));
+        assertTrue(jShellService.getObjectDTOs().stream().noneMatch(o -> o.getObjectFullName().equals("input.Item")));
+    }
+
+    @Test
+    void testGetObjectDTOFieldValues() {
+        //given
+        String input1 = "Fahrzeug f = new Fahrzeug(\"tesla\", 20);";
+        String input2 = "Item i = new Fahrzeug(\"teslaToBeOverridden\", 20);";
+
+
+        //when
+        try {
+            jShellService.evaluateCode(input1);
+            jShellService.evaluateCode(input2);
+
+        } catch (InvalidCodeException e) {
+            e.printStackTrace();
+        }
+
+        //then
+        assertEquals(2, jShellService.getObjectDTOs().size());
+
+        ObjectDTO fahrzeug =  jShellService.getObjectDTOs().get(0);
+        assertEquals("input.Fahrzeug",fahrzeug.getObjectFullName());
+        assertEquals(5,fahrzeug.getFieldValues().size());
+
+        Optional<FieldDTO> dieselTaxOptional = fahrzeug.getFieldValues().stream()
+                .filter(o -> o.getFieldName().equals("weight")).findFirst();
+        assertTrue(dieselTaxOptional.isPresent());
+        FieldDTO dieselTax = dieselTaxOptional.get();
+        assertEquals("input.Item",dieselTax.getDeclaringClass());
+        assertEquals("0.0",dieselTax.getFieldValue());
+
+
+        ObjectDTO item =  jShellService.getObjectDTOs().get(1);
+        assertEquals("input.Fahrzeug",item.getObjectFullName());
+        Optional<FieldDTO> nameOptional = fahrzeug.getFieldValues().stream()
+                .filter(o -> o.getFieldName().equals("name")).findFirst();
+        assertTrue(nameOptional.isPresent());
+        FieldDTO name = nameOptional.get();
+        assertEquals("input.Fahrzeug",name.getDeclaringClass());
+        assertEquals("tesla",name.getFieldValue());
+
+
     }
 
     @Test
@@ -204,9 +248,9 @@ class JShellServiceTest {
         }
 
         //then
-        assertEquals("Fahrzeug",jShellService.getClassForReference("i1"));
-        assertEquals("Fahrzeug",jShellService.getClassForReference("f"));
-        assertEquals("Fahrzeug",jShellService.getClassForReference("a"));
+        assertEquals("input.Fahrzeug",jShellService.getClassForReference("i1"));
+        assertEquals("input.Fahrzeug",jShellService.getClassForReference("f"));
+        assertEquals("input.Fahrzeug",jShellService.getClassForReference("a"));
     }
 
     @Test

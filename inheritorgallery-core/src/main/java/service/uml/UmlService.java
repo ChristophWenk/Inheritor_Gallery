@@ -1,145 +1,141 @@
 package service.uml;
 
-import com.github.javaparser.StaticJavaParser;
-import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.nodeTypes.NodeWithDeclaration;
-import com.github.javaparser.ast.visitor.VoidVisitor;
-import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.FileService;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class UmlService {
     private static Logger logger = LoggerFactory.getLogger(UmlService.class);
-
-    private List<ClassDTO> classDTOs;
-    private List<EdgeDTO> edgeDTOs;
+    private final String packageName = "input";
 
     public UmlService(){
-        FileService fileService = new FileService();
-        Path path = fileService.getPath("/uml");
 
-        List<CompilationUnit> cus = new ArrayList<>();
-        // traverse all files in directory and subdirectories and create i list of CompilationUnit
-        try {
-            cus = Files.walk(path)
-                    .filter(p -> p.toString().endsWith(".java"))
-                    .map(p -> new File(String.valueOf(p)))
-                    .map(File::getAbsolutePath)
-                    .map(this::getCompilationUnitFromFile)
-                    .collect(Collectors.toList());
-        } catch (IOException e) {
-            logger.error("Could not create List of Compilation Units", e);
-        }
-
-        // create classes from CompilationUnits
-        List<ClassOrInterfaceDeclaration> classDeclarations = new ArrayList<>();
-        VoidVisitor<List<ClassOrInterfaceDeclaration>> classCollector = new ClassCollector();
-        for (CompilationUnit cu : cus) {
-            classCollector.visit(cu, classDeclarations);
-        }
-
-        classDeclarations = classDeclarations.stream()
-                .sorted(Comparator.comparing(ClassOrInterfaceDeclaration::getNameAsString))
-                .collect(Collectors.toList());
-
-
-        classDTOs =  classDeclarations.stream().map(this::classDeclarationToClassDTO)
-                .collect(Collectors.toList());
-
-        edgeDTOs = searchEdges(classDeclarations);
     }
-
-
 
     public List<ClassDTO> getClassDTOs() {
-        return classDTOs;
-    }
-    public List<EdgeDTO> getEdgeDTOs() {
-        return edgeDTOs;
-    }
+        FileService fileService = new FileService();
+        Path path = fileService.getPath("/"+packageName);
 
-    private ClassDTO classDeclarationToClassDTO(ClassOrInterfaceDeclaration classDeclaration){
-        String className = classDeclaration.getNameAsString();
-        //String fullyQualifiedClassName = classDeclaration.getFullyQualifiedName().isPresent() ?
-        //        classDeclaration.getFullyQualifiedName().get() : className ;
-
-        //fields
-        List<String> fields = classDeclaration.getFields().stream()
-                .map(Node::toString)
-                .collect(Collectors.toList());
-        //constructors
-        List<String> constructors = classDeclaration.getConstructors().stream()
-                .map(NodeWithDeclaration::getDeclarationAsString)
-                .collect(Collectors.toList());
-        //methods
-        List<String> methods = classDeclaration.getMethods().stream()
-                .map(NodeWithDeclaration::getDeclarationAsString)
+        List<Class> classes = getClassesForPath(path);
+        return  classes.stream()
+                .map(this::getClassDTOForClass)
                 .collect(Collectors.toList());
 
-
-        return new ClassDTO(className, fields, constructors, methods);
     }
 
-    private List<EdgeDTO> searchEdges(List<ClassOrInterfaceDeclaration> classDeclarations){
-        List<EdgeDTO> edgeDTOS = new ArrayList<>();
-
-        for(ClassOrInterfaceDeclaration classDeclaration : classDeclarations) {
-
-
-            List<String> extendsDeclaration = classDeclaration.getExtendedTypes().stream()
-                    .map(c -> c.getName().asString())
-                    .collect(Collectors.toList());
-            List<String> implementsDeclaration = classDeclaration.getImplementedTypes().stream()
-                    .map(c -> c.getName().asString())
-                    .collect(Collectors.toList());
-
-
-
-            for (String s : extendsDeclaration) {
-                edgeDTOS.add(new EdgeDTO(classDeclaration.getNameAsString(),s,"extends"));
-            }
-            for (String s : implementsDeclaration) {
-                edgeDTOS.add(new EdgeDTO(classDeclaration.getNameAsString(),s,"implements"));
-            }
-        }
-
-        return edgeDTOS;
-    }
-
-
-    private CompilationUnit getCompilationUnitFromFile(String filepath){
-        CompilationUnit cu = new CompilationUnit();
-        File file = new File(filepath);
+    public List<Class> getClassesForPath(Path path){
+        List<String> classNamesAsString = new ArrayList<>();
+        List<Class> classes = new ArrayList<>();
         try {
-            cu = StaticJavaParser.parse(file);
-        } catch (FileNotFoundException e) {
-            logger.error("File path not valid: " + filepath, e);
+            classNamesAsString = Files.walk(path)
+                    .filter(e -> String.valueOf(e.getFileName()).contains(".class"))
+                    .map(e -> e.toUri().toString())
+                    .map(e -> e.split(packageName+"/")[1])
+                    .map(e -> e.replace(".class",""))
+                    .map(e -> e.replace("/","."))
+                    .map(e -> packageName+"."+e)
+                    .sorted()
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return cu;
+
+        for(String absoluteClassName : classNamesAsString) {
+            try {
+                Class c = Class.forName(absoluteClassName);
+                classes.add(c);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return classes;
     }
 
-    private static class ClassCollector extends VoidVisitorAdapter<List<ClassOrInterfaceDeclaration>> {
-        @Override
-        public void visit(ClassOrInterfaceDeclaration cd, List<ClassOrInterfaceDeclaration> collector) {
-            super.visit(cd, collector);
-            collector.add(cd); }
+    private ClassDTO getClassDTOForClass(Class c){
+
+        return new ClassDTO(
+                c.isInterface(),
+                c.getCanonicalName(),
+                c.getSimpleName(),
+                (c.getSuperclass() != null) ?  c.getSuperclass().getCanonicalName() : null,
+                Arrays.stream(c.getInterfaces()) //implemented interfaces
+                        .map(Class::getCanonicalName).collect(Collectors.toList()),
+                getFieldsForClass(c),
+                getConstructorsForClass(c),
+                getMethodsForClass(c));
     }
+
+    private List<FieldDTO> getFieldsForClass(Class c){
+        List<FieldDTO> fields = new ArrayList<>();
+
+        Field[] declaredFields = c.getDeclaredFields();
+        for(Field f : declaredFields){
+            String modifier =  Modifier.toString(f.getModifiers()).split(" ")[0];
+            modifier = modifier.equals("") ? "package" : modifier;
+
+            fields.add(new FieldDTO(modifier, f.getType().getSimpleName(), f.getName()));
+        }
+        return fields;
+    }
+
+    private List<ConstructorDTO> getConstructorsForClass(Class c){
+        List<ConstructorDTO> constructors = new ArrayList<>();
+
+        Stream<Constructor> constructorList = Arrays.stream(c.getDeclaredConstructors())
+                .sorted(Comparator.comparing(Constructor::getParameterCount));
+
+        constructorList.forEach(constructor -> {
+            String modifier =  Modifier.toString(constructor.getModifiers()).split(" ")[0];
+            modifier = modifier.equals("") ? "package" : modifier;
+
+
+            List<String> params = Arrays.stream(constructor.getParameterTypes())
+                    .map(Class::getSimpleName).collect(Collectors.toList());
+            constructors.add(new ConstructorDTO(modifier,c.getSimpleName(),params));
+                }
+        );
+        return constructors;
+    }
+
+    private List<MethodDTO> getMethodsForClass(Class c){
+        List<MethodDTO> methods = new ArrayList<>();
+
+        //ToDo: sort methods better so that getter and setter are site by side
+        Stream<Method> methodList = Arrays.stream(c.getDeclaredMethods())
+                .sorted(Comparator.comparing(Method::getName));
+
+        methodList.forEach(method -> {
+            String modifier =  Modifier.toString(method.getModifiers()).split(" ")[0];
+            modifier = modifier.equals("") ? "package" : modifier;
+
+            List<String> params = Arrays.stream(method.getParameterTypes())
+                    .map(Class::getSimpleName).collect(Collectors.toList());
+
+            methods.add(new MethodDTO(
+                    modifier,
+                    method.getReturnType().getSimpleName(),
+                    method.getName(),
+                    params
+            ));
+        });
+
+        return methods;
+    }
+
+
 }
-
-
-
-

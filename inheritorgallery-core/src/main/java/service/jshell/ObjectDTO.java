@@ -1,20 +1,30 @@
 package service.jshell;
 
-import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 public class ObjectDTO {
     private String objectId;
-    private String objectName; //e.g. Car, instatiated with "... = new Car()"
+    private String objectFullName; //e.g. Car, instatiated with "... = new Car()"
+    private List<FieldDTO> fieldValues;
+    private static Logger logger = LoggerFactory.getLogger(ObjectDTO.class);
 
-    public ObjectDTO(String objectId, String objectName){
-        this.objectName = objectName;
+    public ObjectDTO(String objectId, String objectFullName, List<FieldDTO> fieldValues){
+        this.objectFullName = objectFullName;
         this.objectId = objectId;
+        this.fieldValues = fieldValues;
     }
 
-    public String getObjectName() {
-        return objectName;
+    public String getObjectFullName() {
+        return objectFullName;
     }
     public String getObjectId() {
         return objectId;
+    }
+
+    public List<FieldDTO> getFieldValues() {
+        return fieldValues;
     }
 }

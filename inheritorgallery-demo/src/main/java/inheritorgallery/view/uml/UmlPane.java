@@ -66,24 +66,12 @@ public class UmlPane extends StackPane implements ViewMixin {
     @Override
     public void layoutControls() {
 
-//        Polygon polygon = new Polygon();
-//        polygon.getPoints().addAll(
-//                0.0, 0.0,
-//                20.0, 10.0,
-//                10.0, 20.0 );
-//        linePane.getChildren().add(polygon);
-
-
         for (int i=0 ; i < model.getClasses().size(); i++) {
-            hBoxes.get(model.getInheritanceLevelOfClass(model.getClasses().get(i)))
+            hBoxes.get(model.getClasses().get(i).getInheritanceLevel())
                     .getChildren()
                     .add(umlClasses.get(i));
         }
         vBox.getChildren().addAll(hBoxes);
-
-        //scrollPane.setContent(vBox);
-        //scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        //scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
 
         getChildren().addAll(vBox);
 

@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import presentationmodel.uml.UmlPM;
 import service.jshell.JShellService;
 import service.jshell.ObjectDTO;
 import service.jshell.ReferenceDTO;
@@ -22,9 +23,15 @@ public class InstanceStatePM {
     private final ObservableList<ObjectPM> objectPMs = FXCollections.observableArrayList();
     // Temporary list to avoid getting a listener called multiple times when the list is being updated
     private final ObservableList<ObjectPM> objectPMsTemp = FXCollections.observableArrayList();
-    private final ObservableList<ReferencePM > referencePMs = FXCollections.observableArrayList();
+    //private final ObservableList<ReferencePM > referencePMs = FXCollections.observableArrayList();
 
     private final SimpleListProperty objectPMProperty = new SimpleListProperty(objectPMs);
+
+    private UmlPM umlPM;
+
+    public InstanceStatePM(UmlPM umlPM){
+        this.umlPM = umlPM;
+    }
 
     public void setJShellInput(String input) {
 
@@ -40,20 +47,22 @@ public class InstanceStatePM {
     private void updateInstances(){
         objectPMsTemp.clear();
         for(ObjectDTO objectDTO : jShellService.getObjectDTOs() ){
-            objectPMsTemp.add(new ObjectPM(
-                    objectDTO.getObjectId(),
-                    objectDTO.getObjectName()
+            objectPMsTemp.add(
+                    new ObjectPM(
+                            umlPM,
+                            objectDTO.getObjectId(),
+                            objectDTO.getObjectFullName(),
+                            objectDTO.getFieldValues()
             ));
         }
         objectPMs.setAll(objectPMsTemp);
 
-        referencePMs.clear();
         for(ReferenceDTO referenceDTO : jShellService.getReferenceDTOs()){
             Optional<ObjectPM> ObjectPMPointedTo = objectPMs.stream()
                     .filter(objectPM -> objectPM.getObjectId().equals(referenceDTO.getPointedToObject()))
                     .findFirst();
             if(ObjectPMPointedTo.isPresent()){
-                referencePMs.add(new ReferencePM(
+                ObjectPMPointedTo.get().addReference(new ReferencePM(
                         referenceDTO.getRefType(),
                         referenceDTO.getRefName(),
                         ObjectPMPointedTo.get()
@@ -70,9 +79,6 @@ public class InstanceStatePM {
         return objectPMs;
     }
 
-    public ObservableList<ReferencePM> getReferencePMs() {
-        return referencePMs;
-    }
 
     public ListProperty objectPMProperty() {
         return objectPMProperty;

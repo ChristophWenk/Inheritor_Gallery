@@ -7,11 +7,15 @@ import jdk.jshell.SnippetEvent;
 import jdk.jshell.VarSnippet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import service.FileService;
 
 import javax.swing.text.html.ListView;
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -43,7 +47,28 @@ public class JShellService {
             jshell.addToClasspath(cp);
 
         // Classes need to be explicitly imported to JShell similarly as if we wanted to import one into a class.
-        jshell.eval("import "+packageName+".*;");
+        //jshell.eval("import "+packageName+".*;");
+        //jshell.eval("import java.lang.reflect.Field;");
+        importPackages();
+    }
+
+    private void importPackages(){
+        FileService fileService = new FileService();
+        Path path = fileService.getPath("/"+packageName);
+        logger.info(path.toString());
+        try {
+            Files.walk(path)
+                    .map(e -> new File(e.toString()))
+                    .filter(File::isDirectory)
+                    .map(e -> e.toURI().toString().split(packageName))
+                    .map(e -> packageName+e[1].replace("/","."))
+                    .map(e -> "import "+e+"*;")
+                    //.forEach(e -> logger.info(e));
+                    .forEach(e -> jshell.eval(e));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         jshell.eval("import java.lang.reflect.Field;");
     }
 
@@ -102,7 +127,8 @@ public class JShellService {
                     && getPackageForReference(refName).equals(packageName)){
                 ObjectDTO objectDTO = new ObjectDTO(
                         getHashcodeForReference(refName),
-                        getClassForReference(refName)
+                        getClassForReference(refName),
+                        getFieldsForReference(refName)
                 );
                 // Check for an existing item in the list
                 if(objectDTOList.stream()
@@ -158,7 +184,7 @@ public class JShellService {
     }
 
     public String getClassForReference(String reference){
-        String input = reference+".getClass().getSimpleName();";
+        String input = reference+".getClass().getCanonicalName();";
         SnippetEvent snippetEvent = null;
         try {
             snippetEvent = jShellService.evaluateCode(input);
@@ -234,10 +260,12 @@ public class JShellService {
         String input1 = "String fieldDTOsString = \"\";";
         String input2 = "        Class<?> declaringClass  = "+reference+".getClass();";
         String input3 = " while(declaringClass.getSuperclass() != null) {\n" +
-                "            for (Field f : declaringClass.getDeclaredFields()) {\n" +
+                "            for (Field currentField_xyghw : declaringClass.getDeclaredFields()) {\n" +
                 "                try {\n" +
-                "                    f.setAccessible(true);\n" +
-                "                    fieldDTOsString += \";;\"+declaringClass.getCanonicalName()+\";\"+f.getName()+\";\"+f.get("+reference+").toString();\n" +
+                "                    currentField_xyghw.setAccessible(true);\n" +
+                "                    fieldDTOsString += \";;\"+declaringClass.getCanonicalName()+\";\"" +
+                "                                       +currentField_xyghw.getName()+\";\"" +
+                "                                       +currentField_xyghw.get("+reference+").toString();\n" +
                 "                } catch (IllegalAccessException e) {\n" +
                 "                    e.printStackTrace();\n" +
                 "                }\n" +
@@ -263,11 +291,14 @@ public class JShellService {
           Target:
           String [classField1;nameField1;valueField1,   classField2;nameField2;valueField2]
         */
-        String[] fieldDTOsAsString = snippetEvent.value().replace("\"","").substring(2).split(";;");
-        for(String fieldAsString : fieldDTOsAsString){
-            String[] fieldAsArray = fieldAsString.split(";");
-            fieldDTOs.add(new FieldDTO(fieldAsArray[0],fieldAsArray[1],fieldAsArray[2]));
+        if(snippetEvent.value().length() > 2){
+            String[] fieldDTOsAsString = snippetEvent.value().replace("\"","").substring(2).split(";;");
+            for(String fieldAsString : fieldDTOsAsString){
+                String[] fieldAsArray = fieldAsString.split(";");
+                fieldDTOs.add(new FieldDTO(fieldAsArray[0],fieldAsArray[1],fieldAsArray[2]));
+            }
         }
+
         return fieldDTOs;
     }
 
@@ -276,7 +307,8 @@ public class JShellService {
      */
     public void reset() {
         jshell.snippets().forEach(snippet -> jshell.drop(snippet));
-        jshell.eval("import "+packageName+".*;");
-        jshell.eval("import java.lang.reflect.Field;");
+        //jshell.eval("import "+packageName+".*;");
+        //jshell.eval("import java.lang.reflect.Field;");
+        importPackages();
     }
 }

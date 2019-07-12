@@ -34,8 +34,10 @@ public class ApplicationUI extends BorderPane implements ViewMixin {
     public void initializeControls() {
         // Initialize panes
         leftPane = new LeftPane(instanceStatePM, instructionPM);
+        leftPane.setMaxWidth(300);
         instancePane = new InstancePane(instanceStatePM);
         umlPane = new UmlPane(umlPM);
+        umlPane.setMaxWidth(300);
     }
 
     @Override

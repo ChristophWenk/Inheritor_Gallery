@@ -9,9 +9,13 @@ public class Person {
         this.lastName = "Wenk";
     }
 
-    public Person(String firstName, String lastName) {
+    private Person(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    Person(String s) {
+        this.firstName = "Chris";
     }
 
     public String getFirstName() {

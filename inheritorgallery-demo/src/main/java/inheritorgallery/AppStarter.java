@@ -9,7 +9,6 @@ import presentationmodel.instance.InstanceStatePM;
 import presentationmodel.instruction.InstructionPM;
 import presentationmodel.uml.UmlPM;
 import service.instruction.AsciiDocService;
-import service.uml.UmlService;
 
 /**
  * @author Christoph Wenk, Dimitri Muralt
@@ -19,11 +18,10 @@ public class AppStarter extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-
         AsciiDocService asciiDocService = new AsciiDocService();
 
         UmlPM umlPM = new UmlPM();
-        InstanceStatePM instanceStatePM = new InstanceStatePM();
+        InstanceStatePM instanceStatePM = new InstanceStatePM(umlPM);
         InstructionPM instructionPM = new InstructionPM(asciiDocService);
 
         Parent rootPane = new ApplicationUI(instanceStatePM, umlPM, instructionPM);
