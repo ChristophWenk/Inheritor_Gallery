@@ -15,6 +15,10 @@ public class Fahrzeug extends Item {
     public void print(){
         System.out.println("Fahrzeug: "+name+" fährt "+speed);
     }
+
+    public void print(String s){
+        System.out.println("Fahrzeug: "+name+" fährt "+speed);
+    }
     public void printFahrzeug(){
         System.out.println("Fahrzeug: "+name+" fährt "+speed);
     }

@@ -79,11 +79,11 @@ class ClassPMTest {
 
         assertEquals("input.Fahrzeug",classPMFahrzeug.getFullClassName());
 
-        assertEquals(9,classPMFahrzeug.getMethods().size());
-        assertEquals("public",classPMFahrzeug.getMethods().get(5).getModifier());
-        assertEquals("void",classPMFahrzeug.getMethods().get(5).getReturnType());
-        assertEquals("setDieselTax",classPMFahrzeug.getMethods().get(5).getName());
-        assertEquals("double",classPMFahrzeug.getMethods().get(5).getInputParameters().get(0));
+        assertEquals(10,classPMFahrzeug.getMethods().size());
+        assertEquals("public",classPMFahrzeug.getMethods().get(6).getModifier());
+        assertEquals("void",classPMFahrzeug.getMethods().get(6).getReturnType());
+        assertEquals("setDieselTax",classPMFahrzeug.getMethods().get(6).getName());
+        assertEquals("double",classPMFahrzeug.getMethods().get(6).getInputParameters().get(0));
 
     }
 

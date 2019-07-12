@@ -96,7 +96,7 @@ public class ObjectPM {
         }
     }
 
-    public boolean equals(MethodPM m1, MethodPM m2){
+    public boolean isSameMethod(MethodPM m1, MethodPM m2){
         return  m1.getName().equals(m2.getName()) &&
                 m1.getInputParameters().equals(m2.getInputParameters());
     }

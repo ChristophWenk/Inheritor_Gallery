@@ -103,11 +103,11 @@ class UmlServiceTest {
 
         assertEquals("input.Fahrzeug",fahrzeug.getFullClassName());
 
-        assertEquals(9,fahrzeug.getMethods().size());
-        assertEquals("public",fahrzeug.getMethods().get(5).getModifier());
-        assertEquals("void",fahrzeug.getMethods().get(5).getReturnType());
-        assertEquals("setDieselTax",fahrzeug.getMethods().get(5).getName());
-        assertEquals("double",fahrzeug.getMethods().get(5).getInputParameters().get(0));
+        assertEquals(10,fahrzeug.getMethods().size());
+        assertEquals("public",fahrzeug.getMethods().get(6).getModifier());
+        assertEquals("void",fahrzeug.getMethods().get(6).getReturnType());
+        assertEquals("setDieselTax",fahrzeug.getMethods().get(6).getName());
+        assertEquals("double",fahrzeug.getMethods().get(6).getInputParameters().get(0));
 
     }
 

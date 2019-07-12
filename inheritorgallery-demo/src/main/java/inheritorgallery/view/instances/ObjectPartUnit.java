@@ -28,8 +28,7 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
         objectLabels = new ArrayList<>();
 
         for(FieldPM part : model.getFields()){
-            objectLabels.add(new Label(part.getName()));
-            objectLabels.add(new Label(part.getValue()));
+            objectLabels.add(new Label(part.getName() + " " + part.getValue()));
         }
 
     }
