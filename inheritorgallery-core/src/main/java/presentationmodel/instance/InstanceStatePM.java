@@ -1,8 +1,8 @@
 package presentationmodel.instance;
 
 import exceptions.InvalidCodeException;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.slf4j.Logger;
@@ -12,6 +12,8 @@ import service.jshell.JShellService;
 import service.jshell.ObjectDTO;
 import service.jshell.ReferenceDTO;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class InstanceStatePM {
@@ -20,12 +22,7 @@ public class InstanceStatePM {
     private JShellService jShellService = JShellService.getInstance();
 
     private final ObservableList<String > commandHistory = FXCollections.observableArrayList();
-    private final ObservableList<ObjectPM> objectPMs = FXCollections.observableArrayList();
-    // Temporary list to avoid getting a listener called multiple times when the list is being updated
-    private final ObservableList<ObjectPM> objectPMsTemp = FXCollections.observableArrayList();
-    //private final ObservableList<ReferencePM > referencePMs = FXCollections.observableArrayList();
-
-    private final SimpleListProperty objectPMProperty = new SimpleListProperty(objectPMs);
+    private final ObjectProperty<List<ObjectPM>> objectPMProperty = new SimpleObjectProperty<>();
 
     private UmlPM umlPM;
 
@@ -45,9 +42,9 @@ public class InstanceStatePM {
     }
 
     private void updateInstances(){
-        objectPMsTemp.clear();
+        List<ObjectPM> objectPMList = new ArrayList<>();
         for(ObjectDTO objectDTO : jShellService.getObjectDTOs() ){
-            objectPMsTemp.add(
+            objectPMList.add(
                     new ObjectPM(
                             umlPM,
                             objectDTO.getObjectId(),
@@ -55,10 +52,10 @@ public class InstanceStatePM {
                             objectDTO.getFieldValues()
             ));
         }
-        objectPMs.setAll(objectPMsTemp);
+        setObjectPMProperty(objectPMList);
 
         for(ReferenceDTO referenceDTO : jShellService.getReferenceDTOs()){
-            Optional<ObjectPM> ObjectPMPointedTo = objectPMs.stream()
+            Optional<ObjectPM> ObjectPMPointedTo = objectPMList.stream()
                     .filter(objectPM -> objectPM.getObjectId().equals(referenceDTO.getPointedToObject()))
                     .findFirst();
             if(ObjectPMPointedTo.isPresent()){
@@ -75,12 +72,15 @@ public class InstanceStatePM {
         return commandHistory;
     }
 
-    public ObservableList<ObjectPM> getObjectPMs() {
-        return objectPMs;
+    public List<ObjectPM> getObjectPMs() {
+        return objectPMProperty.get();
     }
 
-
-    public ListProperty objectPMProperty() {
+    public ObjectProperty<List<ObjectPM>> objectPMProperty() {
         return objectPMProperty;
+    }
+
+    public void setObjectPMProperty(List<ObjectPM> objectPMProperty) {
+        this.objectPMProperty.set(objectPMProperty);
     }
 }
