@@ -55,20 +55,14 @@ public class InstanceStatePM {
                             objectDTO.getFieldValues()
             ));
         }
-        objectPMs.setAll(objectPMsTemp);
 
-        for(ReferenceDTO referenceDTO : jShellService.getReferenceDTOs()){
-            Optional<ObjectPM> ObjectPMPointedTo = objectPMs.stream()
-                    .filter(objectPM -> objectPM.getObjectId().equals(referenceDTO.getPointedToObject()))
-                    .findFirst();
-            if(ObjectPMPointedTo.isPresent()){
-                ObjectPMPointedTo.get().addReference(new ReferencePM(
-                        referenceDTO.getRefType(),
-                        referenceDTO.getRefName(),
-                        ObjectPMPointedTo.get()
-                ));
-            }
-        }
+
+        jShellService.getReferenceDTOs().forEach(referenceDTO ->
+                objectPMsTemp.stream().filter(objectPM -> objectPM.getObjectId().equals(referenceDTO.getPointedToObject()))
+                   .forEach(e -> e.addReference(new ReferencePM(referenceDTO.getRefType(),referenceDTO.getRefName()))));
+
+
+        objectPMs.setAll(objectPMsTemp);
     }
 
     public ObservableList<String> getCommandHistory() {

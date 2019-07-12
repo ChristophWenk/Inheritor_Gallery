@@ -9,12 +9,11 @@ public class ReferencePM {
 
     private final StringProperty referenceType = new SimpleStringProperty();
     private final StringProperty referenceName = new SimpleStringProperty();
-    private final ObjectProperty pointedToObject = new SimpleObjectProperty();
 
-    public ReferencePM(String referenceType, String referenceName, ObjectPM pointedToObject){
+
+    public ReferencePM(String referenceType, String referenceName ){
         setReferenceType(referenceType);
         setReferenceName(referenceName);
-        setPointedToObject(pointedToObject);
     }
 
     public String getReferenceType() {
@@ -41,15 +40,5 @@ public class ReferencePM {
         this.referenceName.set(referenceName);
     }
 
-    public Object getPointedToObject() {
-        return pointedToObject.get();
-    }
 
-    public ObjectProperty pointedToObjectProperty() {
-        return pointedToObject;
-    }
-
-    public void setPointedToObject(Object pointedToObject) {
-        this.pointedToObject.set(pointedToObject);
-    }
 }

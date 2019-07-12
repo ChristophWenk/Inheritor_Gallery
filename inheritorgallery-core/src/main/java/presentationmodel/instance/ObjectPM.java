@@ -171,6 +171,8 @@ public class ObjectPM {
     }
 
     public void addReference(ReferencePM reference){
+
+        logger.info("adding reference "+reference.getReferenceName() + " to " + this.getObjectFullName());
         references.add(reference);
     }
 }

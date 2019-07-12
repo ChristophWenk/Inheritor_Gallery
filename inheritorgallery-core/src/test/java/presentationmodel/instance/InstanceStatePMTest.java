@@ -117,15 +117,29 @@ public class InstanceStatePMTest {
     }
 
     @Test
-    void testGetReferences(){
-        instanceStatePM.setJShellInput("Fahrzeug f = new Fahrzeug(\"velo\",20);");
+    void testGetReferencesForObject(){
+        //given
+        instanceStatePM.setJShellInput("Fahrzeug f1 = new Fahrzeug(\"velo\",20);");
+        instanceStatePM.setJShellInput("Fahrzeug f2 = new Fahrzeug(\"velo\",20);");
+        instanceStatePM.setJShellInput("Fahrzeug f3 = f1;");
 
-        List<MethodPM> methods = instanceStatePM.getObjectPMs().get(0).getObjectParts().get(1).getMethods();
-        Optional<MethodPM> method = methods.stream()
-                .filter(e -> e.getName().equals("print"))
-                .findFirst();
-        assertTrue(method.isPresent());
-        assertEquals("input.Fahrzeug", method.get().getImplementedInClass());
+        //when
+        ReferencePM reference1 = instanceStatePM.getObjectPMs().get(0).getReferences().get(0);
+        //then
+        assertEquals("f1", reference1.getReferenceName());
+        assertEquals("Fahrzeug", reference1.getReferenceType());
+
+        //when
+        ReferencePM reference2 = instanceStatePM.getObjectPMs().get(1).getReferences().get(0);
+        //then
+        assertEquals("f2", reference2.getReferenceName());
+        assertEquals("Fahrzeug", reference2.getReferenceType());
+
+        //when
+        ReferencePM reference3 = instanceStatePM.getObjectPMs().get(0).getReferences().get(1);
+        //then
+        assertEquals("f3", reference3.getReferenceName());
+        assertEquals("Fahrzeug", reference3.getReferenceType());
     }
 
 }

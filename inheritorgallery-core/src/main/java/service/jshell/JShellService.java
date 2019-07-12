@@ -9,15 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.FileService;
 
-import javax.swing.text.html.ListView;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,7 +52,6 @@ public class JShellService {
     private void importPackages(){
         FileService fileService = new FileService();
         Path path = fileService.getPath("/"+packageName);
-        logger.info(path.toString());
         try {
             Files.walk(path)
                     .map(e -> new File(e.toString()))
@@ -63,7 +59,6 @@ public class JShellService {
                     .map(e -> e.toURI().toString().split(packageName))
                     .map(e -> packageName+e[1].replace("/","."))
                     .map(e -> "import "+e+"*;")
-                    //.forEach(e -> logger.info(e));
                     .forEach(e -> jshell.eval(e));
         } catch (IOException e) {
             e.printStackTrace();
@@ -252,7 +247,6 @@ public class JShellService {
                     //e.printStackTrace();
                 }
             }
-            logger.info(m + " declared in class " + sourceClass);
         }
     }
 
