@@ -23,7 +23,7 @@ public class InstanceStatePM {
     private final ObservableList<ObjectPM> objectPMs = FXCollections.observableArrayList();
     // Temporary list to avoid getting a listener called multiple times when the list is being updated
     private final ObservableList<ObjectPM> objectPMsTemp = FXCollections.observableArrayList();
-    private final ObservableList<ReferencePM > referencePMs = FXCollections.observableArrayList();
+    //private final ObservableList<ReferencePM > referencePMs = FXCollections.observableArrayList();
 
     private final SimpleListProperty objectPMProperty = new SimpleListProperty(objectPMs);
 
@@ -57,13 +57,12 @@ public class InstanceStatePM {
         }
         objectPMs.setAll(objectPMsTemp);
 
-        referencePMs.clear();
         for(ReferenceDTO referenceDTO : jShellService.getReferenceDTOs()){
             Optional<ObjectPM> ObjectPMPointedTo = objectPMs.stream()
                     .filter(objectPM -> objectPM.getObjectId().equals(referenceDTO.getPointedToObject()))
                     .findFirst();
             if(ObjectPMPointedTo.isPresent()){
-                referencePMs.add(new ReferencePM(
+                ObjectPMPointedTo.get().addReference(new ReferencePM(
                         referenceDTO.getRefType(),
                         referenceDTO.getRefName(),
                         ObjectPMPointedTo.get()
@@ -80,9 +79,6 @@ public class InstanceStatePM {
         return objectPMs;
     }
 
-    public ObservableList<ReferencePM> getReferencePMs() {
-        return referencePMs;
-    }
 
     public ListProperty objectPMProperty() {
         return objectPMProperty;

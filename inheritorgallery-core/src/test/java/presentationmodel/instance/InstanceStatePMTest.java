@@ -116,4 +116,16 @@ public class InstanceStatePMTest {
         assertEquals("input.Fahrzeug", method.get().getImplementedInClass());
     }
 
+    @Test
+    void testGetReferences(){
+        instanceStatePM.setJShellInput("Fahrzeug f = new Fahrzeug(\"velo\",20);");
+
+        List<MethodPM> methods = instanceStatePM.getObjectPMs().get(0).getObjectParts().get(1).getMethods();
+        Optional<MethodPM> method = methods.stream()
+                .filter(e -> e.getName().equals("print"))
+                .findFirst();
+        assertTrue(method.isPresent());
+        assertEquals("input.Fahrzeug", method.get().getImplementedInClass());
+    }
+
 }

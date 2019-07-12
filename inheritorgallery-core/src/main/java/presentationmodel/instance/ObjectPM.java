@@ -24,6 +24,7 @@ public class ObjectPM {
     private final StringProperty objectId = new SimpleStringProperty();
     private final StringProperty objectFullName = new SimpleStringProperty();
     private final ObservableList<ClassPM> objectParts = FXCollections.observableArrayList();
+    private final ObservableList<ReferencePM> references = FXCollections.observableArrayList();
 
     private UmlPM umlPM;
 
@@ -163,5 +164,13 @@ public class ObjectPM {
 
     public ObservableList<ClassPM> getObjectParts() {
         return objectParts;
+    }
+
+    public ObservableList<ReferencePM> getReferences() {
+        return references;
+    }
+
+    public void addReference(ReferencePM reference){
+        references.add(reference);
     }
 }
