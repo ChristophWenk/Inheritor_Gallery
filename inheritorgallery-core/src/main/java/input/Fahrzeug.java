@@ -3,7 +3,7 @@ package input;
 public class Fahrzeug extends Item {
 
     private double speed;
-    private String name;
+    String name;
     private static double dieselTax;
     public static final double gravity = 9.81;
 
@@ -15,26 +15,12 @@ public class Fahrzeug extends Item {
     public void print(){
         System.out.println("Fahrzeug: "+name+" fährt "+speed);
     }
-    public void printFahrzeug(){
+
+    public void print(String s){
         System.out.println("Fahrzeug: "+name+" fährt "+speed);
     }
-
-    @Override
-    public Fahrzeug clone(){
-        return new Fahrzeug(this.name, this.speed);
-    }
-
-    public boolean equals(Fahrzeug f){
-        return f != null && f.name.equals(this.name);
-    }
-
-    @Override
-    public boolean equals(Object obj){
-        if (obj instanceof Fahrzeug){
-            Fahrzeug f = (Fahrzeug) obj;
-            return f.name.equals(this.name);
-        }
-        return false;
+    public void printFahrzeug(){
+        System.out.println("Fahrzeug: "+name+" fährt "+speed);
     }
 
     public String toString(){

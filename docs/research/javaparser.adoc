@@ -60,3 +60,13 @@ Als Teil des Javaparser kann zudem javaSymbolSolver verwendet werden.
 Dieser kann theretisch Herkunft der Methodenaufrufe und Variablendeklarationen bestimmen.
 Dieses Projekt ist allerdings noch sehr neu und gemäss dem Auhtor wenig verbreitet und dokumentiert.
 Die Verwendung der javaSymbolSolver API ist eher umsändlich.
+
+//
+https://stackoverflow.com/questions/3403909/get-generic-type-of-class-at-runtime
+
+// Reflection API extended Guava
+https://www.baeldung.com/guava-reflection
+
+// Get Reference Type
+https://stackoverflow.com/questions/2674554/how-do-you-know-a-variable-type-in-java
+https://stackoverflow.com/questions/20987910/how-to-get-the-type-of-object-reference-of-instance

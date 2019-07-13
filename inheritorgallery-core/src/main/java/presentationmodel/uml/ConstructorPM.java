@@ -7,17 +7,13 @@ import javafx.collections.ObservableList;
 
 import java.util.List;
 
-public class MethodPM {
+public class ConstructorPM {
     private final StringProperty modifier = new SimpleStringProperty();
-    private final StringProperty returnType = new SimpleStringProperty();
     private final StringProperty name = new SimpleStringProperty();
     private final ObservableList<String> inputParameters = FXCollections.observableArrayList();
-    private final StringProperty implementedInClass = new SimpleStringProperty();
 
-
-    public MethodPM(String modifier, String returnType, String name, List<String> inputParameters ) {
+    public ConstructorPM(String modifier, String name, List<String> inputParameters) {
         setModifier(modifier);
-        setReturnType(returnType);
         setName(name);
         this.inputParameters.addAll(inputParameters);
     }
@@ -46,32 +42,7 @@ public class MethodPM {
         this.modifier.set(modifier);
     }
 
-    public String getReturnType() {
-        return returnType.get();
-    }
-
-    public StringProperty returnTypeProperty() {
-        return returnType;
-    }
-
-    public void setReturnType(String returnType) {
-        this.returnType.set(returnType);
-    }
-
     public ObservableList<String> getInputParameters() {
         return inputParameters;
-    }
-
-
-    public String getImplementedInClass() {
-        return implementedInClass.get();
-    }
-
-    public StringProperty implementedInClassProperty() {
-        return implementedInClass;
-    }
-
-    public void setImplementedInClass(String implementedInClass) {
-        this.implementedInClass.set(implementedInClass);
     }
 }

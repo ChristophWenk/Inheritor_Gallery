@@ -5,41 +5,32 @@ import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import presentationmodel.instance.InstanceStatePM;
+import presentationmodel.instruction.InstructionPM;
 import presentationmodel.uml.UmlPM;
-import service.UmlService;
+import service.instruction.AsciiDocService;
 
 /**
  * @author Christoph Wenk, Dimitri Muralt
  */
-// TODO Include PM everywhere
 public class AppStarter extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-    /*    SomeClass someClass = new SomeClass();
-        Button    button    = new Button(someClass.getGreeting());
 
-        StackPane rootPane = new StackPane();
-        rootPane.getChildren().add(button);
+        AsciiDocService asciiDocService = new AsciiDocService();
 
-        Scene myScene = new Scene(rootPane);
+        UmlPM umlPM = new UmlPM();
+        InstanceStatePM instanceStatePM = new InstanceStatePM(umlPM);
+        InstructionPM instructionPM = new InstructionPM(asciiDocService);
 
-        primaryStage.setTitle("JavaFX App");
-        primaryStage.setScene(myScene);
-        primaryStage.setWidth(400);
-        primaryStage.setHeight(300);
-        primaryStage.show();
-     */
-        UmlService umlService = new UmlService();
-        UmlPM pm = new UmlPM(umlService);
-
-        Parent rootPane = new ApplicationUI(pm);
+        Parent rootPane = new ApplicationUI(instanceStatePM, umlPM, instructionPM);
 
         Scene scene = new Scene(rootPane);
+
         String stylesheet = AppStarter.class.getResource("view/css/style.css").toExternalForm();
         scene.getStylesheets().add(stylesheet);
 
-        //primaryStage.titleProperty().bind(pm.applicationTitleProperty());
         primaryStage.setTitle("Inheritor Gallery");
         primaryStage.setScene(scene);
         primaryStage.setWidth(1280);
@@ -47,7 +38,6 @@ public class AppStarter extends Application {
         primaryStage.centerOnScreen();
         primaryStage.show();
     }
-
 
     public static void main(String[] args) {
         launch(args);
