@@ -16,12 +16,20 @@
     -fx-max-height: 500px;
 }
 
-.referenceBorder {
-    -fx-border-color: rgba(0, 0, 0, 0.99);
-    -fx-border-radius: 10px;
+.objectUnit {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,1), 10, 0, 0, 0);
+}
+
+.referencedObjectPartUnit {
+    -fx-border-color: rgba(0, 0, 0, 0.5);
+    -fx-border-radius: 20px;
     -fx-border-insets: 0;
-    -fx-border-width: 3;
-    -fx-border-style: dashed;
+    -fx-border-width: 5;
+}
+
+.referenceLabel {
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
 }
 
 .classBox {
