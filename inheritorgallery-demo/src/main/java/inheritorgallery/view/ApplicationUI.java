@@ -6,6 +6,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import presentationmodel.ColorPM;
 import presentationmodel.instance.InstanceStatePM;
 import presentationmodel.instruction.InstructionPM;
 import presentationmodel.uml.UmlPM;
@@ -17,15 +18,18 @@ public class ApplicationUI extends BorderPane implements ViewMixin {
     private UmlPM umlPM;
     private InstanceStatePM instanceStatePM;
     private InstructionPM instructionPM;
+    private ColorPM colorPM;
 
     private LeftPane leftPane;
     private InstancePane instancePane;
     private UmlPane umlPane;
 
-    public ApplicationUI(InstanceStatePM instanceStatePM, UmlPM umlPM, InstructionPM instructionPM) {
+    public ApplicationUI(InstanceStatePM instanceStatePM, UmlPM umlPM,
+                         InstructionPM instructionPM, ColorPM colorPM) {
         this.umlPM = umlPM;
         this.instanceStatePM = instanceStatePM;
         this.instructionPM = instructionPM;
+        this.colorPM = colorPM;
         init();
         logger.info("Finished initializing ApplicationUI");
     }
@@ -35,7 +39,7 @@ public class ApplicationUI extends BorderPane implements ViewMixin {
         // Initialize panes
         leftPane = new LeftPane(instanceStatePM, instructionPM);
         leftPane.setMaxWidth(300);
-        instancePane = new InstancePane(instanceStatePM);
+        instancePane = new InstancePane(instanceStatePM, colorPM);
         umlPane = new UmlPane(umlPM);
         umlPane.setMaxWidth(300);
     }

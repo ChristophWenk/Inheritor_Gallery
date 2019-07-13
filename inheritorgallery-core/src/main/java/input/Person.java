@@ -5,17 +5,13 @@ public class Person {
     private String lastName;
 
     public Person() {
-        this.firstName = "Chris";
-        this.lastName = "Wenk";
+        this.firstName = "John";
+        this.lastName = "Doe";
     }
 
-    private Person(String firstName, String lastName) {
+    public Person(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-    }
-
-    Person(String s) {
-        this.firstName = "Chris";
     }
 
     public String getFirstName() {

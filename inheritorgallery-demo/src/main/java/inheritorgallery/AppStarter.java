@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import presentationmodel.ColorPM;
 import presentationmodel.instance.InstanceStatePM;
 import presentationmodel.instruction.InstructionPM;
 import presentationmodel.uml.UmlPM;
@@ -23,8 +24,9 @@ public class AppStarter extends Application {
         UmlPM umlPM = new UmlPM();
         InstanceStatePM instanceStatePM = new InstanceStatePM(umlPM);
         InstructionPM instructionPM = new InstructionPM(asciiDocService);
+        ColorPM colorPM = new ColorPM();
 
-        Parent rootPane = new ApplicationUI(instanceStatePM, umlPM, instructionPM);
+        Parent rootPane = new ApplicationUI(instanceStatePM, umlPM, instructionPM, colorPM);
 
         Scene scene = new Scene(rootPane);
 

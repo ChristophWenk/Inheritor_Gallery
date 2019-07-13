@@ -33,6 +33,11 @@ public class ColorPM {
         currentColor = 0;
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     */
     public String getColor(String name) {
         if (!getObjectColorMap().containsKey(name)) {
             mapColor(name);
