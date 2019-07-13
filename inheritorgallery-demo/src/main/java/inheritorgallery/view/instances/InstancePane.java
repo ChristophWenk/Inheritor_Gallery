@@ -35,10 +35,11 @@ public class InstancePane extends FlowPane implements ViewMixin {
         this.getChildren().removeAll(objectUnits);
         objectUnits.clear();
 
-        for (ObjectPM objectPM : instanceStatePM.getObjectPMs()) {
-            objectUnits.add(new ObjectUnit(objectPM));
+        if (instanceStatePM.getObjectPMs() != null) {
+            for (ObjectPM objectPM : instanceStatePM.getObjectPMs()) {
+                objectUnits.add(new ObjectUnit(objectPM));
+            }
         }
-
         logger.debug("Drawing " + objectUnits.size() + " element(s)...");
         this.getChildren().addAll(objectUnits);
     }
