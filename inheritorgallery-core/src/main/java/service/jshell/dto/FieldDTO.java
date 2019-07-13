@@ -1,6 +1,9 @@
 package service.jshell.dto;
 
-public class FieldDTO {
+import java.io.Serializable;
+
+public class FieldDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
     private final String declaringClass;
     private final String modifier;
     private final String type;
