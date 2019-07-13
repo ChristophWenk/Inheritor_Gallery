@@ -4,16 +4,30 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class FieldPM {
+    private final StringProperty declaringClass = new SimpleStringProperty();
     private final StringProperty modifier = new SimpleStringProperty();
     private final StringProperty type = new SimpleStringProperty();
     private final StringProperty name = new SimpleStringProperty();
     private final StringProperty value = new SimpleStringProperty();
 
-    public FieldPM(String modifier, String type, String name, String value) {
+    public FieldPM(String declaringClass, String modifier, String type, String name, String value) {
+        setDeclaringClass(declaringClass);
         setModifier(modifier);
         setType(type);
         setName(name);
         setValue(value);
+    }
+
+    public String getDeclaringClass() {
+        return declaringClass.get();
+    }
+
+    public StringProperty declaringClassProperty() {
+        return declaringClass;
+    }
+
+    public void setDeclaringClass(String declaringClass) {
+        this.declaringClass.set(declaringClass);
     }
 
     public void setName(String name) {

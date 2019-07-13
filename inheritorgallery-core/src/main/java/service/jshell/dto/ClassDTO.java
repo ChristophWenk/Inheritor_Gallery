@@ -1,4 +1,4 @@
-package service.uml;
+package service.jshell.dto;
 
 import java.util.List;
 
