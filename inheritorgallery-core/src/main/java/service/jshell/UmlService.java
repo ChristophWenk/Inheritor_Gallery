@@ -93,7 +93,11 @@ public class UmlService {
             modifier = modifier.equals("") ? "package" : modifier;
 
             fields.add(new FieldDTO(
-                    modifier, f.getType().getSimpleName(), f.getName()));
+                                    c.getCanonicalName(),
+                                    modifier,
+                                    f.getType().getSimpleName(),
+                                    f.getName(),
+                                    null));
         }
         return fields;
     }
