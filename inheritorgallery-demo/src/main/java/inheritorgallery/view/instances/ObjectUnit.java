@@ -3,6 +3,7 @@ package inheritorgallery.view.instances;
 
 import inheritorgallery.view.ViewMixin;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class ObjectUnit extends VBox implements ViewMixin {
+public class ObjectUnit extends GridPane implements ViewMixin {
     private static Logger logger = LoggerFactory.getLogger(ObjectUnit.class);
     private List<Label> references;
 
@@ -59,7 +60,20 @@ public class ObjectUnit extends VBox implements ViewMixin {
 
     @Override
     public void layoutControls() {
-        getChildren().addAll(objectParts);
+        int columnIndex = 0;
+        int rowIndex = 0;
+        add(objectParts.get(0), columnIndex++,rowIndex++,objectPM.getObjectWidth(),1);
+
+        if(objectParts.size() > 1){
+            for(rowIndex = 1; rowIndex < objectPM.getObjectParts().size(); rowIndex++ ){
+                if(!objectPM.getObjectParts().get(rowIndex).isIsInterface())
+                    add(objectParts.get(rowIndex), 0,rowIndex);
+                else
+                    //todo: adjust rowspan to smaller number
+                    add(objectParts.get(rowIndex), columnIndex++,1,1,100);
+            }
+        }
+
     }
 
     @Override
