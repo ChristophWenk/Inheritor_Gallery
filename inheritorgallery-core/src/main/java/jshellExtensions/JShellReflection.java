@@ -8,17 +8,16 @@ import service.jshell.dto.ConstructorDTO;
 import service.jshell.dto.FieldDTO;
 import service.jshell.dto.MethodDTO;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -28,6 +27,24 @@ public class JShellReflection {
     private final String packageName = "input";
 
     public JShellReflection(){
+
+    }
+
+    public String getClassDTOsSerialized(){
+        String serializedString = null;
+        List<ClassDTO> classDTOs = getClassDTOs();
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ObjectOutputStream o = new ObjectOutputStream(byteArrayOutputStream);
+            o.writeObject(classDTOs);
+            o.flush();
+            o.close();
+            serializedString =  Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return serializedString;
 
     }
 

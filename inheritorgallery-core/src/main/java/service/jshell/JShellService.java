@@ -4,6 +4,7 @@ import exceptions.InvalidCodeException;
 import jdk.jshell.JShell;
 import jdk.jshell.SnippetEvent;
 import jdk.jshell.VarSnippet;
+import jshellExtensions.JShellReflection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.FileService;
@@ -50,6 +51,9 @@ public class JShellService {
         //jshell.eval("import java.lang.reflect.Field;");
         importPackage(packageName);
         importPackage(packageNameJShellReflection);
+
+        jshell.eval("JShellReflection jshellReflection = new JShellReflection();");
+        //JShellReflection jShellReflection = new JShellReflection();
     }
 
     private void importPackage(String packageName){
@@ -266,5 +270,7 @@ public class JShellService {
         //jshell.eval("import java.lang.reflect.Field;");
         importPackage(packageName);
         importPackage(packageNameJShellReflection);
+
+        jshell.eval("JShellReflection jshellReflection = new JShellReflection();");
     }
 }
