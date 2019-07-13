@@ -184,7 +184,6 @@ class JShellReflectionTest {
 
         // deserialize the object
         try {
-            assert classDTOsSerialized != null;
             byte [] data = Base64.getDecoder().decode( classDTOsSerialized );
             ObjectInputStream ois = new ObjectInputStream(
                     new ByteArrayInputStream(  data ) );

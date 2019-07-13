@@ -8,15 +8,19 @@ import jshellExtensions.JShellReflection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.FileService;
+import service.jshell.dto.ClassDTO;
 import service.jshell.dto.FieldDTO;
 import service.jshell.dto.ObjectDTO;
 import service.jshell.dto.ReferenceDTO;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -113,6 +117,33 @@ public class JShellService {
         }
         //ToDo: When redeclaring an instance multiple snippets are created. Add Error Handling
         return snippetEventsList.get(0);
+    }
+
+    public List<ClassDTO> getClassDTOs(){
+
+        SnippetEvent snippetEvent = null;
+        try {
+            snippetEvent = jShellService.evaluateCode("jshellReflection.getClassDTOsSerialized();");
+        } catch (InvalidCodeException e) {
+            e.printStackTrace();
+        }
+
+        //snippetEvent.value() return the serialized String with ""
+        String serializedString = snippetEvent.value().substring(1,snippetEvent.value().length()-1);
+        String classDTOsSerialized = serializedString;
+
+        List<ClassDTO> classDTOs = null;
+
+        // deserialize the object
+        try {
+            byte [] data = Base64.getDecoder().decode( classDTOsSerialized );
+            ObjectInputStream ois = new ObjectInputStream( new ByteArrayInputStream(  data ) );
+            classDTOs  = (List<ClassDTO>) ois.readObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return classDTOs;
     }
 
     public List<ObjectDTO> getObjectDTOs(){
