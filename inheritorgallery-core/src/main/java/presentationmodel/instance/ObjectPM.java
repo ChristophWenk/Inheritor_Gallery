@@ -10,9 +10,8 @@ import presentationmodel.uml.ClassPM;
 import presentationmodel.uml.FieldPM;
 import presentationmodel.uml.MethodPM;
 import presentationmodel.uml.UmlPM;
-import service.jshell.FieldDTO;
+import service.jshell.dto.FieldDTO;
 
-import java.lang.invoke.MethodHandle;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -54,9 +53,9 @@ public class ObjectPM {
             for (FieldPM field : part.getFields()){
                 Optional<FieldDTO> fieldOptional =  fieldDTOs.stream()
                         .filter(e -> e.getDeclaringClass().equals(part.getFullClassName()))
-                        .filter(e -> e.getFieldName().equals(field.getName()))
+                        .filter(e -> e.getName().equals(field.getName()))
                         .findFirst();
-                fieldOptional.ifPresent(fieldDTO -> field.setValue(fieldDTO.getFieldValue()));
+                fieldOptional.ifPresent(fieldDTO -> field.setValue(fieldDTO.getValue()));
             }
         }
 

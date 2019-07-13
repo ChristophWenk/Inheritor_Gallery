@@ -6,8 +6,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import service.uml.ClassDTO;
-import service.uml.UmlService;
+import service.jshell.dto.ClassDTO;
+import service.jshell.UmlService;
 
 import java.util.*;
 import java.util.stream.Collectors;

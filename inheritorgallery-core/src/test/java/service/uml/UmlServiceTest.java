@@ -3,6 +3,8 @@ package service.uml;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import service.FileService;
+import service.jshell.dto.ClassDTO;
+import service.jshell.UmlService;
 
 import java.nio.file.Path;
 import java.util.List;
