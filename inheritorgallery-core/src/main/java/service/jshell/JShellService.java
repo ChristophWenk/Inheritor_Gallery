@@ -162,18 +162,8 @@ public class JShellService {
         return snippetEvent.value();
     }
 
-    public String getRefName(SnippetEvent snippetEvent){
-        VarSnippet varSnippet = (VarSnippet) snippetEvent.snippet();
-        return varSnippet.name();
-    }
-
     public String getRefName(VarSnippet varSnippet){
         return varSnippet.name();
-    }
-
-    public String getRefType(SnippetEvent snippetEvent){
-        VarSnippet varSnippet = (VarSnippet) snippetEvent.snippet();
-        return varSnippet.typeName();
     }
 
     public String getRefType(VarSnippet varSnippet){
@@ -216,40 +206,6 @@ public class JShellService {
         String packageNameFull = snippetEvent.value().replace("\"","");
         //packageNameFull has format "package mypackagename"
         return packageNameFull.split(" ")[1];
-    }
-
-    public void getMethodsForReference(String reference){
-        String input = reference+".getClass().getMethods();";
-        SnippetEvent snippetEvent = null;
-        try {
-            snippetEvent = jShellService.evaluateCode(input);
-        } catch (InvalidCodeException e) {
-            logger.debug("No methods found reference: " + reference + ". It might be a primitive type.", e);
-            //return "InvalidPackageName";
-        }
-
-        //Method[] m = snippetEvent.value();
-        String[] methodsAsString =  snippetEvent.value().split(",");
-        for(String method : methodsAsString)  logger.info(method);
-    }
-
-    public void testReflectionGetDeclaringClassOfMethod(){
-        Auto a1 = new Auto("tesla", 20,3,3);
-
-        for(Method m : a1.getClass().getMethods()){
-            Class<?> declaringClass  = a1.getClass();
-            String sourceClass = declaringClass.getName();
-
-            while(declaringClass.getSuperclass() != null){
-                declaringClass = declaringClass.getSuperclass();
-                try {
-                    declaringClass.getMethod(m.getName(),m.getParameterTypes());
-                    sourceClass = declaringClass.getName();
-                } catch (NoSuchMethodException e) {
-                    //e.printStackTrace();
-                }
-            }
-        }
     }
 
     public List<FieldDTO> getFieldsForReference(String reference){

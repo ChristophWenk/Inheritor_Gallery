@@ -2,6 +2,7 @@ package service;
 
 import exceptions.InvalidCodeException;
 import jdk.jshell.SnippetEvent;
+import jdk.jshell.VarSnippet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import service.jshell.FieldDTO;
@@ -188,7 +189,7 @@ class JShellServiceTest {
         }
 
         //then
-        assertEquals("i",jShellService.getRefName(snippetEvent));
+        assertEquals("i",jShellService.getRefName((VarSnippet) snippetEvent.snippet()));
     }
 
     @Test
@@ -205,7 +206,7 @@ class JShellServiceTest {
         }
 
         //then
-        assertEquals("Item",jShellService.getRefType(snippetEvent));
+        assertEquals("Item",jShellService.getRefType((VarSnippet) snippetEvent.snippet()));
     }
 
     @Test
@@ -225,8 +226,8 @@ class JShellServiceTest {
         }
 
         //then
-        assertEquals("Fahrzeug",jShellService.getRefType(snippetEvent1));
-        assertEquals("Item",jShellService.getRefType(snippetEvent2));
+        assertEquals("Fahrzeug",jShellService.getRefType((VarSnippet) snippetEvent1.snippet()));
+        assertEquals("Item",jShellService.getRefType((VarSnippet) snippetEvent2.snippet()));
     }
 
     @Test
@@ -267,42 +268,6 @@ class JShellServiceTest {
 
         //then
         assertNotNull(jShellService.getHashcodeForReference("i1"));
-    }
-
-    @Test
-    void testGetMethodsForReference() {
-        //given
-        String input = "Auto a1 = new Auto(\"tesla\", 20,3,3);";
-
-        //when
-        try {
-            jShellService.evaluateCode(input);
-        } catch (InvalidCodeException e) {
-            e.printStackTrace();
-        }
-
-        //then
-        jShellService.getMethodsForReference("a1");
-
-    }
-
-
-    @Test
-    void testGetDeclaringClassOfMethod(){
-        //given
-        String input = "Auto a1 = new Auto(\"tesla\", 20,3,3);";
-        //when
-        try {
-            jShellService.evaluateCode(input);
-        } catch (InvalidCodeException e) {
-            e.printStackTrace();
-        }
-
-
-        jShellService.testReflectionGetDeclaringClassOfMethod();
-        //https://stackoverflow.com/questions/4821704/java-how-to-find-if-a-method-is-overridden-from-base-class?noredirect=1&lq=1
-
-
     }
 
     @Test
