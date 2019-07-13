@@ -4,18 +4,23 @@ import exceptions.InvalidCodeException;
 import jdk.jshell.JShell;
 import jdk.jshell.SnippetEvent;
 import jdk.jshell.VarSnippet;
+import jshellExtensions.JShellReflection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.FileService;
+import service.jshell.dto.ClassDTO;
 import service.jshell.dto.FieldDTO;
 import service.jshell.dto.ObjectDTO;
 import service.jshell.dto.ReferenceDTO;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,6 +55,9 @@ public class JShellService {
         //jshell.eval("import java.lang.reflect.Field;");
         importPackage(packageName);
         importPackage(packageNameJShellReflection);
+
+        jshell.eval("JShellReflection jshellReflection = new JShellReflection();");
+        //JShellReflection jShellReflection = new JShellReflection();
     }
 
     private void importPackage(String packageName){
@@ -111,6 +119,33 @@ public class JShellService {
         return snippetEventsList.get(0);
     }
 
+    public List<ClassDTO> getClassDTOs(){
+
+        SnippetEvent snippetEvent = null;
+        try {
+            snippetEvent = jShellService.evaluateCode("jshellReflection.getClassDTOsSerialized();");
+        } catch (InvalidCodeException e) {
+            e.printStackTrace();
+        }
+
+        //snippetEvent.value() return the serialized String with ""
+        String serializedString = snippetEvent.value().substring(1,snippetEvent.value().length()-1);
+        String classDTOsSerialized = serializedString;
+
+        List<ClassDTO> classDTOs = null;
+
+        // deserialize the object
+        try {
+            byte [] data = Base64.getDecoder().decode( classDTOsSerialized );
+            ObjectInputStream ois = new ObjectInputStream( new ByteArrayInputStream(  data ) );
+            classDTOs  = (List<ClassDTO>) ois.readObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return classDTOs;
+    }
+
     public List<ObjectDTO> getObjectDTOs(){
         List<ObjectDTO> objectDTOList = new ArrayList<>();
 
@@ -126,7 +161,7 @@ public class JShellService {
                 ObjectDTO objectDTO = new ObjectDTO(
                         getHashcodeForReference(refName),
                         getClassForReference(refName),
-                        getFieldsForReference(refName)
+                        getFieldValuesReference(refName)
                 );
                 // Check for an existing item in the list
                 if(objectDTOList.stream()
@@ -209,52 +244,30 @@ public class JShellService {
         return packageNameFull.split(" ")[1];
     }
 
-    public List<FieldDTO> getFieldsForReference(String reference){
-        String input1 = "String fieldDTOsString = \"\";";
-        String input2 = "        Class<?> declaringClass  = "+reference+".getClass();";
-        String input3 = " while(declaringClass.getSuperclass() != null) {\n" +
-                "            for (Field currentField_xyghw : declaringClass.getDeclaredFields()) {\n" +
-                "                try {" +
-                "                    currentField_xyghw.setAccessible(true);" +
-                "                    fieldDTOsString += \";;\"+declaringClass.getCanonicalName()+\";\"" +
-                "                                       +currentField_xyghw.getName()+\";\"" +
-                "                                       +currentField_xyghw.get("+reference+").toString();\n" +
-                "                } catch (IllegalAccessException e) {\n" +
-                "                    e.printStackTrace();\n" +
-                "                }\n" +
-                "            }\n" +
-                "            declaringClass = declaringClass.getSuperclass();\n" +
-                "        }";
-        String input4 = "fieldDTOsString;";
-
+    public List<FieldDTO> getFieldValuesReference(String reference){
         SnippetEvent snippetEvent = null;
         try {
-            jShellService.evaluateCode(input1);
-            jShellService.evaluateCode(input2);
-            jShellService.evaluateCode(input3);
-            snippetEvent = jShellService.evaluateCode(input4);
+            snippetEvent = jShellService.evaluateCode("jshellReflection.getFieldValuesForReferenceSerialized("+reference+");");
         } catch (InvalidCodeException e) {
-            logger.debug("No methods found reference: " + reference + ". It might be a primitive type.", e);
+            e.printStackTrace();
         }
 
-        List<FieldDTO> fieldDTOs = new ArrayList<>();
-        /*
-          String formatting source:
-          ";;classField1;nameField1;valueField1;;classField2;nameField2;valueField2"
-          Target:
-          String [classField1;nameField1;valueField1,   classField2;nameField2;valueField2]
-        */
+        String serializedString = snippetEvent.value().substring(1,snippetEvent.value().length()-1);
+        String fieldDTOsSerialized = serializedString;
 
-        if(snippetEvent.value().length() > 2){
-            //logger.info(snippetEvent.value());
-            String[] fieldDTOsAsString = snippetEvent.value().replace("\"","").substring(2).split(";;");
-            for(String fieldAsString : fieldDTOsAsString){
-                String[] fieldAsArray = fieldAsString.split(";");
-                fieldDTOs.add(new FieldDTO(fieldAsArray[0],null,null,fieldAsArray[1],fieldAsArray[2]));
-            }
+        List<FieldDTO> fieldDTOs = null;
+
+        // deserialize the object
+        try {
+            byte [] data = Base64.getDecoder().decode( fieldDTOsSerialized );
+            ObjectInputStream ois = new ObjectInputStream( new ByteArrayInputStream( data ) );
+            fieldDTOs  = (List<FieldDTO>) ois.readObject();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return fieldDTOs;
+
     }
 
     /**
@@ -266,5 +279,7 @@ public class JShellService {
         //jshell.eval("import java.lang.reflect.Field;");
         importPackage(packageName);
         importPackage(packageNameJShellReflection);
+
+        jshell.eval("JShellReflection jshellReflection = new JShellReflection();");
     }
 }
