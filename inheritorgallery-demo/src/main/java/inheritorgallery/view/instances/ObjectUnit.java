@@ -2,10 +2,11 @@ package inheritorgallery.view.instances;
 
 
 import inheritorgallery.view.ViewMixin;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import presentationmodel.ColorPM;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import presentationmodel.ColorPM;
 import presentationmodel.instance.ObjectPM;
 import presentationmodel.instance.ReferencePM;
 import presentationmodel.uml.ClassPM;
@@ -33,14 +34,15 @@ public class ObjectUnit extends VBox implements ViewMixin {
         objectParts = new ArrayList<>();
         references = new ArrayList<>();
 
-        for(ClassPM part : objectPM.getObjectParts()) {
+        for (ClassPM part : objectPM.getObjectParts()) {
             ObjectPartUnit objectPartUnit = new ObjectPartUnit(part);
             String color = colorPM.getColor(part.getFullClassName());
             objectPartUnit.setStyle("-fx-background-color:" + color);
             objectParts.add(objectPartUnit);
+        }
 
-        for(ReferencePM referencePM : model.getReferences()){
-            references.add(new Label(referencePM.getReferenceType() +" "+referencePM.getReferenceName()));
+        for (ReferencePM referencePM : objectPM.getReferences()) {
+            references.add(new Label(referencePM.getReferenceType() + " " + referencePM.getReferenceName()));
         }
     }
 
