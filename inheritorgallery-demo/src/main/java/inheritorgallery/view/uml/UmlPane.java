@@ -8,6 +8,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import presentationmodel.ColorPM;
 import presentationmodel.uml.ClassPM;
 import presentationmodel.uml.EdgePM;
 import presentationmodel.uml.UmlPM;
@@ -20,7 +21,8 @@ public class UmlPane extends StackPane implements ViewMixin {
 
     private static Logger logger = LoggerFactory.getLogger(UmlPane.class);
 
-    private final UmlPM model;
+    private final UmlPM umlPM;
+    private ColorPM colorPM;
 
     private ArrayList<UmlClass> umlClasses;
     private ArrayList<Line> lines;
@@ -32,8 +34,9 @@ public class UmlPane extends StackPane implements ViewMixin {
 
 
 
-    public UmlPane(UmlPM model) {
-        this.model = model;
+    public UmlPane(UmlPM umlPM, ColorPM colorPM) {
+        this.umlPM = umlPM;
+        this.colorPM = colorPM;
         init();
         logger.info("Finished initializing UmlPane");
     }
@@ -48,26 +51,27 @@ public class UmlPane extends StackPane implements ViewMixin {
         linePane = new Pane();
         scrollPane = new ScrollPane();
 
-        for(ClassPM c : model.getClasses()){
-            umlClasses.add(new UmlClass(c));
+        for(ClassPM classPM : umlPM.getClasses()){
+            UmlClass umlClass = new UmlClass(classPM);
+            String color = colorPM.getColor(classPM.getFullClassName());
+            umlClass.setStyle("-fx-background-color:" + color);
+            umlClasses.add(umlClass);
         }
 
-        for(EdgePM ignored : model.getEdges()){
+        for(EdgePM ignored : umlPM.getEdges()){
             lines.add(new Line());
             triangles.add(new Polygon());
         }
-        for (int i = 0; i <= model.getInheritanceDeepness(); i++) {
+        for (int i = 0; i <= umlPM.getInheritanceDeepness(); i++) {
             hBoxes.add(new HBox(20));
         }
-
-
     }
 
     @Override
     public void layoutControls() {
 
-        for (int i=0 ; i < model.getClasses().size(); i++) {
-            hBoxes.get(model.getClasses().get(i).getInheritanceLevel())
+        for (int i = 0; i < umlPM.getClasses().size(); i++) {
+            hBoxes.get(umlPM.getClasses().get(i).getInheritanceLevel())
                     .getChildren()
                     .add(umlClasses.get(i));
         }
@@ -77,12 +81,12 @@ public class UmlPane extends StackPane implements ViewMixin {
 
         Platform.runLater(() -> {
 
-            for (int i=0 ; i < model.getEdges().size(); i++){
+            for (int i = 0; i < umlPM.getEdges().size(); i++){
                 int finalI = i;
                 Optional<UmlClass> source = umlClasses.stream().filter(
-                        c -> c.getId().equals(model.getEdges().get(finalI).getSource())).findFirst();
+                        c -> c.getId().equals(umlPM.getEdges().get(finalI).getSource())).findFirst();
                 Optional<UmlClass> target = umlClasses.stream().filter(
-                        c -> c.getId().equals(model.getEdges().get(finalI).getTarget())).findFirst();
+                        c -> c.getId().equals(umlPM.getEdges().get(finalI).getTarget())).findFirst();
 
 
                 if (source.isPresent() && target.isPresent()) {
@@ -94,9 +98,9 @@ public class UmlPane extends StackPane implements ViewMixin {
                     lines.get(i).setEndX(target.get().getBoundsInParent().getCenterX());
                     lines.get(i).setEndY(target.get().getParent().getBoundsInParent().getMaxY());
 
-                    if(model.getEdges().get(i).getType().equals("extends")){
+                    if(umlPM.getEdges().get(i).getType().equals("extends")){
                         lines.get(i).getStyleClass().add("extendsLine");
-                    } else if(model.getEdges().get(i).getType().equals("implements")){
+                    } else if(umlPM.getEdges().get(i).getType().equals("implements")){
                         lines.get(i).getStyleClass().add("implementsLine");
                     }
 
