@@ -13,6 +13,7 @@ import presentationmodel.uml.ClassPM;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 public class ObjectUnit extends VBox implements ViewMixin {
@@ -36,8 +37,22 @@ public class ObjectUnit extends VBox implements ViewMixin {
 
         for (ClassPM part : objectPM.getObjectParts()) {
             ObjectPartUnit objectPartUnit = new ObjectPartUnit(part,colorPM);
+
+            Optional reference = objectPM.getReferences().stream()
+                    .map(referencePM -> referencePM.getReferenceType())
+                    .filter(referenceType -> referenceType.equals(part.getName()))
+                    .findAny();
+
             String color = colorPM.getColor(part.getFullClassName());
+
+            if (!reference.isEmpty()) {
+                objectPartUnit.getStyleClass().add("referenceBorder");
+            }
+            else {
+                objectPartUnit.getStyleClass().add("classBox");
+            }
             objectPartUnit.setStyle("-fx-background-color:" + color);
+
             objectParts.add(objectPartUnit);
         }
 

@@ -25,7 +25,6 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
     public ObjectPartUnit(ClassPM classPM, ColorPM colorPM){
         this.classPM = classPM;
         this.colorPM = colorPM;
-        this.getStyleClass().add("classBox");
         init();
     }
 
@@ -59,7 +58,6 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
 
     @Override
     public void layoutControls() {
-
         getChildren().add(className);
         getChildren().add(separator1);
 
@@ -67,11 +65,9 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
         getChildren().add(separator2);
 
         getChildren().addAll(methods);
-
     }
 
     @Override
     public void setupBindings() {
-        //objectLabel.textProperty().bind(classPM.objectFullNameProperty());
     }
 }
