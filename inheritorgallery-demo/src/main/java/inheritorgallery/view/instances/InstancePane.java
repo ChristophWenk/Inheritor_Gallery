@@ -2,6 +2,7 @@ package inheritorgallery.view.instances;
 
 import inheritorgallery.view.ViewMixin;
 import javafx.beans.value.ChangeListener;
+import javafx.geometry.Insets;
 import javafx.scene.layout.FlowPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,11 +42,15 @@ public class InstancePane extends FlowPane implements ViewMixin {
         if (instanceStatePM.getObjectPMs() != null) {
             for (ObjectPM objectPM : instanceStatePM.getObjectPMs()) {
                 ObjectUnit objectUnit = new ObjectUnit(objectPM, colorPM);
-//                String color = colorPM.getColor(objectPM.getObjectFullName());
-//                objectUnit.setStyle("-fx-background-color:" + color);
+                objectUnit.getStyleClass().add("objectUnit");
                 objectUnits.add(objectUnit);
             }
         }
+
+        this.setPadding(new Insets(0, 10, 20, 10));
+        this.setHgap(20.0);
+        this.setVgap(20.0);
+
         logger.debug("Drawing " + objectUnits.size() + " element(s)...");
         this.getChildren().addAll(objectUnits);
     }

@@ -43,7 +43,7 @@ public class ObjectUnit extends VBox implements ViewMixin {
                     .collect(Collectors.toList());
             if (!referencesList.isEmpty()) {
                 objectPartUnit = new ObjectPartUnit(classPM, colorPM, objectPM, referencesList);
-                objectPartUnit.getStyleClass().add("referencedObjectUnit");
+                objectPartUnit.getStyleClass().add("referencedObjectPartUnit");
             }
             else {
                 objectPartUnit = new ObjectPartUnit(classPM, colorPM, objectPM, null);
