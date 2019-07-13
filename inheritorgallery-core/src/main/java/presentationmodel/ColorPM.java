@@ -34,9 +34,9 @@ public class ColorPM {
     }
 
     /**
-     *
-     * @param name
-     * @return
+     * Get a color for the input key
+     * @param name the lookup key for the color
+     * @return the color matching the key
      */
     public String getColor(String name) {
         if (!getObjectColorMap().containsKey(name)) {
@@ -77,6 +77,10 @@ public class ColorPM {
         return objectColorMap;
     }
 
+    /**
+     *
+     * @return The list of Colors
+     */
     public List<String> getColorList() {
         return colorList;
     }
