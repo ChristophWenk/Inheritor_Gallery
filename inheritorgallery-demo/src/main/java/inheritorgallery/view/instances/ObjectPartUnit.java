@@ -5,6 +5,7 @@ import inheritorgallery.view.ViewMixin;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.VBox;
+import presentationmodel.ColorPM;
 import presentationmodel.uml.ClassPM;
 import presentationmodel.uml.FieldPM;
 import presentationmodel.uml.MethodPM;
@@ -17,31 +18,37 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
     private List<Label> fields;
     private List<Label> methods;
     private Label className;
-    private ClassPM model;
+    private ClassPM classPM;
+    private ColorPM colorPM;
     private Separator separator1,separator2;
 
-    public ObjectPartUnit(ClassPM model){
-        this.model = model;
+    public ObjectPartUnit(ClassPM classPM, ColorPM colorPM){
+        this.classPM = classPM;
+        this.colorPM = colorPM;
         this.getStyleClass().add("classBox");
         init();
     }
 
     @Override
     public void initializeControls() {
-        className = new Label(model.getName());
+        className = new Label(classPM.getName());
 
         fields = new ArrayList<>();
         methods = new ArrayList<>();
         separator1 = new Separator();
         separator2 = new Separator();
 
-        for(FieldPM field : model.getFields()){
+        for(FieldPM field : classPM.getFields()){
             fields.add(new Label(field.getName() + " " + field.getValue()));
         }
 
-        for(MethodPM method : model.getMethods()){
+        for(MethodPM method : classPM.getMethods()){
             if(method.getImplementedInClass() != null){
-                methods.add(new Label(method.getName()+ " " + method.getInputParameters() +" " + method.getImplementedInClass()));
+                Label methodLabel = new Label(method.getName()+ " " + method.getInputParameters() +" " + method.getImplementedInClass());
+                String color = colorPM.getColor(method.getImplementedInClass());
+                methodLabel.setStyle("-fx-background-color:" + color);
+
+                methods.add(methodLabel);
             }
             else {
                 methods.add(new Label(method.getName() + " " + method.getInputParameters()));
@@ -65,6 +72,6 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
 
     @Override
     public void setupBindings() {
-        //objectLabel.textProperty().bind(model.objectFullNameProperty());
+        //objectLabel.textProperty().bind(classPM.objectFullNameProperty());
     }
 }

@@ -35,7 +35,7 @@ public class ObjectUnit extends VBox implements ViewMixin {
         references = new ArrayList<>();
 
         for (ClassPM part : objectPM.getObjectParts()) {
-            ObjectPartUnit objectPartUnit = new ObjectPartUnit(part);
+            ObjectPartUnit objectPartUnit = new ObjectPartUnit(part,colorPM);
             String color = colorPM.getColor(part.getFullClassName());
             objectPartUnit.setStyle("-fx-background-color:" + color);
             objectParts.add(objectPartUnit);
