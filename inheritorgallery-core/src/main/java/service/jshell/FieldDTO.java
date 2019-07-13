@@ -1,18 +1,35 @@
 package service.jshell;
 
 public class FieldDTO {
-    private String declaringClass;
-    private String name;
-    private String value;
+    private final String declaringClass;
+    private final String modifier;
+    private final String type;
+    private final String name;
+    private final String value;
 
-    public FieldDTO(String declaringClass, String fieldName, String fieldValue ){
+    public FieldDTO(String declaringClass,
+                    String modifier,
+                    String type,
+                    String name,
+                    String value){
+
         this.declaringClass = declaringClass;
-        this.name = fieldName;
-        this.value = fieldValue;
+        this.type = type;
+        this.modifier = modifier;
+        this.name = name;
+        this.value = value;
     }
 
     public String getDeclaringClass() {
         return declaringClass;
+    }
+
+    public String getModifier() {
+        return modifier;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public String getName() {

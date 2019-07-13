@@ -249,7 +249,7 @@ public class JShellService {
             String[] fieldDTOsAsString = snippetEvent.value().replace("\"","").substring(2).split(";;");
             for(String fieldAsString : fieldDTOsAsString){
                 String[] fieldAsArray = fieldAsString.split(";");
-                fieldDTOs.add(new FieldDTO(fieldAsArray[0],fieldAsArray[1],fieldAsArray[2]));
+                fieldDTOs.add(new FieldDTO(fieldAsArray[0],null,null,fieldAsArray[1],fieldAsArray[2]));
             }
         }
 
