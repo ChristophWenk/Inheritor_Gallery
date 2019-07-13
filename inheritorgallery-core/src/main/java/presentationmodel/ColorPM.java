@@ -33,6 +33,13 @@ public class ColorPM {
         currentColor = 0;
     }
 
+    public String getColor(String name) {
+        if (!getObjectColorMap().containsKey(name)) {
+            mapColor(name);
+        }
+        return objectColorMap.get(name);
+    }
+
     /**
      * Retrieves a yet unused color or resets after the last color has been provided.
      * @return The next unused color.
@@ -50,11 +57,11 @@ public class ColorPM {
     }
 
     /**
-     * Map an ObjectName to a color. Automatically retrieve the next color.
-     * @param objectName The ObjectName that should be mapped.
+     * Map a name to a color. Automatically retrieve the next color.
+     * @param name The name that should be mapped.
      */
-    public void mapColor(String objectName) {
-        objectColorMap.put(objectName,getNextColor());
+    public void mapColor(String name) {
+        objectColorMap.put(name,getNextColor());
     }
 
     /**
@@ -63,5 +70,9 @@ public class ColorPM {
      */
     public HashMap<String, String> getObjectColorMap() {
         return objectColorMap;
+    }
+
+    public List<String> getColorList() {
+        return colorList;
     }
 }
