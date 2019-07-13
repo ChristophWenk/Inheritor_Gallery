@@ -4,20 +4,22 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import service.FileService;
 import service.jshell.dto.ClassDTO;
-import service.jshell.UmlService;
+import jshellExtensions.JShellReflection;
 
+import java.io.*;
 import java.nio.file.Path;
+import java.util.Base64;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class UmlServiceTest {
-    private static UmlService umlService;
+class JShellReflectionTest {
+    private static JShellReflection JShellReflection;
     private static Path path;
 
     @BeforeAll
     public static void setUp() {
-        umlService = new UmlService();
+        JShellReflection = new JShellReflection();
         FileService fileService = new FileService();
         path = fileService.getPath("/input");
     }
@@ -25,7 +27,7 @@ class UmlServiceTest {
     @Test
     void testGetClassesForPath(){
         //given
-        List<Class> classes = umlService.getClassesForPath(path);
+        List<Class> classes = JShellReflection.getClassesForPath(path);
 
         //then
         assertEquals(9,classes.size());
@@ -43,7 +45,7 @@ class UmlServiceTest {
     @Test
     void testGlassToClassDTO(){
         //given
-        ClassDTO classDTOAntique = umlService.getClassDTOs().get(0);
+        ClassDTO classDTOAntique = JShellReflection.getClassDTOs().get(0);
         //then
         assertEquals("input.Antique",classDTOAntique.getFullClassName());
         assertEquals("Antique",classDTOAntique.getSimpleClassName());
@@ -52,7 +54,7 @@ class UmlServiceTest {
         assertNull(classDTOAntique.getSuperClassName());
 
         //given
-        ClassDTO classDTOAntiqueBuyableFahrrad = umlService.getClassDTOs().get(1);
+        ClassDTO classDTOAntiqueBuyableFahrrad = JShellReflection.getClassDTOs().get(1);
         //then
         assertEquals("AntiqueBuyableFahrrad",classDTOAntiqueBuyableFahrrad.getSimpleClassName());
         assertFalse(classDTOAntiqueBuyableFahrrad.isInterface());
@@ -62,7 +64,7 @@ class UmlServiceTest {
         assertEquals("input.Fahrrad",classDTOAntiqueBuyableFahrrad.getSuperClassName());
 
         //given
-        ClassDTO classDTOFahrrad = umlService.getClassDTOs().get(5);
+        ClassDTO classDTOFahrrad = JShellReflection.getClassDTOs().get(5);
         //then
         assertEquals("Fahrrad",classDTOFahrrad.getSimpleClassName());
         assertFalse(classDTOFahrrad.isInterface());
@@ -71,7 +73,7 @@ class UmlServiceTest {
 
     @Test
     void testClassToClassDTOFields(){
-        ClassDTO fahrzeug = umlService.getClassDTOs().get(6);
+        ClassDTO fahrzeug = JShellReflection.getClassDTOs().get(6);
 
         assertEquals("private",fahrzeug.getFields().get(0).getModifier());
         assertEquals("double",fahrzeug.getFields().get(0).getType());
@@ -84,7 +86,7 @@ class UmlServiceTest {
 
     @Test
     void testClassToClassDTOConstructors(){
-        ClassDTO person = umlService.getClassDTOs().get(8);
+        ClassDTO person = JShellReflection.getClassDTOs().get(8);
 
         assertEquals("Person",person.getConstructors().get(0).getName());
 
@@ -101,7 +103,7 @@ class UmlServiceTest {
 
     @Test
     void testClassToClassDTOMethods(){
-        ClassDTO fahrzeug = umlService.getClassDTOs().get(6);
+        ClassDTO fahrzeug = JShellReflection.getClassDTOs().get(6);
 
         assertEquals("input.Fahrzeug",fahrzeug.getFullClassName());
 
@@ -110,6 +112,56 @@ class UmlServiceTest {
         assertEquals("void",fahrzeug.getMethods().get(6).getReturnType());
         assertEquals("setDieselTax",fahrzeug.getMethods().get(6).getName());
         assertEquals("double",fahrzeug.getMethods().get(6).getInputParameters().get(0));
+
+    }
+
+    @Test
+    void testSerialize(){
+        ClassDTO fahrzeug = JShellReflection.getClassDTOs().get(6);
+
+        String serialiedString = null;
+        ClassDTO fahrzeugDeserialized = null;
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ObjectOutputStream o = new ObjectOutputStream(byteArrayOutputStream);
+            o.writeObject(fahrzeug);
+            o.flush();
+            o.close();
+            serialiedString =  Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // deserialize the object
+        try {
+            assert serialiedString != null;
+            byte [] data = Base64.getDecoder().decode( serialiedString );
+            ObjectInputStream ois = new ObjectInputStream(
+                    new ByteArrayInputStream(  data ) );
+            fahrzeugDeserialized  = (ClassDTO) ois.readObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        assertEquals("input.Fahrzeug",fahrzeug.getFullClassName());
+        assertEquals(fahrzeugDeserialized.getFullClassName(),fahrzeug.getFullClassName());
+
+        assertEquals(4,fahrzeug.getFields().size());
+        assertEquals(fahrzeugDeserialized.getFields().size(),fahrzeug.getFields().size());
+
+        assertEquals("speed",fahrzeug.getFields().get(0).getName());
+        assertEquals(fahrzeugDeserialized.getFields().get(0).getName(),fahrzeug.getFields().get(0).getName());
+
+        assertEquals("public",fahrzeug.getConstructors().get(0).getModifier());
+        assertEquals(fahrzeugDeserialized.getConstructors().get(0).getModifier(),fahrzeug.getConstructors().get(0).getModifier());
+
+        assertEquals(10,fahrzeug.getMethods().size());
+        assertEquals(fahrzeugDeserialized.getMethods().size(),fahrzeug.getMethods().size());
+
+        assertEquals("setDieselTax",fahrzeug.getMethods().get(6).getName());
+        assertEquals(fahrzeugDeserialized.getMethods().get(6).getName(),fahrzeug.getMethods().get(6).getName());
+
+
 
     }
 

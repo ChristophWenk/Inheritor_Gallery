@@ -1,8 +1,10 @@
 package service.jshell.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ConstructorDTO {
+public class ConstructorDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
     private final String modifier;
     private final String name;
     private List<String> inputParameters;

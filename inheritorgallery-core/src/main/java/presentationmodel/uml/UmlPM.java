@@ -7,7 +7,7 @@ import javafx.collections.ObservableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.jshell.dto.ClassDTO;
-import service.jshell.UmlService;
+import jshellExtensions.JShellReflection;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,11 +20,11 @@ public class UmlPM {
     private final ObservableList<ClassPM> classes = FXCollections.observableArrayList();
     private final ObservableList<EdgePM> edges = FXCollections.observableArrayList();
     private final IntegerProperty inheritanceDeepness = new SimpleIntegerProperty();
-    private UmlService umlService;
+    private JShellReflection JShellReflection;
 
     public UmlPM() {
-        umlService = new UmlService();
-        for(ClassDTO c : umlService.getClassDTOs()){
+        JShellReflection = new JShellReflection();
+        for(ClassDTO c : JShellReflection.getClassDTOs()){
             classes.add(new ClassPM(
                     c.isInterface(),
                     c.getFullClassName(),

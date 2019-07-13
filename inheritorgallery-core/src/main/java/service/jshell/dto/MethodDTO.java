@@ -1,8 +1,10 @@
 package service.jshell.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class MethodDTO {
+public class MethodDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
     private final String modifier;
     private final String returnType;
     private final String name;
