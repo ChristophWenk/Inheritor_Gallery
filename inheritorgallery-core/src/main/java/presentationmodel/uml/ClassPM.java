@@ -3,13 +3,12 @@ package presentationmodel.uml;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import service.uml.ConstructorDTO;
-import service.uml.FieldDTO;
-import service.uml.MethodDTO;
+import service.jshell.dto.ConstructorDTO;
+import service.jshell.dto.FieldDTO;
+import service.jshell.dto.MethodDTO;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ClassPM {
 
@@ -29,7 +28,7 @@ public class ClassPM {
         List<ConstructorDTO> constructors  = new ArrayList<>();
         List<MethodDTO> methods  = new ArrayList<>();
         for(FieldPM f : getFields())
-            fields.add(new FieldDTO(f.getModifier(),f.getType(),f.getName()));
+            fields.add(new FieldDTO(f.getDeclaringClass(),f.getModifier(),f.getType(),f.getName(),f.getValue()));
         for(ConstructorPM c : getConstructors())
             constructors.add(new ConstructorDTO(c.getModifier(),c.getName(),c.getInputParameters()));
         for(MethodPM m : getMethods())
@@ -66,6 +65,7 @@ public class ClassPM {
 
         for(FieldDTO f : fields){
             this.fields.add(new FieldPM(
+                    f.getDeclaringClass(),
                     f.getModifier(),
                     f.getType(),
                     f.getName(),

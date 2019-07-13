@@ -1,23 +1,21 @@
 package service.jshell;
 
 import exceptions.InvalidCodeException;
-import input.Auto;
 import jdk.jshell.JShell;
 import jdk.jshell.SnippetEvent;
 import jdk.jshell.VarSnippet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.FileService;
+import service.jshell.dto.FieldDTO;
+import service.jshell.dto.ObjectDTO;
+import service.jshell.dto.ReferenceDTO;
 
-import javax.swing.text.html.ListView;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,6 +31,7 @@ public class JShellService {
     private static JShellService jShellService;
     private JShell jshell;
     private final String packageName = "input";
+    private final String packageNameJShellReflection = "jshellExtensions";
 
     /**
      * JShellService Constructor.
@@ -49,13 +48,13 @@ public class JShellService {
         // Classes need to be explicitly imported to JShell similarly as if we wanted to import one into a class.
         //jshell.eval("import "+packageName+".*;");
         //jshell.eval("import java.lang.reflect.Field;");
-        importPackages();
+        importPackage(packageName);
+        importPackage(packageNameJShellReflection);
     }
 
-    private void importPackages(){
+    private void importPackage(String packageName){
         FileService fileService = new FileService();
         Path path = fileService.getPath("/"+packageName);
-        logger.info(path.toString());
         try {
             Files.walk(path)
                     .map(e -> new File(e.toString()))
@@ -63,7 +62,6 @@ public class JShellService {
                     .map(e -> e.toURI().toString().split(packageName))
                     .map(e -> packageName+e[1].replace("/","."))
                     .map(e -> "import "+e+"*;")
-                    //.forEach(e -> logger.info(e));
                     .forEach(e -> jshell.eval(e));
         } catch (IOException e) {
             e.printStackTrace();
@@ -165,18 +163,8 @@ public class JShellService {
         return snippetEvent.value();
     }
 
-    public String getRefName(SnippetEvent snippetEvent){
-        VarSnippet varSnippet = (VarSnippet) snippetEvent.snippet();
-        return varSnippet.name();
-    }
-
     public String getRefName(VarSnippet varSnippet){
         return varSnippet.name();
-    }
-
-    public String getRefType(SnippetEvent snippetEvent){
-        VarSnippet varSnippet = (VarSnippet) snippetEvent.snippet();
-        return varSnippet.typeName();
     }
 
     public String getRefType(VarSnippet varSnippet){
@@ -221,48 +209,13 @@ public class JShellService {
         return packageNameFull.split(" ")[1];
     }
 
-    public void getMethodsForReference(String reference){
-        String input = reference+".getClass().getMethods();";
-        SnippetEvent snippetEvent = null;
-        try {
-            snippetEvent = jShellService.evaluateCode(input);
-        } catch (InvalidCodeException e) {
-            logger.debug("No methods found reference: " + reference + ". It might be a primitive type.", e);
-            //return "InvalidPackageName";
-        }
-
-        //Method[] m = snippetEvent.value();
-        String[] methodsAsString =  snippetEvent.value().split(",");
-        for(String method : methodsAsString)  logger.info(method);
-    }
-
-    public void testReflectionGetDeclaringClassOfMethod(){
-        Auto a1 = new Auto("tesla", 20,3,3);
-
-        for(Method m : a1.getClass().getMethods()){
-            Class<?> declaringClass  = a1.getClass();
-            String sourceClass = declaringClass.getName();
-
-            while(declaringClass.getSuperclass() != null){
-                declaringClass = declaringClass.getSuperclass();
-                try {
-                    declaringClass.getMethod(m.getName(),m.getParameterTypes());
-                    sourceClass = declaringClass.getName();
-                } catch (NoSuchMethodException e) {
-                    //e.printStackTrace();
-                }
-            }
-            logger.info(m + " declared in class " + sourceClass);
-        }
-    }
-
     public List<FieldDTO> getFieldsForReference(String reference){
         String input1 = "String fieldDTOsString = \"\";";
         String input2 = "        Class<?> declaringClass  = "+reference+".getClass();";
         String input3 = " while(declaringClass.getSuperclass() != null) {\n" +
                 "            for (Field currentField_xyghw : declaringClass.getDeclaredFields()) {\n" +
-                "                try {\n" +
-                "                    currentField_xyghw.setAccessible(true);\n" +
+                "                try {" +
+                "                    currentField_xyghw.setAccessible(true);" +
                 "                    fieldDTOsString += \";;\"+declaringClass.getCanonicalName()+\";\"" +
                 "                                       +currentField_xyghw.getName()+\";\"" +
                 "                                       +currentField_xyghw.get("+reference+").toString();\n" +
@@ -291,11 +244,13 @@ public class JShellService {
           Target:
           String [classField1;nameField1;valueField1,   classField2;nameField2;valueField2]
         */
+
         if(snippetEvent.value().length() > 2){
+            //logger.info(snippetEvent.value());
             String[] fieldDTOsAsString = snippetEvent.value().replace("\"","").substring(2).split(";;");
             for(String fieldAsString : fieldDTOsAsString){
                 String[] fieldAsArray = fieldAsString.split(";");
-                fieldDTOs.add(new FieldDTO(fieldAsArray[0],fieldAsArray[1],fieldAsArray[2]));
+                fieldDTOs.add(new FieldDTO(fieldAsArray[0],null,null,fieldAsArray[1],fieldAsArray[2]));
             }
         }
 
@@ -309,6 +264,7 @@ public class JShellService {
         jshell.snippets().forEach(snippet -> jshell.drop(snippet));
         //jshell.eval("import "+packageName+".*;");
         //jshell.eval("import java.lang.reflect.Field;");
-        importPackages();
+        importPackage(packageName);
+        importPackage(packageNameJShellReflection);
     }
 }

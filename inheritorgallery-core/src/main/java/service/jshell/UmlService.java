@@ -1,8 +1,12 @@
-package service.uml;
+package service.jshell;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.FileService;
+import service.jshell.dto.ClassDTO;
+import service.jshell.dto.ConstructorDTO;
+import service.jshell.dto.FieldDTO;
+import service.jshell.dto.MethodDTO;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -88,7 +92,12 @@ public class UmlService {
             String modifier =  Modifier.toString(f.getModifiers()).split(" ")[0];
             modifier = modifier.equals("") ? "package" : modifier;
 
-            fields.add(new FieldDTO(modifier, f.getType().getSimpleName(), f.getName()));
+            fields.add(new FieldDTO(
+                                    c.getCanonicalName(),
+                                    modifier,
+                                    f.getType().getSimpleName(),
+                                    f.getName(),
+                                    null));
         }
         return fields;
     }

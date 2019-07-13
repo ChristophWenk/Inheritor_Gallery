@@ -9,12 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import presentationmodel.uml.UmlPM;
 import service.jshell.JShellService;
-import service.jshell.ObjectDTO;
-import service.jshell.ReferenceDTO;
+import service.jshell.dto.ObjectDTO;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class InstanceStatePM {
     private static Logger logger = LoggerFactory.getLogger(InstanceStatePM.class);
@@ -52,20 +50,13 @@ public class InstanceStatePM {
                             objectDTO.getFieldValues()
             ));
         }
-        setObjectPMProperty(objectPMList);
 
-        for(ReferenceDTO referenceDTO : jShellService.getReferenceDTOs()){
-            Optional<ObjectPM> ObjectPMPointedTo = objectPMList.stream()
-                    .filter(objectPM -> objectPM.getObjectId().equals(referenceDTO.getPointedToObject()))
-                    .findFirst();
-            if(ObjectPMPointedTo.isPresent()){
-                ObjectPMPointedTo.get().addReference(new ReferencePM(
-                        referenceDTO.getRefType(),
-                        referenceDTO.getRefName(),
-                        ObjectPMPointedTo.get()
-                ));
-            }
-        }
+        jShellService.getReferenceDTOs().forEach(referenceDTO ->
+                objectPMList.stream().filter(objectPM -> objectPM.getObjectId().equals(referenceDTO.getPointedToObject()))
+                   .forEach(e -> e.addReference(new ReferencePM(referenceDTO.getRefType(),referenceDTO.getRefName()))));
+
+
+        setObjectPMProperty(objectPMList);
     }
 
     public ObservableList<String> getCommandHistory() {
