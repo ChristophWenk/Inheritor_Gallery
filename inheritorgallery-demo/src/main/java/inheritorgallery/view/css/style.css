@@ -35,3 +35,7 @@
 .extendsLine {
     -fx-stroke-width: 3;
 }
+
+.classBoxColor1 {
+    -fx-background-color: #EF5350;
+}

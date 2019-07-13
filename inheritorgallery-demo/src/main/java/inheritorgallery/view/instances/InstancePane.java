@@ -37,7 +37,9 @@ public class InstancePane extends FlowPane implements ViewMixin {
 
         if (instanceStatePM.getObjectPMs() != null) {
             for (ObjectPM objectPM : instanceStatePM.getObjectPMs()) {
-                objectUnits.add(new ObjectUnit(objectPM));
+                ObjectUnit objectUnit = new ObjectUnit(objectPM);
+                objectUnit.getStyleClass().add("classBoxColor1");
+                objectUnits.add(objectUnit);
             }
         }
         logger.debug("Drawing " + objectUnits.size() + " element(s)...");
