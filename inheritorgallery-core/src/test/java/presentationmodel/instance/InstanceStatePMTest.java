@@ -3,6 +3,8 @@ package presentationmodel.instance;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import presentationmodel.uml.FieldPM;
 import presentationmodel.uml.MethodPM;
 import presentationmodel.uml.UmlPM;
@@ -18,6 +20,7 @@ public class InstanceStatePMTest {
     private static InstanceStatePM instanceStatePM;
     private static UmlPM umlPM;
     private static JShellService jShellService = JShellService.getInstance();
+    private static Logger logger = LoggerFactory.getLogger(InstanceStatePMTest.class);
 
     @BeforeAll
     public static void setUp() {
@@ -137,6 +140,23 @@ public class InstanceStatePMTest {
         //then
         assertEquals("f3", reference3.getReferenceName());
         assertEquals("Fahrzeug", reference3.getReferenceType());
+    }
+
+    @Test
+    void getObjectPMParts(){
+        //when
+        instanceStatePM.setJShellInput("Fahrzeug object = new Fahrzeug(\"tesla\",23);");
+
+        //then
+        assertEquals(2,instanceStatePM.getObjectPMs().get(0).getObjectParts().size());
+        assertEquals(1,instanceStatePM.getObjectPMs().get(0).getObjectWidth());
+
+        //when
+        instanceStatePM.setJShellInput("AntiqueBuyableFahrrad object = new AntiqueBuyableFahrrad(\"aa\",23,\"asd\",45);");
+
+        //then
+        assertEquals(6,instanceStatePM.getObjectPMs().get(0).getObjectParts().size());
+        assertEquals(3,instanceStatePM.getObjectPMs().get(0).getObjectWidth());
     }
 
 }

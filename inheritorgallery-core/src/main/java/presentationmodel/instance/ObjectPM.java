@@ -1,5 +1,7 @@
 package presentationmodel.instance;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -24,6 +26,7 @@ public class ObjectPM {
     private final StringProperty objectFullName = new SimpleStringProperty();
     private final ObservableList<ClassPM> objectParts = FXCollections.observableArrayList();
     private final ObservableList<ReferencePM> references = FXCollections.observableArrayList();
+    private final IntegerProperty objectWidth = new SimpleIntegerProperty();
 
     private UmlPM umlPM;
 
@@ -42,10 +45,18 @@ public class ObjectPM {
 
         objectParts.add(rootClass);
 
+        List<ClassPM> implementedInterfaces = rootClass.getImplementedInterfaces().stream()
+                .map(e -> umlPM.getClassByFullName(e))
+                .collect(Collectors.toList());
+
+        setObjectWidth(implementedInterfaces.size()+1);
+
         while(rootClass.hasSuperClass()){
             rootClass  = umlPM.getClassByFullName(rootClass.getSuperClassName()).clone();
             objectParts.add(rootClass);
         }
+
+        if(!implementedInterfaces.isEmpty())  objectParts.addAll(implementedInterfaces);
     }
 
     private void setFieldValues(List<FieldDTO> fieldDTOs){
@@ -58,7 +69,6 @@ public class ObjectPM {
                 fieldOptional.ifPresent(fieldDTO -> field.setValue(fieldDTO.getValue()));
             }
         }
-
     }
 
     /**
@@ -171,5 +181,17 @@ public class ObjectPM {
 
     public void addReference(ReferencePM reference){
         references.add(reference);
+    }
+
+    public int getObjectWidth() {
+        return objectWidth.get();
+    }
+
+    public IntegerProperty objectWidthProperty() {
+        return objectWidth;
+    }
+
+    public void setObjectWidth(int objectWidth) {
+        this.objectWidth.set(objectWidth);
     }
 }
