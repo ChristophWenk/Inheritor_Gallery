@@ -30,22 +30,23 @@ public class JShellReflection {
 
     }
 
-    public String getClassDTOsSerialized(){
+    public String serialize(Object objectToSerialize){
         String serializedString = null;
-        List<ClassDTO> classDTOs = getClassDTOs();
         try {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             ObjectOutputStream o = new ObjectOutputStream(byteArrayOutputStream);
-            o.writeObject(classDTOs);
+            o.writeObject(objectToSerialize);
             o.flush();
             o.close();
             serializedString =  Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray());
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return serializedString;
+    }
 
+    public String getClassDTOsSerialized(){
+        return serialize(getClassDTOs());
     }
 
     public List<ClassDTO> getClassDTOs() {
@@ -163,5 +164,31 @@ public class JShellReflection {
         return methods;
     }
 
+    public List<FieldDTO> getFieldValuesForReference(Object reference) {
+        List<FieldDTO> fieldDTOs = new ArrayList<>();
+        Class<?> declaringClass = reference.getClass();
+        while (declaringClass.getSuperclass() != null) {
+            for (Field currentField_xyghw : declaringClass.getDeclaredFields()) {
+                try {
+                    currentField_xyghw.setAccessible(true);
+                    fieldDTOs.add(new FieldDTO(
+                            declaringClass.getCanonicalName(),
+                            null,
+                            null,
+                            currentField_xyghw.getName(),
+                            currentField_xyghw.get(reference).toString()
+                    ));
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+            declaringClass = declaringClass.getSuperclass();
+        }
+        return fieldDTOs;
+    }
+
+    public String  getFieldValuesForReferenceSerialized(Object reference){
+        return serialize(getFieldValuesForReference(reference));
+    }
 
 }

@@ -271,7 +271,50 @@ class JShellServiceTest {
     }
 
     @Test
-    void testGetFieldsForReference(){
+    void testGetFieldValuesForReference(){
+        //given
+        String input = "Auto a1 = new Auto(\"tesla\", 20,100,3);";
+
+        //when
+        try {
+            jShellService.evaluateCode(input);
+        } catch (InvalidCodeException e) {
+            e.printStackTrace();
+        }
+        List<FieldDTO> fieldDTOs = jShellService.getFieldsForReference("a1");
+
+        //then
+        assertEquals("input.Auto", fieldDTOs.get(0).getDeclaringClass());
+        assertEquals("ps", fieldDTOs.get(0).getName());
+        assertEquals("100", fieldDTOs.get(0).getValue());
+
+        assertEquals("input.Auto", fieldDTOs.get(1).getDeclaringClass());
+        assertEquals("color", fieldDTOs.get(1).getName());
+        assertEquals("3", fieldDTOs.get(1).getValue());
+
+        assertEquals("input.Fahrzeug", fieldDTOs.get(2).getDeclaringClass());
+        assertEquals("speed", fieldDTOs.get(2).getName());
+        assertEquals("20.0", fieldDTOs.get(2).getValue());
+
+        assertEquals("input.Fahrzeug", fieldDTOs.get(3).getDeclaringClass());
+        assertEquals("name", fieldDTOs.get(3).getName());
+        assertEquals("tesla", fieldDTOs.get(3).getValue());
+
+        assertEquals("input.Fahrzeug", fieldDTOs.get(4).getDeclaringClass());
+        assertEquals("dieselTax", fieldDTOs.get(4).getName());
+        assertEquals("0.0", fieldDTOs.get(4).getValue());
+
+        assertEquals("input.Fahrzeug", fieldDTOs.get(5).getDeclaringClass());
+        assertEquals("gravity", fieldDTOs.get(5).getName());
+        assertEquals("9.81", fieldDTOs.get(5).getValue());
+
+        assertEquals("input.Item", fieldDTOs.get(6).getDeclaringClass());
+        assertEquals("weight", fieldDTOs.get(6).getName());
+        assertEquals("0.0", fieldDTOs.get(6).getValue());
+    }
+
+    @Test
+    void testGetFieldValuesForReferenceViaSerialized(){
         //given
         String input = "Auto a1 = new Auto(\"tesla\", 20,100,3);";
 
@@ -328,4 +371,5 @@ class JShellServiceTest {
         //then
         assertEquals("input",jShellService.getPackageForReference("i1"));
     }
+
 }

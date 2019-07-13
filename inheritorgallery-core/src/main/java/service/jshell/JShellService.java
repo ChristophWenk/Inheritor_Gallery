@@ -245,51 +245,29 @@ public class JShellService {
     }
 
     public List<FieldDTO> getFieldsForReference(String reference){
-        String input1 = "String fieldDTOsString = \"\";";
-        String input2 = "        Class<?> declaringClass  = "+reference+".getClass();";
-        String input3 = " while(declaringClass.getSuperclass() != null) {\n" +
-                "            for (Field currentField_xyghw : declaringClass.getDeclaredFields()) {\n" +
-                "                try {" +
-                "                    currentField_xyghw.setAccessible(true);" +
-                "                    fieldDTOsString += \";;\"+declaringClass.getCanonicalName()+\";\"" +
-                "                                       +currentField_xyghw.getName()+\";\"" +
-                "                                       +currentField_xyghw.get("+reference+").toString();\n" +
-                "                } catch (IllegalAccessException e) {\n" +
-                "                    e.printStackTrace();\n" +
-                "                }\n" +
-                "            }\n" +
-                "            declaringClass = declaringClass.getSuperclass();\n" +
-                "        }";
-        String input4 = "fieldDTOsString;";
-
         SnippetEvent snippetEvent = null;
         try {
-            jShellService.evaluateCode(input1);
-            jShellService.evaluateCode(input2);
-            jShellService.evaluateCode(input3);
-            snippetEvent = jShellService.evaluateCode(input4);
+            snippetEvent = jShellService.evaluateCode("jshellReflection.getFieldValuesForReferenceSerialized("+reference+");");
         } catch (InvalidCodeException e) {
-            logger.debug("No methods found reference: " + reference + ". It might be a primitive type.", e);
+            e.printStackTrace();
         }
 
-        List<FieldDTO> fieldDTOs = new ArrayList<>();
-        /*
-          String formatting source:
-          ";;classField1;nameField1;valueField1;;classField2;nameField2;valueField2"
-          Target:
-          String [classField1;nameField1;valueField1,   classField2;nameField2;valueField2]
-        */
+        String serializedString = snippetEvent.value().substring(1,snippetEvent.value().length()-1);
+        String fieldDTOsSerialized = serializedString;
 
-        if(snippetEvent.value().length() > 2){
-            //logger.info(snippetEvent.value());
-            String[] fieldDTOsAsString = snippetEvent.value().replace("\"","").substring(2).split(";;");
-            for(String fieldAsString : fieldDTOsAsString){
-                String[] fieldAsArray = fieldAsString.split(";");
-                fieldDTOs.add(new FieldDTO(fieldAsArray[0],null,null,fieldAsArray[1],fieldAsArray[2]));
-            }
+        List<FieldDTO> fieldDTOs = null;
+
+        // deserialize the object
+        try {
+            byte [] data = Base64.getDecoder().decode( fieldDTOsSerialized );
+            ObjectInputStream ois = new ObjectInputStream( new ByteArrayInputStream( data ) );
+            fieldDTOs  = (List<FieldDTO>) ois.readObject();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return fieldDTOs;
+
     }
 
     /**
