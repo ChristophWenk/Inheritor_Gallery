@@ -16,12 +16,17 @@
     -fx-max-height: 500px;
 }
 
-.referenceBorder {
+.referencedObjectUnit {
     -fx-border-color: rgba(0, 0, 0, 0.99);
     -fx-border-radius: 10px;
     -fx-border-insets: 0;
     -fx-border-width: 3;
     -fx-border-style: dashed;
+}
+
+.referenceLabel {
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
 }
 
 .classBox {

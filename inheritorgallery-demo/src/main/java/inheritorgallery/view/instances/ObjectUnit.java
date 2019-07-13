@@ -8,12 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import presentationmodel.ColorPM;
 import presentationmodel.instance.ObjectPM;
-import presentationmodel.instance.ReferencePM;
 import presentationmodel.uml.ClassPM;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 public class ObjectUnit extends VBox implements ViewMixin {
@@ -35,35 +34,31 @@ public class ObjectUnit extends VBox implements ViewMixin {
         objectParts = new ArrayList<>();
         references = new ArrayList<>();
 
-        for (ClassPM part : objectPM.getObjectParts()) {
-            ObjectPartUnit objectPartUnit = new ObjectPartUnit(part,colorPM);
+        for (ClassPM classPM : objectPM.getObjectParts()) {
+            ObjectPartUnit objectPartUnit = null;
 
-            Optional reference = objectPM.getReferences().stream()
-                    .map(referencePM -> referencePM.getReferenceType())
-                    .filter(referenceType -> referenceType.equals(part.getName()))
-                    .findAny();
-
-            String color = colorPM.getColor(part.getFullClassName());
-
-            if (!reference.isEmpty()) {
-                objectPartUnit.getStyleClass().add("referenceBorder");
+            List<String> referencesList = objectPM.getReferences().stream()
+                    .filter(referenceType -> referenceType.getReferenceType().equals(classPM.getName()))
+                    .map(referencePM -> referencePM.getReferenceName())
+                    .collect(Collectors.toList());
+            if (!referencesList.isEmpty()) {
+                objectPartUnit = new ObjectPartUnit(classPM, colorPM, objectPM, referencesList);
+                objectPartUnit.getStyleClass().add("referencedObjectUnit");
             }
             else {
+                objectPartUnit = new ObjectPartUnit(classPM, colorPM, objectPM, null);
                 objectPartUnit.getStyleClass().add("classBox");
             }
+
+            String color = colorPM.getColor(classPM.getFullClassName());
             objectPartUnit.setStyle("-fx-background-color:" + color);
 
             objectParts.add(objectPartUnit);
-        }
-
-        for (ReferencePM referencePM : objectPM.getReferences()) {
-            references.add(new Label(referencePM.getReferenceType() + " " + referencePM.getReferenceName()));
         }
     }
 
     @Override
     public void layoutControls() {
-        if(references != null ) getChildren().addAll(references);
         getChildren().addAll(objectParts);
     }
 
