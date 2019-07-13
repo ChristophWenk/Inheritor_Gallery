@@ -1,15 +1,12 @@
 package presentationmodel.instance;
 
-import exceptions.InvalidCodeException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import presentationmodel.uml.ClassPM;
 import presentationmodel.uml.FieldPM;
 import presentationmodel.uml.MethodPM;
 import presentationmodel.uml.UmlPM;
 import service.jshell.JShellService;
-import service.jshell.ObjectDTO;
 
 
 import java.util.List;

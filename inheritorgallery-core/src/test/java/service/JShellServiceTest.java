@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import service.jshell.FieldDTO;
 import service.jshell.JShellService;
-import service.jshell.ObjectDTO;
+import service.jshell.dto.ObjectDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -124,21 +124,21 @@ class JShellServiceTest {
         assertEquals(5,fahrzeug.getFieldValues().size());
 
         Optional<FieldDTO> dieselTaxOptional = fahrzeug.getFieldValues().stream()
-                .filter(o -> o.getFieldName().equals("weight")).findFirst();
+                .filter(o -> o.getName().equals("weight")).findFirst();
         assertTrue(dieselTaxOptional.isPresent());
         FieldDTO dieselTax = dieselTaxOptional.get();
         assertEquals("input.Item",dieselTax.getDeclaringClass());
-        assertEquals("0.0",dieselTax.getFieldValue());
+        assertEquals("0.0",dieselTax.getValue());
 
 
         ObjectDTO item =  jShellService.getObjectDTOs().get(1);
         assertEquals("input.Fahrzeug",item.getObjectFullName());
         Optional<FieldDTO> nameOptional = fahrzeug.getFieldValues().stream()
-                .filter(o -> o.getFieldName().equals("name")).findFirst();
+                .filter(o -> o.getName().equals("name")).findFirst();
         assertTrue(nameOptional.isPresent());
         FieldDTO name = nameOptional.get();
         assertEquals("input.Fahrzeug",name.getDeclaringClass());
-        assertEquals("tesla",name.getFieldValue());
+        assertEquals("tesla",name.getValue());
 
 
     }
@@ -285,32 +285,32 @@ class JShellServiceTest {
 
         //then
         assertEquals("input.Auto", fieldDTOs.get(0).getDeclaringClass());
-        assertEquals("ps", fieldDTOs.get(0).getFieldName());
-        assertEquals("100", fieldDTOs.get(0).getFieldValue());
+        assertEquals("ps", fieldDTOs.get(0).getName());
+        assertEquals("100", fieldDTOs.get(0).getValue());
 
         assertEquals("input.Auto", fieldDTOs.get(1).getDeclaringClass());
-        assertEquals("color", fieldDTOs.get(1).getFieldName());
-        assertEquals("3", fieldDTOs.get(1).getFieldValue());
+        assertEquals("color", fieldDTOs.get(1).getName());
+        assertEquals("3", fieldDTOs.get(1).getValue());
 
         assertEquals("input.Fahrzeug", fieldDTOs.get(2).getDeclaringClass());
-        assertEquals("speed", fieldDTOs.get(2).getFieldName());
-        assertEquals("20.0", fieldDTOs.get(2).getFieldValue());
+        assertEquals("speed", fieldDTOs.get(2).getName());
+        assertEquals("20.0", fieldDTOs.get(2).getValue());
 
         assertEquals("input.Fahrzeug", fieldDTOs.get(3).getDeclaringClass());
-        assertEquals("name", fieldDTOs.get(3).getFieldName());
-        assertEquals("tesla", fieldDTOs.get(3).getFieldValue());
+        assertEquals("name", fieldDTOs.get(3).getName());
+        assertEquals("tesla", fieldDTOs.get(3).getValue());
 
         assertEquals("input.Fahrzeug", fieldDTOs.get(4).getDeclaringClass());
-        assertEquals("dieselTax", fieldDTOs.get(4).getFieldName());
-        assertEquals("0.0", fieldDTOs.get(4).getFieldValue());
+        assertEquals("dieselTax", fieldDTOs.get(4).getName());
+        assertEquals("0.0", fieldDTOs.get(4).getValue());
 
         assertEquals("input.Fahrzeug", fieldDTOs.get(5).getDeclaringClass());
-        assertEquals("gravity", fieldDTOs.get(5).getFieldName());
-        assertEquals("9.81", fieldDTOs.get(5).getFieldValue());
+        assertEquals("gravity", fieldDTOs.get(5).getName());
+        assertEquals("9.81", fieldDTOs.get(5).getValue());
 
         assertEquals("input.Item", fieldDTOs.get(6).getDeclaringClass());
-        assertEquals("weight", fieldDTOs.get(6).getFieldName());
-        assertEquals("0.0", fieldDTOs.get(6).getFieldValue());
+        assertEquals("weight", fieldDTOs.get(6).getName());
+        assertEquals("0.0", fieldDTOs.get(6).getValue());
     }
 
     @Test

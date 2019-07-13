@@ -1,17 +1,17 @@
 package service.jshell;
 
 import exceptions.InvalidCodeException;
-import input.Auto;
 import jdk.jshell.JShell;
 import jdk.jshell.SnippetEvent;
 import jdk.jshell.VarSnippet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.FileService;
+import service.jshell.dto.ObjectDTO;
+import service.jshell.dto.ReferenceDTO;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;

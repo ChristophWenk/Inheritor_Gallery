@@ -1,8 +1,12 @@
-package service.uml;
+package service.jshell;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.FileService;
+import service.jshell.dto.ClassDTO;
+import service.jshell.dto.ConstructorDTO;
+import service.jshell.dto.MethodDTO;
+import service.uml.FieldDTO;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -80,15 +84,16 @@ public class UmlService {
                 getMethodsForClass(c));
     }
 
-    private List<FieldDTO> getFieldsForClass(Class c){
-        List<FieldDTO> fields = new ArrayList<>();
+    private List<service.uml.FieldDTO> getFieldsForClass(Class c){
+        List<service.uml.FieldDTO> fields = new ArrayList<>();
 
         Field[] declaredFields = c.getDeclaredFields();
         for(Field f : declaredFields){
             String modifier =  Modifier.toString(f.getModifiers()).split(" ")[0];
             modifier = modifier.equals("") ? "package" : modifier;
 
-            fields.add(new FieldDTO(modifier, f.getType().getSimpleName(), f.getName()));
+            fields.add(new FieldDTO(
+                    modifier, f.getType().getSimpleName(), f.getName()));
         }
         return fields;
     }

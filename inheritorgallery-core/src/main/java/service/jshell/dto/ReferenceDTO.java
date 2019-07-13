@@ -1,4 +1,4 @@
-package service.jshell;
+package service.jshell.dto;
 
 public class ReferenceDTO {
     private String refType;

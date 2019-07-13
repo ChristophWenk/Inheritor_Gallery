@@ -2,24 +2,24 @@ package service.jshell;
 
 public class FieldDTO {
     private String declaringClass;
-    private String fieldName;
-    private String fieldValue;
+    private String name;
+    private String value;
 
     public FieldDTO(String declaringClass, String fieldName, String fieldValue ){
         this.declaringClass = declaringClass;
-        this.fieldName = fieldName;
-        this.fieldValue = fieldValue;
+        this.name = fieldName;
+        this.value = fieldValue;
     }
 
     public String getDeclaringClass() {
         return declaringClass;
     }
 
-    public String getFieldName() {
-        return fieldName;
+    public String getName() {
+        return name;
     }
 
-    public String getFieldValue() {
-        return fieldValue;
+    public String getValue() {
+        return value;
     }
 }

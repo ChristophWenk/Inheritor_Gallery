@@ -3,13 +3,12 @@ package presentationmodel.uml;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import service.uml.ConstructorDTO;
+import service.jshell.dto.ConstructorDTO;
 import service.uml.FieldDTO;
-import service.uml.MethodDTO;
+import service.jshell.dto.MethodDTO;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ClassPM {
 
