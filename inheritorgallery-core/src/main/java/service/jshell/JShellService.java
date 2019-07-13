@@ -30,6 +30,7 @@ public class JShellService {
     private static JShellService jShellService;
     private JShell jshell;
     private final String packageName = "input";
+    private final String packageNameJShellReflection = "jshellExtensions";
 
     /**
      * JShellService Constructor.
@@ -46,10 +47,11 @@ public class JShellService {
         // Classes need to be explicitly imported to JShell similarly as if we wanted to import one into a class.
         //jshell.eval("import "+packageName+".*;");
         //jshell.eval("import java.lang.reflect.Field;");
-        importPackages();
+        importPackage(packageName);
+        importPackage(packageNameJShellReflection);
     }
 
-    private void importPackages(){
+    private void importPackage(String packageName){
         FileService fileService = new FileService();
         Path path = fileService.getPath("/"+packageName);
         try {
@@ -255,8 +257,8 @@ public class JShellService {
         String input2 = "        Class<?> declaringClass  = "+reference+".getClass();";
         String input3 = " while(declaringClass.getSuperclass() != null) {\n" +
                 "            for (Field currentField_xyghw : declaringClass.getDeclaredFields()) {\n" +
-                "                try {\n" +
-                "                    currentField_xyghw.setAccessible(true);\n" +
+                "                try {" +
+                "                    currentField_xyghw.setAccessible(true);" +
                 "                    fieldDTOsString += \";;\"+declaringClass.getCanonicalName()+\";\"" +
                 "                                       +currentField_xyghw.getName()+\";\"" +
                 "                                       +currentField_xyghw.get("+reference+").toString();\n" +
@@ -305,6 +307,7 @@ public class JShellService {
         jshell.snippets().forEach(snippet -> jshell.drop(snippet));
         //jshell.eval("import "+packageName+".*;");
         //jshell.eval("import java.lang.reflect.Field;");
-        importPackages();
+        importPackage(packageName);
+        importPackage(packageNameJShellReflection);
     }
 }
