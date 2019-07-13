@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 import service.FileService;
 import service.jshell.dto.ClassDTO;
 import service.jshell.dto.ConstructorDTO;
+import service.jshell.dto.FieldDTO;
 import service.jshell.dto.MethodDTO;
-import service.uml.FieldDTO;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -84,8 +84,8 @@ public class UmlService {
                 getMethodsForClass(c));
     }
 
-    private List<service.uml.FieldDTO> getFieldsForClass(Class c){
-        List<service.uml.FieldDTO> fields = new ArrayList<>();
+    private List<FieldDTO> getFieldsForClass(Class c){
+        List<FieldDTO> fields = new ArrayList<>();
 
         Field[] declaredFields = c.getDeclaredFields();
         for(Field f : declaredFields){

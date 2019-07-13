@@ -2,7 +2,6 @@ package service.jshell.dto;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import service.jshell.FieldDTO;
 
 import java.util.List;
 

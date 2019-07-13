@@ -5,7 +5,7 @@ import jdk.jshell.SnippetEvent;
 import jdk.jshell.VarSnippet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import service.jshell.FieldDTO;
+import service.jshell.dto.FieldDTO;
 import service.jshell.JShellService;
 import service.jshell.dto.ObjectDTO;
 

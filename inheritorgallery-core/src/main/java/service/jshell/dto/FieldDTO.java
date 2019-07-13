@@ -1,4 +1,4 @@
-package service.jshell;
+package service.jshell.dto;
 
 public class FieldDTO {
     private final String declaringClass;

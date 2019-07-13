@@ -4,7 +4,7 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import service.jshell.dto.ConstructorDTO;
-import service.uml.FieldDTO;
+import service.jshell.dto.FieldDTO;
 import service.jshell.dto.MethodDTO;
 
 import java.util.ArrayList;

@@ -1,7 +1,5 @@
 package service.jshell.dto;
 
-import service.uml.FieldDTO;
-
 import java.util.List;
 
 public class ClassDTO {
@@ -10,7 +8,7 @@ public class ClassDTO {
     private final String simpleClassName;
     private final String superClassName;
     private final List<String> implementedInterfaces;
-    private final List<service.uml.FieldDTO> fields;
+    private final List<FieldDTO> fields;
     private final List<ConstructorDTO> constructors;
     private final List<MethodDTO> methods;
 
@@ -19,7 +17,7 @@ public class ClassDTO {
                     String simpleClassName,
                     String superClassName,
                     List<String> implementedInterfaces,
-                    List<service.uml.FieldDTO> fields,
+                    List<FieldDTO> fields,
                     List<ConstructorDTO> constructors,
                     List<MethodDTO> methods){
 

@@ -7,6 +7,7 @@ import jdk.jshell.VarSnippet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.FileService;
+import service.jshell.dto.FieldDTO;
 import service.jshell.dto.ObjectDTO;
 import service.jshell.dto.ReferenceDTO;
 
