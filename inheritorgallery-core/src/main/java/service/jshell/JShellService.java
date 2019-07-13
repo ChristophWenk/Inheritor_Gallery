@@ -161,7 +161,7 @@ public class JShellService {
                 ObjectDTO objectDTO = new ObjectDTO(
                         getHashcodeForReference(refName),
                         getClassForReference(refName),
-                        getFieldsForReference(refName)
+                        getFieldValuesReference(refName)
                 );
                 // Check for an existing item in the list
                 if(objectDTOList.stream()
@@ -244,7 +244,7 @@ public class JShellService {
         return packageNameFull.split(" ")[1];
     }
 
-    public List<FieldDTO> getFieldsForReference(String reference){
+    public List<FieldDTO> getFieldValuesReference(String reference){
         SnippetEvent snippetEvent = null;
         try {
             snippetEvent = jShellService.evaluateCode("jshellReflection.getFieldValuesForReferenceSerialized("+reference+");");

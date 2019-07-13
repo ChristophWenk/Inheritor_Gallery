@@ -165,19 +165,24 @@ public class JShellReflection {
     }
 
     public List<FieldDTO> getFieldValuesForReference(Object reference) {
+
         List<FieldDTO> fieldDTOs = new ArrayList<>();
         Class<?> declaringClass = reference.getClass();
         while (declaringClass.getSuperclass() != null) {
             for (Field currentField_xyghw : declaringClass.getDeclaredFields()) {
                 try {
-                    currentField_xyghw.setAccessible(true);
-                    fieldDTOs.add(new FieldDTO(
-                            declaringClass.getCanonicalName(),
-                            null,
-                            null,
-                            currentField_xyghw.getName(),
-                            currentField_xyghw.get(reference).toString()
-                    ));
+                      currentField_xyghw.setAccessible(true);
+                      String value;
+                      if(currentField_xyghw.get(reference) == null) value = "null";
+                      else value = currentField_xyghw.get(reference).toString();
+
+                      fieldDTOs.add(new FieldDTO(
+                               declaringClass.getCanonicalName(),
+                               null,
+                               currentField_xyghw.getType().getSimpleName(),
+                               currentField_xyghw.getName(),
+                               value
+                      ));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }

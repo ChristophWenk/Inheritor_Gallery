@@ -1,6 +1,7 @@
 package service.uml;
 
 import exceptions.InvalidCodeException;
+import input.Auto;
 import jdk.jshell.SnippetEvent;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,6 +10,7 @@ import service.FileService;
 import service.jshell.JShellService;
 import service.jshell.dto.ClassDTO;
 import jshellExtensions.JShellReflection;
+import service.jshell.dto.FieldDTO;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -213,6 +215,54 @@ class JShellReflectionTest {
 
         assertEquals("setDieselTax",fahrzeug.getMethods().get(6).getName());
         assertEquals(fahrzeugDeserialized.getMethods().get(6).getName(),fahrzeug.getMethods().get(6).getName());
+    }
+
+    @Test
+    void getFieldValueReferenceType(){
+
+        Auto a1 = new Auto("tesla",20,100,3);
+
+        List<FieldDTO> fieldDTOs = jshellReflection.getFieldValuesForReference(a1);
+        int i = 0;
+        assertEquals("input.Auto", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("ps", fieldDTOs.get(i).getName());
+        assertEquals("100", fieldDTOs.get(i).getValue());
+        i++;
+        assertEquals("input.Auto", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("color", fieldDTOs.get(i).getName());
+        assertEquals("3", fieldDTOs.get(i).getValue());
+        i++;
+        assertEquals("input.Auto", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("refTypeObjectNull", fieldDTOs.get(i).getName());
+        assertEquals("null", fieldDTOs.get(i).getValue());
+        i++;
+        assertEquals("input.Auto", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("refTypeObject", fieldDTOs.get(i).getName());
+        assertNotEquals("null", fieldDTOs.get(i).getValue());
+        i++;
+        assertEquals("input.Auto", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("p", fieldDTOs.get(i).getName());
+        assertEquals("John Doe", fieldDTOs.get(i).getValue());
+        i++;
+        assertEquals("input.Fahrzeug", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("speed", fieldDTOs.get(i).getName());
+        assertEquals("20.0", fieldDTOs.get(i).getValue());
+        i++;
+        assertEquals("input.Fahrzeug", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("name", fieldDTOs.get(i).getName());
+        assertEquals("tesla", fieldDTOs.get(i).getValue());
+        i++;
+        assertEquals("input.Fahrzeug", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("dieselTax", fieldDTOs.get(i).getName());
+        assertEquals("0.0", fieldDTOs.get(i).getValue());
+        i++;
+        assertEquals("input.Fahrzeug", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("gravity", fieldDTOs.get(i).getName());
+        assertEquals("9.81", fieldDTOs.get(i).getValue());
+        i++;
+        assertEquals("input.Item", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("weight", fieldDTOs.get(i).getName());
+        assertEquals("0.0", fieldDTOs.get(i).getValue());
     }
 
 }
