@@ -50,15 +50,31 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
         }
 
         for(MethodPM method : classPM.getMethods()){
+            String parameters = "";
+            int paramCount = method.getInputParameters().size();
+            int i = 0;
+            for (String parameter : method.getInputParameters()) {
+                if (i < paramCount - 1) {
+                    parameters += (parameter + ", ");
+                }
+                else {
+                    parameters += parameter;
+                }
+                i++;
+            }
+
             if(method.getImplementedInClass() != null){
-                Label methodLabel = new Label(method.getName()+ " " + method.getInputParameters());
+                Label methodLabel = new Label(method.getName()+ " (" + parameters.toString() + ")");
                 String color = colorPM.getColor(method.getImplementedInClass());
                 methodLabel.setStyle("-fx-background-color:" + color);
 
                 methods.add(methodLabel);
             }
             else {
-                methods.add(new Label(method.getName() + " " + method.getInputParameters()));
+                for (String parameter : method.getInputParameters()) {
+
+                }
+                methods.add(new Label(method.getName() + " (" + parameters.toString() + ")"));
             }
         }
 
