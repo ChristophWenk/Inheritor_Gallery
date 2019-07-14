@@ -21,6 +21,7 @@ public class ObjectPM {
 
     private final StringProperty objectId = new SimpleStringProperty();
     private final ObjectProperty<ClassPM> objectRootClass = new SimpleObjectProperty<>();
+    private final ObjectProperty<ClassPM> objectTree = new SimpleObjectProperty<>();
     private final ObservableList<ClassPM> objectParts = FXCollections.observableArrayList();
     private final ObservableList<ReferencePM> references = FXCollections.observableArrayList();
     private final IntegerProperty objectWidth = new SimpleIntegerProperty();
@@ -35,6 +36,23 @@ public class ObjectPM {
         setObjectStructure();
         setFieldValues(fieldDTOs);
         updateOverridenMethods();
+
+        generateObjectTree(objectRootClass);
+    }
+
+    private void generateObjectTree(ClassPM objectRootClass){
+
+        setObjectTree(objectRootClass.clone());
+
+        ClassPM currentNode = getObjectTree();
+
+        while (objectRootClass.hasSuperClass()){
+            currentNode.setSuperClass(objectRootClass.getSuperClass());
+
+            currentNode = currentNode.getSuperClass();
+            objectRootClass = objectRootClass.getSuperClass();
+        }
+
     }
 
     public void setObjectStructure(){
@@ -166,6 +184,18 @@ public class ObjectPM {
 
     public void setObjectRootClass(ClassPM objectRootClass) {
         this.objectRootClass.set(objectRootClass);
+    }
+
+    public ClassPM getObjectTree() {
+        return objectTree.get();
+    }
+
+    public ObjectProperty<ClassPM> objectTreeProperty() {
+        return objectTree;
+    }
+
+    public void setObjectTree(ClassPM objectTree) {
+        this.objectTree.set(objectTree);
     }
 
     public ObservableList<ClassPM> getObjectParts() {

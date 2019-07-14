@@ -178,5 +178,26 @@ public class InstanceStatePMTest {
 //                .getSuperClass().getFields().get(0).getName());
 
     }
+    @Test
+    void getObjectPMParts3() {
+        //when
+        //instanceStatePM.setJShellInput("Fahrzeug f1 = new Fahrzeug(\"tesla1\",11);");
+        instanceStatePM.setJShellInput("Auto a1 = new Auto(\"tesla1\",1,2,3);");
+
+        //then
+        assertEquals(3, instanceStatePM.getObjectPMs().get(0).getObjectParts().size());
+        assertEquals(1, instanceStatePM.getObjectPMs().get(0).getObjectWidth());
+
+
+        assertEquals("input.Auto", instanceStatePM.getObjectPMs().get(0).getObjectTree().getFullClassName());
+        assertEquals("input.Fahrzeug", instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getSuperClass().getFullClassName());
+        assertEquals("input.Item", instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getSuperClass()
+                .getSuperClass().getFullClassName());
+//        assertEquals("2.0", instanceStatePM.getObjectPMs().get(0).getObjectRootClass()
+//                .getSuperClass().getFields().get(0).getName());
+
+    }
 
 }
