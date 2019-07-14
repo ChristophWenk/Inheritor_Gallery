@@ -44,7 +44,6 @@ public class InstanceStatePM {
         for(ObjectDTO objectDTO : jShellService.getObjectDTOs() ){
             objectPMList.add(
                     new ObjectPM(
-                            umlPM,
                             objectDTO.getObjectId(),
                             umlPM.getClassByFullName(objectDTO.getObjectFullName()),
                             objectDTO.getFieldValues()
