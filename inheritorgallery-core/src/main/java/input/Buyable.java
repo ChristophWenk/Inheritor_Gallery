@@ -1,5 +1,5 @@
 package input;
 
-public interface Buyable {
+public interface Buyable extends YBuyableParent{
     public abstract double getPrice();
 }

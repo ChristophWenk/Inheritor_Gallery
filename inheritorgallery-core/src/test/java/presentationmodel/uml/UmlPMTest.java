@@ -19,7 +19,7 @@ class UmlPMTest {
         //UmlPM umlPM = umlService.createUmlPM();
 
         //then
-        assertEquals(9, pm.getClasses().size());
+        assertEquals(10, pm.getClasses().size());
 
         ClassPM classPM = pm.getClasses().get(8);
         assertEquals("Person", classPM.getName());
@@ -34,7 +34,7 @@ class UmlPMTest {
 
         //then
 
-        assertEquals(7, pm.getEdges().size());
+        assertEquals(8, pm.getEdges().size());
     }
 
     @Test
@@ -53,6 +53,21 @@ class UmlPMTest {
         assertEquals(2, pm.getClassByName("Fahrrad").getInheritanceLevel());
         assertEquals(3, pm.getClassByName("Cabriolet").getInheritanceLevel());
         assertEquals(3, pm.getClassByName("Person").getInheritanceLevel());
+
+    }
+
+    @Test
+    public void testGetInterfaces(){
+
+        assertEquals("Antique", pm.getClasses().get(0).getName());
+        assertEquals("AntiqueBuyableFahrrad", pm.getClasses().get(1).getName());
+        assertEquals("Auto", pm.getClasses().get(2).getName());
+
+        assertEquals(0, pm.getClasses().get(2).getImplementedInterfacesAsString().size());
+        assertEquals(0, pm.getClasses().get(2).getImplementedInterfaces().size());
+
+        assertEquals(2, pm.getClasses().get(1).getImplementedInterfacesAsString().size());
+        assertEquals(2, pm.getClasses().get(1).getImplementedInterfaces().size());
 
     }
 

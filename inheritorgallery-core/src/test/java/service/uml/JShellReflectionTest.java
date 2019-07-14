@@ -42,7 +42,7 @@ class JShellReflectionTest {
         List<Class> classes = jshellReflection.getClassesForPath(path);
 
         //then
-        assertEquals(9,classes.size());
+        assertEquals(10,classes.size());
         assertEquals("input.Antique",classes.get(0).getCanonicalName());
         assertEquals("input.AntiqueBuyableFahrrad",classes.get(1).getCanonicalName());
         assertEquals("input.Auto",classes.get(2).getCanonicalName());
