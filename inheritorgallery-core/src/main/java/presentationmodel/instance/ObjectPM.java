@@ -53,12 +53,29 @@ public class ObjectPM {
             setFieldValues(currentNode,fieldDTOs);
             updateOverridenMethodsTree(currentNode);
 
+//            //add interfaces
+//            if(currentNode.getImplementedInterfaces().size() > 0){
+//                logger.info(String.valueOf(currentNode.getImplementedInterfaces().size()));
+//                List<ClassPM> classClones = new ArrayList<>();
+//                for(ClassPM classPM : currentNode.getImplementedInterfaces()){
+//                    logger.info(classPM.getFullClassName());
+//                    ClassPM classClone = classPM.clone();
+//                    classClones.add(classClone);
+//                    updateOverridenMethodsTree(classClone);
+//                }
+//                currentNode.setImplementedInterfaces(classClones);
+//            }
+
+
+            //setup next iteration
             if(objectRootClass.hasSuperClass()){
                 currentNode.setSuperClass(objectRootClass.getSuperClass().clone());
                 currentNode = currentNode.getSuperClass();
                 objectRootClass = objectRootClass.getSuperClass();
             }
             else break;
+
+
         }
     }
 
@@ -93,31 +110,51 @@ public class ObjectPM {
 
     private void updateOverridenMethodsTree(ClassPM classPMtoAdd){
         ClassPM currentNode = getObjectTree();
+
         List<MethodPM> duplicateMethodsToDelete = new ArrayList<>();
 
         while(currentNode != classPMtoAdd){
-            ClassPM currentNodeStaticCopy = currentNode;
-            classPMtoAdd.getMethods().forEach(methodOfClassPMtoAdd -> {
-                Optional<MethodPM> duplicateMethod = currentNodeStaticCopy.getMethods().stream()
-                        .filter(e -> e.equals(methodOfClassPMtoAdd))
-                        .findFirst();
 
-                if(duplicateMethod.isPresent()){
-                    duplicateMethodsToDelete.add(duplicateMethod.get());
-                    if(duplicateMethod.get().getImplementedInClass() != null){
-                        methodOfClassPMtoAdd.setImplementedInClass(duplicateMethod.get().getImplementedInClass());
-                    }
-                    else{
-                        methodOfClassPMtoAdd.setImplementedInClass(currentNodeStaticCopy.getFullClassName());
-                    }
-                }
+            updateMethodImplementedIn(currentNode, classPMtoAdd.getMethods());
+            duplicateMethodsToDelete.addAll(
+                    getMethodsToDelete(currentNode, classPMtoAdd.getMethods())
+            );
 
-            });
             currentNode = currentNode.getSuperClass();
         }
 
         deleteMethods(duplicateMethodsToDelete);
+    }
 
+    public List<MethodPM> getMethodsToDelete(ClassPM classPM, List<MethodPM> methods){
+        List<MethodPM> duplicateMethodsToDelete = new ArrayList<>();
+
+        methods.forEach(methodOfClassPMtoAdd -> {
+            Optional<MethodPM> duplicateMethod = classPM.getMethods().stream()
+                    .filter(e -> e.equals(methodOfClassPMtoAdd))
+                    .findFirst();
+
+            duplicateMethod.ifPresent(duplicateMethodsToDelete::add);
+
+        });
+        return duplicateMethodsToDelete;
+    }
+
+    public void updateMethodImplementedIn(ClassPM classPM, List<MethodPM> methods){
+        methods.forEach(methodOfClassPMtoAdd -> {
+            Optional<MethodPM> duplicateMethod = classPM.getMethods().stream()
+                    .filter(e -> e.equals(methodOfClassPMtoAdd))
+                    .findFirst();
+
+            if(duplicateMethod.isPresent()){
+                if(duplicateMethod.get().getImplementedInClass() != null){
+                    methodOfClassPMtoAdd.setImplementedInClass(duplicateMethod.get().getImplementedInClass());
+                }
+                else{
+                    methodOfClassPMtoAdd.setImplementedInClass(classPM.getFullClassName());
+                }
+            }
+        });
     }
 
     public void deleteMethods(List<MethodPM> methodsToDelete){

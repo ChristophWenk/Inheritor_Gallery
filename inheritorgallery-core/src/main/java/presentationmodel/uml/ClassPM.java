@@ -22,7 +22,7 @@ public class ClassPM {
     private final StringProperty name = new SimpleStringProperty();
     private final StringProperty superClassName = new SimpleStringProperty();
     private final ObjectProperty<ClassPM> superClass = new SimpleObjectProperty<>();
-    private final ObservableList<ObjectProperty<ClassPM>> implementedInterfaces = FXCollections.observableArrayList();
+    private final ObservableList<ClassPM> implementedInterfaces = FXCollections.observableArrayList();
     private final ObservableList<String> implementedInterfacesAsString = FXCollections.observableArrayList();
     private final ObservableList<FieldPM> fields = FXCollections.observableArrayList();
     private final ObservableList<ConstructorPM> constructors = FXCollections.observableArrayList();
@@ -33,15 +33,13 @@ public class ClassPM {
         List<FieldDTO> fields = new ArrayList<>();
         List<ConstructorDTO> constructors  = new ArrayList<>();
         List<MethodDTO> methods  = new ArrayList<>();
-        List<ClassPM> implementedInterfaces = new ArrayList<>();
         for(FieldPM f : getFields())
             fields.add(new FieldDTO(f.getDeclaringClass(),f.getModifier(),f.getType(),f.getName(),f.getValue()));
         for(ConstructorPM c : getConstructors())
             constructors.add(new ConstructorDTO(c.getModifier(),c.getName(),c.getInputParameters()));
         for(MethodPM m : getMethods())
             methods.add(new MethodDTO(m.getModifier(), m.getReturnType(),m.getName(),m.getInputParameters()));
-        for(ObjectProperty<ClassPM> classPM : getImplementedInterfaces())
-            implementedInterfaces.add(classPM.getValue());
+        List<ClassPM> implementedInterfaces = new ArrayList<>(getImplementedInterfaces());
 
         return new ClassPM(
                 this.isInterface.getValue(),
@@ -181,12 +179,17 @@ public class ClassPM {
         return implementedInterfacesAsString;
     }
 
-    public ObservableList<ObjectProperty<ClassPM>> getImplementedInterfaces() {
+    public ObservableList<ClassPM> getImplementedInterfaces() {
         return implementedInterfaces;
     }
 
-    public void  addInterface(ClassPM classPM) {
-        this.implementedInterfaces.add(new SimpleObjectProperty<>(classPM));
+    public void setImplementedInterfaces(List<ClassPM> interfaceList) {
+        this.implementedInterfaces.clear();
+        this.implementedInterfaces.addAll(interfaceList);
+    }
+
+    public void addInterface(ClassPM classPM) {
+        this.implementedInterfaces.add(classPM);
     }
 
     public ObservableList<FieldPM> getFields() {

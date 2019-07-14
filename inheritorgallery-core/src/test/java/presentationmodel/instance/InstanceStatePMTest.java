@@ -196,6 +196,16 @@ public class InstanceStatePMTest {
     }
 
     @Test
+    void getObjectInterfaces(){
+        //when
+        instanceStatePM.setJShellInput("AntiqueBuyableFahrrad object = new AntiqueBuyableFahrrad(\"aa\",23,\"asd\",45);");
+
+        //then
+        assertEquals(6,instanceStatePM.getObjectPMs().get(0).getObjectParts().size());
+        assertEquals(3,instanceStatePM.getObjectPMs().get(0).getObjectWidth());
+    }
+
+    @Test
     void getObjectPMParts2() {
         //when
         instanceStatePM.setJShellInput("Fahrzeug f1 = new Fahrzeug(\"tesla1\",11);");
