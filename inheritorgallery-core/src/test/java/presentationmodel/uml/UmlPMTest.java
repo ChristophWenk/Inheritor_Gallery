@@ -19,7 +19,7 @@ class UmlPMTest {
         //UmlPM umlPM = umlService.createUmlPM();
 
         //then
-        assertEquals(9, pm.getClasses().size());
+        assertEquals(10, pm.getClasses().size());
 
         ClassPM classPM = pm.getClasses().get(8);
         assertEquals("Person", classPM.getName());
@@ -34,7 +34,7 @@ class UmlPMTest {
 
         //then
 
-        assertEquals(7, pm.getEdges().size());
+        assertEquals(8, pm.getEdges().size());
     }
 
     @Test

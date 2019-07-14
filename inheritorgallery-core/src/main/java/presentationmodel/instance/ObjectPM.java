@@ -33,17 +33,7 @@ public class ObjectPM {
 
         while (true){
             setFieldValues(currentNode,fieldDTOs);
-
-            //add interfaces
-            if(currentNode.getImplementedInterfaces().size() > 0){
-                List<ClassPM> classClones = new ArrayList<>();
-                for(ClassPM classPM : currentNode.getImplementedInterfaces()){
-                    ClassPM classClone = classPM.clone();
-                    classClones.add(classClone);
-                }
-                currentNode.setImplementedInterfaces(classClones);
-            }
-
+            addInterfacesToNode(currentNode);
             updateOverridenMethodsTree(currentNode);
 
             //setup next iteration
@@ -54,6 +44,18 @@ public class ObjectPM {
             }
             else break;
                     }
+    }
+
+    private void addInterfacesToNode(ClassPM currentNode){
+        //add interfaces
+        if(currentNode.getImplementedInterfaces() != null){
+            List<ClassPM> classClones = new ArrayList<>();
+            for(ClassPM classPM : currentNode.getImplementedInterfaces()){
+                ClassPM classClone = classPM.clone();
+                classClones.add(classClone);
+            }
+            currentNode.setImplementedInterfaces(classClones);
+        }
     }
 
 
@@ -73,17 +75,22 @@ public class ObjectPM {
         List<MethodPM> duplicateMethodsToDelete = new ArrayList<>();
 
         //check interfaces first
-        if(classPMtoAdd.getImplementedInterfaces().size() > 0){
+        while(currentNode.getImplementedInterfaces() != null){
             for(ClassPM currentInterface: currentNode.getImplementedInterfaces()){
-
-                updateMethodImplementedIn(classPMtoAdd, currentInterface.getMethods());
+                updateMethodImplementedIn(currentNode, currentInterface.getMethods());
                 duplicateMethodsToDelete.addAll(
-                        getMethodsToDelete(classPMtoAdd, currentInterface.getMethods())
+                        getMethodsToDelete(currentNode, currentInterface.getMethods())
                 );
             }
+
+            if(currentNode.getSuperClass() != null)  currentNode = currentNode.getSuperClass();
+            else break;
         }
 
         deleteMethods(duplicateMethodsToDelete);
+
+        //start from top again for classes
+        currentNode = getObjectTree();
 
         while(currentNode != classPMtoAdd){
             updateMethodImplementedIn(currentNode, classPMtoAdd.getMethods());
@@ -96,7 +103,7 @@ public class ObjectPM {
         deleteMethods(duplicateMethodsToDelete);
     }
 
-    public List<MethodPM> getMethodsToDelete(ClassPM classPM, List<MethodPM> methods){
+    private List<MethodPM> getMethodsToDelete(ClassPM classPM, List<MethodPM> methods){
         List<MethodPM> duplicateMethodsToDelete = new ArrayList<>();
 
         methods.forEach(methodOfClassPMtoAdd -> {
@@ -110,7 +117,7 @@ public class ObjectPM {
         return duplicateMethodsToDelete;
     }
 
-    public void updateMethodImplementedIn(ClassPM classPM, List<MethodPM> methods){
+    private void updateMethodImplementedIn(ClassPM classPM, List<MethodPM> methods){
         methods.forEach(methodOfClassPMtoAdd -> {
             Optional<MethodPM> duplicateMethod = classPM.getMethods().stream()
                     .filter(e -> e.equals(methodOfClassPMtoAdd))
@@ -128,7 +135,7 @@ public class ObjectPM {
         });
     }
 
-    public void deleteMethods(List<MethodPM> methodsToDelete){
+    private void deleteMethods(List<MethodPM> methodsToDelete){
 
         ClassPM currentNode = getObjectTree();
 
