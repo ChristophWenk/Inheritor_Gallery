@@ -1,9 +1,6 @@
 package presentationmodel.instance;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.slf4j.Logger;
@@ -23,17 +20,17 @@ public class ObjectPM {
     private static Logger logger = LoggerFactory.getLogger(ObjectPM.class);
 
     private final StringProperty objectId = new SimpleStringProperty();
-    private final StringProperty objectFullName = new SimpleStringProperty();
+    private final ObjectProperty<ClassPM> objectRootClass = new SimpleObjectProperty<>();
     private final ObservableList<ClassPM> objectParts = FXCollections.observableArrayList();
     private final ObservableList<ReferencePM> references = FXCollections.observableArrayList();
     private final IntegerProperty objectWidth = new SimpleIntegerProperty();
 
     private UmlPM umlPM;
 
-    public ObjectPM(UmlPM umlPM, String objectId, String objectFullName, List<FieldDTO> fieldDTOs){
+    public ObjectPM(UmlPM umlPM, String objectId, ClassPM objectRootClass, List<FieldDTO> fieldDTOs){
         this.umlPM = umlPM;
         setObjectId(objectId);
-        setObjectFullName(objectFullName);
+        setObjectRootClass(objectRootClass);
 
         setObjectStructure();
         setFieldValues(fieldDTOs);
@@ -41,7 +38,7 @@ public class ObjectPM {
     }
 
     public void setObjectStructure(){
-        ClassPM rootClass = umlPM.getClassByFullName(objectFullName.getValue()).clone();
+        ClassPM rootClass = objectRootClass.get().clone();
 
         objectParts.add(rootClass);
 
@@ -159,16 +156,16 @@ public class ObjectPM {
         this.objectId.set(objectId);
     }
 
-    public String getObjectFullName() {
-        return objectFullName.get();
+    public ClassPM getObjectRootClass() {
+        return objectRootClass.get();
     }
 
-    public StringProperty objectFullNameProperty() {
-        return objectFullName;
+    public ObjectProperty<ClassPM> objectRootClassProperty() {
+        return objectRootClass;
     }
 
-    public void setObjectFullName(String objectFullName) {
-        this.objectFullName.set(objectFullName);
+    public void setObjectRootClass(ClassPM objectRootClass) {
+        this.objectRootClass.set(objectRootClass);
     }
 
     public ObservableList<ClassPM> getObjectParts() {

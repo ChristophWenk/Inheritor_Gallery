@@ -42,7 +42,7 @@ public class InstanceStatePMTest {
 
         //then
         assertEquals(1,instanceStatePM.getObjectPMs().size());
-        assertEquals("input.Person",instanceStatePM.getObjectPMs().get(0).getObjectFullName());
+        assertEquals("input.Person",instanceStatePM.getObjectPMs().get(0).getObjectRootClass().getFullClassName());
 
         //when
         instanceStatePM.setJShellInput("Person p2 = new Person();");
@@ -62,7 +62,7 @@ public class InstanceStatePMTest {
 
         //then
         assertEquals(1,instanceStatePM.getObjectPMs().size());
-        assertEquals("input.Person",instanceStatePM.getObjectPMs().get(0).getObjectFullName());
+        assertEquals("input.Person",instanceStatePM.getObjectPMs().get(0).getObjectRootClass().getFullClassName());
     }
 
     @Test
@@ -157,6 +157,26 @@ public class InstanceStatePMTest {
         //then
         assertEquals(6,instanceStatePM.getObjectPMs().get(0).getObjectParts().size());
         assertEquals(3,instanceStatePM.getObjectPMs().get(0).getObjectWidth());
+    }
+
+    @Test
+    void getObjectPMParts2() {
+        //when
+        instanceStatePM.setJShellInput("Fahrzeug f1 = new Fahrzeug(\"tesla1\",11);");
+        instanceStatePM.setJShellInput("Fahrzeug f2 = new Fahrzeug(\"tesla2\",22);");
+        instanceStatePM.setJShellInput("f2.setWeight(2);");
+
+        //then
+        assertEquals(2, instanceStatePM.getObjectPMs().get(0).getObjectParts().size());
+        assertEquals(1, instanceStatePM.getObjectPMs().get(0).getObjectWidth());
+
+
+        assertEquals("input.Fahrzeug", instanceStatePM.getObjectPMs().get(0).getObjectRootClass().getFullClassName());
+        assertEquals("input.Item", instanceStatePM.getObjectPMs().get(0).getObjectRootClass()
+                .getSuperClass().getFullClassName());
+//        assertEquals("2.0", instanceStatePM.getObjectPMs().get(0).getObjectRootClass()
+//                .getSuperClass().getFields().get(0).getName());
+
     }
 
 }

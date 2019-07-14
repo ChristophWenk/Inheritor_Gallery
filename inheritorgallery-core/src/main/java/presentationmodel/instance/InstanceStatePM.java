@@ -46,7 +46,7 @@ public class InstanceStatePM {
                     new ObjectPM(
                             umlPM,
                             objectDTO.getObjectId(),
-                            objectDTO.getObjectFullName(),
+                            umlPM.getClassByFullName(objectDTO.getObjectFullName()),
                             objectDTO.getFieldValues()
             ));
         }

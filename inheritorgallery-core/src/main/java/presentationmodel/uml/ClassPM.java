@@ -3,6 +3,8 @@ package presentationmodel.uml;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import service.jshell.dto.ConstructorDTO;
 import service.jshell.dto.FieldDTO;
 import service.jshell.dto.MethodDTO;
@@ -11,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClassPM {
+
+    private static Logger logger = LoggerFactory.getLogger(ClassPM.class);
 
     private final IntegerProperty inheritanceLevel = new SimpleIntegerProperty();
     private final BooleanProperty isInterface = new SimpleBooleanProperty();
@@ -40,7 +44,7 @@ public class ClassPM {
                 this.fullClassName.getValue(),
                 this.name.getValue(),
                 this.superClassName.getValue(),
-                this.superClass.getValue(),
+                superClass.getValue() != null ? this.superClass.getValue().clone() : null,
                 this.implementedInterfaces,
                 fields,
                 constructors,
@@ -85,9 +89,6 @@ public class ClassPM {
                 m.getReturnType(),
                 m.getName(),
                 m.getInputParameters())));}
-
-
-
     }
 
 
