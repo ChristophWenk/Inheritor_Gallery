@@ -201,6 +201,30 @@ public class InstanceStatePMTest {
         instanceStatePM.setJShellInput("AntiqueBuyableFahrrad object = new AntiqueBuyableFahrrad(\"aa\",23,\"asd\",45);");
 
         //then
+        assertEquals("AntiqueBuyableFahrrad",instanceStatePM.getObjectPMs().get(0).getObjectTree().getName());
+        assertEquals("Fahrrad",instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getSuperClass().getName());
+        assertEquals("Fahrzeug",instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getSuperClass().getSuperClass().getName());
+        assertEquals(2,instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getImplementedInterfaces().size());
+        assertEquals("Antique",instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getImplementedInterfaces().get(0).getName());
+        assertEquals("Buyable",instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getImplementedInterfaces().get(1).getName());
+        assertNull(instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getImplementedInterfaces().get(1).getSuperClass());
+        assertEquals(1,instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getImplementedInterfaces().get(1).getMethods().size());
+        assertEquals("getPrice",instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getImplementedInterfaces().get(1).getMethods().get(0).getName());
+
+
+        assertEquals("input.AntiqueBuyableFahrrad",instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getImplementedInterfaces().get(0)
+                .getMethods().get(0).getImplementedInClass());
+
+
         assertEquals(6,instanceStatePM.getObjectPMs().get(0).getObjectParts().size());
         assertEquals(3,instanceStatePM.getObjectPMs().get(0).getObjectWidth());
     }
