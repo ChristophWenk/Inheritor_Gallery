@@ -86,7 +86,6 @@ public class UmlClass extends VBox implements ViewMixin {
         for (int i = 0; i < classPM.getMethods().size(); i++) {
             methodLabels.get(i).textProperty()
                     .bind(classPM.getMethods().get(i).nameProperty());
-            //for (MethodPM method : classPM.getMethods()) {
                 String parameters = "";
                 int paramCount = classPM.getMethods().get(i).getInputParameters().size();
                 int j = 0;
@@ -105,8 +104,6 @@ public class UmlClass extends VBox implements ViewMixin {
                     ));
                     j++;
                 }
-           // }
-
         }
 
     }
