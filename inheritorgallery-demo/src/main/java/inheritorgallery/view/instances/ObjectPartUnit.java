@@ -71,9 +71,6 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
                 methods.add(methodLabel);
             }
             else {
-                for (String parameter : method.getInputParameters()) {
-
-                }
                 methods.add(new Label(method.getName() + " (" + parameters.toString() + ")"));
             }
         }
