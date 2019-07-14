@@ -48,10 +48,8 @@ public class ObjectPM {
         setObjectTree(objectRootClass.clone());
 
         ClassPM currentNode = getObjectTree();
-        ClassPM prevNode = null;
 
         while (true){
-
             setFieldValues(currentNode,fieldDTOs);
             updateOverridenMethodsTree(currentNode);
 
@@ -61,9 +59,6 @@ public class ObjectPM {
                 objectRootClass = objectRootClass.getSuperClass();
             }
             else break;
-
-
-
         }
     }
 
@@ -72,7 +67,7 @@ public class ObjectPM {
 
         objectParts.add(rootClass);
 
-        List<ClassPM> implementedInterfaces = rootClass.getImplementedInterfaces().stream()
+        List<ClassPM> implementedInterfaces = rootClass.getImplementedInterfacesAsString().stream()
                 .map(e -> umlPM.getClassByFullName(e))
                 .collect(Collectors.toList());
 
@@ -111,13 +106,9 @@ public class ObjectPM {
                     duplicateMethodsToDelete.add(duplicateMethod.get());
                     if(duplicateMethod.get().getImplementedInClass() != null){
                         methodOfClassPMtoAdd.setImplementedInClass(duplicateMethod.get().getImplementedInClass());
-//                        logger.info(currentNodeStaticCopy.getFullClassName() +" "+duplicateMethod.get().getImplementedInClass() +" "+
-//                                duplicateMethod.get().getName() +" "+duplicateMethod.get().getInputParameters());
                     }
                     else{
                         methodOfClassPMtoAdd.setImplementedInClass(currentNodeStaticCopy.getFullClassName());
-//                        logger.info(currentNodeStaticCopy.getFullClassName() +" "+
-//                                duplicateMethod.get().getName() +" "+duplicateMethod.get().getInputParameters());
                     }
                 }
 

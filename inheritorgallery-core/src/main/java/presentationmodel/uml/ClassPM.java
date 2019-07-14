@@ -22,7 +22,8 @@ public class ClassPM {
     private final StringProperty name = new SimpleStringProperty();
     private final StringProperty superClassName = new SimpleStringProperty();
     private final ObjectProperty<ClassPM> superClass = new SimpleObjectProperty<>();
-    private final ObservableList<String> implementedInterfaces = FXCollections.observableArrayList();
+    private final ObservableList<ObjectProperty<ClassPM>> implementedInterfaces = FXCollections.observableArrayList();
+    private final ObservableList<String> implementedInterfacesAsString = FXCollections.observableArrayList();
     private final ObservableList<FieldPM> fields = FXCollections.observableArrayList();
     private final ObservableList<ConstructorPM> constructors = FXCollections.observableArrayList();
     private final ObservableList<MethodPM> methods = FXCollections.observableArrayList();
@@ -32,12 +33,15 @@ public class ClassPM {
         List<FieldDTO> fields = new ArrayList<>();
         List<ConstructorDTO> constructors  = new ArrayList<>();
         List<MethodDTO> methods  = new ArrayList<>();
+        List<ClassPM> implementedInterfaces = new ArrayList<>();
         for(FieldPM f : getFields())
             fields.add(new FieldDTO(f.getDeclaringClass(),f.getModifier(),f.getType(),f.getName(),f.getValue()));
         for(ConstructorPM c : getConstructors())
             constructors.add(new ConstructorDTO(c.getModifier(),c.getName(),c.getInputParameters()));
         for(MethodPM m : getMethods())
             methods.add(new MethodDTO(m.getModifier(), m.getReturnType(),m.getName(),m.getInputParameters()));
+        for(ObjectProperty<ClassPM> classPM : getImplementedInterfaces())
+            implementedInterfaces.add(classPM.getValue());
 
         return new ClassPM(
                 this.isInterface.getValue(),
@@ -45,7 +49,8 @@ public class ClassPM {
                 this.name.getValue(),
                 this.superClassName.getValue(),
                 superClass.getValue() != null ? this.superClass.getValue().clone() : null,
-                this.implementedInterfaces,
+                this.implementedInterfacesAsString,
+                implementedInterfaces,
                 fields,
                 constructors,
                 methods
@@ -59,7 +64,8 @@ public class ClassPM {
             String name,
             String superClassName,
             ClassPM superclass,
-            List<String> implementedInterfaces,
+            List<String> implementedInterfacesAsString,
+            List<ClassPM> implementedInterfaces,
             List<FieldDTO> fields,
             List<ConstructorDTO> constructors,
             List<MethodDTO> methods) {
@@ -68,7 +74,9 @@ public class ClassPM {
         setFullClassName(fullClassName);
         setName(name);
         setSuperClassName(superClassName);
-        this.implementedInterfaces.addAll(implementedInterfaces);
+        this.implementedInterfacesAsString.addAll(implementedInterfacesAsString);
+        if(implementedInterfaces != null)
+            for(ClassPM classPM : implementedInterfaces) addInterface(classPM);
 
         for(FieldDTO f : fields){
             this.fields.add(new FieldPM(
@@ -169,8 +177,16 @@ public class ClassPM {
         this.superClass.set(superClass);
     }
 
-    public ObservableList<String> getImplementedInterfaces() {
+    public ObservableList<String> getImplementedInterfacesAsString() {
+        return implementedInterfacesAsString;
+    }
+
+    public ObservableList<ObjectProperty<ClassPM>> getImplementedInterfaces() {
         return implementedInterfaces;
+    }
+
+    public void  addInterface(ClassPM classPM) {
+        this.implementedInterfaces.add(new SimpleObjectProperty<>(classPM));
     }
 
     public ObservableList<FieldPM> getFields() {

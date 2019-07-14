@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.jshell.JShellService;
 import service.jshell.dto.ClassDTO;
-import jshellExtensions.JShellReflection;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -32,6 +31,7 @@ public class UmlPM {
                     c.getSuperClassName(),
                     null, //superclass ClassPM has to be created first, superclass is added below
                     c.getImplementedInterfaces(),
+                    null,//interfaces ClassPM have to be created first, added below
                     c.getFields(),
                     c.getConstructors(),
                     c.getMethods()
@@ -39,6 +39,11 @@ public class UmlPM {
         }
         for(ClassPM classPM : classes){ //add superclass ClassPM from superclass name
             classPM.setSuperClass(getClassByFullName(classPM.getSuperClassName()));
+        }
+
+        for(ClassPM classPM : classes){ //add implemented Interfaces ClassPM
+            for(String implementedInterface : classPM.getImplementedInterfacesAsString())
+                classPM.addInterface(getClassByFullName(implementedInterface));
         }
 
         setClassInheritanceLevelToHashMap(classes);
@@ -74,7 +79,7 @@ public class UmlPM {
                     .collect(Collectors.toList());
 
             List<String> classesImplemented = classesLevelNotSetYet.stream()
-                    .flatMap(e -> e.getImplementedInterfaces().stream())
+                    .flatMap(e -> e.getImplementedInterfacesAsString().stream())
                     .collect(Collectors.toList());
 
             List<String> classesExtendedOrImplemented = new ArrayList<>(classesExtended);
@@ -104,7 +109,7 @@ public class UmlPM {
             if(superClass != null && !superClass.getName().equals("Object"))
                 edgePMs.add(new EdgePM(clazz.getName(),superClass.getName(),"extends"));
 
-            List<ClassPM> implementedInterfaces = clazz.getImplementedInterfaces().stream()
+            List<ClassPM> implementedInterfaces = clazz.getImplementedInterfacesAsString().stream()
                     .map(e -> getClassByFullName(e))
                     .collect(Collectors.toList());
 
