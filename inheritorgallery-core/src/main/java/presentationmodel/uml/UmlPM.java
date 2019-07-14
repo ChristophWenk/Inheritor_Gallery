@@ -30,12 +30,17 @@ public class UmlPM {
                     c.getFullClassName(),
                     c.getSimpleClassName(),
                     c.getSuperClassName(),
+                    null, //superclass ClassPM has to be created first, superclass is added below
                     c.getImplementedInterfaces(),
                     c.getFields(),
                     c.getConstructors(),
                     c.getMethods()
             ));
         }
+        for(ClassPM classPM : classes){ //add superclass ClassPM from superclass name
+            classPM.setSuperClass(getClassByFullName(classPM.getSuperClassName()));
+        }
+
         setClassInheritanceLevelToHashMap(classes);
 
         edges.addAll(getEdgesForClasses(classes));

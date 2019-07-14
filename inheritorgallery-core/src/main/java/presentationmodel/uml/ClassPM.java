@@ -17,6 +17,7 @@ public class ClassPM {
     private final StringProperty fullClassName = new SimpleStringProperty();
     private final StringProperty name = new SimpleStringProperty();
     private final StringProperty superClassName = new SimpleStringProperty();
+    private final ObjectProperty<ClassPM> superClass = new SimpleObjectProperty<>();
     private final ObservableList<String> implementedInterfaces = FXCollections.observableArrayList();
     private final ObservableList<FieldPM> fields = FXCollections.observableArrayList();
     private final ObservableList<ConstructorPM> constructors = FXCollections.observableArrayList();
@@ -39,6 +40,7 @@ public class ClassPM {
                 this.fullClassName.getValue(),
                 this.name.getValue(),
                 this.superClassName.getValue(),
+                this.superClass.getValue(),
                 this.implementedInterfaces,
                 fields,
                 constructors,
@@ -52,6 +54,7 @@ public class ClassPM {
             String fullClassName,
             String name,
             String superClassName,
+            ClassPM superclass,
             List<String> implementedInterfaces,
             List<FieldDTO> fields,
             List<ConstructorDTO> constructors,
@@ -151,6 +154,18 @@ public class ClassPM {
 
     public void setSuperClassName(String superClassName) {
         this.superClassName.set(superClassName);
+    }
+
+    public ClassPM getSuperClass() {
+        return superClass.get();
+    }
+
+    public ObjectProperty<ClassPM> superClassProperty() {
+        return superClass;
+    }
+
+    public void setSuperClass(ClassPM superClass) {
+        this.superClass.set(superClass);
     }
 
     public ObservableList<String> getImplementedInterfaces() {
