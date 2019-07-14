@@ -55,7 +55,6 @@ public class ObjectPM {
             setFieldValues(currentNode,fieldDTOs);
             updateOverridenMethodsTree(currentNode);
 
-
             if(objectRootClass.hasSuperClass()){
                 currentNode.setSuperClass(objectRootClass.getSuperClass().clone());
                 currentNode = currentNode.getSuperClass();
@@ -99,58 +98,53 @@ public class ObjectPM {
 
     private void updateOverridenMethodsTree(ClassPM classPMtoAdd){
         ClassPM currentNode = getObjectTree();
-
         List<MethodPM> duplicateMethodsToDelete = new ArrayList<>();
 
-        classPMtoAdd.getMethods().forEach(methodOfClassPMtoAdd -> {
+        while(currentNode != classPMtoAdd){
+            ClassPM currentNodeStaticCopy = currentNode;
+            classPMtoAdd.getMethods().forEach(methodOfClassPMtoAdd -> {
+                Optional<MethodPM> duplicateMethod = currentNodeStaticCopy.getMethods().stream()
+                        .filter(e -> e.equals(methodOfClassPMtoAdd))
+                        .findFirst();
 
-            Optional<MethodPM> duplicateMethod = currentNode.getMethods().stream()
-                    .filter(e -> e.equals(methodOfClassPMtoAdd))
-                    .findFirst();
-
-            if(duplicateMethod.isPresent()){
-                duplicateMethodsToDelete.add(duplicateMethod.get());
-
-
-                if(duplicateMethod.get().getImplementedInClass() != null){
-                    methodOfClassPMtoAdd.setImplementedInClass(duplicateMethod.get().getImplementedInClass());
-                    logger.info(duplicateMethod.get().getImplementedInClass() +" "+
-                            duplicateMethod.get().getName() +" "+duplicateMethod.get().getInputParameters());
+                if(duplicateMethod.isPresent()){
+                    duplicateMethodsToDelete.add(duplicateMethod.get());
+                    if(duplicateMethod.get().getImplementedInClass() != null){
+                        methodOfClassPMtoAdd.setImplementedInClass(duplicateMethod.get().getImplementedInClass());
+//                        logger.info(currentNodeStaticCopy.getFullClassName() +" "+duplicateMethod.get().getImplementedInClass() +" "+
+//                                duplicateMethod.get().getName() +" "+duplicateMethod.get().getInputParameters());
+                    }
+                    else{
+                        methodOfClassPMtoAdd.setImplementedInClass(currentNodeStaticCopy.getFullClassName());
+//                        logger.info(currentNodeStaticCopy.getFullClassName() +" "+
+//                                duplicateMethod.get().getName() +" "+duplicateMethod.get().getInputParameters());
+                    }
                 }
-                else{
-                    methodOfClassPMtoAdd.setImplementedInClass(currentNode.getFullClassName());
-                    logger.info(currentNode.getFullClassName() +" "+
-                            duplicateMethod.get().getName() +" "+duplicateMethod.get().getInputParameters());
-                }
 
-                //currentNode.getSuperClass().getMethods().remove(duplicateMethod.get());
-            }
+            });
+            currentNode = currentNode.getSuperClass();
+        }
 
-        });
+        deleteMethods(duplicateMethodsToDelete);
 
-        //deleteMethods(duplicateMethodsToDelete);
-
-//        currentNode = getObjectTree();
-//        while (true){
-//            for(MethodPM methodToDelete : duplicateMethodsToDelete)
-//                currentNode.getMethods().remove(methodToDelete);
-//
-//            if(currentNode.hasSuperClass()) currentNode = currentNode.getSuperClass();
-//            else break;
-//        }
     }
 
     public void deleteMethods(List<MethodPM> methodsToDelete){
 
-        for(MethodPM method : methodsToDelete) logger.info(String.valueOf(method.getName()));
-
         ClassPM currentNode = getObjectTree();
-        while (true){
-            for(MethodPM m : methodsToDelete) currentNode.getMethods().remove(m);
 
-            if(currentNode.hasSuperClass()) currentNode = currentNode.getSuperClass();
-            else break;
+        for(MethodPM method : methodsToDelete){
+            currentNode.getMethods().remove(method);
         }
+
+        while(currentNode.getSuperClass() != null){
+            currentNode = currentNode.getSuperClass();
+            for(MethodPM method : methodsToDelete){
+                currentNode.getMethods().remove(method);
+
+            }
+        }
+
     }
 
     /**

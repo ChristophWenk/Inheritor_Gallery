@@ -147,7 +147,7 @@ public class InstanceStatePMTest {
         assertTrue(method.isPresent());
         assertEquals("input.Auto", method.get().getImplementedInClass());
 
-        assertEquals(10,instanceStatePM.getObjectPMs().get(0).getObjectTree()
+        assertEquals(9,instanceStatePM.getObjectPMs().get(0).getObjectTree()
                 .getSuperClass().getMethods().size());
 
     }
