@@ -107,13 +107,49 @@ public class InstanceStatePMTest {
     void testUpdateOverridenMethods(){
         instanceStatePM.setJShellInput("Fahrzeug f = new Fahrzeug(\"velo\",20);");
 
-
+        assertEquals("input.Item",instanceStatePM.getObjectPMs().get(0).getObjectParts().get(1).getFullClassName());
         List<MethodPM> methods = instanceStatePM.getObjectPMs().get(0).getObjectParts().get(1).getMethods();
         Optional<MethodPM> method = methods.stream()
                 .filter(e -> e.getName().equals("print"))
                 .findFirst();
         assertTrue(method.isPresent());
         assertEquals("input.Fahrzeug", method.get().getImplementedInClass());
+    }
+
+    @Test
+    void testUpdateOverridenMethodsTree(){
+        instanceStatePM.setJShellInput("Fahrzeug f = new Fahrzeug(\"velo\",20);");
+
+        assertEquals("input.Item",instanceStatePM.getObjectPMs().get(0).getObjectTree().getSuperClass().getFullClassName());
+        List<MethodPM> methods = instanceStatePM.getObjectPMs().get(0).getObjectTree().getSuperClass().getMethods();
+
+        Optional<MethodPM> method = methods.stream()
+                .filter(e -> e.getName().equals("print"))
+                .findFirst();
+        assertTrue(method.isPresent());
+        assertEquals("input.Fahrzeug", method.get().getImplementedInClass());
+    }
+
+    @Test
+    void testUpdateOverridenMethodsTree2(){
+        instanceStatePM.setJShellInput("Auto a1 = new Auto(\"velo\",20,2,2);");
+        //instanceStatePM.setJShellInput("Fahrzeug f1 = new Fahrzeug(\"velo\",20);");
+
+        assertEquals("input.Item",instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getSuperClass().getSuperClass().getFullClassName());
+
+        List<MethodPM> methods = instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getSuperClass().getSuperClass().getMethods();
+
+        Optional<MethodPM> method = methods.stream()
+                .filter(e -> e.getName().equals("print"))
+                .findFirst();
+        assertTrue(method.isPresent());
+        assertEquals("input.Auto", method.get().getImplementedInClass());
+
+        assertEquals(10,instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getSuperClass().getMethods().size());
+
     }
 
     @Test
@@ -179,7 +215,7 @@ public class InstanceStatePMTest {
 
     }
     @Test
-    void getObjectPMParts3() {
+    void getObjectPMPartsObjectTree() {
         //when
         //instanceStatePM.setJShellInput("Fahrzeug f1 = new Fahrzeug(\"tesla1\",11);");
         instanceStatePM.setJShellInput("Auto a1 = new Auto(\"tesla1\",1,2,3);");
@@ -195,8 +231,19 @@ public class InstanceStatePMTest {
         assertEquals("input.Item", instanceStatePM.getObjectPMs().get(0).getObjectTree()
                 .getSuperClass()
                 .getSuperClass().getFullClassName());
-//        assertEquals("2.0", instanceStatePM.getObjectPMs().get(0).getObjectRootClass()
-//                .getSuperClass().getFields().get(0).getName());
+        assertEquals("ps", instanceStatePM.getObjectPMs().get(0).getObjectTree().getFields().get(0).getName());
+        assertEquals("2", instanceStatePM.getObjectPMs().get(0).getObjectTree().getFields().get(0).getValue());
+
+        assertEquals("speed", instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getSuperClass().getFields().get(0).getName());
+        assertEquals("1.0", instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getSuperClass().getFields().get(0).getValue());
+
+        assertEquals("weight", instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getSuperClass().getSuperClass().getFields().get(0).getName());
+        assertEquals("0.0", instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getSuperClass().getSuperClass().getFields().get(0).getValue());
+
 
     }
 

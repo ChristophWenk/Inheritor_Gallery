@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class ObjectUnit extends GridPane implements ViewMixin {
+public class ObjectUnit extends VBox implements ViewMixin {
     private static Logger logger = LoggerFactory.getLogger(ObjectUnit.class);
     private List<Label> references;
 
@@ -35,11 +35,14 @@ public class ObjectUnit extends GridPane implements ViewMixin {
         objectParts = new ArrayList<>();
         references = new ArrayList<>();
 
-        for (ClassPM classPM : objectPM.getObjectParts()) {
+        ClassPM classPM = objectPM.getObjectTree();
+
+        while(true) {
             ObjectPartUnit objectPartUnit = null;
+            String currentSimpleClassName = classPM.getName();
 
             List<String> referencesList = objectPM.getReferences().stream()
-                    .filter(referenceType -> referenceType.getReferenceType().equals(classPM.getName()))
+                    .filter(referenceType -> referenceType.getReferenceType().equals(currentSimpleClassName))
                     .map(referencePM -> referencePM.getReferenceName())
                     .collect(Collectors.toList());
             if (!referencesList.isEmpty()) {
@@ -55,24 +58,28 @@ public class ObjectUnit extends GridPane implements ViewMixin {
             objectPartUnit.setStyle("-fx-background-color:" + color);
 
             objectParts.add(objectPartUnit);
+
+            if(classPM.hasSuperClass())  classPM = classPM.getSuperClass();
+            else break;
         }
     }
 
     @Override
     public void layoutControls() {
-        int columnIndex = 0;
-        int rowIndex = 0;
-        add(objectParts.get(0), columnIndex++,rowIndex++,objectPM.getObjectWidth(),1);
-
-        if(objectParts.size() > 1){
-            for(rowIndex = 1; rowIndex < objectPM.getObjectParts().size(); rowIndex++ ){
-                if(!objectPM.getObjectParts().get(rowIndex).isIsInterface())
-                    add(objectParts.get(rowIndex), 0,rowIndex);
-                else
-                    //todo: adjust rowspan to smaller number
-                    add(objectParts.get(rowIndex), columnIndex++,1,1,100);
-            }
-        }
+//        int columnIndex = 0;
+//        int rowIndex = 0;
+//        add(objectParts.get(0), columnIndex++,rowIndex++,objectPM.getObjectWidth(),1);
+//
+//        if(objectParts.size() > 1){
+//            for(rowIndex = 1; rowIndex < objectPM.getObjectParts().size(); rowIndex++ ){
+//                if(!objectPM.getObjectParts().get(rowIndex).isIsInterface())
+//                    add(objectParts.get(rowIndex), 0,rowIndex);
+//                else
+//                    //todo: adjust rowspan to smaller number
+//                    add(objectParts.get(rowIndex), columnIndex++,1,1,100);
+//            }
+//        }
+        getChildren().addAll(objectParts);
 
     }
 

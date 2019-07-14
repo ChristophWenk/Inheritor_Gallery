@@ -34,25 +34,38 @@ public class ObjectPM {
         setObjectRootClass(objectRootClass);
 
         setObjectStructure();
-        setFieldValues(fieldDTOs);
+
+        for(ClassPM part : objectParts){
+            setFieldValues(part, fieldDTOs);
+        }
+
         updateOverridenMethods();
 
-        generateObjectTree(objectRootClass);
+        generateObjectTree(objectRootClass,fieldDTOs);
     }
 
-    private void generateObjectTree(ClassPM objectRootClass){
-
+    private void generateObjectTree(ClassPM objectRootClass, List<FieldDTO> fieldDTOs){
         setObjectTree(objectRootClass.clone());
 
         ClassPM currentNode = getObjectTree();
+        ClassPM prevNode = null;
 
-        while (objectRootClass.hasSuperClass()){
-            currentNode.setSuperClass(objectRootClass.getSuperClass());
+        while (true){
 
-            currentNode = currentNode.getSuperClass();
-            objectRootClass = objectRootClass.getSuperClass();
+            setFieldValues(currentNode,fieldDTOs);
+            updateOverridenMethodsTree(currentNode);
+
+
+            if(objectRootClass.hasSuperClass()){
+                currentNode.setSuperClass(objectRootClass.getSuperClass().clone());
+                currentNode = currentNode.getSuperClass();
+                objectRootClass = objectRootClass.getSuperClass();
+            }
+            else break;
+
+
+
         }
-
     }
 
     public void setObjectStructure(){
@@ -74,15 +87,69 @@ public class ObjectPM {
         if(!implementedInterfaces.isEmpty())  objectParts.addAll(implementedInterfaces);
     }
 
-    private void setFieldValues(List<FieldDTO> fieldDTOs){
-        for(ClassPM part : objectParts){
-            for (FieldPM field : part.getFields()){
-                Optional<FieldDTO> fieldOptional =  fieldDTOs.stream()
-                        .filter(e -> e.getDeclaringClass().equals(part.getFullClassName()))
-                        .filter(e -> e.getName().equals(field.getName()))
-                        .findFirst();
-                fieldOptional.ifPresent(fieldDTO -> field.setValue(fieldDTO.getValue()));
+    private void setFieldValues(ClassPM part, List<FieldDTO> fieldDTOs){
+        for (FieldPM field : part.getFields()){
+            Optional<FieldDTO> fieldOptional =  fieldDTOs.stream()
+                    .filter(e -> e.getDeclaringClass().equals(part.getFullClassName()))
+                    .filter(e -> e.getName().equals(field.getName()))
+                    .findFirst();
+            fieldOptional.ifPresent(fieldDTO -> field.setValue(fieldDTO.getValue()));
+        }
+    }
+
+    private void updateOverridenMethodsTree(ClassPM classPMtoAdd){
+        ClassPM currentNode = getObjectTree();
+
+        List<MethodPM> duplicateMethodsToDelete = new ArrayList<>();
+
+        classPMtoAdd.getMethods().forEach(methodOfClassPMtoAdd -> {
+
+            Optional<MethodPM> duplicateMethod = currentNode.getMethods().stream()
+                    .filter(e -> e.equals(methodOfClassPMtoAdd))
+                    .findFirst();
+
+            if(duplicateMethod.isPresent()){
+                duplicateMethodsToDelete.add(duplicateMethod.get());
+
+
+                if(duplicateMethod.get().getImplementedInClass() != null){
+                    methodOfClassPMtoAdd.setImplementedInClass(duplicateMethod.get().getImplementedInClass());
+                    logger.info(duplicateMethod.get().getImplementedInClass() +" "+
+                            duplicateMethod.get().getName() +" "+duplicateMethod.get().getInputParameters());
+                }
+                else{
+                    methodOfClassPMtoAdd.setImplementedInClass(currentNode.getFullClassName());
+                    logger.info(currentNode.getFullClassName() +" "+
+                            duplicateMethod.get().getName() +" "+duplicateMethod.get().getInputParameters());
+                }
+
+                //currentNode.getSuperClass().getMethods().remove(duplicateMethod.get());
             }
+
+        });
+
+        //deleteMethods(duplicateMethodsToDelete);
+
+//        currentNode = getObjectTree();
+//        while (true){
+//            for(MethodPM methodToDelete : duplicateMethodsToDelete)
+//                currentNode.getMethods().remove(methodToDelete);
+//
+//            if(currentNode.hasSuperClass()) currentNode = currentNode.getSuperClass();
+//            else break;
+//        }
+    }
+
+    public void deleteMethods(List<MethodPM> methodsToDelete){
+
+        for(MethodPM method : methodsToDelete) logger.info(String.valueOf(method.getName()));
+
+        ClassPM currentNode = getObjectTree();
+        while (true){
+            for(MethodPM m : methodsToDelete) currentNode.getMethods().remove(m);
+
+            if(currentNode.hasSuperClass()) currentNode = currentNode.getSuperClass();
+            else break;
         }
     }
 
@@ -102,13 +169,13 @@ public class ObjectPM {
 
         for(MethodPM method : allMethods){
             List<MethodPM> methodAppearances =
-                allMethods.stream().filter(e -> isSameMethod(e,method)).collect(Collectors.toList());
+                    allMethods.stream().filter(e -> e.equals(method)).collect(Collectors.toList());
 
             if(methodAppearances.size() > 1)   {
                 boolean alreadyAdded  = false;
                 //make sure that duplicate method is added only once
                 for(MethodPM duplicateMethod : duplicateMethods){
-                    if(isSameMethod(method,duplicateMethod)) alreadyAdded = true;
+                    if(method.equals(duplicateMethod)) alreadyAdded = true;
                 }
                 if(!alreadyAdded) {
                     duplicateMethods.add(method);
@@ -125,7 +192,7 @@ public class ObjectPM {
 
             for (int i = objectParts.size(); i-- > 0; ) {
                 for(MethodPM currentMethod : objectParts.get(i).getMethods()){
-                    if(isSameMethod(currentMethod,duplicateMethod))   {
+                    if(currentMethod.equals(duplicateMethod)){
                         if(!firstMethodDeclarationFound){
                             currentMethod.setImplementedInClass(implementedInClass);
                             firstMethodDeclarationFound = true;
@@ -148,18 +215,13 @@ public class ObjectPM {
     private String getImplementedInClass(MethodPM method){
         for(ClassPM classPM : objectParts) {
             for(MethodPM methodPM : classPM.getMethods()){
-                if(isSameMethod(methodPM,method))   {
+                if(methodPM.equals(method)){
                     return classPM.getFullClassName();
                 }
             }
 
         }
         return null;
-    }
-
-    public boolean isSameMethod(MethodPM m1, MethodPM m2){
-        return  m1.getName().equals(m2.getName()) &&
-                m1.getInputParameters().equals(m2.getInputParameters());
     }
 
     public String getObjectId() {
