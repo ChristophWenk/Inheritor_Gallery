@@ -3,7 +3,6 @@ package inheritorgallery.view.instances;
 
 import inheritorgallery.view.ViewMixin;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,10 +19,9 @@ import java.util.stream.Collectors;
 public class ObjectUnit extends VBox implements ViewMixin {
     private static Logger logger = LoggerFactory.getLogger(ObjectUnit.class);
 
-    private List<ObjectPartUnit> objectParts;
     private ObjectPM objectPM;
     private ColorPM colorPM;
-    private VBox vBox;
+    private VBox vBoxRoot;
 
 
     public ObjectUnit(ObjectPM objectPM, ColorPM colorPM){
@@ -34,7 +32,8 @@ public class ObjectUnit extends VBox implements ViewMixin {
 
     @Override
     public void initializeControls() {
-        objectParts = new ArrayList<>();
+        vBoxRoot = new VBox();
+        VBox vBoxCurrent = vBoxRoot;
 
         ClassPM classPM = objectPM.getObjectTree();
 
@@ -47,24 +46,15 @@ public class ObjectUnit extends VBox implements ViewMixin {
                     .collect(Collectors.toList());
 
             objectPartUnit = new ObjectPartUnit(classPM, colorPM, referencesList);
+            VBox vBoxToAdd = new VBox(objectPartUnit);
 
             if (!referencesList.isEmpty()) {
-                objectPartUnit.getStyleClass().add("referenceBorder");
+                vBoxToAdd.getStyleClass().add("referenceBorder");
             }
 
-            objectParts.add(objectPartUnit);
+            vBoxCurrent.getChildren().add(vBoxToAdd);
 
-
-
-            vBox = new VBox(new Label("outer"));
-            VBox vBoxInner = new VBox(new Label("inner"));
-
-            vBox.getChildren().add(vBoxInner);
-
-            vBox.getStyleClass().add("referenceBorder");
-
-            vBoxInner.getStyleClass().add("referenceBorder");
-
+            vBoxCurrent = vBoxToAdd;
 
             if(classPM.hasSuperClass())  classPM = classPM.getSuperClass();
             else break;
@@ -73,9 +63,7 @@ public class ObjectUnit extends VBox implements ViewMixin {
 
     @Override
     public void layoutControls() {
-        getChildren().addAll(objectParts);
-
-        getChildren().addAll(vBox);
+        getChildren().addAll(vBoxRoot);
 
     }
 
