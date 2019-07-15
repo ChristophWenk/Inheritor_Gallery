@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import presentationmodel.ColorPM;
 import presentationmodel.instance.ObjectPM;
+import presentationmodel.instance.ReferencePM;
 import presentationmodel.uml.ClassPM;
 
 import java.util.ArrayList;
@@ -41,16 +42,15 @@ public class ObjectUnit extends VBox implements ViewMixin {
             ObjectPartUnit objectPartUnit = null;
             String currentSimpleClassName = classPM.getName();
 
-            List<String> referencesList = objectPM.getReferences().stream()
+            List<ReferencePM> referencesList = objectPM.getReferences().stream()
                     .filter(referenceType -> referenceType.getReferenceType().equals(currentSimpleClassName))
-                    .map(referencePM -> referencePM.getReferenceName())
                     .collect(Collectors.toList());
+
+            objectPartUnit = new ObjectPartUnit(classPM, colorPM, referencesList);
             if (!referencesList.isEmpty()) {
-                objectPartUnit = new ObjectPartUnit(classPM, colorPM, objectPM, referencesList);
                 objectPartUnit.getStyleClass().add("referencedObjectPartUnit");
             }
             else {
-                objectPartUnit = new ObjectPartUnit(classPM, colorPM, objectPM, null);
                 objectPartUnit.getStyleClass().add("classBox");
             }
 

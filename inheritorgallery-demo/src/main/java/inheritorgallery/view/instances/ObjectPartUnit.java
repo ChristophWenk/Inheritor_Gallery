@@ -23,14 +23,12 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
     private Label className;
     private ClassPM classPM;
     private ColorPM colorPM;
-    private ObjectPM objectPM;
     private Separator separator1,separator2;
-    private List<String> referencesList;
+    private List<ReferencePM> referencesList;
 
-    public ObjectPartUnit(ClassPM classPM, ColorPM colorPM, ObjectPM objectPM, List<String> referencesList){
+    public ObjectPartUnit(ClassPM classPM, ColorPM colorPM, List<ReferencePM> referencesList){
         this.classPM = classPM;
         this.colorPM = colorPM;
-        this.objectPM = objectPM;
         this.referencesList = referencesList;
         init();
     }
@@ -79,7 +77,7 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
         }
 
         if ((referencesList != null) && !(referencesList.isEmpty())) {
-            for (ReferencePM referencePM : objectPM.getReferences()) {
+            for (ReferencePM referencePM : referencesList) {
                 Label referenceLabel = new Label(referencePM.getReferenceName());
                 referenceLabel.getStyleClass().add("referenceLabel");
                 references.add(referenceLabel);
