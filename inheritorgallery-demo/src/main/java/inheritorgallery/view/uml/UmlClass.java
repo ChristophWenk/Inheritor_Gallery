@@ -1,6 +1,7 @@
 package inheritorgallery.view.uml;
 
 
+import inheritorgallery.view.SharedLayouter;
 import inheritorgallery.view.ViewMixin;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
@@ -18,6 +19,7 @@ public class UmlClass extends VBox implements ViewMixin {
     private Label classNameLabel;
     private ArrayList<Label> fieldLabels, constructorLabels, methodLabels;
     private Separator separator1,separator2;
+    private SharedLayouter layouter;
 
     public UmlClass(ClassPM classPM){
         this.classPM = classPM;
@@ -28,6 +30,7 @@ public class UmlClass extends VBox implements ViewMixin {
 
     @Override
     public void initializeControls() {
+        layouter = new SharedLayouter();
         classNameLabel = new Label();
         classNameLabel.setId("classNameLabel");
 

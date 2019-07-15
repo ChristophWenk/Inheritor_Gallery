@@ -1,6 +1,7 @@
 package inheritorgallery.view.instances;
 
 
+import inheritorgallery.view.SharedLayouter;
 import inheritorgallery.view.ViewMixin;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
@@ -19,7 +20,7 @@ import java.util.List;
 
 
 public class ObjectPartUnit extends VBox implements ViewMixin {
-    private ArrayList<Label> fieldLabels, constructorLabels, methodLabels;
+    private ArrayList<Label> methodLabels;
     private List<Label> references;
     private List<Label> fields;
 //    private List<Label> methods;
@@ -29,6 +30,7 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
     private ObjectPM objectPM;
     private Separator separator1,separator2;
     private List<String> referencesList;
+    private SharedLayouter layouter;
 
     public ObjectPartUnit(ClassPM classPM, ColorPM colorPM, ObjectPM objectPM, List<String> referencesList){
         this.classPM = classPM;
@@ -40,6 +42,7 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
 
     @Override
     public void initializeControls() {
+        layouter = new SharedLayouter();
         className = new Label(classPM.getName());
 
         references = new ArrayList<>();
