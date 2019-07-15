@@ -3,13 +3,13 @@ package inheritorgallery.view.uml;
 
 import inheritorgallery.view.ViewMixin;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.StringBinding;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.VBox;
 import presentationmodel.uml.ClassPM;
-import presentationmodel.uml.MethodPM;
 
-import java.lang.reflect.Method;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 
@@ -19,14 +19,12 @@ public class UmlClass extends VBox implements ViewMixin {
     private ArrayList<Label> fieldLabels, constructorLabels, methodLabels;
     private Separator separator1,separator2;
 
-
     public UmlClass(ClassPM classPM){
         this.classPM = classPM;
         this.setId(classPM.getName());
         this.getStyleClass().add("classBox");
         init();
     }
-
 
     @Override
     public void initializeControls() {
@@ -48,14 +46,11 @@ public class UmlClass extends VBox implements ViewMixin {
         for (int i = 0; i < classPM.getMethods().size(); i++) {
             methodLabels.add(new Label());
         }
-
     }
 
     @Override
     public void layoutControls() {
-
         getChildren().addAll(classNameLabel,separator1);
-
 
         for (int i = 0; i < classPM.getFields().size(); i++) {
             getChildren().add(fieldLabels.get(i));
@@ -84,27 +79,32 @@ public class UmlClass extends VBox implements ViewMixin {
         }
 
         for (int i = 0; i < classPM.getMethods().size(); i++) {
-            methodLabels.get(i).textProperty()
-                    .bind(classPM.getMethods().get(i).nameProperty());
-                String parameters = "";
-                int paramCount = classPM.getMethods().get(i).getInputParameters().size();
-                int j = 0;
-                for (String parameter : classPM.getMethods().get(i).getInputParameters()) {
-                    if (j < paramCount - 1) {
-                        parameters += (parameter + ", ");
-                    }
-                    else {
-                        parameters += parameter;
-                    }
-                    methodLabels.get(i).textProperty().bind(Bindings.concat(
-                            classPM.getMethods().get(i).nameProperty(),
-                            " (",
-                            parameters,
-                            ")"
-                    ));
-                    j++;
-                }
-        }
+            final int j = i;
+            StringBinding binding = Bindings.createStringBinding(
+                    () -> MessageFormat.format("{0} ({1})",
+                            classPM.getMethods().get(j).getName(),
+                            layoutMethodParameters(j)),
+                    classPM.getMethods().get(j).nameProperty(),
+                    classPM.getMethods().get(j).inputParametersProperty());
 
+            methodLabels.get(j).textProperty().bind(binding);
+        }
+    }
+
+    public String layoutMethodParameters(int currentMethod) {
+        String parameters = "";
+        int paramCount = classPM.getMethods().get(currentMethod).getInputParameters().size();
+        int k = 0;
+
+        for (String parameter : classPM.getMethods().get(currentMethod).getInputParameters()) {
+            if (k < paramCount - 1) {
+                parameters += (parameter + ", ");
+            }
+            else {
+                parameters += parameter;
+            }
+            k++;
+        }
+        return parameters;
     }
 }
