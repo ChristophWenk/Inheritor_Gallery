@@ -23,6 +23,8 @@ public class ObjectUnit extends VBox implements ViewMixin {
     private List<ObjectPartUnit> objectParts;
     private ObjectPM objectPM;
     private ColorPM colorPM;
+    private VBox vBox;
+
 
     public ObjectUnit(ObjectPM objectPM, ColorPM colorPM){
         this.objectPM = objectPM;
@@ -52,6 +54,18 @@ public class ObjectUnit extends VBox implements ViewMixin {
 
             objectParts.add(objectPartUnit);
 
+
+
+            vBox = new VBox(new Label("outer"));
+            VBox vBoxInner = new VBox(new Label("inner"));
+
+            vBox.getChildren().add(vBoxInner);
+
+            vBox.getStyleClass().add("referenceBorder");
+
+            vBoxInner.getStyleClass().add("referenceBorder");
+
+
             if(classPM.hasSuperClass())  classPM = classPM.getSuperClass();
             else break;
         }
@@ -60,6 +74,8 @@ public class ObjectUnit extends VBox implements ViewMixin {
     @Override
     public void layoutControls() {
         getChildren().addAll(objectParts);
+
+        getChildren().addAll(vBox);
 
     }
 
