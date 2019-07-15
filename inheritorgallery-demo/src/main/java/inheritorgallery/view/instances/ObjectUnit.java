@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 
 public class ObjectUnit extends VBox implements ViewMixin {
     private static Logger logger = LoggerFactory.getLogger(ObjectUnit.class);
-    private List<Label> references;
 
     private List<ObjectPartUnit> objectParts;
     private ObjectPM objectPM;
@@ -34,7 +33,6 @@ public class ObjectUnit extends VBox implements ViewMixin {
     @Override
     public void initializeControls() {
         objectParts = new ArrayList<>();
-        references = new ArrayList<>();
 
         ClassPM classPM = objectPM.getObjectTree();
 
@@ -47,15 +45,10 @@ public class ObjectUnit extends VBox implements ViewMixin {
                     .collect(Collectors.toList());
 
             objectPartUnit = new ObjectPartUnit(classPM, colorPM, referencesList);
-            if (!referencesList.isEmpty()) {
-                objectPartUnit.getStyleClass().add("referencedObjectPartUnit");
-            }
-            else {
-                objectPartUnit.getStyleClass().add("classBox");
-            }
 
-            String color = colorPM.getColor(classPM.getFullClassName());
-            objectPartUnit.setStyle("-fx-background-color:" + color);
+            if (!referencesList.isEmpty()) {
+                objectPartUnit.getStyleClass().add("referenceBorder");
+            }
 
             objectParts.add(objectPartUnit);
 
@@ -66,19 +59,6 @@ public class ObjectUnit extends VBox implements ViewMixin {
 
     @Override
     public void layoutControls() {
-//        int columnIndex = 0;
-//        int rowIndex = 0;
-//        add(objectParts.get(0), columnIndex++,rowIndex++,objectPM.getObjectWidth(),1);
-//
-//        if(objectParts.size() > 1){
-//            for(rowIndex = 1; rowIndex < objectPM.getObjectParts().size(); rowIndex++ ){
-//                if(!objectPM.getObjectParts().get(rowIndex).isIsInterface())
-//                    add(objectParts.get(rowIndex), 0,rowIndex);
-//                else
-//                    //todo: adjust rowspan to smaller number
-//                    add(objectParts.get(rowIndex), columnIndex++,1,1,100);
-//            }
-//        }
         getChildren().addAll(objectParts);
 
     }

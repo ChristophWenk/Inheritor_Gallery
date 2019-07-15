@@ -28,6 +28,10 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
 
     public ObjectPartUnit(ClassPM classPM, ColorPM colorPM, List<ReferencePM> referencesList){
         this.classPM = classPM;
+        this.getStyleClass().add("plainBorder");
+        String color = colorPM.getColor(classPM.getFullClassName());
+        this.setStyle("-fx-background-color:" + color);
+
         this.colorPM = colorPM;
         this.referencesList = referencesList;
         init();
@@ -61,19 +65,13 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
                 i++;
             }
 
-            if(method.getImplementedInClass() != null){
-                Label methodLabel = new Label(method.getName()+ " (" + parameters.toString() + ")");
+            Label methodLabel = new Label(method.getName()+ " (" + parameters + ")");
+
+            if(method.getImplementedInClass() != null){   //method has been overriden in another class, change color
                 String color = colorPM.getColor(method.getImplementedInClass());
                 methodLabel.setStyle("-fx-background-color:" + color);
-
-                methods.add(methodLabel);
             }
-            else {
-                for (String parameter : method.getInputParameters()) {
-
-                }
-                methods.add(new Label(method.getName() + " (" + parameters.toString() + ")"));
-            }
+            methods.add(methodLabel);
         }
 
         if ((referencesList != null) && !(referencesList.isEmpty())) {
