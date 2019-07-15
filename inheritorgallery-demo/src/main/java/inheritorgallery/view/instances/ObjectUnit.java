@@ -3,12 +3,12 @@ package inheritorgallery.view.instances;
 
 import inheritorgallery.view.ViewMixin;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import presentationmodel.ColorPM;
 import presentationmodel.instance.ObjectPM;
+import presentationmodel.instance.ReferencePM;
 import presentationmodel.uml.ClassPM;
 
 import java.util.ArrayList;
@@ -18,11 +18,11 @@ import java.util.stream.Collectors;
 
 public class ObjectUnit extends VBox implements ViewMixin {
     private static Logger logger = LoggerFactory.getLogger(ObjectUnit.class);
-    private List<Label> references;
 
-    private List<ObjectPartUnit> objectParts;
     private ObjectPM objectPM;
     private ColorPM colorPM;
+    private VBox vBoxRoot;
+
 
     public ObjectUnit(ObjectPM objectPM, ColorPM colorPM){
         this.objectPM = objectPM;
@@ -32,8 +32,8 @@ public class ObjectUnit extends VBox implements ViewMixin {
 
     @Override
     public void initializeControls() {
-        objectParts = new ArrayList<>();
-        references = new ArrayList<>();
+        vBoxRoot = new VBox();
+        VBox vBoxCurrent = vBoxRoot;
 
         ClassPM classPM = objectPM.getObjectTree();
 
@@ -41,23 +41,20 @@ public class ObjectUnit extends VBox implements ViewMixin {
             ObjectPartUnit objectPartUnit = null;
             String currentSimpleClassName = classPM.getName();
 
-            List<String> referencesList = objectPM.getReferences().stream()
+            List<ReferencePM> referencesList = objectPM.getReferences().stream()
                     .filter(referenceType -> referenceType.getReferenceType().equals(currentSimpleClassName))
-                    .map(referencePM -> referencePM.getReferenceName())
                     .collect(Collectors.toList());
+
+            objectPartUnit = new ObjectPartUnit(classPM, colorPM, referencesList);
+            VBox vBoxToAdd = new VBox(objectPartUnit);
+
             if (!referencesList.isEmpty()) {
-                objectPartUnit = new ObjectPartUnit(classPM, colorPM, objectPM, referencesList);
-                objectPartUnit.getStyleClass().add("referencedObjectPartUnit");
-            }
-            else {
-                objectPartUnit = new ObjectPartUnit(classPM, colorPM, objectPM, null);
-                objectPartUnit.getStyleClass().add("classBox");
+                vBoxToAdd.getStyleClass().add("referenceBorder");
             }
 
-            String color = colorPM.getColor(classPM.getFullClassName());
-            objectPartUnit.setStyle("-fx-background-color:" + color);
+            vBoxCurrent.getChildren().add(vBoxToAdd);
 
-            objectParts.add(objectPartUnit);
+            vBoxCurrent = vBoxToAdd;
 
             if(classPM.hasSuperClass())  classPM = classPM.getSuperClass();
             else break;
@@ -66,20 +63,7 @@ public class ObjectUnit extends VBox implements ViewMixin {
 
     @Override
     public void layoutControls() {
-//        int columnIndex = 0;
-//        int rowIndex = 0;
-//        add(objectParts.get(0), columnIndex++,rowIndex++,objectPM.getObjectWidth(),1);
-//
-//        if(objectParts.size() > 1){
-//            for(rowIndex = 1; rowIndex < objectPM.getObjectParts().size(); rowIndex++ ){
-//                if(!objectPM.getObjectParts().get(rowIndex).isIsInterface())
-//                    add(objectParts.get(rowIndex), 0,rowIndex);
-//                else
-//                    //todo: adjust rowspan to smaller number
-//                    add(objectParts.get(rowIndex), columnIndex++,1,1,100);
-//            }
-//        }
-        getChildren().addAll(objectParts);
+        getChildren().addAll(vBoxRoot);
 
     }
 

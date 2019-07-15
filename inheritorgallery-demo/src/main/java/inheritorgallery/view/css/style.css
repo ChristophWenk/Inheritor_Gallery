@@ -20,7 +20,7 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,1), 10, 0, 0, 0);
 }
 
-.referencedObjectPartUnit {
+.referenceBorder {
     -fx-border-color: rgba(0, 0, 0, 0.5);
     -fx-border-radius: 20px;
     -fx-border-insets: 0;
@@ -32,7 +32,7 @@
     -fx-text-alignment: center;
 }
 
-.classBox {
+.plainBorder {
     -fx-border-color: rgba(0, 0, 0, 0.99);
     -fx-border-width: 2;
 }
