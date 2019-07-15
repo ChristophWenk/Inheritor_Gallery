@@ -3,6 +3,7 @@ package inheritorgallery.view.instances;
 
 import inheritorgallery.view.ViewMixin;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,17 +47,26 @@ public class ObjectUnit extends VBox implements ViewMixin {
                     .collect(Collectors.toList());
 
             objectPartUnit = new ObjectPartUnit(classPM, colorPM, referencesList);
-            VBox vBoxToAdd = new VBox(objectPartUnit);
+            VBox currentClassVBox = new VBox(objectPartUnit);
+            currentClassVBox.setPrefWidth(200);
+
+            HBox superClassAndInterfacesHBox = new HBox(currentClassVBox);
+//            if(classPM.getImplementedInterfaces() != null)
+//                superClassAndInterfacesHBox.getChildren().add(new Label("yay"));
 
             if (!referencesList.isEmpty()) {
-                vBoxToAdd.getStyleClass().add("referenceBorder");
+                currentClassVBox.getStyleClass().add("referenceBorder");
             }
 
-            vBoxCurrent.getChildren().add(vBoxToAdd);
+            vBoxCurrent.getChildren().add(superClassAndInterfacesHBox);
+            vBoxCurrent = currentClassVBox;
 
-            vBoxCurrent = vBoxToAdd;
 
-            if(classPM.hasSuperClass())  classPM = classPM.getSuperClass();
+            if(classPM.getSuperClass() != null)
+            {
+                classPM = classPM.getSuperClass();
+
+            }
             else break;
         }
     }
