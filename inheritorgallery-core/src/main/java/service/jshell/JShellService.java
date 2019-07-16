@@ -171,16 +171,17 @@ public class JShellService {
         return objectDTOList;
     }
 
-    public void getLastExecutedMethod(){
+    public String getLastValidSnippetSource(){
         List<Snippet> snippetList = jshell.snippets().collect(Collectors.toList());
-        Snippet lastExecutedSnippet = snippetList.get(snippetList.size()-1);
-        String code = lastExecutedSnippet.source();
-        SourceCodeAnalysis s = jshell.sourceCodeAnalysis();
+        String snippetSource = null;
 
-        String analyzeType = s.analyzeType(code,0);
-        SourceCodeAnalysis.QualifiedNames qualifiedNames = s.listQualifiedNames(code,0);
-        SourceCodeAnalysis.CompletionInfo completionInfo1 = s.analyzeCompletion(code);
+        for(Snippet snippet : snippetList){
+            if(jshell.status(snippet).equals(Snippet.Status.VALID)){
+                snippetSource = snippet.source();
+            }
+        }
 
+        return snippetSource;
     }
 
 
