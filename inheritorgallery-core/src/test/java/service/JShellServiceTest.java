@@ -397,5 +397,18 @@ class JShellServiceTest {
         //then
         assertEquals("input",jShellService.getPackageForReference("i1"));
     }
+    @Test
+    void testGetLastExecutedMethod(){
+        //given
+        try {
+            jShellService.evaluateCode("Item i1 = new Fahrzeug(\"tesla\", 20);");
+            jShellService.evaluateCode("i1.setWeight(2);");
+        } catch (InvalidCodeException e) {
+            e.printStackTrace();
+        }
+
+
+        jShellService.getLastExecutedMethod();
+    }
 
 }

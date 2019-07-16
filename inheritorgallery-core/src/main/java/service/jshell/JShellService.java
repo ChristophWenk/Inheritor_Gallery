@@ -1,9 +1,7 @@
 package service.jshell;
 
 import exceptions.InvalidCodeException;
-import jdk.jshell.JShell;
-import jdk.jshell.SnippetEvent;
-import jdk.jshell.VarSnippet;
+import jdk.jshell.*;
 import jshellExtensions.JShellReflection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -172,6 +170,19 @@ public class JShellService {
         }
         return objectDTOList;
     }
+
+    public void getLastExecutedMethod(){
+        List<Snippet> snippetList = jshell.snippets().collect(Collectors.toList());
+        Snippet lastExecutedSnippet = snippetList.get(snippetList.size()-1);
+        String code = lastExecutedSnippet.source();
+        SourceCodeAnalysis s = jshell.sourceCodeAnalysis();
+
+        String analyzeType = s.analyzeType(code,0);
+        SourceCodeAnalysis.QualifiedNames qualifiedNames = s.listQualifiedNames(code,0);
+        SourceCodeAnalysis.CompletionInfo completionInfo1 = s.analyzeCompletion(code);
+
+    }
+
 
     public List<ReferenceDTO> getReferenceDTOs(){
         List<ReferenceDTO> referenceDTOsList = new ArrayList<>();
