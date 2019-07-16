@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 
 public class ObjectUnit extends VBox implements ViewMixin {
     private static Logger logger = LoggerFactory.getLogger(ObjectUnit.class);
+    private int partWidth = 150;
 
     private ObjectPM objectPM;
     private ColorPM colorPM;
@@ -35,6 +36,7 @@ public class ObjectUnit extends VBox implements ViewMixin {
     public void initializeControls() {
         vBoxRoot = new VBox();
         VBox vBoxCurrent = vBoxRoot;
+        List<ClassPM> implementedInterfaces = new ArrayList<>();
 
         ClassPM classPM = objectPM.getObjectTree();
 
@@ -48,15 +50,41 @@ public class ObjectUnit extends VBox implements ViewMixin {
 
             objectPartUnit = new ObjectPartUnit(classPM, colorPM, referencesList);
             VBox currentClassVBox = new VBox(objectPartUnit);
-            currentClassVBox.setPrefWidth(200);
 
-            HBox superClassAndInterfacesHBox = new HBox(currentClassVBox);
-//            if(classPM.getImplementedInterfaces() != null)
-//                superClassAndInterfacesHBox.getChildren().add(new Label("yay"));
+            if (classPM.getImplementedInterfaces().size() > 0)
+                currentClassVBox.setPrefWidth(partWidth * classPM.getImplementedInterfaces().size());
+            else
+                currentClassVBox.setPrefWidth(partWidth);
 
             if (!referencesList.isEmpty()) {
                 currentClassVBox.getStyleClass().add("referenceBorder");
             }
+
+            HBox superClassAndInterfacesHBox = new HBox(currentClassVBox);
+
+            // add interfaces if present
+            if(implementedInterfaces.size() > 0){
+                List<VBox> interfaceVBoxList = new ArrayList<>();
+
+                for (int i = 0; implementedInterfaces.size() > i; i++){
+                    String currentSimpleClassNameOfInterface  = implementedInterfaces.get(i).getName();
+                    referencesList = objectPM.getReferences().stream()
+                            .filter(referenceType -> referenceType.getReferenceType().equals(currentSimpleClassNameOfInterface))
+                            .collect(Collectors.toList());
+                    objectPartUnit = new ObjectPartUnit(implementedInterfaces.get(i), colorPM, referencesList);
+
+                    VBox currentInterfaceVBox = new VBox(objectPartUnit);
+                    currentInterfaceVBox.setPrefWidth(partWidth);
+                    if (!referencesList.isEmpty()) {
+                        currentInterfaceVBox.getStyleClass().add("referenceBorder");
+                    }
+                    interfaceVBoxList.add(currentInterfaceVBox);
+                }
+
+                superClassAndInterfacesHBox.getChildren().addAll(interfaceVBoxList);
+
+            }
+
 
             vBoxCurrent.getChildren().add(superClassAndInterfacesHBox);
             vBoxCurrent = currentClassVBox;
@@ -64,8 +92,8 @@ public class ObjectUnit extends VBox implements ViewMixin {
 
             if(classPM.getSuperClass() != null)
             {
+                implementedInterfaces = classPM.getImplementedInterfaces();
                 classPM = classPM.getSuperClass();
-
             }
             else break;
         }
