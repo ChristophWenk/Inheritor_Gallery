@@ -172,10 +172,10 @@ public class InstanceStatePMTest {
 
         assertEquals("Buyable",umlPM.getClasses().get(3).getName());
 
-        assertEquals("YBuyableParent",umlPM.getClasses().get(3).getImplementedInterfaces().get(0).getName());
-
-        assertEquals("YBuyableParent",instanceStatePM.getObjectPMs().get(0).getObjectTree()
-                .getImplementedInterfaces().get(1).getImplementedInterfaces().get(0).getName());
+//        assertEquals("YBuyableParent",umlPM.getClasses().get(3).getImplementedInterfaces().get(0).getName());
+//
+//        assertEquals("YBuyableParent",instanceStatePM.getObjectPMs().get(0).getObjectTree()
+//                .getImplementedInterfaces().get(1).getImplementedInterfaces().get(0).getName());
 
 //        assertEquals("getPrice",instanceStatePM.getObjectPMs().get(0).getObjectTree()
 //                .getImplementedInterfaces().get(1).getImplementedInterfaces().get(0).getMethods().get(0).getName());
