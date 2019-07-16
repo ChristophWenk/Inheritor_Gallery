@@ -1,5 +1,6 @@
 package presentationmodel.uml;
 
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -12,6 +13,7 @@ public class MethodPM {
     private final StringProperty returnType = new SimpleStringProperty();
     private final StringProperty name = new SimpleStringProperty();
     private final ObservableList<String> inputParameters = FXCollections.observableArrayList();
+    private final SimpleListProperty<String> inputParametersProperty = new SimpleListProperty<String>(inputParameters);
     private final StringProperty implementedInClass = new SimpleStringProperty();
 
 
@@ -67,6 +69,7 @@ public class MethodPM {
         return inputParameters;
     }
 
+    public SimpleListProperty<String> inputParametersProperty() {return inputParametersProperty;}
 
     public String getImplementedInClass() {
         return implementedInClass.get();
