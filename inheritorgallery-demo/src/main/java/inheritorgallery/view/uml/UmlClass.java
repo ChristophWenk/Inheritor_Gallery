@@ -62,6 +62,7 @@ public class UmlClass extends VBox implements ViewMixin {
         for (int i = 0; i < classPM.getMethods().size(); i++) {
             getChildren().add(methodLabels.get(i));
         }
+        this.setMinWidth(100);
     }
 
     @Override
