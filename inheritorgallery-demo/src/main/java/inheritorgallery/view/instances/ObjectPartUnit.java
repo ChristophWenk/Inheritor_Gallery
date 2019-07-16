@@ -23,19 +23,20 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
     private ArrayList<Label> methodLabels;
     private List<Label> references;
     private List<Label> fields;
-//    private List<Label> methods;
     private Label className;
     private ClassPM classPM;
     private ColorPM colorPM;
-    private ObjectPM objectPM;
     private Separator separator1,separator2;
-    private List<String> referencesList;
     private SharedLayouter layouter;
+    private List<ReferencePM> referencesList;
 
-    public ObjectPartUnit(ClassPM classPM, ColorPM colorPM, ObjectPM objectPM, List<String> referencesList){
+    public ObjectPartUnit(ClassPM classPM, ColorPM colorPM, List<ReferencePM> referencesList){
         this.classPM = classPM;
+        this.getStyleClass().add("plainBorder");
+        String color = colorPM.getColor(classPM.getFullClassName());
+        this.setStyle("-fx-background-color:" + color);
+
         this.colorPM = colorPM;
-        this.objectPM = objectPM;
         this.referencesList = referencesList;
         init();
     }
@@ -70,20 +71,19 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
 
             methodLabels.get(j).textProperty().bind(binding);
 
-            if(classPM.getMethods().get(j).getImplementedInClass() != null){
+            if(classPM.getMethods().get(j).getImplementedInClass() != null) {
                 String color = colorPM.getColor(classPM.getMethods().get(j).getImplementedInClass());
                 methodLabels.get(j).setStyle("-fx-background-color:" + color);
             }
         }
 
         if ((referencesList != null) && !(referencesList.isEmpty())) {
-            for (ReferencePM referencePM : objectPM.getReferences()) {
+            for (ReferencePM referencePM : referencesList) {
                 Label referenceLabel = new Label(referencePM.getReferenceName());
                 referenceLabel.getStyleClass().add("referenceLabel");
                 references.add(referenceLabel);
             }
         }
-
     }
 
     @Override

@@ -24,6 +24,11 @@ public class MethodPM {
         this.inputParameters.addAll(inputParameters);
     }
 
+    public boolean equals(MethodPM m){
+        return  this.getName().equals(m.getName()) &&
+                this.getInputParameters().equals(m.getInputParameters());
+    }
+
     public void setName(String name) {
         this.name.set(name);
     }

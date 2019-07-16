@@ -24,7 +24,7 @@ public class UmlClass extends VBox implements ViewMixin {
     public UmlClass(ClassPM classPM){
         this.classPM = classPM;
         this.setId(classPM.getName());
-        this.getStyleClass().add("classBox");
+        this.getStyleClass().add("plainBorder");
         init();
     }
 

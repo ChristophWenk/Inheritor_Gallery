@@ -3,6 +3,8 @@ package presentationmodel.uml;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import service.jshell.dto.ConstructorDTO;
 import service.jshell.dto.FieldDTO;
 import service.jshell.dto.MethodDTO;
@@ -12,12 +14,16 @@ import java.util.List;
 
 public class ClassPM {
 
+    private static Logger logger = LoggerFactory.getLogger(ClassPM.class);
+
     private final IntegerProperty inheritanceLevel = new SimpleIntegerProperty();
     private final BooleanProperty isInterface = new SimpleBooleanProperty();
     private final StringProperty fullClassName = new SimpleStringProperty();
     private final StringProperty name = new SimpleStringProperty();
     private final StringProperty superClassName = new SimpleStringProperty();
-    private final ObservableList<String> implementedInterfaces = FXCollections.observableArrayList();
+    private final ObjectProperty<ClassPM> superClass = new SimpleObjectProperty<>();
+    private final ObservableList<ClassPM> implementedInterfaces = FXCollections.observableArrayList();
+    private final ObservableList<String> implementedInterfacesAsString = FXCollections.observableArrayList();
     private final ObservableList<FieldPM> fields = FXCollections.observableArrayList();
     private final ObservableList<ConstructorPM> constructors = FXCollections.observableArrayList();
     private final ObservableList<MethodPM> methods = FXCollections.observableArrayList();
@@ -33,13 +39,16 @@ public class ClassPM {
             constructors.add(new ConstructorDTO(c.getModifier(),c.getName(),c.getInputParameters()));
         for(MethodPM m : getMethods())
             methods.add(new MethodDTO(m.getModifier(), m.getReturnType(),m.getName(),m.getInputParameters()));
+        List<ClassPM> implementedInterfaces = new ArrayList<>(getImplementedInterfaces());
 
         return new ClassPM(
                 this.isInterface.getValue(),
                 this.fullClassName.getValue(),
                 this.name.getValue(),
                 this.superClassName.getValue(),
-                this.implementedInterfaces,
+                superClass.getValue() != null ? this.superClass.getValue().clone() : null,
+                this.implementedInterfacesAsString,
+                implementedInterfaces,
                 fields,
                 constructors,
                 methods
@@ -52,7 +61,9 @@ public class ClassPM {
             String fullClassName,
             String name,
             String superClassName,
-            List<String> implementedInterfaces,
+            ClassPM superclass,
+            List<String> implementedInterfacesAsString,
+            List<ClassPM> implementedInterfaces,
             List<FieldDTO> fields,
             List<ConstructorDTO> constructors,
             List<MethodDTO> methods) {
@@ -61,7 +72,9 @@ public class ClassPM {
         setFullClassName(fullClassName);
         setName(name);
         setSuperClassName(superClassName);
-        this.implementedInterfaces.addAll(implementedInterfaces);
+        this.implementedInterfacesAsString.addAll(implementedInterfacesAsString);
+        if(implementedInterfaces != null)
+            for(ClassPM classPM : implementedInterfaces) addInterface(classPM);
 
         for(FieldDTO f : fields){
             this.fields.add(new FieldPM(
@@ -82,9 +95,6 @@ public class ClassPM {
                 m.getReturnType(),
                 m.getName(),
                 m.getInputParameters())));}
-
-
-
     }
 
 
@@ -153,8 +163,33 @@ public class ClassPM {
         this.superClassName.set(superClassName);
     }
 
-    public ObservableList<String> getImplementedInterfaces() {
+    public ClassPM getSuperClass() {
+        return superClass.get();
+    }
+
+    public ObjectProperty<ClassPM> superClassProperty() {
+        return superClass;
+    }
+
+    public void setSuperClass(ClassPM superClass) {
+        this.superClass.set(superClass);
+    }
+
+    public ObservableList<String> getImplementedInterfacesAsString() {
+        return implementedInterfacesAsString;
+    }
+
+    public ObservableList<ClassPM> getImplementedInterfaces() {
         return implementedInterfaces;
+    }
+
+    public void setImplementedInterfaces(List<ClassPM> interfaceList) {
+        this.implementedInterfaces.clear();
+        this.implementedInterfaces.addAll(interfaceList);
+    }
+
+    public void addInterface(ClassPM classPM) {
+        this.implementedInterfaces.add(classPM);
     }
 
     public ObservableList<FieldPM> getFields() {
