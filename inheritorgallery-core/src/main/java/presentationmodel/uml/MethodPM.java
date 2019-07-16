@@ -1,5 +1,6 @@
 package presentationmodel.uml;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -9,6 +10,7 @@ import javafx.collections.ObservableList;
 import java.util.List;
 
 public class MethodPM {
+    private final SimpleBooleanProperty lastExecuted = new SimpleBooleanProperty();
     private final StringProperty modifier = new SimpleStringProperty();
     private final StringProperty returnType = new SimpleStringProperty();
     private final StringProperty name = new SimpleStringProperty();
@@ -27,6 +29,18 @@ public class MethodPM {
     public boolean equals(MethodPM m){
         return  this.getName().equals(m.getName()) &&
                 this.getInputParameters().equals(m.getInputParameters());
+    }
+
+    public boolean getLastExecuted() {
+        return lastExecuted.get();
+    }
+
+    public SimpleBooleanProperty lastExecutedProperty() {
+        return lastExecuted;
+    }
+
+    public void setLastExecuted(boolean lastExecuted) {
+        this.lastExecuted.set(lastExecuted);
     }
 
     public void setName(String name) {
