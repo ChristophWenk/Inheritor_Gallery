@@ -11,16 +11,15 @@ import java.util.ArrayList;
 public class SharedLayouter {
 
 
-    public void layoutMethod (int currentMethod, ClassPM classPM, ArrayList<Label> methodLabels) {
-        final int j = currentMethod;
+    public void setupMethodBindings (int currentMethod, ClassPM classPM, ArrayList<Label> methodLabels) {
         StringBinding binding = Bindings.createStringBinding(
                 () -> MessageFormat.format("{0} ({1})",
-                        classPM.getMethods().get(j).getName(),
-                        layoutMethodParameters(j,classPM)),
-                classPM.getMethods().get(j).nameProperty(),
-                classPM.getMethods().get(j).inputParametersProperty());
+                        classPM.getMethods().get(currentMethod).getName(),
+                        layoutMethodParameters(currentMethod,classPM)),
+                classPM.getMethods().get(currentMethod).nameProperty(),
+                classPM.getMethods().get(currentMethod).inputParametersProperty());
 
-        methodLabels.get(j).textProperty().bind(binding);
+        methodLabels.get(currentMethod).textProperty().bind(binding);
     }
 
     public String layoutMethodParameters(int currentMethod, ClassPM classPM) {
