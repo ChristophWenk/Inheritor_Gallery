@@ -51,7 +51,6 @@ public class JShellPane extends BorderPane implements ViewMixin {
 
         // Layout
         jshellInputTextField.setText("Enter a Java command...");
-        commandHistoryList.setEditable(false);
         submitButton.setText("Senden");
 
         inputElements.setPadding(new Insets(10,10,10,0));
