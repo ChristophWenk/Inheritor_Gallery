@@ -16,15 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ObjectPartUnit extends VBox implements ViewMixin {
-    private ArrayList<Label> methodLabels;
     private ArrayList<Label> fieldLabels;
-    private List<Label> references;
+    private ArrayList<Label> methodLabels;
+    private ArrayList<Label> referenceLabels;
     private Label className;
     private ClassPM classPM;
     private ColorPM colorPM;
+    private List<ReferencePM> referencesList;
     private Separator separator1,separator2;
     private SharedLayouter layouter;
-    private List<ReferencePM> referencesList;
 
     public ObjectPartUnit(ClassPM classPM, ColorPM colorPM, List<ReferencePM> referencesList){
         this.classPM = classPM;
@@ -42,8 +42,7 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
         layouter = new SharedLayouter();
         className = new Label(classPM.getName());
 
-        references = new ArrayList<>();
-        fields = new ArrayList<>();
+        referenceLabels = new ArrayList<>();
         methodLabels = new ArrayList<>();
         fieldLabels = new ArrayList<>();
         separator1 = new Separator();
@@ -57,17 +56,15 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
         }
 
         if ((referencesList != null) && !(referencesList.isEmpty())) {
-            for (ReferencePM referencePM : referencesList) {
-                Label referenceLabel = new Label(referencePM.getReferenceName());
-                referenceLabel.getStyleClass().add("referenceLabel");
-                references.add(referenceLabel);
+            for (int i = 0; i < referencesList.size(); i++) {
+                referenceLabels.add(new Label());
             }
         }
     }
 
     @Override
     public void layoutControls() {
-        getChildren().addAll(references);
+        getChildren().addAll(referenceLabels);
 
         getChildren().add(className);
         getChildren().add(separator1);
@@ -80,6 +77,14 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
 
     @Override
     public void setupBindings() {
+        if ((referencesList != null) && !(referencesList.isEmpty())) {
+            for (int i = 0; i < referencesList.size(); i++) {
+                ReferencePM referencePM = referencesList.get(i);
+                referenceLabels.get(i).textProperty().bind(referencePM.referenceNameProperty());
+                referenceLabels.get(i).getStyleClass().add("referenceLabel");
+            }
+        }
+
         for (int i = 0; i < classPM.getFields().size(); i++) {
             final int j = i;
             StringBinding binding = Bindings.createStringBinding(
