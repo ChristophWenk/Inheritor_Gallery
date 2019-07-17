@@ -5,6 +5,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import presentationmodel.DirectoryChooserPM;
 import presentationmodel.instance.InstanceStatePM;
 import presentationmodel.instruction.InstructionPM;
 
@@ -15,16 +16,16 @@ public class LeftPane extends VBox implements ViewMixin {
 
     private InstanceStatePM instanceStatePM;
     private InstructionPM instructionPM;
-    private DirectoryChooser directoryChooser;
+    private DirectoryChooserPM directoryChooserPM;
 
     private InstructionPane instructionPane;
     private JShellPane jShellPane;
     private DirectoryChooserPane directoryChooserPane;
     private Stage primaryStage;
 
-    public LeftPane(Stage primaryStage, DirectoryChooser directoryChooser, InstanceStatePM instanceStatePM, InstructionPM instructionPM) {
+    public LeftPane(Stage primaryStage, DirectoryChooserPM directoryChooserPM, InstanceStatePM instanceStatePM, InstructionPM instructionPM) {
         this.primaryStage = primaryStage;
-        this.directoryChooser = directoryChooser;
+        this.directoryChooserPM = directoryChooserPM;
         this.instanceStatePM = instanceStatePM;
         this.instructionPM = instructionPM;
         init();
@@ -33,7 +34,7 @@ public class LeftPane extends VBox implements ViewMixin {
 
     @Override
     public void initializeControls() {
-        directoryChooserPane = new DirectoryChooserPane(primaryStage, directoryChooser);
+        directoryChooserPane = new DirectoryChooserPane(primaryStage, directoryChooserPM);
         instructionPane  = new InstructionPane(instructionPM);
         jShellPane = new JShellPane(instanceStatePM);
     }
