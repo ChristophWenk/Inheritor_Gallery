@@ -8,7 +8,7 @@ import java.nio.file.Path;
 
 public class DirectoryChooserPM {
     private final ObjectProperty<Path> path = new SimpleObjectProperty<>();
-    DirectoryChooser directoryChooser;
+    private DirectoryChooser directoryChooser;
 
     public DirectoryChooserPM(){
         directoryChooser = new DirectoryChooser();
