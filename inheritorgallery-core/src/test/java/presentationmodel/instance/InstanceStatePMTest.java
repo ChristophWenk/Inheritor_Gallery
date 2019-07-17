@@ -313,7 +313,66 @@ public class InstanceStatePMTest {
         assertEquals("xParamCount",umlPM.getClassByName("Item").getMethods().get(6).getName());
         assertEquals(3,umlPM.getClassByName("Item").getMethods().get(6).getInputParameters().size() );
         assertTrue(umlPM.getClassByName("Item").getMethods().get(6).getLastExecuted());
+    }
 
+    @Test
+    void testUpdateLastExecutedMethod_OverrideMethodsInObject() {
+
+        instanceStatePM.setJShellInput("Item object = new Fahrzeug(\"tesla1\",1);");
+        instanceStatePM.setJShellInput("object.print();");
+
+        assertEquals("Item",instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getSuperClass().getName());
+        assertEquals("print",instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getSuperClass().getMethods().get(1).getName());
+        assertTrue(instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getSuperClass().getMethods().get(1).getLastExecuted());
+    }
+
+    @Test
+    void testUpdateLastExecutedMethod_OverrideMethodsInUML() {
+        instanceStatePM.setJShellInput("Auto object = new Auto(\"tesla1\",1,2,3);");
+        instanceStatePM.setJShellInput("object.print();");
+
+        assertEquals("print",umlPM.getClassByName("Auto").getMethods().get(1).getName());
+        assertEquals(0,umlPM.getClassByName("Auto").getMethods().get(1).getInputParameters().size() );
+        assertTrue(umlPM.getClassByName("Auto").getMethods().get(1).getLastExecuted());
+
+        assertEquals("print",umlPM.getClassByName("Fahrzeug").getMethods().get(3).getName());
+        assertEquals(0,umlPM.getClassByName("Fahrzeug").getMethods().get(3).getInputParameters().size() );
+        assertFalse(umlPM.getClassByName("Fahrzeug").getMethods().get(3).getLastExecuted());
+
+        assertEquals("print",umlPM.getClassByName("Item").getMethods().get(1).getName());
+        assertEquals(0,umlPM.getClassByName("Item").getMethods().get(1).getInputParameters().size() );
+        assertFalse(umlPM.getClassByName("Item").getMethods().get(1).getLastExecuted());
+    }
+
+    @Test
+    void testUpdateLastExecutedMethod_Interface() {
+        instanceStatePM.setJShellInput("AntiqueBuyableFahrrad object = new AntiqueBuyableFahrrad(\"aa\",23,\"asd\",45);");
+        instanceStatePM.setJShellInput("object.getPrice();");
+
+        assertEquals("Antique",instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getImplementedInterfaces().get(0).getName());
+        assertEquals("getPrice",instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getImplementedInterfaces().get(1).getMethods().get(0).getName());
+        assertTrue(instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getImplementedInterfaces().get(1).getMethods().get(0).getLastExecuted());
+    }
+
+
+    @Test
+    void testUpdateLastExecutedMethod_OverrideMethodsInUML_Interface() {
+        instanceStatePM.setJShellInput("AntiqueBuyableFahrrad object = new AntiqueBuyableFahrrad(\"aa\",23,\"asd\",45);");
+        instanceStatePM.setJShellInput("object.getPrice();");
+
+        assertEquals("getPrice",umlPM.getClassByName("AntiqueBuyableFahrrad").getMethods().get(1).getName());
+        assertEquals(0,umlPM.getClassByName("AntiqueBuyableFahrrad").getMethods().get(1).getInputParameters().size() );
+        assertTrue(umlPM.getClassByName("AntiqueBuyableFahrrad").getMethods().get(1).getLastExecuted());
+
+        assertEquals("getPrice",umlPM.getClassByName("Buyable").getMethods().get(0).getName());
+        assertEquals(0,umlPM.getClassByName("Buyable").getMethods().get(0).getInputParameters().size() );
+        assertFalse(umlPM.getClassByName("Buyable").getMethods().get(0).getLastExecuted());
     }
 
 

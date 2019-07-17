@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import presentationmodel.uml.ClassPM;
 import presentationmodel.uml.MethodPM;
 import presentationmodel.uml.UmlPM;
 import service.jshell.JShellService;
@@ -83,12 +84,23 @@ public class InstanceStatePM {
                 setLastExecutedMethod(methodsLastExecutedList.get(0));
                 getLastExecutedMethod().setLastExecuted(true);
                 //update lastExecutedMethod in UML
-                umlPM.getClasses().stream()
-                        .flatMap(classPM -> classPM.getMethods().stream())
-                        .filter(methodPM -> methodPM.equals(getLastExecutedMethod()))
-                        .forEach(methodPM -> methodPM.setLastExecuted(true));
+                updateLastLastExecutedMethodUML(true);
             }
         }
+    }
+
+    private void updateLastLastExecutedMethodUML(Boolean lastExecuted){
+        umlPM.getClasses().stream()
+                .flatMap(c -> c.getMethods().stream())
+                .filter(methodPM ->
+                        // if method has been overridden, call equals with declaredInClass param
+                        // to modify only the method that overrides = where the implementation is used
+                          (getLastExecutedMethod().getImplementedInClass() != null) ?
+                                 methodPM.equals(getLastExecutedMethod(),
+                                         umlPM.getClassByFullName(getLastExecutedMethod().getImplementedInClass()))   :
+                                 methodPM.equals(getLastExecutedMethod())
+                        )
+                .forEach(methodPM -> methodPM.setLastExecuted(lastExecuted));
     }
 
     private int getParamCountOfMethod(String code, String refName, String methodName){
@@ -102,13 +114,9 @@ public class InstanceStatePM {
     }
 
     private void resetLastExecutedMethod(){
-        if(getLastExecutedMethod() != null)  { // reset last executed method
+        if(getLastExecutedMethod() != null)  {
             getLastExecutedMethod().setLastExecuted(false);
-            //update lastExecutedMethod in UML
-            umlPM.getClasses().stream()
-                    .flatMap(classPM -> classPM.getMethods().stream())
-                    .filter(methodPM -> methodPM.equals(getLastExecutedMethod()))
-                    .forEach(methodPM -> methodPM.setLastExecuted(false));
+            updateLastLastExecutedMethodUML(false);
         }
     }
 
