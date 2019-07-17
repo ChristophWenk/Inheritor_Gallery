@@ -31,7 +31,7 @@ class JShellReflectionTest {
 
     @BeforeAll
     public static void setUp() {
-        jshellReflection = new JShellReflection();
+        jshellReflection = new JShellReflection("input");
         FileService fileService = new FileService();
         path = fileService.getPath("/input");
     }
