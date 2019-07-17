@@ -45,10 +45,22 @@ public class JShellService {
         String classpath = System.getProperty("java.class.path");
         String[] classpathEntries = classpath.split(File.pathSeparator);
         for (String cp : classpathEntries)
+            //todo
             jshell.addToClasspath(cp);
 
         importClasses();
     }
+
+    public void updateImports(Path path){
+        logger.info(path.toString());
+        jshell.addToClasspath(path.toString());
+        String packageName = path.getFileName().toString();
+        logger.info(packageName);
+        jshell.eval("import "+packageName+".*;");
+        jshell.eval("JShellReflection jshellReflection = new JShellReflection(\""+packageName+"\");");
+    }
+
+
 
     private void importClasses(){
         // Classes need to be explicitly imported to JShell similarly as if we wanted to import one into a class.

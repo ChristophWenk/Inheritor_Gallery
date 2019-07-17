@@ -3,12 +3,14 @@ package presentationmodel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.stage.DirectoryChooser;
+import service.jshell.JShellService;
 
 import java.nio.file.Path;
 
 public class DirectoryChooserPM {
     private final ObjectProperty<Path> path = new SimpleObjectProperty<>();
     private DirectoryChooser directoryChooser;
+    private JShellService jShellService = JShellService.getInstance();
 
     public DirectoryChooserPM(){
         directoryChooser = new DirectoryChooser();
@@ -19,6 +21,8 @@ public class DirectoryChooserPM {
     }
 
     private void propagatePath(){
+        jShellService.updateImports(getPath());
+        //todo: update UML + Instruction
 
     }
 
