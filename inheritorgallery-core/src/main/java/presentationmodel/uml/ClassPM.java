@@ -91,6 +91,7 @@ public class ClassPM {
                     c.getInputParameters())));}
 
         for(MethodDTO m : methods){this.methods.add((new MethodPM(
+                this,
                 m.getModifier(),
                 m.getReturnType(),
                 m.getName(),

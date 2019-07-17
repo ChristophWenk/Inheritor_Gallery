@@ -3,6 +3,7 @@ package inheritorgallery.view.instances;
 
 import inheritorgallery.view.ViewMixin;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 
 public class ObjectUnit extends VBox implements ViewMixin {
     private static Logger logger = LoggerFactory.getLogger(ObjectUnit.class);
+    private int partWidth = 150;
 
     private ObjectPM objectPM;
     private ColorPM colorPM;
@@ -34,6 +36,7 @@ public class ObjectUnit extends VBox implements ViewMixin {
     public void initializeControls() {
         vBoxRoot = new VBox();
         VBox vBoxCurrent = vBoxRoot;
+        List<ClassPM> implementedInterfaces = new ArrayList<>();
 
         ClassPM classPM = objectPM.getObjectTree();
 
@@ -46,17 +49,52 @@ public class ObjectUnit extends VBox implements ViewMixin {
                     .collect(Collectors.toList());
 
             objectPartUnit = new ObjectPartUnit(classPM, colorPM, referencesList);
-            VBox vBoxToAdd = new VBox(objectPartUnit);
+            VBox currentClassVBox = new VBox(objectPartUnit);
+
+            if (classPM.getImplementedInterfaces().size() > 0)
+                currentClassVBox.setPrefWidth(partWidth * classPM.getImplementedInterfaces().size());
+            else
+                currentClassVBox.setPrefWidth(partWidth);
 
             if (!referencesList.isEmpty()) {
-                vBoxToAdd.getStyleClass().add("referenceBorder");
+                currentClassVBox.getStyleClass().add("referenceBorder");
             }
 
-            vBoxCurrent.getChildren().add(vBoxToAdd);
+            HBox superClassAndInterfacesHBox = new HBox(currentClassVBox);
 
-            vBoxCurrent = vBoxToAdd;
+            // add interfaces if present
+            if(implementedInterfaces.size() > 0){
+                List<VBox> interfaceVBoxList = new ArrayList<>();
 
-            if(classPM.hasSuperClass())  classPM = classPM.getSuperClass();
+                for (int i = 0; implementedInterfaces.size() > i; i++){
+                    String currentSimpleClassNameOfInterface  = implementedInterfaces.get(i).getName();
+                    referencesList = objectPM.getReferences().stream()
+                            .filter(referenceType -> referenceType.getReferenceType().equals(currentSimpleClassNameOfInterface))
+                            .collect(Collectors.toList());
+                    objectPartUnit = new ObjectPartUnit(implementedInterfaces.get(i), colorPM, referencesList);
+
+                    VBox currentInterfaceVBox = new VBox(objectPartUnit);
+                    currentInterfaceVBox.setPrefWidth(partWidth);
+                    if (!referencesList.isEmpty()) {
+                        currentInterfaceVBox.getStyleClass().add("referenceBorder");
+                    }
+                    interfaceVBoxList.add(currentInterfaceVBox);
+                }
+
+                superClassAndInterfacesHBox.getChildren().addAll(interfaceVBoxList);
+
+            }
+
+
+            vBoxCurrent.getChildren().add(superClassAndInterfacesHBox);
+            vBoxCurrent = currentClassVBox;
+
+
+            if(classPM.getSuperClass() != null)
+            {
+                implementedInterfaces = classPM.getImplementedInterfaces();
+                classPM = classPM.getSuperClass();
+            }
             else break;
         }
     }

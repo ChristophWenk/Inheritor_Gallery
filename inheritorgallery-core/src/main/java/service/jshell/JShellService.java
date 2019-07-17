@@ -1,9 +1,7 @@
 package service.jshell;
 
 import exceptions.InvalidCodeException;
-import jdk.jshell.JShell;
-import jdk.jshell.SnippetEvent;
-import jdk.jshell.VarSnippet;
+import jdk.jshell.*;
 import jshellExtensions.JShellReflection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
