@@ -24,10 +24,10 @@ import java.util.stream.Stream;
 
 public class JShellReflection {
     private static Logger logger = LoggerFactory.getLogger(JShellReflection.class);
-    private final String packageName = "input";
+    private final String packageName;
 
-    public JShellReflection(){
-
+    public JShellReflection(String packageName){
+        this.packageName = packageName;
     }
 
     public String serialize(Object objectToSerialize){

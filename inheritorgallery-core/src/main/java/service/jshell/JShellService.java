@@ -34,7 +34,6 @@ public class JShellService {
     private static JShellService jShellService;
     private JShell jshell;
     private final String packageName = "input";
-    private final String packageNameJShellReflection = "jshellExtensions";
 
     /**
      * JShellService Constructor.
@@ -48,33 +47,17 @@ public class JShellService {
         for (String cp : classpathEntries)
             jshell.addToClasspath(cp);
 
-        // Classes need to be explicitly imported to JShell similarly as if we wanted to import one into a class.
-        //jshell.eval("import "+packageName+".*;");
-        //jshell.eval("import java.lang.reflect.Field;");
-        importPackage(packageName);
-        importPackage(packageNameJShellReflection);
-
-        jshell.eval("JShellReflection jshellReflection = new JShellReflection();");
-        //JShellReflection jShellReflection = new JShellReflection();
+        importClasses();
     }
 
-    private void importPackage(String packageName){
-        FileService fileService = new FileService();
-        Path path = fileService.getPath("/"+packageName);
-        try {
-            Files.walk(path)
-                    .map(e -> new File(e.toString()))
-                    .filter(File::isDirectory)
-                    .map(e -> e.toURI().toString().split(packageName))
-                    .map(e -> packageName+e[1].replace("/","."))
-                    .map(e -> "import "+e+"*;")
-                    .forEach(e -> jshell.eval(e));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+    private void importClasses(){
+        // Classes need to be explicitly imported to JShell similarly as if we wanted to import one into a class.
+        jshell.eval("import "+packageName+".*;");
+        jshell.eval("import jshellExtensions.*;");
+        jshell.eval("JShellReflection jshellReflection = new JShellReflection(\""+packageName+"\");");
         jshell.eval("import java.lang.reflect.Field;");
     }
+
 
     /**
      * Singleton pattern.
@@ -273,11 +256,6 @@ public class JShellService {
      */
     public void reset() {
         jshell.snippets().forEach(snippet -> jshell.drop(snippet));
-        //jshell.eval("import "+packageName+".*;");
-        //jshell.eval("import java.lang.reflect.Field;");
-        importPackage(packageName);
-        importPackage(packageNameJShellReflection);
-
-        jshell.eval("JShellReflection jshellReflection = new JShellReflection();");
-    }
+        importClasses();
+            }
 }
