@@ -4,6 +4,7 @@ import inheritorgallery.view.ApplicationUI;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import presentationmodel.ColorPM;
 import presentationmodel.instance.InstanceStatePM;
@@ -34,6 +35,7 @@ public class AppStarter extends Application {
         scene.getStylesheets().add(stylesheet);
 
         primaryStage.setTitle("Inheritor Gallery");
+        primaryStage.getIcons().add(new Image(AppStarter.class.getResourceAsStream("view/images/constructor.png")));
         primaryStage.setScene(scene);
         primaryStage.setWidth(1280);
         primaryStage.setHeight(640);

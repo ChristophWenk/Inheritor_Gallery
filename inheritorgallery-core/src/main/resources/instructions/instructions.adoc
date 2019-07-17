@@ -5,9 +5,10 @@ Gegeben sind die folgenden Referenzen und Objekte.
 
 [source,java]
 ----
-Fahrzeug f = new Fahrzeug("Fahrzeug1", 0);
-Fahrrad rad = new Fahrrad("Mein Rad", 48);
-Auto auto = new Auto("Ferrari",430,2,3);
+Fahrzeug f= new Fahrzeug("Fahrzeug1", 0);
+Fahrrad rad= new Fahrrad("Mein Rad", 48);
+Auto auto= new Auto("Ferrari",430, 2, 3);
+Cabriolet cabriolet= new Cabriolet("Mein Gabi", 150, 4, 2);
 ----
 
 Welche Zuweisungen sind (unabhängig voneinander) möglich?
@@ -15,4 +16,6 @@ Welche Zuweisungen sind (unabhängig voneinander) möglich?
  * f = rad;
  * rad = f;
  * auto = rad;
+ * cabriolet= auto;
  * auto = f;
+ * auto= cabriolet;
