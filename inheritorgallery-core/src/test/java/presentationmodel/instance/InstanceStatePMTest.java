@@ -278,7 +278,14 @@ public class InstanceStatePMTest {
         instanceStatePM.setJShellInput("object.getWeight();");
 
         assertEquals("getWeight",umlPM.getClassByName("Item").getMethods().get(0).getName());
-//        assertTrue(umlPM.getClassByName("Item").getMethods().get(0).getLastExecuted());
+        assertTrue(umlPM.getClassByName("Item").getMethods().get(0).getLastExecuted());
+
+        instanceStatePM.setJShellInput("object.setWeight(2);");
+        assertEquals("getWeight",umlPM.getClassByName("Item").getMethods().get(0).getName());
+        assertFalse(umlPM.getClassByName("Item").getMethods().get(0).getLastExecuted());
+
+        assertEquals("setWeight",umlPM.getClassByName("Item").getMethods().get(2).getName());
+        assertTrue(umlPM.getClassByName("Item").getMethods().get(2).getLastExecuted());
 
 
     }

@@ -87,10 +87,22 @@ public class InstanceStatePM {
                         .collect(Collectors.toList());
                 if(methodsLatExecutedList.size() == 1){
                     //previously executed method not last executed any more
-                    if(getLastExecutedMethod() != null)  getLastExecutedMethod().setLastExecuted(false);
+                    if(getLastExecutedMethod() != null)  {
+                        getLastExecutedMethod().setLastExecuted(false);
+                        //update lastExecutedMethod in UML
+                        umlPM.getClasses().stream()
+                                .flatMap(classPM -> classPM.getMethods().stream())
+                                .filter(methodPM -> methodPM.equals(getLastExecutedMethod()))
+                                .forEach(methodPM -> methodPM.setLastExecuted(false));
+                    }
 
                     setLastExecutedMethod(methodsLatExecutedList.get(0));
                     getLastExecutedMethod().setLastExecuted(true);
+                    //update lastExecutedMethod in UML
+                    umlPM.getClasses().stream()
+                            .flatMap(classPM -> classPM.getMethods().stream())
+                            .filter(methodPM -> methodPM.equals(getLastExecutedMethod()))
+                            .forEach(methodPM -> methodPM.setLastExecuted(true));
 
                     logger.info(methodsLatExecutedList.get(0).getName());
                 }
