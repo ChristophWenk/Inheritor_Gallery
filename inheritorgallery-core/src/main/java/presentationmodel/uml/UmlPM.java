@@ -15,14 +15,18 @@ import java.util.stream.Collectors;
 public class UmlPM {
 
     private static Logger logger = LoggerFactory.getLogger(UmlPM.class);
-
-    //ToDo Observable never used, overkill?
     private final ObservableList<ClassPM> classes = FXCollections.observableArrayList();
     private final ObservableList<EdgePM> edges = FXCollections.observableArrayList();
     private final IntegerProperty inheritanceDeepness = new SimpleIntegerProperty();
     private JShellService jshellService = JShellService.getInstance();
 
     public UmlPM() {
+        init();
+    }
+    public void init(){
+        classes.clear();
+        edges.clear();
+
         for(ClassDTO c : jshellService.getClassDTOs()){
             classes.add(new ClassPM(
                     c.isInterface(),
@@ -50,6 +54,8 @@ public class UmlPM {
 
         edges.addAll(getEdgesForClasses(classes));
     }
+
+
 
 
     public ClassPM getClassByName(String s){
