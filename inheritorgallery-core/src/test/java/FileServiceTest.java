@@ -16,14 +16,4 @@ class FileServiceTest {
         fileService = new FileService();
     }
 
-    @Test
-    void testGetPath(){
-        Path path = fileService.getPath("/input");
-        assertEquals("C:\\Users\\Dimitri\\IdeaProjects\\InheritorGallery\\inheritorgallery-core\\out\\production\\classes\\input",
-                path.toString());
-
-
-
-    }
-
 }
