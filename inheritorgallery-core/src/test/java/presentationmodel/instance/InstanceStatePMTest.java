@@ -226,7 +226,62 @@ public class InstanceStatePMTest {
 
     @Test
     void testUpdateLastExecutedMethod(){
-        instanceStatePM.setJShellInput("Fahrzeug object = new Fahrzeug(\"tesla1\",1);");
+        instanceStatePM.setJShellInput("Item object = new Fahrzeug(\"tesla1\",1);");
+        instanceStatePM.setJShellInput("wrong input");
+        instanceStatePM.setJShellInput("object.getWeight();");
+
+        assertEquals("getWeight",instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getSuperClass().getMethods().get(0).getName());
+        assertTrue(instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getSuperClass().getMethods().get(0).getLastExecuted());
+
+        assertEquals("print",instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getSuperClass().getMethods().get(1).getName());
+        assertFalse(instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getSuperClass().getMethods().get(1).getLastExecuted());
+
     }
+    @Test
+    void testUpdateLastExecutedMethod_CheckLastExecutedReset(){
+
+        instanceStatePM.setJShellInput("Item object = new Fahrzeug(\"tesla1\",1);");
+        instanceStatePM.setJShellInput("object.getWeight();");
+
+        assertEquals("getWeight",instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getSuperClass().getMethods().get(0).getName());
+        assertTrue(instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getSuperClass().getMethods().get(0).getLastExecuted());
+
+        assertEquals("print",instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getSuperClass().getMethods().get(1).getName());
+        assertFalse(instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getSuperClass().getMethods().get(1).getLastExecuted());
+
+        instanceStatePM.setJShellInput("object.setWeight(2);");
+
+        assertEquals("getWeight",instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getSuperClass().getMethods().get(0).getName());
+        assertFalse(instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getSuperClass().getMethods().get(0).getLastExecuted());
+
+        assertEquals("setWeight",instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getSuperClass().getMethods().get(2).getName());
+        assertTrue(instanceStatePM.getObjectPMs().get(0).getObjectTree()
+                .getSuperClass().getMethods().get(2).getLastExecuted());
+
+    }
+
+    @Test
+    void testUpdateLastExecutedMethod_CheckUML(){
+
+        instanceStatePM.setJShellInput("Item object = new Fahrzeug(\"tesla1\",1);");
+        instanceStatePM.setJShellInput("object.getWeight();");
+
+        assertEquals("getWeight",umlPM.getClassByName("Item").getMethods().get(0).getName());
+//        assertTrue(umlPM.getClassByName("Item").getMethods().get(0).getLastExecuted());
+
+
+    }
+
 
 }

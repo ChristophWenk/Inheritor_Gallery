@@ -10,7 +10,7 @@ import javafx.collections.ObservableList;
 import java.util.List;
 
 public class MethodPM {
-    private final SimpleBooleanProperty lastExecuted = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty lastExecuted = new SimpleBooleanProperty(false);
     private final StringProperty modifier = new SimpleStringProperty();
     private final StringProperty returnType = new SimpleStringProperty();
     private final StringProperty name = new SimpleStringProperty();

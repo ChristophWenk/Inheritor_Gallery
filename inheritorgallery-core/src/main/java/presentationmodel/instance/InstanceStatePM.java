@@ -66,24 +66,37 @@ public class InstanceStatePM {
         List<ReferencePM> refsFoundInCode = getAllReferenceNames().stream()
                 .filter(referencePM -> lastCodeInput.contains(referencePM.getReferenceName()+"."))
                 .collect(Collectors.toList());
-        logger.info(String.valueOf(refsFoundInCode));
         // exactly one ref must be found. if multiple refs are found no lastExecutedMethod is set
         if(refsFoundInCode.size() == 1){
             ReferencePM refInCode = refsFoundInCode.get(0);
             logger.info(refInCode.getReferenceName());
-            // find the first object containing the refInCode
-            Optional<ObjectPM> objectPMOptional = getObjectPMs().stream()
+
+            Optional<ObjectPM> objectRefPointedTo = getObjectPMs().stream()
                     .filter(objectPM ->
                             objectPM.getReferences().stream().anyMatch(referencePM -> referencePM.equals(refInCode)))
                     .findFirst();
 
-            if(objectPMOptional.isPresent()){
-                List<MethodPM> methodsOfObject =  objectPMOptional.get().getAllObjectPartsFlat().stream()
+            if(objectRefPointedTo.isPresent()){
+                List<MethodPM> methodsOfObject =  objectRefPointedTo.get().getAllObjectPartsFlat().stream()
                         .flatMap(o -> o.getMethods().stream())
                         .collect(Collectors.toList());
 
-                methodsOfObject.stream()
-                        .filter(methodPM -> lastCodeInput.contains(refInCode+"."+methodPM.getName()));
+                //todo: add count of parameters in filter for overloaded methods
+                List<MethodPM> methodsLatExecutedList =  methodsOfObject.stream()
+                        .filter(methodPM -> lastCodeInput.contains(refInCode.getReferenceName()+"."+methodPM.getName()))
+                        .collect(Collectors.toList());
+                if(methodsLatExecutedList.size() == 1){
+                    //previously executed method not last executed any more
+                    if(getLastExecutedMethod() != null)  getLastExecutedMethod().setLastExecuted(false);
+
+                    setLastExecutedMethod(methodsLatExecutedList.get(0));
+                    getLastExecutedMethod().setLastExecuted(true);
+
+                    logger.info(methodsLatExecutedList.get(0).getName());
+                }
+
+
+
             }
         }
     }
