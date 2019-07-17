@@ -43,7 +43,7 @@ public class ObjectPM {
                 objectRootClass = objectRootClass.getSuperClass();
             }
             else break;
-                    }
+        }
     }
 
     private void addInterfacesToNode(ClassPM currentNode){
@@ -181,5 +181,22 @@ public class ObjectPM {
 
     public void addReference(ReferencePM reference){
         references.add(reference);
+    }
+
+    public List<ClassPM> getAllObjectPartsFlat(){
+        ClassPM currentNode = getObjectTree();
+        List<ClassPM> allObjectPartsFlat = new ArrayList<>();
+        //getObjectTree().
+        while (true){
+            allObjectPartsFlat.add(currentNode);
+            if(currentNode.getImplementedInterfaces().size() > 0)
+                allObjectPartsFlat.addAll(currentNode.getImplementedInterfaces());
+
+            //setup next iteration
+            if(currentNode.hasSuperClass()) currentNode = currentNode.getSuperClass();
+            else break;
+        }
+
+        return allObjectPartsFlat;
     }
 }
