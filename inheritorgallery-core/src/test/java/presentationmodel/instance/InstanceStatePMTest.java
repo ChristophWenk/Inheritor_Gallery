@@ -211,4 +211,22 @@ public class InstanceStatePMTest {
 
     }
 
+    @Test
+    void testGetAllObjectPartsFlat(){
+        instanceStatePM.setJShellInput("Fahrzeug object = new Fahrzeug(\"tesla1\",1);");
+        assertEquals(2,instanceStatePM.getObjectPMs().get(0).getAllObjectPartsFlat().size());
+
+        instanceStatePM.setJShellInput("Auto object = new Auto(\"tesla1\",1,2,3);");
+        assertEquals(3,instanceStatePM.getObjectPMs().get(0).getAllObjectPartsFlat().size());
+
+        instanceStatePM.setJShellInput("AntiqueBuyableFahrrad object = new AntiqueBuyableFahrrad(\"aa\",23,\"asd\",45);");
+        assertEquals(6,instanceStatePM.getObjectPMs().get(0).getAllObjectPartsFlat().size());
+
+    }
+
+    @Test
+    void testUpdateLastExecutedMethod(){
+        instanceStatePM.setJShellInput("Fahrzeug object = new Fahrzeug(\"tesla1\",1);");
+    }
+
 }

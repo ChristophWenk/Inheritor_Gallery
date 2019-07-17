@@ -397,35 +397,5 @@ class JShellServiceTest {
         //then
         assertEquals("input",jShellService.getPackageForReference("i1"));
     }
-    @Test
-    void testGetLastValidSnippetSource(){
-        //given
-        try {
-            jShellService.evaluateCode("Item i1 = new Fahrzeug(\"tesla\", 20);");
-            jShellService.evaluateCode("i1.setWeight(2);");
-        } catch (InvalidCodeException e) {
-            e.printStackTrace();
-        }
-
-        assertEquals("i1.setWeight(2);",jShellService.getLastValidSnippetSource());
-
-        //given
-        try {
-            jShellService.evaluateCode("wrong input");
-        } catch (InvalidCodeException e) {
-            // Exception is fine here
-        }
-        assertEquals("i1.setWeight(2);",jShellService.getLastValidSnippetSource());
-
-        //given
-        try {
-            jShellService.evaluateCode("int i = 3;");
-        } catch (InvalidCodeException e) {
-            // Exception is fine here
-        }
-        assertEquals("int i = 3;",jShellService.getLastValidSnippetSource());
-
-
-    }
 
 }
