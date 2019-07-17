@@ -4,6 +4,7 @@ import inheritorgallery.view.ApplicationUI;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import presentationmodel.ColorPM;
 import presentationmodel.instance.InstanceStatePM;
@@ -20,13 +21,15 @@ public class AppStarter extends Application {
     public void start(Stage primaryStage) {
 
         AsciiDocService asciiDocService = new AsciiDocService();
+        DirectoryChooser directoryChooser = new DirectoryChooser();
 
         UmlPM umlPM = new UmlPM();
         InstanceStatePM instanceStatePM = new InstanceStatePM(umlPM);
         InstructionPM instructionPM = new InstructionPM(asciiDocService);
         ColorPM colorPM = new ColorPM();
 
-        Parent rootPane = new ApplicationUI(instanceStatePM, umlPM, instructionPM, colorPM);
+
+        Parent rootPane = new ApplicationUI(primaryStage, directoryChooser, instanceStatePM, umlPM, instructionPM, colorPM);
 
         Scene scene = new Scene(rootPane);
 
