@@ -144,7 +144,9 @@ public class JShellReflection {
 
         //ToDo: sort methods better so that getter and setter are site by side
         Stream<Method> methodList = Arrays.stream(c.getDeclaredMethods())
+                .sorted(Comparator.comparing(m -> m.getParameterTypes().length))
                 .sorted(Comparator.comparing(Method::getName));
+
 
         methodList.forEach(method -> {
             String modifier =  Modifier.toString(method.getModifiers()).split(" ")[0];

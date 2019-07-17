@@ -286,7 +286,33 @@ public class InstanceStatePMTest {
 
         assertEquals("setWeight",umlPM.getClassByName("Item").getMethods().get(2).getName());
         assertTrue(umlPM.getClassByName("Item").getMethods().get(2).getLastExecuted());
+    }
 
+    @Test
+    void testUpdateLastExecutedMethod_OverloadedMethods() {
+
+        instanceStatePM.setJShellInput("Item object = new Fahrzeug(\"tesla1\",1);");
+        instanceStatePM.setJShellInput("object.xParamCount();");
+
+        assertEquals("xParamCount",umlPM.getClassByName("Item").getMethods().get(3).getName());
+        assertEquals(0,umlPM.getClassByName("Item").getMethods().get(3).getInputParameters().size() );
+        assertTrue(umlPM.getClassByName("Item").getMethods().get(3).getLastExecuted());
+
+        instanceStatePM.setJShellInput("object.xParamCount(34);");
+
+        assertEquals("xParamCount",umlPM.getClassByName("Item").getMethods().get(4).getName());
+        assertEquals(1,umlPM.getClassByName("Item").getMethods().get(4).getInputParameters().size() );
+        assertTrue(umlPM.getClassByName("Item").getMethods().get(4).getLastExecuted());
+
+        instanceStatePM.setJShellInput("object.xParamCount(34, 5);");
+        assertEquals("xParamCount",umlPM.getClassByName("Item").getMethods().get(5).getName());
+        assertEquals(2,umlPM.getClassByName("Item").getMethods().get(5).getInputParameters().size() );
+        assertTrue(umlPM.getClassByName("Item").getMethods().get(5).getLastExecuted());
+
+        instanceStatePM.setJShellInput("object.xParamCount(34, 5, 7+7);");
+        assertEquals("xParamCount",umlPM.getClassByName("Item").getMethods().get(6).getName());
+        assertEquals(3,umlPM.getClassByName("Item").getMethods().get(6).getInputParameters().size() );
+        assertTrue(umlPM.getClassByName("Item").getMethods().get(6).getLastExecuted());
 
     }
 

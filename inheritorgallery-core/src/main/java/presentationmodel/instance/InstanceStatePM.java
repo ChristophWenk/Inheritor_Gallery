@@ -13,6 +13,7 @@ import service.jshell.JShellService;
 import service.jshell.dto.ObjectDTO;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -61,57 +62,74 @@ public class InstanceStatePM {
     }
 
     private void updateLastExecutedMethod(String lastCodeInput){
-        logger.info(lastCodeInput);
+        resetLastExecutedMethod();
 
-        List<ReferencePM> refsFoundInCode = getAllReferenceNames().stream()
+        List<ReferencePM> refsFoundInCodeList = getAllReferenceNames().stream()
                 .filter(referencePM -> lastCodeInput.contains(referencePM.getReferenceName()+"."))
                 .collect(Collectors.toList());
         // exactly one ref must be found. if multiple refs are found no lastExecutedMethod is set
-        if(refsFoundInCode.size() == 1){
-            ReferencePM refInCode = refsFoundInCode.get(0);
-            logger.info(refInCode.getReferenceName());
+        if(refsFoundInCodeList.size() == 1){
+            ReferencePM refInCode = refsFoundInCodeList.get(0);
 
-            Optional<ObjectPM> objectRefPointedTo = getObjectPMs().stream()
-                    .filter(objectPM ->
-                            objectPM.getReferences().stream().anyMatch(referencePM -> referencePM.equals(refInCode)))
-                    .findFirst();
-
-            if(objectRefPointedTo.isPresent()){
-                List<MethodPM> methodsOfObject =  objectRefPointedTo.get().getAllObjectPartsFlat().stream()
-                        .flatMap(o -> o.getMethods().stream())
-                        .collect(Collectors.toList());
-
-                //todo: add count of parameters in filter for overloaded methods
-                List<MethodPM> methodsLatExecutedList =  methodsOfObject.stream()
-                        .filter(methodPM -> lastCodeInput.contains(refInCode.getReferenceName()+"."+methodPM.getName()))
-                        .collect(Collectors.toList());
-                if(methodsLatExecutedList.size() == 1){
-                    //previously executed method not last executed any more
-                    if(getLastExecutedMethod() != null)  {
-                        getLastExecutedMethod().setLastExecuted(false);
-                        //update lastExecutedMethod in UML
-                        umlPM.getClasses().stream()
-                                .flatMap(classPM -> classPM.getMethods().stream())
-                                .filter(methodPM -> methodPM.equals(getLastExecutedMethod()))
-                                .forEach(methodPM -> methodPM.setLastExecuted(false));
-                    }
-
-                    setLastExecutedMethod(methodsLatExecutedList.get(0));
-                    getLastExecutedMethod().setLastExecuted(true);
-                    //update lastExecutedMethod in UML
-                    umlPM.getClasses().stream()
-                            .flatMap(classPM -> classPM.getMethods().stream())
-                            .filter(methodPM -> methodPM.equals(getLastExecutedMethod()))
-                            .forEach(methodPM -> methodPM.setLastExecuted(true));
-
-                    logger.info(methodsLatExecutedList.get(0).getName());
-                }
-
-
-
+            // get all methods of object where the reference points to
+            List<MethodPM> methodsLastExecutedList =  getMethodsOfReference(refInCode).stream()
+                    // check for String in code like "refName.methodName("
+                    .filter(methodPM -> lastCodeInput.contains(refInCode.getReferenceName()+"."+methodPM.getName()+"("))
+                    // check for param count to pick the right method by method overloading
+                    .filter(methodPM -> methodPM.getInputParameters().size() ==
+                            getParamCountOfMethod(lastCodeInput, refInCode.getReferenceName(), methodPM.getName()))
+                    .collect(Collectors.toList());
+            if(methodsLastExecutedList.size() == 1){ //exactly one matching method must be found
+                setLastExecutedMethod(methodsLastExecutedList.get(0));
+                getLastExecutedMethod().setLastExecuted(true);
+                //update lastExecutedMethod in UML
+                umlPM.getClasses().stream()
+                        .flatMap(classPM -> classPM.getMethods().stream())
+                        .filter(methodPM -> methodPM.equals(getLastExecutedMethod()))
+                        .forEach(methodPM -> methodPM.setLastExecuted(true));
             }
         }
     }
+
+    private int getParamCountOfMethod(String code, String refName, String methodName){
+        String[] stringAfterMethodName = code.split(refName+"\\."+methodName+"\\(");
+        if(stringAfterMethodName.length > 1) {
+            String stringInMethodBrackets = stringAfterMethodName[1].split("\\)")[0];
+            if(stringInMethodBrackets.length() == 0 ) return 0;
+            else    return stringInMethodBrackets.split(",").length;
+        }
+        return 0;
+    }
+
+    private void resetLastExecutedMethod(){
+        if(getLastExecutedMethod() != null)  { // reset last executed method
+            getLastExecutedMethod().setLastExecuted(false);
+            //update lastExecutedMethod in UML
+            umlPM.getClasses().stream()
+                    .flatMap(classPM -> classPM.getMethods().stream())
+                    .filter(methodPM -> methodPM.equals(getLastExecutedMethod()))
+                    .forEach(methodPM -> methodPM.setLastExecuted(false));
+        }
+    }
+
+    private List<MethodPM> getMethodsOfReference(ReferencePM refInCode){
+        List<MethodPM> methodsOfObject = new ArrayList<>();
+
+        Optional<ObjectPM> objectRefPointedTo = getObjectPMs().stream()
+                .filter(objectPM ->
+                        objectPM.getReferences().stream().anyMatch(referencePM -> referencePM.equals(refInCode)))
+                .findFirst();
+
+        if(objectRefPointedTo.isPresent()){
+            methodsOfObject =  objectRefPointedTo.get().getAllObjectPartsFlat().stream()
+                    .flatMap(o -> o.getMethods().stream())
+                    .collect(Collectors.toList());
+        }
+        return methodsOfObject;
+    }
+
+
+
 
     private List<ReferencePM> getAllReferenceNames(){
         return getObjectPMs().stream()
