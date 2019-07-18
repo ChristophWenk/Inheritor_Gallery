@@ -1,8 +1,14 @@
 package inheritorgallery.view.uml;
 
 import inheritorgallery.view.ViewMixin;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import presentationmodel.uml.ClassPM;
 import presentationmodel.uml.ConstructorPM;
@@ -14,10 +20,10 @@ import java.util.ArrayList;
 
 public class UmlClass extends VBox implements ViewMixin {
     private final ClassPM classPM;
-    private Label classNameLabel;
     private ArrayList<UMLFieldPane> umlFieldPanes;
     private ArrayList<UMLConstructorPane> umlConstructorPanes;
     private ArrayList<UMLMethodPane> umlMethodPanes;
+    private HBox classNameHBox;
 
     UmlClass(ClassPM classPM){
         this.classPM = classPM;
@@ -29,7 +35,23 @@ public class UmlClass extends VBox implements ViewMixin {
 
     @Override
     public void initializeControls() {
-        classNameLabel = new Label(classPM.getName());
+
+        StackPane classIconStackPane =
+                new StackPane(
+                        new ImageView(
+                                classPM.isIsInterface() ?
+                                        new Image("icons/interface.png",0, 17, true, false) :
+                                        new Image("icons/class.png", 0, 20, true, false)
+                        ));
+        classIconStackPane.setPadding(new Insets(2,2,2,2));
+
+        classNameHBox = new HBox(
+                classIconStackPane,
+                classPM.isIsAbstract() ? new Label(" <abstract> ") : new Label(""),
+                new Label(classPM.getName()));
+        classNameHBox.setAlignment(Pos.CENTER);
+
+
 
         umlFieldPanes = new ArrayList<>();
         umlConstructorPanes = new ArrayList<>();
@@ -47,8 +69,8 @@ public class UmlClass extends VBox implements ViewMixin {
 
     @Override
     public void layoutControls() {
-        getChildren().addAll(classNameLabel);
-        getChildren().add(new Separator());
+        getChildren().addAll(classNameHBox);
+       getChildren().add(new Separator());
         getChildren().addAll(umlFieldPanes);
         getChildren().add(new Separator());
         getChildren().addAll(umlConstructorPanes);
