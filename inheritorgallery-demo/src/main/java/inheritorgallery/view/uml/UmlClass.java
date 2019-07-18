@@ -15,8 +15,9 @@ import java.util.ArrayList;
 public class UmlClass extends VBox implements ViewMixin {
     private final ClassPM classPM;
     private Label classNameLabel;
-    private ArrayList<Label> constructorLabels, methodLabels;
-    private ArrayList<UMLFieldPane> UMLFieldPanes;
+    private ArrayList<UMLFieldPane> umlFieldPanes;
+    private ArrayList<UMLConstructorPane> umlConstructorPanes;
+    private ArrayList<UMLMethodPane> umlMethodPanes;
 
     UmlClass(ClassPM classPM){
         this.classPM = classPM;
@@ -30,28 +31,28 @@ public class UmlClass extends VBox implements ViewMixin {
     public void initializeControls() {
         classNameLabel = new Label(classPM.getName());
 
-        constructorLabels = new ArrayList<>();
-        methodLabels = new ArrayList<>();
-        UMLFieldPanes = new ArrayList<>();
+        umlFieldPanes = new ArrayList<>();
+        umlConstructorPanes = new ArrayList<>();
+        umlMethodPanes = new ArrayList<>();
 
         for(FieldPM fieldPM : classPM.getFields())
-            UMLFieldPanes.add(new UMLFieldPane(fieldPM));
+            umlFieldPanes.add(new UMLFieldPane(fieldPM));
 
         for(ConstructorPM constructorPM : classPM.getConstructors())
-            constructorLabels.add(new Label(constructorPM.getName()));
+            umlConstructorPanes.add(new UMLConstructorPane(constructorPM));
 
         for(MethodPM methodPM : classPM.getMethods())
-            methodLabels.add(new Label(methodPM.getName()));
+            umlMethodPanes.add(new UMLMethodPane(methodPM));
     }
 
     @Override
     public void layoutControls() {
         getChildren().addAll(classNameLabel);
         getChildren().add(new Separator());
-        getChildren().addAll(UMLFieldPanes);
+        getChildren().addAll(umlFieldPanes);
         getChildren().add(new Separator());
-        getChildren().addAll(constructorLabels);
-        getChildren().addAll(methodLabels);
+        getChildren().addAll(umlConstructorPanes);
+        getChildren().addAll(umlMethodPanes);
     }
 
     @Override
