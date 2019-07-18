@@ -38,7 +38,7 @@ public class AppStarter extends Application {
         scene.getStylesheets().add(stylesheet);
 
         primaryStage.setTitle("Inheritor Gallery");
-        primaryStage.getIcons().add(new Image(AppStarter.class.getResourceAsStream("view/images/constructor.png")));
+        primaryStage.getIcons().add(new Image("icons/constructor.png"));
         primaryStage.setScene(scene);
         primaryStage.setWidth(1280);
         primaryStage.setHeight(640);

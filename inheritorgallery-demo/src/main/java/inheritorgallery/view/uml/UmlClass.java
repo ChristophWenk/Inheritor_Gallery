@@ -15,13 +15,14 @@ import java.util.ArrayList;
 public class UmlClass extends VBox implements ViewMixin {
     private final ClassPM classPM;
     private Label classNameLabel;
-    private ArrayList<Label> fieldLabels, constructorLabels, methodLabels;
+    private ArrayList<Label> constructorLabels, methodLabels;
+    private ArrayList<UMLFieldPane> UMLFieldPanes;
 
     UmlClass(ClassPM classPM){
         this.classPM = classPM;
         this.setId(classPM.getName());
         this.getStyleClass().add("plainBorder");
-        this.setMinWidth(100);
+        this.setMinWidth(200);
         init();
     }
 
@@ -29,12 +30,12 @@ public class UmlClass extends VBox implements ViewMixin {
     public void initializeControls() {
         classNameLabel = new Label(classPM.getName());
 
-        fieldLabels = new ArrayList<>();
         constructorLabels = new ArrayList<>();
         methodLabels = new ArrayList<>();
+        UMLFieldPanes = new ArrayList<>();
 
         for(FieldPM fieldPM : classPM.getFields())
-            fieldLabels.add(new Label(fieldPM.getName()));
+            UMLFieldPanes.add(new UMLFieldPane(fieldPM));
 
         for(ConstructorPM constructorPM : classPM.getConstructors())
             constructorLabels.add(new Label(constructorPM.getName()));
@@ -47,7 +48,7 @@ public class UmlClass extends VBox implements ViewMixin {
     public void layoutControls() {
         getChildren().addAll(classNameLabel);
         getChildren().add(new Separator());
-        getChildren().addAll(fieldLabels);
+        getChildren().addAll(UMLFieldPanes);
         getChildren().add(new Separator());
         getChildren().addAll(constructorLabels);
         getChildren().addAll(methodLabels);
