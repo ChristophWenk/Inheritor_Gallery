@@ -29,7 +29,6 @@ public class AppStarter extends Application {
         ColorPM colorPM = new ColorPM();
         DirectoryChooserPM directoryChooserPM = new DirectoryChooserPM();
 
-
         Parent rootPane = new ApplicationUI(primaryStage, directoryChooserPM, instanceStatePM, umlPM, instructionPM, colorPM);
 
         Scene scene = new Scene(rootPane);

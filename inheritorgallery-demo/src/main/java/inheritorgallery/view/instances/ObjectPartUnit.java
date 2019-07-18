@@ -1,30 +1,29 @@
 package inheritorgallery.view.instances;
 
-import inheritorgallery.view.SharedLayouter;
 import inheritorgallery.view.ViewMixin;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.StringBinding;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import presentationmodel.ColorPM;
 import presentationmodel.instance.ReferencePM;
 import presentationmodel.uml.ClassPM;
+import presentationmodel.uml.FieldPM;
+import presentationmodel.uml.MethodPM;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ObjectPartUnit extends VBox implements ViewMixin {
     private ArrayList<Label> fieldLabels;
-    private ArrayList<Label> methodLabels;
+    private ArrayList<HBox> methodHBoxes;
     private ArrayList<Label> referenceLabels;
-    private Label className;
+    private HBox classNameHBox;
     private ClassPM classPM;
     private ColorPM colorPM;
     private List<ReferencePM> referencesList;
-    private Separator separator1,separator2;
-    private SharedLayouter layouter;
+
 
     public ObjectPartUnit(ClassPM classPM, ColorPM colorPM, List<ReferencePM> referencesList){
         this.classPM = classPM;
@@ -39,25 +38,41 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
 
     @Override
     public void initializeControls() {
-        layouter = new SharedLayouter();
-        className = new Label(classPM.getName());
+        setAlignment(Pos.CENTER);
+        classNameHBox = new HBox(new Label(classPM.getName()));
+        classNameHBox.setAlignment(Pos.BASELINE_CENTER);
 
+        setAlignment(Pos.CENTER_LEFT);
         referenceLabels = new ArrayList<>();
-        methodLabels = new ArrayList<>();
+        methodHBoxes = new ArrayList<>();
         fieldLabels = new ArrayList<>();
-        separator1 = new Separator();
-        separator2 = new Separator();
 
-        for (int i = 0; i < classPM.getFields().size(); i++) {
-            fieldLabels.add(new Label());
-        }
-        for (int i = 0; i < classPM.getMethods().size(); i++) {
-            methodLabels.add(new Label());
+        for(FieldPM fieldPM : classPM.getFields())
+            fieldLabels.add(new Label(
+                    fieldPM.getName() + ": "+
+                    fieldPM.getValue()));
+
+
+        for (MethodPM methodPM : classPM.getMethods()) {
+
+            StringBuilder stringBuilder = new StringBuilder();
+            for(String inputParam : methodPM.getInputParameters()) stringBuilder.append(inputParam).append(", ");
+            String inputParams = stringBuilder.toString();
+            if(inputParams.length() > 0) inputParams = inputParams.substring(0, inputParams.length() - 2);
+            inputParams = "("+inputParams+")";
+
+            HBox methodHBox = new HBox(
+                    new Label(methodPM.getName() +  inputParams  ));
+            if(methodPM.getImplementedInClass() != null){
+                String color = colorPM.getColor(methodPM.getImplementedInClass());
+                methodHBox.setStyle("-fx-background-color:" + color);
+            }
+            methodHBoxes.add(methodHBox);
         }
 
         if ((referencesList != null) && !(referencesList.isEmpty())) {
-            for (int i = 0; i < referencesList.size(); i++) {
-                referenceLabels.add(new Label());
+            for (ReferencePM referencePM : referencesList) {
+                referenceLabels.add(new Label(referencePM.getReferenceName()));
             }
         }
     }
@@ -65,45 +80,17 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
     @Override
     public void layoutControls() {
         getChildren().addAll(referenceLabels);
-
-        getChildren().add(className);
-        getChildren().add(separator1);
+        getChildren().add(classNameHBox);
+        getChildren().add(new Separator());
 
         getChildren().addAll(fieldLabels);
-        getChildren().add(separator2);
+        getChildren().add(new Separator());
 
-        getChildren().addAll(methodLabels);
+        getChildren().addAll(methodHBoxes);
     }
 
     @Override
     public void setupBindings() {
-        if ((referencesList != null) && !(referencesList.isEmpty())) {
-            for (int i = 0; i < referencesList.size(); i++) {
-                ReferencePM referencePM = referencesList.get(i);
-                referenceLabels.get(i).textProperty().bind(referencePM.referenceNameProperty());
-                referenceLabels.get(i).getStyleClass().add("referenceLabel");
-            }
-        }
 
-        for (int i = 0; i < classPM.getFields().size(); i++) {
-            final int j = i;
-            StringBinding binding = Bindings.createStringBinding(
-                    () -> MessageFormat.format("{0}: {1}",
-                            classPM.getFields().get(j).getName(),
-                            classPM.getFields().get(j).getValue(),
-                            classPM.getFields().get(j).nameProperty(),
-                            classPM.getFields().get(j).valueProperty()));
-
-            fieldLabels.get(j).textProperty().bind(binding);
-        }
-
-        for (int i = 0; i < classPM.getMethods().size(); i++) {
-            layouter.setupMethodBindings(i,classPM,methodLabels);
-
-            if(classPM.getMethods().get(i).getImplementedInClass() != null) {
-                String color = colorPM.getColor(classPM.getMethods().get(i).getImplementedInClass());
-                methodLabels.get(i).setStyle("-fx-background-color:" + color);
-            }
-        }
     }
 }
