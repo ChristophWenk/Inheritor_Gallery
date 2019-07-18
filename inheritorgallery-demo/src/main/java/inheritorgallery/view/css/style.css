@@ -25,6 +25,7 @@
     -fx-border-radius: 20px;
     -fx-border-insets: 0;
     -fx-border-width: 5;
+    -fx-z-index: -1;
 }
 
 .referenceLabel {

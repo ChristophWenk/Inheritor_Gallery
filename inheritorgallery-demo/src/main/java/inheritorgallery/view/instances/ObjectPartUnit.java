@@ -4,8 +4,14 @@ import inheritorgallery.view.ViewMixin;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.Glow;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import presentationmodel.ColorPM;
 import presentationmodel.instance.ReferencePM;
 import presentationmodel.uml.ClassPM;
@@ -18,7 +24,7 @@ import java.util.List;
 public class ObjectPartUnit extends VBox implements ViewMixin {
     private ArrayList<Label> fieldLabels;
     private ArrayList<HBox> methodHBoxes;
-    private ArrayList<Label> referenceLabels;
+    private HBox referenceHBox;
     private HBox classNameHBox;
     private ClassPM classPM;
     private ColorPM colorPM;
@@ -43,7 +49,7 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
         classNameHBox.setAlignment(Pos.BASELINE_CENTER);
 
         setAlignment(Pos.CENTER_LEFT);
-        referenceLabels = new ArrayList<>();
+        referenceHBox = new HBox();
         methodHBoxes = new ArrayList<>();
         fieldLabels = new ArrayList<>();
 
@@ -71,16 +77,28 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
         }
 
         if ((referencesList != null) && !(referencesList.isEmpty())) {
-            for (ReferencePM referencePM : referencesList) {
-                referenceLabels.add(new Label(referencePM.getReferenceName()));
-            }
+            StringBuilder stringBuilderRef = new StringBuilder();
+            for(ReferencePM referencePM : referencesList)
+                stringBuilderRef.append(referencePM.getReferenceName()).append(", ");
+            String refsString = stringBuilderRef.toString();
+            if(refsString.length() > 0) refsString = refsString.substring(0, refsString.length() - 2);
+
+            Effect glow = new Glow(0.5);
+
+            Text text = new Text(refsString);
+            text.setFill(Color.WHITE);
+            text.setEffect(glow);
+            text.setFont(Font.font("Verdana", FontWeight.BOLD,12));
+
+            referenceHBox.setAlignment(Pos.CENTER);
+            referenceHBox.getChildren().add(text);
         }
     }
 
     @Override
     public void layoutControls() {
-        getChildren().addAll(referenceLabels);
         getChildren().add(classNameHBox);
+        getChildren().add(referenceHBox);
         getChildren().add(new Separator());
 
         getChildren().addAll(fieldLabels);
