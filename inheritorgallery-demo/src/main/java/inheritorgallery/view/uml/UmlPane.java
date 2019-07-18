@@ -2,7 +2,6 @@ package inheritorgallery.view.uml;
 
 import inheritorgallery.view.ViewMixin;
 import javafx.application.Platform;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
@@ -26,13 +25,10 @@ public class UmlPane extends StackPane implements ViewMixin {
 
     private ArrayList<UmlClass> umlClasses;
     private ArrayList<Line> lines;
-    private ArrayList<Polygon> triangles;
-    private ArrayList<HBox> hBoxes;
+    private ArrayList<Polygon> arrowHeadList;
+    private ArrayList<HBox> inheritanceLevelHBox;
     private VBox vBox;
     private Pane linePane;
-    private ScrollPane scrollPane;
-
-
 
     public UmlPane(UmlPM umlPM, ColorPM colorPM) {
         this.umlPM = umlPM;
@@ -45,11 +41,11 @@ public class UmlPane extends StackPane implements ViewMixin {
     public void initializeControls() {
         umlClasses = new ArrayList<>();
         lines = new ArrayList<>();
-        triangles = new ArrayList<>();
-        hBoxes = new ArrayList<>();
+        arrowHeadList = new ArrayList<>();
+        inheritanceLevelHBox = new ArrayList<>();
         vBox = new VBox(40);
         linePane = new Pane();
-        scrollPane = new ScrollPane();
+
 
         for(ClassPM classPM : umlPM.getClasses()){
             UmlClass umlClass = new UmlClass(classPM);
@@ -60,10 +56,10 @@ public class UmlPane extends StackPane implements ViewMixin {
 
         for(EdgePM ignored : umlPM.getEdges()){
             lines.add(new Line());
-            triangles.add(new Polygon());
+            arrowHeadList.add(new Polygon());
         }
         for (int i = 0; i <= umlPM.getInheritanceDeepness(); i++) {
-            hBoxes.add(new HBox(20));
+            inheritanceLevelHBox.add(new HBox(20));
         }
     }
 
@@ -71,11 +67,11 @@ public class UmlPane extends StackPane implements ViewMixin {
     public void layoutControls() {
 
         for (int i = 0; i < umlPM.getClasses().size(); i++) {
-            hBoxes.get(umlPM.getClasses().get(i).getInheritanceLevel())
+            inheritanceLevelHBox.get(umlPM.getClasses().get(i).getInheritanceLevel())
                     .getChildren()
                     .add(umlClasses.get(i));
         }
-        vBox.getChildren().addAll(hBoxes);
+        vBox.getChildren().addAll(inheritanceLevelHBox);
 
         getChildren().addAll(vBox);
 
@@ -105,12 +101,12 @@ public class UmlPane extends StackPane implements ViewMixin {
                     }
 
                     //add arrow head to line
-                    triangles.get(i).getPoints().addAll(
+                    arrowHeadList.get(i).getPoints().addAll(
                             getArrowHeadForLine(lines.get(i))
                     );
 
                     linePane.getChildren().add(lines.get(i));
-                    linePane.getChildren().add(triangles.get(i));
+                    linePane.getChildren().add(arrowHeadList.get(i));
 
 
                 } else {
@@ -122,34 +118,25 @@ public class UmlPane extends StackPane implements ViewMixin {
 
     }
 
-    @Override
-    public void setupBindings() {
-
-    }
-
-
     private Double[] getArrowHeadForLine(Line line){
-        //adapted from https://stackoverflow.com/questions/41353685/how-to-draw-arrow-javafx-pane
 
-        double ex = line.getEndX();
-        double ey = line.getEndY();
-        double sx = line.getStartX();
-        double sy = line.getStartY();
+        double endX = line.getEndX();
+        double endY = line.getEndY();
+        double startX = line.getStartX();
+        double startY = line.getStartY();
 
-        double factor = 20 / Math.hypot(sx-ex, sy-ey);
-        double factorO = 10 / Math.hypot(sx-ex, sy-ey);
+        double factor = 20 / Math.hypot(startX-endX, startY-endY);
+        double factorO = 10 / Math.hypot(startX-endX, startY-endY);
 
         // part in direction of main line
-        double dx = (sx - ex) * factor;
-        double dy = (sy - ey) * factor;
+        double dx = (startX - endX) * factor;
+        double dy = (startY - endY) * factor;
 
         // part ortogonal to main line
-        double ox = (sx - ex) * factorO;
-        double oy = (sy - ey) * factorO;
+        double ortX = (startX - endX) * factorO;
+        double ortY = (startY - endY) * factorO;
 
-        Double[] arr = { ex, ey,  ex + dx - oy,ey + dy + ox ,  ex + dx + oy,ey + dy - ox};
-
-        return arr;
+        return new Double[]{ endX, endY,  endX + dx - ortY,endY + dy + ortX ,  endX + dx + ortY,endY + dy - ortX};
     }
 
 }
