@@ -91,6 +91,7 @@ public class JShellReflection {
     private ClassDTO getClassDTOForClass(Class c){
 
         return new ClassDTO(
+                Modifier.isAbstract(c.getModifiers()),
                 c.isInterface(),
                 c.getCanonicalName(),
                 c.getSimpleName(),

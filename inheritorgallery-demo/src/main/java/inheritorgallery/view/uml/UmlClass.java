@@ -1,86 +1,84 @@
 package inheritorgallery.view.uml;
 
-
-import inheritorgallery.view.SharedLayouter;
 import inheritorgallery.view.ViewMixin;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import presentationmodel.uml.ClassPM;
+import presentationmodel.uml.ConstructorPM;
+import presentationmodel.uml.FieldPM;
+import presentationmodel.uml.MethodPM;
 
 import java.util.ArrayList;
 
 
 public class UmlClass extends VBox implements ViewMixin {
     private final ClassPM classPM;
-    private Label classNameLabel;
-    private ArrayList<Label> fieldLabels, constructorLabels, methodLabels;
-    private Separator separator1,separator2;
-    private SharedLayouter layouter;
+    private ArrayList<UMLFieldPane> umlFieldPanes;
+    private ArrayList<UMLConstructorPane> umlConstructorPanes;
+    private ArrayList<UMLMethodPane> umlMethodPanes;
+    private HBox classNameHBox;
 
-    public UmlClass(ClassPM classPM){
+    UmlClass(ClassPM classPM){
         this.classPM = classPM;
         this.setId(classPM.getName());
         this.getStyleClass().add("plainBorder");
+        this.setMinWidth(200);
         init();
     }
 
     @Override
     public void initializeControls() {
-        layouter = new SharedLayouter();
-        classNameLabel = new Label();
-        classNameLabel.setId("classNameLabel");
 
-        fieldLabels = new ArrayList<>();
-        constructorLabels = new ArrayList<>();
-        methodLabels = new ArrayList<>();
-        separator1 = new Separator();
-        separator2 = new Separator();
+        StackPane classIconStackPane =
+                new StackPane(
+                        new ImageView(
+                                classPM.isIsInterface() ?
+                                        new Image("icons/interface.png",0, 17, true, false) :
+                                        new Image("icons/class.png", 0, 20, true, false)
+                        ));
+        classIconStackPane.setPadding(new Insets(2,2,2,2));
 
-        for (int i = 0; i < classPM.getFields().size(); i++) {
-            fieldLabels.add(new Label());
-        }
-        for (int i = 0; i < classPM.getConstructors().size(); i++) {
-            constructorLabels.add(new Label());
-        }
-        for (int i = 0; i < classPM.getMethods().size(); i++) {
-            methodLabels.add(new Label());
-        }
+        classNameHBox = new HBox(
+                classIconStackPane,
+                classPM.isIsAbstract() ? new Label(" <abstract> ") : new Label(""),
+                new Label(classPM.getName()));
+        classNameHBox.setAlignment(Pos.CENTER);
+
+
+
+        umlFieldPanes = new ArrayList<>();
+        umlConstructorPanes = new ArrayList<>();
+        umlMethodPanes = new ArrayList<>();
+
+        for(FieldPM fieldPM : classPM.getFields())
+            umlFieldPanes.add(new UMLFieldPane(fieldPM));
+
+        for(ConstructorPM constructorPM : classPM.getConstructors())
+            umlConstructorPanes.add(new UMLConstructorPane(constructorPM));
+
+        for(MethodPM methodPM : classPM.getMethods())
+            umlMethodPanes.add(new UMLMethodPane(methodPM));
     }
 
     @Override
     public void layoutControls() {
-        getChildren().addAll(classNameLabel,separator1);
-
-        for (int i = 0; i < classPM.getFields().size(); i++) {
-            getChildren().add(fieldLabels.get(i));
-        }
-        getChildren().add(separator2);
-        for (int i = 0; i < classPM.getConstructors().size(); i++) {
-            getChildren().add(constructorLabels.get(i));
-        }
-        for (int i = 0; i < classPM.getMethods().size(); i++) {
-            getChildren().add(methodLabels.get(i));
-        }
-        this.setMinWidth(100);
+        getChildren().addAll(classNameHBox);
+       getChildren().add(new Separator());
+        getChildren().addAll(umlFieldPanes);
+        getChildren().add(new Separator());
+        getChildren().addAll(umlConstructorPanes);
+        getChildren().addAll(umlMethodPanes);
     }
 
     @Override
     public void setupBindings() {
-        classNameLabel.textProperty().bind(classPM.nameProperty());
 
-        for (int i = 0; i < classPM.getFields().size(); i++) {
-            fieldLabels.get(i).textProperty()
-                    .bind(classPM.getFields().get(i).nameProperty());
-        }
-
-        for (int i = 0; i < classPM.getConstructors().size(); i++) {
-            constructorLabels.get(i).textProperty()
-                    .bind(classPM.getConstructors().get(i).nameProperty());
-        }
-
-        for (int i = 0; i < classPM.getMethods().size(); i++) {
-            layouter.setupMethodBindings(i,classPM,methodLabels);
-        }
     }
 }

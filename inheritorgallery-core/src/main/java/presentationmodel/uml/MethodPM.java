@@ -9,6 +9,7 @@ import java.util.List;
 public class MethodPM {
     private final ObjectProperty<ClassPM> declaredInClass = new SimpleObjectProperty<>();
     private final SimpleBooleanProperty lastExecuted = new SimpleBooleanProperty(false);
+    private final SimpleStringProperty lastExecutedAsString = new SimpleStringProperty("");
     private final StringProperty modifier = new SimpleStringProperty();
     private final StringProperty returnType = new SimpleStringProperty();
     private final StringProperty name = new SimpleStringProperty();
@@ -58,6 +59,20 @@ public class MethodPM {
 
     public void setLastExecuted(boolean lastExecuted) {
         this.lastExecuted.set(lastExecuted);
+        if(getLastExecuted()) setLastExecutedAsString("-fx-background-color: rgba(255, 19, 68, 0.99);");
+        else setLastExecutedAsString("");
+    }
+
+    public String getLastExecutedAsString() {
+        return lastExecutedAsString.get();
+    }
+
+    public SimpleStringProperty lastExecutedAsStringProperty() {
+        return lastExecutedAsString;
+    }
+
+    public void setLastExecutedAsString(String lastExecutedAsString) {
+        this.lastExecutedAsString.set(lastExecutedAsString);
     }
 
     public void setName(String name) {

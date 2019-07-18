@@ -16,6 +16,7 @@ public class ClassPM {
 
     private static Logger logger = LoggerFactory.getLogger(ClassPM.class);
 
+    private final BooleanProperty isAbstract = new SimpleBooleanProperty();
     private final IntegerProperty inheritanceLevel = new SimpleIntegerProperty();
     private final BooleanProperty isInterface = new SimpleBooleanProperty();
     private final StringProperty fullClassName = new SimpleStringProperty();
@@ -42,6 +43,7 @@ public class ClassPM {
         List<ClassPM> implementedInterfaces = new ArrayList<>(getImplementedInterfaces());
 
         return new ClassPM(
+                this.isAbstract.getValue(),
                 this.isInterface.getValue(),
                 this.fullClassName.getValue(),
                 this.name.getValue(),
@@ -57,6 +59,7 @@ public class ClassPM {
 
 
     public ClassPM(
+            Boolean isAbstract,
             Boolean isInterface,
             String fullClassName,
             String name,
@@ -68,6 +71,7 @@ public class ClassPM {
             List<ConstructorDTO> constructors,
             List<MethodDTO> methods) {
 
+        setIsAbstract(isAbstract);
         setIsInterface(isInterface);
         setFullClassName(fullClassName);
         setName(name);
@@ -114,6 +118,18 @@ public class ClassPM {
 
     public void setInheritanceLevel(int inheritanceLevel) {
         this.inheritanceLevel.set(inheritanceLevel);
+    }
+
+    public boolean isIsAbstract() {
+        return isAbstract.get();
+    }
+
+    public BooleanProperty isAbstractProperty() {
+        return isAbstract;
+    }
+
+    public void setIsAbstract(boolean isAbstract) {
+        this.isAbstract.set(isAbstract);
     }
 
     public boolean isIsInterface() {

@@ -29,7 +29,6 @@ public class AppStarter extends Application {
         ColorPM colorPM = new ColorPM();
         DirectoryChooserPM directoryChooserPM = new DirectoryChooserPM();
 
-
         Parent rootPane = new ApplicationUI(primaryStage, directoryChooserPM, instanceStatePM, umlPM, instructionPM, colorPM);
 
         Scene scene = new Scene(rootPane);
@@ -38,7 +37,7 @@ public class AppStarter extends Application {
         scene.getStylesheets().add(stylesheet);
 
         primaryStage.setTitle("Inheritor Gallery");
-        primaryStage.getIcons().add(new Image(AppStarter.class.getResourceAsStream("view/images/constructor.png")));
+        primaryStage.getIcons().add(new Image("icons/constructor.png"));
         primaryStage.setScene(scene);
         primaryStage.setWidth(1280);
         primaryStage.setHeight(640);

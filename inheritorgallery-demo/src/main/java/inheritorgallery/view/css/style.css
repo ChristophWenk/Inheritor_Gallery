@@ -25,6 +25,7 @@
     -fx-border-radius: 20px;
     -fx-border-insets: 0;
     -fx-border-width: 5;
+    -fx-z-index: -1;
 }
 
 .referenceLabel {
@@ -35,6 +36,7 @@
 .plainBorder {
     -fx-border-color: rgba(0, 0, 0, 0.99);
     -fx-border-width: 2;
+    -fx-background-color: rgba(255, 19, 68, 0.99);
 }
 .implementsLine {
     -fx-stroke-width: 3;

@@ -29,6 +29,7 @@ public class UmlPM {
 
         for(ClassDTO c : jshellService.getClassDTOs()){
             classes.add(new ClassPM(
+                    c.isAbstract(),
                     c.isInterface(),
                     c.getFullClassName(),
                     c.getSimpleClassName(),
