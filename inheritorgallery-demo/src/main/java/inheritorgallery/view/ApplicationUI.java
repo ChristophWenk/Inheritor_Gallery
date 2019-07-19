@@ -3,6 +3,7 @@ package inheritorgallery.view;
 import inheritorgallery.view.instances.InstancePane;
 import inheritorgallery.view.uml.UmlPane;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -14,7 +15,7 @@ import presentationmodel.instance.InstanceStatePM;
 import presentationmodel.instruction.InstructionPM;
 import presentationmodel.uml.UmlPM;
 
-public class ApplicationUI extends BorderPane implements ViewMixin {
+public class ApplicationUI extends SplitPane implements ViewMixin {
 
     private static Logger logger = LoggerFactory.getLogger(ApplicationUI.class);
 
@@ -45,30 +46,25 @@ public class ApplicationUI extends BorderPane implements ViewMixin {
     public void initializeControls() {
         // Initialize panes
         leftPane = new LeftPane(primaryStage,directoryChooserPM, instanceStatePM, instructionPM);
-        //leftPane.setMaxWidth(300);
         instancePane = new InstancePane(instanceStatePM, colorPM);
         umlPane = new UmlPane(umlPM, colorPM);
-        //umlPane.setMaxWidth(300);
     }
 
     @Override
     public void layoutControls() {
-        // Set IDs
-        leftPane.setId("leftPane");
-        instancePane.setId("instancePane");
-        umlPane.setId("umlPane");
-
         ScrollPane umlScrollPane = new ScrollPane(umlPane);
         umlScrollPane.setPannable(true);
-        umlScrollPane.setPrefWidth(400);
 
         ScrollPane instanceScrollPane = new ScrollPane(instancePane);
         instanceScrollPane.setFitToWidth(true);
 
-        // Layouts
-        this.setLeft(leftPane);
-        this.setCenter(instanceScrollPane);
-        this.setRight(umlScrollPane);
+
+        getItems().addAll(
+                leftPane,
+                new SplitPane(instanceScrollPane,umlScrollPane)
+        );
+        setDividerPosition(0,0.15);
+
     }
 
     @Override

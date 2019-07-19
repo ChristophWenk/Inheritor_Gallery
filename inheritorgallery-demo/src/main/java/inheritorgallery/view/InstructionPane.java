@@ -30,9 +30,7 @@ public class InstructionPane extends GridPane implements ViewMixin{
 
     @Override
     public void layoutControls() {
-        // Set IDs
-        instructionTextArea.setId("instructionTextArea");
-        webView.setId("browser");
+        instructionTextArea.setPrefWidth(200);
 
         // Layout
         webView.getEngine().loadContent(instructionPM.getInstructionText());
