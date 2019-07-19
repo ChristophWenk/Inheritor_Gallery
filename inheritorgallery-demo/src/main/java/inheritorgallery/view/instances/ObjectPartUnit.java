@@ -95,7 +95,10 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
             text.setEffect(glow);
             text.setFont(Font.font("Verdana", FontWeight.BOLD,12));
 
+
             referenceHBox.setAlignment(Pos.CENTER);
+            referenceHBox.setTranslateY(-2);
+            referenceHBox.toFront();
             referenceHBox.getChildren().add(text);
         }
     }

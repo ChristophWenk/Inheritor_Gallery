@@ -15,26 +15,26 @@ class ColorPMTest {
 
     @Test
     void testGetColor() {
-        assertEquals("#EF5350",colorPM.getColor("input.Fahrzeug"));
-        assertEquals("#EF5350",colorPM.getColor("input.Fahrzeug"));
+        assertEquals("#8EBA43",colorPM.getColor("input.Fahrzeug"));
+        assertEquals("#8EBA43",colorPM.getColor("input.Fahrzeug"));
 
     }
 
     @Test
     void testGetNextColor() {
-        assertEquals("#EF5350",colorPM.getNextColor());
+        assertEquals("#8EBA43",colorPM.getNextColor());
     }
 
     @Test
     void testMapColor() {
         colorPM.mapColor("input.Fahrzeug");
-        assertEquals("#EF5350",colorPM.getObjectColorMap().get("input.Fahrzeug"));
+        assertEquals("#8EBA43",colorPM.getObjectColorMap().get("input.Fahrzeug"));
     }
 
     @Test
     void testGetObjectColorMap() {
         colorPM.mapColor("input.Fahrzeug");
-        assertEquals("#EF5350",colorPM.getObjectColorMap().get("input.Fahrzeug"));
+        assertEquals("#8EBA43",colorPM.getObjectColorMap().get("input.Fahrzeug"));
         colorPM.mapColor("input.Fahrzeug");
         assertEquals(1,colorPM.getObjectColorMap().size());
         colorPM.mapColor("input.Auto");
@@ -43,6 +43,6 @@ class ColorPMTest {
 
     @Test
     void testGetColorList() {
-        assertEquals("#66BB6A",colorPM.getColorList().get(9));
+        assertEquals("#5C6BC0",colorPM.getColorList().get(9));
     }
 }
