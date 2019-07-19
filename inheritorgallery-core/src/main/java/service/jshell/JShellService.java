@@ -1,11 +1,11 @@
 package service.jshell;
 
 import exceptions.InvalidCodeException;
-import jdk.jshell.*;
-import jshellExtensions.JShellReflection;
+import jdk.jshell.JShell;
+import jdk.jshell.SnippetEvent;
+import jdk.jshell.VarSnippet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import service.FileService;
 import service.jshell.dto.ClassDTO;
 import service.jshell.dto.FieldDTO;
 import service.jshell.dto.ObjectDTO;
@@ -13,9 +13,7 @@ import service.jshell.dto.ReferenceDTO;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -108,7 +106,6 @@ public class JShellService {
             logger.error("User code could not be interpreted by JShell: " + code);
             throw new InvalidCodeException("Code could not be interpreted by JShell. Please verify the statement.");
         }
-        //ToDo: When redeclaring an instance multiple snippets are created. Add Error Handling
         return snippetEventsList.get(0);
     }
 
@@ -118,7 +115,7 @@ public class JShellService {
         try {
             snippetEvent = jShellService.evaluateCode("jshellReflection.getClassDTOsSerialized();");
         } catch (InvalidCodeException e) {
-            e.printStackTrace();
+            logger.error("There was a problem while retrieving ClassDTOs from JShell.", e);
         }
 
         //snippetEvent.value() return the serialized String with ""
@@ -129,11 +126,11 @@ public class JShellService {
 
         // deserialize the object
         try {
-            byte [] data = Base64.getDecoder().decode( classDTOsSerialized );
-            ObjectInputStream ois = new ObjectInputStream( new ByteArrayInputStream(  data ) );
+            byte [] data = Base64.getDecoder().decode(classDTOsSerialized);
+            ObjectInputStream ois = new ObjectInputStream( new ByteArrayInputStream(data) );
             classDTOs  = (List<ClassDTO>) ois.readObject();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Could not deserialize object: " + classDTOsSerialized, e);
         }
 
         return classDTOs;
@@ -160,7 +157,6 @@ public class JShellService {
                 if(objectDTOList.stream()
                 .noneMatch(o -> o.getObjectId().equals(objectDTO.getObjectId())))
                 {  objectDTOList.add(objectDTO); }
-
             }
         }
         return objectDTOList;
@@ -228,7 +224,7 @@ public class JShellService {
         try {
             snippetEvent = jShellService.evaluateCode(input);
         } catch (InvalidCodeException e) {
-            logger.debug("No package name found for reference: " + reference + ". It might be a primitive type.", e);
+            logger.error("No package name found for reference: " + reference + ". It might be a primitive type.", e);
             return "InvalidPackageName";
         }
 
