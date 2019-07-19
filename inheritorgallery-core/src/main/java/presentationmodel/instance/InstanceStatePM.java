@@ -7,14 +7,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import presentationmodel.uml.ClassPM;
 import presentationmodel.uml.MethodPM;
 import presentationmodel.uml.UmlPM;
 import service.jshell.JShellService;
 import service.jshell.dto.ObjectDTO;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,6 +35,7 @@ public class InstanceStatePM {
         try {
             String output = jShellService.getOutputAsString(jShellService.evaluateCode(input));
             commandHistory.addAll(input,output);
+            jShellService.checkforDeletion();
             updateInstances();
             updateLastExecutedMethod(input);
         } catch (InvalidCodeException e) {

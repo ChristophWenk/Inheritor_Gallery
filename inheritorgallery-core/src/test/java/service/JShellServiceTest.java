@@ -1,12 +1,13 @@
 package service;
 
 import exceptions.InvalidCodeException;
+import jdk.jshell.Snippet;
 import jdk.jshell.SnippetEvent;
 import jdk.jshell.VarSnippet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import service.jshell.dto.FieldDTO;
 import service.jshell.JShellService;
+import service.jshell.dto.FieldDTO;
 import service.jshell.dto.ObjectDTO;
 
 import java.util.List;
@@ -398,4 +399,33 @@ class JShellServiceTest {
         assertEquals("input",jShellService.getPackageForReference("i1"));
     }
 
+    @Test
+    void testCheckforDeletion() {
+        //given
+        String input1 = "Item i1 = new Fahrzeug(\"tesla\", 20);";
+        String input2 = "i1 = null;";
+        Snippet snippet = null;
+        Snippet deleteSnippet = null;
+
+        //when/then
+        try {
+            SnippetEvent snippetEvent = jShellService.evaluateCode(input1);
+            snippet = snippetEvent.snippet();
+            List<ObjectDTO> list1 = jShellService.getObjectDTOs();
+            assertFalse(list1.isEmpty());
+
+            SnippetEvent deleteEvent = jShellService.evaluateCode(input2);
+            deleteSnippet = deleteEvent.snippet();
+            jShellService.checkforDeletion();
+            List<ObjectDTO> list2 = jShellService.getObjectDTOs();
+            assertTrue(list2.isEmpty());
+
+            SnippetEvent snippetEvent2 = jShellService.evaluateCode(input1);
+            snippet = snippetEvent.snippet();
+            List<ObjectDTO> list3 = jShellService.getObjectDTOs();
+            assertFalse(list1.isEmpty());
+        } catch (InvalidCodeException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -2,6 +2,7 @@ package service.jshell;
 
 import exceptions.InvalidCodeException;
 import jdk.jshell.JShell;
+import jdk.jshell.Snippet;
 import jdk.jshell.SnippetEvent;
 import jdk.jshell.VarSnippet;
 import org.slf4j.Logger;
@@ -18,6 +19,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -142,7 +144,6 @@ public class JShellService {
         String refName;
 
         List<VarSnippet> variablesList = jshell.variables().collect(Collectors.toList());
-
         for(VarSnippet varSnippet : variablesList ){
             refName = getRefName(varSnippet);
 
@@ -265,5 +266,33 @@ public class JShellService {
     public void reset() {
         jshell.snippets().forEach(snippet -> jshell.drop(snippet));
         importClasses();
+    }
+
+    /**
+     * Check if there exists a reference declaration that needs to be deleted.
+     */
+    public void checkforDeletion() {
+        String isNullPattern = ".*=.*null;";
+        String deleteRefName = "";
+        String refName = "";
+        Snippet nullSnippet = null;
+
+        List<Snippet> snippetList = jshell.snippets().collect(Collectors.toList());
+        for (Snippet snippet : snippetList) {
+            if (Pattern.matches(isNullPattern,snippet.source()) && jshell.status(snippet).name().equals("VALID")) {
+                String parts[] = snippet.source().split("=");
+                deleteRefName = parts[0].replace(" ","");
+                nullSnippet = snippet;
             }
+        }
+
+        List<VarSnippet> variablesList = jshell.variables().collect(Collectors.toList());
+        for(VarSnippet varSnippet : variablesList ) {
+            refName = getRefName(varSnippet);
+            if (refName.equals(deleteRefName)) {
+                jshell.drop(varSnippet);
+                jshell.drop(nullSnippet);
+            }
+        }
+    }
 }
