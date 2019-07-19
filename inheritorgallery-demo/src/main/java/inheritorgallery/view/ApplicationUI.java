@@ -45,10 +45,10 @@ public class ApplicationUI extends BorderPane implements ViewMixin {
     public void initializeControls() {
         // Initialize panes
         leftPane = new LeftPane(primaryStage,directoryChooserPM, instanceStatePM, instructionPM);
-        leftPane.setMaxWidth(300);
+        //leftPane.setMaxWidth(300);
         instancePane = new InstancePane(instanceStatePM, colorPM);
         umlPane = new UmlPane(umlPM, colorPM);
-        umlPane.setMaxWidth(300);
+        //umlPane.setMaxWidth(300);
     }
 
     @Override
@@ -60,11 +60,14 @@ public class ApplicationUI extends BorderPane implements ViewMixin {
 
         ScrollPane umlScrollPane = new ScrollPane(umlPane);
         umlScrollPane.setPannable(true);
-        umlScrollPane.setPrefWidth(600);
+        umlScrollPane.setPrefWidth(400);
+
+        ScrollPane instanceScrollPane = new ScrollPane(instancePane);
+        instanceScrollPane.setFitToWidth(true);
 
         // Layouts
         this.setLeft(leftPane);
-        this.setCenter(instancePane);
+        this.setCenter(instanceScrollPane);
         this.setRight(umlScrollPane);
     }
 

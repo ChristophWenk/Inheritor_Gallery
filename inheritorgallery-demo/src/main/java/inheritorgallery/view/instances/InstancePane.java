@@ -47,7 +47,7 @@ public class InstancePane extends FlowPane implements ViewMixin {
             }
         }
 
-        this.setPadding(new Insets(0, 10, 20, 10));
+        this.setPadding(new Insets(5, 10, 20, 10));
         this.setHgap(20.0);
         this.setVgap(20.0);
 
