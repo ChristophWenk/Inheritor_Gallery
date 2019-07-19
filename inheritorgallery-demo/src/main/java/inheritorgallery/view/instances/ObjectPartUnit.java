@@ -1,6 +1,7 @@
 package inheritorgallery.view.instances;
 
 import inheritorgallery.view.ViewMixin;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
@@ -67,11 +68,15 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
             if(inputParams.length() > 0) inputParams = inputParams.substring(0, inputParams.length() - 2);
             inputParams = "("+inputParams+")";
 
-            HBox methodHBox = new HBox(
-                    new Label(methodPM.getName() +  inputParams  ));
+            Label methodLabel = new Label(methodPM.getName() +  inputParams );
+            HBox methodHBox = new HBox(methodLabel);
+
             if(methodPM.getImplementedInClass() != null){
                 String color = colorPM.getColor(methodPM.getImplementedInClass());
-                methodHBox.setStyle("-fx-background-color:" + color);
+                methodLabel.setStyle("-fx-background-color:" + color);
+                // make method box of override method a bit higher,
+                // so that "last-executed-method" background would be vilible
+                methodHBox.setPadding(new Insets(2,0,2,2));
             }
             methodHBoxes.add(methodHBox);
         }
@@ -97,8 +102,8 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
 
     @Override
     public void layoutControls() {
-        getChildren().add(classNameHBox);
         getChildren().add(referenceHBox);
+        getChildren().add(classNameHBox);
         getChildren().add(new Separator());
 
         getChildren().addAll(fieldLabels);
@@ -109,6 +114,10 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
 
     @Override
     public void setupBindings() {
+        for(int i = 0; classPM.getMethods().size() > i; i++){
+            methodHBoxes.get(i).styleProperty()
+                    .bind(classPM.getMethods().get(i).lastExecutedAsStringProperty());
+        }
 
     }
 }
