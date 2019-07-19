@@ -19,6 +19,11 @@ public class ColorPM {
      * Create the ColorPM
      */
     public ColorPM() {
+        colorList.add("#8EBA43");
+        colorList.add("#92AAC7");
+        colorList.add("#F9DC24");
+        colorList.add("#E59D5C");
+        colorList.add("#CDCDC0");
         colorList.add("#EF5350");
         colorList.add("#EC407A");
         colorList.add("#AB47BC");

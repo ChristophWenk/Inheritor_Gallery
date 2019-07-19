@@ -3,7 +3,12 @@ package inheritorgallery.view.instances;
 
 import inheritorgallery.view.ViewMixin;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Glow;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +17,7 @@ import presentationmodel.instance.ObjectPM;
 import presentationmodel.instance.ReferencePM;
 import presentationmodel.uml.ClassPM;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,7 +55,11 @@ public class ObjectUnit extends VBox implements ViewMixin {
                     .collect(Collectors.toList());
 
             objectPartUnit = new ObjectPartUnit(classPM, colorPM, referencesList);
+            Pane refBorderClass = new Pane();
+
             VBox currentClassVBox = new VBox(objectPartUnit);
+            StackPane objectPartUnitStackPane = new StackPane(currentClassVBox,refBorderClass);
+
 
             if (classPM.getImplementedInterfaces().size() > 0)
                 currentClassVBox.setPrefWidth(partWidth * classPM.getImplementedInterfaces().size());
@@ -57,14 +67,14 @@ public class ObjectUnit extends VBox implements ViewMixin {
                 currentClassVBox.setPrefWidth(partWidth);
 
             if (!referencesList.isEmpty()) {
-                currentClassVBox.getStyleClass().add("referenceBorder");
+                refBorderClass.getStyleClass().add("referenceBorder");
             }
 
-            HBox superClassAndInterfacesHBox = new HBox(currentClassVBox);
+            HBox superClassAndInterfacesHBox = new HBox(objectPartUnitStackPane);
 
             // add interfaces if present
             if(implementedInterfaces.size() > 0){
-                List<VBox> interfaceVBoxList = new ArrayList<>();
+                List<StackPane> interfaceVBoxList = new ArrayList<>();
 
                 for (int i = 0; implementedInterfaces.size() > i; i++){
                     String currentSimpleClassNameOfInterface  = implementedInterfaces.get(i).getName();
@@ -74,11 +84,15 @@ public class ObjectUnit extends VBox implements ViewMixin {
                     objectPartUnit = new ObjectPartUnit(implementedInterfaces.get(i), colorPM, referencesList);
 
                     VBox currentInterfaceVBox = new VBox(objectPartUnit);
+                    Pane refBorderInterface= new Pane();
+
+                    StackPane currentInterfaceStackPane = new StackPane(currentInterfaceVBox,refBorderInterface);
+
                     currentInterfaceVBox.setPrefWidth(partWidth);
                     if (!referencesList.isEmpty()) {
-                        currentInterfaceVBox.getStyleClass().add("referenceBorder");
+                       refBorderInterface.getStyleClass().add("referenceBorder");
                     }
-                    interfaceVBoxList.add(currentInterfaceVBox);
+                    interfaceVBoxList.add(currentInterfaceStackPane);
                 }
 
                 superClassAndInterfacesHBox.getChildren().addAll(interfaceVBoxList);
