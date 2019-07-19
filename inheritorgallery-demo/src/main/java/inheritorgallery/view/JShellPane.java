@@ -25,7 +25,6 @@ public class JShellPane extends BorderPane implements ViewMixin {
 
     private TextField jshellInputTextField;
     private ListView<String> commandHistoryList;
-    private Button submitButton;
 
     public JShellPane(InstanceStatePM instanceStatePM) {
         this.instanceStatePM = instanceStatePM;
@@ -37,26 +36,19 @@ public class JShellPane extends BorderPane implements ViewMixin {
     public void initializeControls() {
         inputElements = new HBox();
         jshellInputTextField = new TextField();
-        submitButton = new Button();
 
         commandHistoryList = new ListView<>(instanceStatePM.getCommandHistory());
     }
 
     @Override
     public void layoutControls() {
-        // Set IDs
-        commandHistoryList.setId("jshellOutputTextArea");
-        jshellInputTextField.setId("jshellInputTextField");
-        submitButton.setId("submitButton");
-
         // Layout
-        jshellInputTextField.setText("Enter a Java command...");
-        submitButton.setText("Senden");
+        jshellInputTextField.setPromptText("Enter a Java command...");
+        jshellInputTextField.setPrefWidth(400);
 
-        inputElements.setPadding(new Insets(10,10,10,0));
-        inputElements.setSpacing(10);
+        inputElements.setPadding(new Insets(10,2,10,2));
 
-        inputElements.getChildren().addAll(jshellInputTextField,submitButton);
+        inputElements.getChildren().addAll(jshellInputTextField);
 
         BorderPane.setMargin(commandHistoryList,new Insets(10,0,0,0));
         BorderPane.setAlignment(commandHistoryList, Pos.CENTER_LEFT);
@@ -68,8 +60,6 @@ public class JShellPane extends BorderPane implements ViewMixin {
 
     @Override
     public void setupEventHandlers() {
-        submitButton.setOnAction(event ->
-                instanceStatePM.setJShellInput(jshellInputTextField.getText()));
         jshellInputTextField.setOnKeyReleased(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 instanceStatePM.setJShellInput((jshellInputTextField.getText()));
