@@ -1,16 +1,13 @@
 package presentationmodel;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.stage.FileChooser;
 import presentationmodel.instance.InstanceStatePM;
 import presentationmodel.uml.UmlPM;
 import service.jshell.JShellService;
 
-import java.nio.file.Path;
-
 public class FileChooserPM {
-    private final ObjectProperty<Path> path = new SimpleObjectProperty<>();
+    private final SimpleStringProperty pathAsString = new SimpleStringProperty();
     private FileChooser fileChooser;
     private JShellService jShellService = JShellService.getInstance();
     private UmlPM umlPM;
@@ -28,7 +25,6 @@ public class FileChooserPM {
 
     private void propagatePath(){
         jShellService.updateImports(getPath());
-        //todo: update UML + Instruction
         umlPM.init();
         instanceStatePM.setJShellInput(";");
     }
@@ -40,17 +36,12 @@ public class FileChooserPM {
 
     }
 
-
-    public Path getPath() {
-        return path.get();
+    public String getPath() {
+        return pathAsString.get();
     }
 
-    public ObjectProperty<Path> pathProperty() {
-        return path;
-    }
-
-    public void setPath(Path path) {
-        this.path.set(path);
+    public void setPathAsString(String path) {
+        this.pathAsString.set(path);
         propagatePath();
     }
 }

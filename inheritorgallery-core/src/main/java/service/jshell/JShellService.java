@@ -14,13 +14,17 @@ import service.jshell.dto.ReferenceDTO;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.nio.file.Path;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 /**
  * Singleton JShellService.
@@ -55,25 +59,16 @@ public class JShellService {
         importClasses("input");
     }
 
-    public void updateImports(Path path){
-//        FileService fileService = new FileService();
-//        jshell.addToClasspath("F:\\Downloads\\jarTest2\\build\\libs\\fhnw-1.0-SNAPSHOT.jar");
-//        List<SnippetEvent> eventList = jshell.eval("import "+"b"+".*;");
-
-//        logger.info(path.toString());
-//        jshell.addToClasspath(path.toString());
-//        String packageName = path.getFileName().toString();
-//        logger.info(packageName);
-//        List<SnippetEvent> eventList =  jshell.eval("import "+packageName+".*;");
-//        jshell.eval("JShellReflection jshellReflection = new JShellReflection(\""+packageName+"\");");
+    public void updateImports(String path){
+        String packageNameFromJar = getPackageFromJar(path);
+        importClasses(packageNameFromJar);
     }
 
 
 
     private void importClasses(String packageName){
-        setPackageName("input");
+        setPackageName(packageName);
         jshell.addToClasspath("F:\\Downloads\\jarTest2\\build\\libs\\fhnw-1.0-SNAPSHOT.jar");
-        jshell.eval("import "+"b"+".*;");
         // Classes need to be explicitly imported to JShell similarly as if we wanted to import one into a class.
         jshell.eval("import "+getPackageName()+".*;");
         jshell.eval("import jshellExtensions.*;");
@@ -306,6 +301,41 @@ public class JShellService {
             }
         }
     }
+
+    private String getPackageFromJar(String jarPath) {
+        logger.info(jarPath);
+        URL jar = null;
+        try {
+            jar = new URL("file:/"+jarPath);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        ZipInputStream zip = null;
+        try {
+            zip = new ZipInputStream(jar.openStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        while (true) {
+            ZipEntry zipEntry = null;
+            try {
+                zipEntry = zip.getNextEntry();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            if (zipEntry == null) {
+                break;
+            }
+            logger.info(zipEntry.getName());
+            if (zipEntry.getName().endsWith("/") && !zipEntry.getName().equals("META-INF/")) {
+                logger.debug("Name of Content: " + zipEntry.getName());
+                return zipEntry.getName();
+            }
+        }
+        return null;
+    }
+
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;

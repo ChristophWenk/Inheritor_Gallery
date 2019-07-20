@@ -77,6 +77,7 @@ public class JShellReflection {
             if (zipEntry == null) {
                 break;
             }
+            logger.info(zipEntry.getName());
             if (zipEntry.getName().endsWith(".class")) {
                 classNamesAsString.add(
                         zipEntry.getName()

@@ -2,14 +2,16 @@ package inheritorgallery.view;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import presentationmodel.FileChooserPM;
 
 import java.io.File;
 
 public class DirectoryChooserPane extends HBox implements ViewMixin {
+    private static Logger logger = LoggerFactory.getLogger(DirectoryChooserPane.class);
     private Button loadButton, refreshButton;
     private Stage primaryStage;
     private FileChooserPM fileChooserPM;
@@ -41,8 +43,8 @@ public class DirectoryChooserPane extends HBox implements ViewMixin {
     @Override
     public void setupEventHandlers() {
         loadButton.setOnAction(e -> {
-            File selectedDirectory = fileChooserPM.getFileChooser().showOpenDialog(primaryStage);
-            fileChooserPM.setPath(selectedDirectory.toPath());
+            File selectedFile = fileChooserPM.getFileChooser().showOpenDialog(primaryStage);
+            fileChooserPM.setPathAsString(selectedFile.toPath().toString());
         });
 
         refreshButton.setOnAction(e -> {
