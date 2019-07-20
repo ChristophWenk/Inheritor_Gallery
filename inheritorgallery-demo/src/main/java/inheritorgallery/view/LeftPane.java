@@ -19,7 +19,7 @@ public class LeftPane extends VBox implements ViewMixin {
 
     private InstructionPane instructionPane;
     private JShellPane jShellPane;
-    private DirectoryChooserPane directoryChooserPane;
+    private FileChooserPane fileChooserPane;
     private Stage primaryStage;
 
     public LeftPane(Stage primaryStage, FileChooserPM fileChooserPM, InstanceStatePM instanceStatePM, InstructionPM instructionPM) {
@@ -33,13 +33,13 @@ public class LeftPane extends VBox implements ViewMixin {
 
     @Override
     public void initializeControls() {
-        directoryChooserPane = new DirectoryChooserPane(primaryStage, fileChooserPM);
+        fileChooserPane = new FileChooserPane(primaryStage, fileChooserPM);
         instructionPane  = new InstructionPane(instructionPM);
         jShellPane = new JShellPane(instanceStatePM);
     }
 
     @Override
     public void layoutControls() {
-        this.getChildren().addAll(directoryChooserPane,instructionPane, jShellPane);
+        this.getChildren().addAll(fileChooserPane,instructionPane, jShellPane);
     }
 }

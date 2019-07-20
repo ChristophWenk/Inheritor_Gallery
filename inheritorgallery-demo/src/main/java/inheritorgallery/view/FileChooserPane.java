@@ -10,13 +10,13 @@ import presentationmodel.FileChooserPM;
 
 import java.io.File;
 
-public class DirectoryChooserPane extends HBox implements ViewMixin {
-    private static Logger logger = LoggerFactory.getLogger(DirectoryChooserPane.class);
+public class FileChooserPane extends HBox implements ViewMixin {
+    private static Logger logger = LoggerFactory.getLogger(FileChooserPane.class);
     private Button loadButton, refreshButton;
     private Stage primaryStage;
     private FileChooserPM fileChooserPM;
 
-    public DirectoryChooserPane(Stage primaryStage, FileChooserPM fileChooserPM){
+    public FileChooserPane(Stage primaryStage, FileChooserPM fileChooserPM){
         this.fileChooserPM = fileChooserPM;
         this.primaryStage = primaryStage;
         init();
@@ -44,7 +44,7 @@ public class DirectoryChooserPane extends HBox implements ViewMixin {
     public void setupEventHandlers() {
         loadButton.setOnAction(e -> {
             File selectedFile = fileChooserPM.getFileChooser().showOpenDialog(primaryStage);
-            fileChooserPM.setPathAsString(selectedFile.toPath().toString());
+            fileChooserPM.setPathAsString(selectedFile.toURI().toString());
         });
 
         refreshButton.setOnAction(e -> {

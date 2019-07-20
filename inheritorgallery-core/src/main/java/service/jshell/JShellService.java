@@ -53,12 +53,13 @@ public class JShellService {
             jshell.addToClasspath(cp);
         }
         setJarPath("file:/F:/Downloads/jarTest2/build/libs/fhnw-1.0-SNAPSHOT.jar");
+        jshell.addToClasspath("F:\\Downloads\\jarTest2\\build\\libs\\fhnw-1.0-SNAPSHOT.jar");
         importClasses("input");
     }
 
     public void updateImports(String path){
-        logger.info(path);
         setJarPath(path);
+        logger.info("updateImports: " + getJarPath());
         String packageNameFromJar = getPackageFromJar(path);
         importClasses(packageNameFromJar);
         jshell.addToClasspath(path);
@@ -68,7 +69,6 @@ public class JShellService {
 
     private void importClasses(String packageName){
         setPackageName(packageName);
-        jshell.addToClasspath("F:\\Downloads\\jarTest2\\build\\libs\\fhnw-1.0-SNAPSHOT.jar");
         // Classes need to be explicitly imported to JShell similarly as if we wanted to import one into a class.
         jshell.eval("import "+getPackageName()+".*;");
         jshell.eval("import jshellExtensions.*;");
@@ -305,10 +305,10 @@ public class JShellService {
     }
 
     private String getPackageFromJar(String jarPath) {
-        logger.info(jarPath);
+        logger.info("getPackageFromJar: " + jarPath);
         URL jar = null;
         try {
-            jar = new URL("file:/"+jarPath);
+            jar = new URL(jarPath);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
