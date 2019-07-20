@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import presentationmodel.uml.FieldPM;
 import presentationmodel.uml.MethodPM;
 import presentationmodel.uml.UmlPM;
 import service.jshell.JShellService;
@@ -25,6 +24,7 @@ public class InstanceStatePMTest {
     @BeforeAll
     public static void setUp() {
         umlPM = new UmlPM();
+        jShellService.updateImports("file:INPUT.jar");
         instanceStatePM = new InstanceStatePM(umlPM);
     }
 
@@ -170,7 +170,7 @@ public class InstanceStatePMTest {
         assertEquals("Buyable",instanceStatePM.getObjectPMs().get(0).getObjectTree()
             .getImplementedInterfaces().get(1).getName());
 
-        assertEquals("Buyable",umlPM.getClasses().get(3).getName());
+        assertEquals("Buyable",umlPM.getClassesObject().get(3).getName());
 
 //        assertEquals("YBuyableParent",umlPM.getClasses().get(3).getImplementedInterfaces().get(0).getName());
 //

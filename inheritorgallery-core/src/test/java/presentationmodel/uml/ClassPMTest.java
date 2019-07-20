@@ -17,7 +17,7 @@ class ClassPMTest {
     @Test
     void testClassToClassPM(){
         //given
-        ClassPM classPMAntique = pm.getClasses().get(0);
+        ClassPM classPMAntique = pm.getClassesObject().get(0);
         //then
         assertEquals("input.Antique",classPMAntique.getFullClassName());
         assertEquals("Antique",classPMAntique.getName());
@@ -27,7 +27,7 @@ class ClassPMTest {
         assertNull(classPMAntique.getSuperClass());
 
         //given
-        ClassPM classPMAntiqueBuyableFahrrad = pm.getClasses().get(1);
+        ClassPM classPMAntiqueBuyableFahrrad = pm.getClassesObject().get(1);
         //then
         assertEquals("AntiqueBuyableFahrrad",classPMAntiqueBuyableFahrrad.getName());
         assertFalse(classPMAntiqueBuyableFahrrad.isIsInterface());
@@ -38,7 +38,7 @@ class ClassPMTest {
         assertEquals("input.Fahrrad",classPMAntiqueBuyableFahrrad.getSuperClass().getFullClassName());
 
         //given
-        ClassPM classPMAFahrrad = pm.getClasses().get(5);
+        ClassPM classPMAFahrrad = pm.getClassesObject().get(5);
         //then
         assertEquals("Fahrrad",classPMAFahrrad.getName());
         assertFalse(classPMAFahrrad.isIsInterface());
@@ -48,7 +48,7 @@ class ClassPMTest {
 
     @Test
     void testClassToClassPMFields(){
-        ClassPM classPMFahrzeug= pm.getClasses().get(6);
+        ClassPM classPMFahrzeug= pm.getClassesObject().get(6);
 
         assertEquals("private",classPMFahrzeug.getFields().get(0).getModifier());
         assertEquals("double",classPMFahrzeug.getFields().get(0).getType());
@@ -61,7 +61,7 @@ class ClassPMTest {
 
     @Test
     void testClassToClassDTOConstructors(){
-        ClassPM classPMPerson= pm.getClasses().get(8);
+        ClassPM classPMPerson= pm.getClassesObject().get(8);
 
         assertEquals("Person",classPMPerson.getConstructors().get(0).getName());
 
@@ -78,7 +78,7 @@ class ClassPMTest {
 
     @Test
     void testClassToClassDTOMethods(){
-        ClassPM classPMFahrzeug= pm.getClasses().get(6);
+        ClassPM classPMFahrzeug= pm.getClassesObject().get(6);
 
         assertEquals("input.Fahrzeug",classPMFahrzeug.getFullClassName());
 
