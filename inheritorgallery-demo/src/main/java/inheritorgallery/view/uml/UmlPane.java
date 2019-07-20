@@ -23,10 +23,10 @@ public class UmlPane extends StackPane implements ViewMixin {
 
     private final UmlPM umlPM;
     private ColorPM colorPM;
-    private ChangeListener pmStateListener = (observable, oldValue, newValue) -> this.layoutControls();
+    private ChangeListener pmStateListener = (observable, oldValue, newValue) -> this.init();
 
 
-    private ArrayList<UmlClass> umlClasses;
+    private ArrayList<UmlClassPane> umlClassPanes;
     private ArrayList<Line> lines;
     private ArrayList<Polygon> arrowHeadList;
     private ArrayList<HBox> inheritanceLevelHBox;
@@ -42,7 +42,7 @@ public class UmlPane extends StackPane implements ViewMixin {
 
     @Override
     public void initializeControls() {
-        umlClasses = new ArrayList<>();
+        umlClassPanes = new ArrayList<>();
         lines = new ArrayList<>();
         arrowHeadList = new ArrayList<>();
         inheritanceLevelHBox = new ArrayList<>();
@@ -50,11 +50,11 @@ public class UmlPane extends StackPane implements ViewMixin {
         linePane = new Pane();
 
 
-        for(ClassPM classPM : umlPM.getClasses()){
-            UmlClass umlClass = new UmlClass(classPM);
+        for(ClassPM classPM : umlPM.getClassesObject()){
+            UmlClassPane umlClassPane = new UmlClassPane(classPM);
             String color = colorPM.getColor(classPM.getFullClassName());
-            umlClass.setStyle("-fx-background-color:" + color);
-            umlClasses.add(umlClass);
+            umlClassPane.setStyle("-fx-background-color:" + color);
+            umlClassPanes.add(umlClassPane);
         }
 
         for(EdgePM ignored : umlPM.getEdges()){
@@ -69,10 +69,14 @@ public class UmlPane extends StackPane implements ViewMixin {
     @Override
     public void layoutControls() {
 
-        for (int i = 0; i < umlPM.getClasses().size(); i++) {
-            inheritanceLevelHBox.get(umlPM.getClasses().get(i).getInheritanceLevel())
+        for (int i = 0; i < umlPM.getClassesObject().size(); i++) {
+            logger.info("view class size "+ umlPM.getClassesObject().size());
+            logger.info("view class classPane size " + umlClassPanes.size());
+            logger.info("ihneritance size " + inheritanceLevelHBox.size());
+
+            inheritanceLevelHBox.get(umlPM.getClassesObject().get(i).getInheritanceLevel())
                     .getChildren()
-                    .add(umlClasses.get(i));
+                    .add(umlClassPanes.get(i));
         }
         vBox.getChildren().addAll(inheritanceLevelHBox);
 
@@ -82,9 +86,9 @@ public class UmlPane extends StackPane implements ViewMixin {
 
             for (int i = 0; i < umlPM.getEdges().size(); i++){
                 int finalI = i;
-                Optional<UmlClass> source = umlClasses.stream().filter(
+                Optional<UmlClassPane> source = umlClassPanes.stream().filter(
                         c -> c.getId().equals(umlPM.getEdges().get(finalI).getSource())).findFirst();
-                Optional<UmlClass> target = umlClasses.stream().filter(
+                Optional<UmlClassPane> target = umlClassPanes.stream().filter(
                         c -> c.getId().equals(umlPM.getEdges().get(finalI).getTarget())).findFirst();
 
 

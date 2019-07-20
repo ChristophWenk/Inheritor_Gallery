@@ -18,7 +18,7 @@ public class UmlPM {
 
     private static Logger logger = LoggerFactory.getLogger(UmlPM.class);
     private final ObjectProperty<List<ClassPM>> classesObject = new SimpleObjectProperty<>();
-    private final ObservableList<ClassPM> classes = FXCollections.observableArrayList();
+    //private final ObservableList<ClassPM> classes = FXCollections.observableArrayList();
     private final ObservableList<EdgePM> edges = FXCollections.observableArrayList();
     private final IntegerProperty inheritanceDeepness = new SimpleIntegerProperty();
     private JShellService jshellService = JShellService.getInstance();
@@ -28,8 +28,10 @@ public class UmlPM {
     }
 
     public void init(){
-        classes.clear();
+        //classes.clear();
         edges.clear();
+
+        List<ClassPM> classes = new ArrayList<>();
 
         for(ClassDTO c : jshellService.getClassDTOs()){
             classes.add(new ClassPM(
@@ -60,6 +62,12 @@ public class UmlPM {
         edges.addAll(getEdgesForClasses(classes));
 
         setClassesObject(classes);
+
+
+        logger.info("size classesList "+classes.size());
+        logger.info("size classesObj "+getClassesObject().size());
+
+
     }
 
 
@@ -67,13 +75,13 @@ public class UmlPM {
 
     public ClassPM getClassByName(String s){
         Optional<ClassPM> targetClass =
-                classes.stream().filter(c -> c.getName().equals(s)).findFirst();
+                getClassesObject().stream().filter(c -> c.getName().equals(s)).findFirst();
         return targetClass.orElse(null);
     }
 
     public ClassPM getClassByFullName(String s){
         Optional<ClassPM> targetClass =
-                classes.stream().filter(c -> c.getFullClassName().equals(s)).findFirst();
+                getClassesObject().stream().filter(c -> c.getFullClassName().equals(s)).findFirst();
         return targetClass.orElse(null);
     }
 
@@ -130,10 +138,6 @@ public class UmlPM {
                 edgePMs.add(new EdgePM(clazz.getName(),implementedInterface.getName(),"implements"));
         }
         return edgePMs;
-    }
-
-    public ObservableList<ClassPM> getClasses() {
-        return classes;
     }
 
     public ObservableList<EdgePM> getEdges() {
