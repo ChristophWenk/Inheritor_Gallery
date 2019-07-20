@@ -46,15 +46,14 @@ public class JShellReflection {
         return serializedString;
     }
 
-    public String getClassDTOsSerialized() {
-        return serialize(getClassDTOs());
+    public String getClassDTOsSerialized(String pathToJar) {
+        return serialize(getClassDTOs(pathToJar));
     }
 
-    public List<ClassDTO> getClassDTOs() {
-
+    public List<ClassDTO> getClassDTOs(String pathToJar) {
         URL jar = null;
         try {
-            jar = new URL("file:/F:/Downloads/jarTest2/build/libs/fhnw-1.0-SNAPSHOT.jar");
+            jar = new URL(pathToJar);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -77,7 +76,7 @@ public class JShellReflection {
             if (zipEntry == null) {
                 break;
             }
-            logger.info(zipEntry.getName());
+            //logger.debug("Entry: " + zipEntry.getName());
             if (zipEntry.getName().endsWith(".class")) {
                 classNamesAsString.add(
                         zipEntry.getName()

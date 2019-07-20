@@ -36,23 +36,23 @@ class JShellReflectionTest {
         path = fileService.getPath("/input");
     }
 
-    @Test
-    void testGetClassesForPath(){
-        //given
-        List<Class> classes = jshellReflection.getClassesForPath(path);
-
-        //then
-        assertEquals(9,classes.size());
-        assertEquals("input.Antique",classes.get(0).getCanonicalName());
-        assertEquals("input.AntiqueBuyableFahrrad",classes.get(1).getCanonicalName());
-        assertEquals("input.Auto",classes.get(2).getCanonicalName());
-        assertEquals("input.Buyable",classes.get(3).getCanonicalName());
-        assertEquals("input.Cabriolet",classes.get(4).getCanonicalName());
-        assertEquals("input.Fahrrad",classes.get(5).getCanonicalName());
-        assertEquals("input.Fahrzeug",classes.get(6).getCanonicalName());
-        assertEquals("input.Item",classes.get(7).getCanonicalName());
-        assertEquals("input.Person",classes.get(8).getCanonicalName());
-    }
+//    @Test
+//    void testGetClassesForPath(){
+//        //given
+//        List<Class> classes = jshellReflection.getClassesForPath(path);
+//
+//        //then
+//        assertEquals(9,classes.size());
+//        assertEquals("input.Antique",classes.get(0).getCanonicalName());
+//        assertEquals("input.AntiqueBuyableFahrrad",classes.get(1).getCanonicalName());
+//        assertEquals("input.Auto",classes.get(2).getCanonicalName());
+//        assertEquals("input.Buyable",classes.get(3).getCanonicalName());
+//        assertEquals("input.Cabriolet",classes.get(4).getCanonicalName());
+//        assertEquals("input.Fahrrad",classes.get(5).getCanonicalName());
+//        assertEquals("input.Fahrzeug",classes.get(6).getCanonicalName());
+//        assertEquals("input.Item",classes.get(7).getCanonicalName());
+//        assertEquals("input.Person",classes.get(8).getCanonicalName());
+//    }
 
     @Test
     void testGlassToClassDTO(){

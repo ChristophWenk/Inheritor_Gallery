@@ -27,6 +27,7 @@ public class FileChooserPM {
         jShellService.updateImports(getPath());
         umlPM.init();
         instanceStatePM.setJShellInput(";");
+        instanceStatePM.setJShellInput("\"Loading classes\";");
     }
 
     public void reset(){

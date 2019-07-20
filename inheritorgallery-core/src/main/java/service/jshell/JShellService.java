@@ -38,16 +38,13 @@ public class JShellService {
     private static JShellService jShellService;
     private JShell jshell;
 
-
-
-    private String packageName;
+    private String packageName, jarPath;
 
     /**
      * JShellService Constructor.
      */
     private JShellService() {
         jshell = JShell.create();
-        //jshell = JShell.builder().executionEngine(new LocalExecutionControlProvider(), null).build();
 
         // The JVM classpath needs to be explicitly added to JShell so that it is able to use non-JDK classes.
         String classpath = System.getProperty("java.class.path");
@@ -55,13 +52,16 @@ public class JShellService {
         for (String cp : classpathEntries) {
             jshell.addToClasspath(cp);
         }
-
+        setJarPath("file:/F:/Downloads/jarTest2/build/libs/fhnw-1.0-SNAPSHOT.jar");
         importClasses("input");
     }
 
     public void updateImports(String path){
+        logger.info(path);
+        setJarPath(path);
         String packageNameFromJar = getPackageFromJar(path);
         importClasses(packageNameFromJar);
+        jshell.addToClasspath(path);
     }
 
 
@@ -118,29 +118,31 @@ public class JShellService {
     }
 
     public List<ClassDTO> getClassDTOs(){
-
+        List<ClassDTO> classDTOs = new ArrayList<>();
         SnippetEvent snippetEvent = null;
         try {
-            snippetEvent = jShellService.evaluateCode("jshellReflection.getClassDTOsSerialized();");
+            snippetEvent = jShellService.evaluateCode("jshellReflection.getClassDTOsSerialized(\""+getJarPath()+"\");");
         } catch (InvalidCodeException e) {
             logger.error("There was a problem while retrieving ClassDTOs from JShell.", e);
         }
 
         //snippetEvent.value() return the serialized String with ""
-        String serializedString = snippetEvent.value().substring(1,snippetEvent.value().length()-1);
-        String classDTOsSerialized = serializedString;
-
-        List<ClassDTO> classDTOs = null;
-
-        // deserialize the object
         try {
-            byte [] data = Base64.getDecoder().decode(classDTOsSerialized);
-            ObjectInputStream ois = new ObjectInputStream( new ByteArrayInputStream(data) );
-            classDTOs  = (List<ClassDTO>) ois.readObject();
-        } catch (Exception e) {
-            logger.error("Could not deserialize object: " + classDTOsSerialized, e);
-        }
+            String serializedString = snippetEvent.value().substring(1, snippetEvent.value().length() - 1);
+            String classDTOsSerialized = serializedString;
 
+
+            // deserialize the object
+            try {
+                byte[] data = Base64.getDecoder().decode(classDTOsSerialized);
+                ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));
+                classDTOs = (List<ClassDTO>) ois.readObject();
+            } catch (Exception e) {
+                logger.error("Could not deserialize object: " + classDTOsSerialized, e);
+            }
+        } catch (NullPointerException e) {
+            logger.error("Could not serialize ClassDTOs");
+        }
         return classDTOs;
     }
 
@@ -251,7 +253,7 @@ public class JShellService {
         String serializedString = snippetEvent.value().substring(1,snippetEvent.value().length()-1);
         String fieldDTOsSerialized = serializedString;
 
-        List<FieldDTO> fieldDTOs = null;
+        List<FieldDTO> fieldDTOs = new ArrayList<>();
 
         // deserialize the object
         try {
@@ -327,9 +329,9 @@ public class JShellService {
             if (zipEntry == null) {
                 break;
             }
-            logger.info(zipEntry.getName());
+//            logger.info(zipEntry.getName());
             if (zipEntry.getName().endsWith("/") && !zipEntry.getName().equals("META-INF/")) {
-                logger.debug("Name of Content: " + zipEntry.getName());
+//                logger.debug("Name of Content: " + zipEntry.getName());
                 return zipEntry.getName();
             }
         }
@@ -343,5 +345,13 @@ public class JShellService {
 
     public String getPackageName() {
         return packageName;
+    }
+
+    public String getJarPath() {
+        return jarPath;
+    }
+
+    public void setJarPath(String jarPath) {
+        this.jarPath = jarPath;
     }
 }
