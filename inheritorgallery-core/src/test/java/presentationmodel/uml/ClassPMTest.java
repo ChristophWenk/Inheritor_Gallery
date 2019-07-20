@@ -2,15 +2,22 @@ package presentationmodel.uml;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import service.jshell.JShellService;
+
+import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ClassPMTest {
 
+    private static JShellService jShellService = JShellService.getInstance();
     private static UmlPM pm;
 
     @BeforeAll
     public static void setUp() {
+        File file = new File("src/test/resources/testClasses.jar");
+        String jarStringPath = file.toURI().toString();
+        jShellService.updateImports(jarStringPath.replace("%20"," "));
         pm = new UmlPM();
     }
 

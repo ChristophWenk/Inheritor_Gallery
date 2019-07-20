@@ -1,6 +1,7 @@
 package presentationmodel.instance;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,18 +23,18 @@ public class InstanceStatePMTest {
 
     @BeforeAll
     public static void setUp() {
-        umlPM = new UmlPM();
-        File file = new File("src/main/resources/testClasses.jar");
+        File file = new File("src/test/resources/testClasses.jar");
         String jarStringPath = file.toURI().toString();
+        jShellService.updateImports(jarStringPath.replace("%20"," "));
 
-        jShellService.updateImports(jarStringPath);
+        umlPM = new UmlPM();
         instanceStatePM = new InstanceStatePM(umlPM);
     }
 
-//    @BeforeEach
-//    public void resetJShell() {
-//        jShellService.reset();
-//    }
+    @BeforeEach
+    public void resetJShell() {
+        jShellService.reset();
+    }
 
     @Test
     void getObjectPMsTest(){
