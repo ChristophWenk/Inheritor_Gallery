@@ -52,17 +52,23 @@ public class JShellService {
         for (String cp : classpathEntries) {
             jshell.addToClasspath(cp);
         }
-        setJarPath("file:/F:/Downloads/jarTest2/build/libs/fhnw-1.0-SNAPSHOT.jar");
-        jshell.addToClasspath("F:\\Downloads\\jarTest2\\build\\libs\\fhnw-1.0-SNAPSHOT.jar");
-        importClasses("input");
+        //setJarPath("file:/F:/Downloads/jarTest2/build/libs/fhnw-1.0-SNAPSHOT.jar");
+        //jshell.addToClasspath("F:\\Downloads\\jarTest2\\build\\libs\\fhnw-1.0-SNAPSHOT.jar");
+        //importClasses("input");
     }
 
     public void updateImports(String path){
+        logger.info("path " + path);
         setJarPath(path);
         logger.info("updateImports: " + getJarPath());
         String packageNameFromJar = getPackageFromJar(path);
+
+        String pathWithoutFile = path.replace("file:/","");
+        logger.info("addToClasspath " + pathWithoutFile);
+        jshell.addToClasspath(pathWithoutFile);
+
+
         importClasses(packageNameFromJar);
-        jshell.addToClasspath(path);
     }
 
 
@@ -70,6 +76,7 @@ public class JShellService {
     private void importClasses(String packageName){
         setPackageName(packageName);
         // Classes need to be explicitly imported to JShell similarly as if we wanted to import one into a class.
+        logger.info("importing " + getPackageName());
         jshell.eval("import "+getPackageName()+".*;");
         jshell.eval("import jshellExtensions.*;");
         jshell.eval("JShellReflection jshellReflection = new JShellReflection(\""+getPackageName()+"\");");
@@ -119,30 +126,33 @@ public class JShellService {
 
     public List<ClassDTO> getClassDTOs(){
         List<ClassDTO> classDTOs = new ArrayList<>();
-        SnippetEvent snippetEvent = null;
-        try {
-            snippetEvent = jShellService.evaluateCode("jshellReflection.getClassDTOsSerialized(\""+getJarPath()+"\");");
-        } catch (InvalidCodeException e) {
-            logger.error("There was a problem while retrieving ClassDTOs from JShell.", e);
-        }
-
-        //snippetEvent.value() return the serialized String with ""
-        try {
-            String serializedString = snippetEvent.value().substring(1, snippetEvent.value().length() - 1);
-            String classDTOsSerialized = serializedString;
-
-
-            // deserialize the object
+        if(getJarPath() != null){
+            SnippetEvent snippetEvent = null;
             try {
-                byte[] data = Base64.getDecoder().decode(classDTOsSerialized);
-                ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));
-                classDTOs = (List<ClassDTO>) ois.readObject();
-            } catch (Exception e) {
-                logger.error("Could not deserialize object: " + classDTOsSerialized, e);
+                snippetEvent = jShellService.evaluateCode("jshellReflection.getClassDTOsSerialized(\""+getJarPath()+"\");");
+            } catch (InvalidCodeException e) {
+                logger.error("There was a problem while retrieving ClassDTOs from JShell.", e);
             }
-        } catch (NullPointerException e) {
-            logger.error("Could not serialize ClassDTOs");
+
+            //snippetEvent.value() return the serialized String with ""
+            try {
+                String serializedString = snippetEvent.value().substring(1, snippetEvent.value().length() - 1);
+                String classDTOsSerialized = serializedString;
+
+
+                // deserialize the object
+                try {
+                    byte[] data = Base64.getDecoder().decode(classDTOsSerialized);
+                    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));
+                    classDTOs = (List<ClassDTO>) ois.readObject();
+                } catch (Exception e) {
+                    logger.error("Could not deserialize object: " + classDTOsSerialized, e);
+                }
+            } catch (NullPointerException e) {
+                logger.error("Could not serialize ClassDTOs");
+            }
         }
+
         return classDTOs;
     }
 
@@ -332,7 +342,8 @@ public class JShellService {
 //            logger.info(zipEntry.getName());
             if (zipEntry.getName().endsWith("/") && !zipEntry.getName().equals("META-INF/")) {
 //                logger.debug("Name of Content: " + zipEntry.getName());
-                return zipEntry.getName();
+
+                return zipEntry.getName().replace("/","");
             }
         }
         return null;
