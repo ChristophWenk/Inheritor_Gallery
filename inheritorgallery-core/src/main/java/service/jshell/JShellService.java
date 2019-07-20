@@ -52,9 +52,6 @@ public class JShellService {
         for (String cp : classpathEntries) {
             jshell.addToClasspath(cp);
         }
-        //setJarPath("file:/F:/Downloads/jarTest2/build/libs/fhnw-1.0-SNAPSHOT.jar");
-        //jshell.addToClasspath("F:\\Downloads\\jarTest2\\build\\libs\\fhnw-1.0-SNAPSHOT.jar");
-        //importClasses("input");
     }
 
     public void updateImports(String path){
@@ -66,7 +63,6 @@ public class JShellService {
         String pathWithoutFile = path.replace("file:/","");
         logger.info("addToClasspath " + pathWithoutFile);
         jshell.addToClasspath(pathWithoutFile);
-
 
         importClasses(packageNameFromJar);
     }
@@ -339,7 +335,7 @@ public class JShellService {
             if (zipEntry == null) {
                 break;
             }
-//            logger.info(zipEntry.getName());
+//            logger.debug(zipEntry.getName());
             if (zipEntry.getName().endsWith("/") && !zipEntry.getName().equals("META-INF/")) {
 //                logger.debug("Name of Content: " + zipEntry.getName());
 

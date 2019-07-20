@@ -111,13 +111,11 @@ public class UmlPM {
                 classesLevelNotSetYet.remove(c);
             }
         }
-
         setInheritanceDeepness(i * -1);
         classes.forEach(c -> c.setInheritanceLevel(c.getInheritanceLevel()+getInheritanceDeepness()));
     }
 
     private List<EdgePM> getEdgesForClasses(List<ClassPM> classes) {
-        logger.info("classes inside edge " + classes.size());
         List<EdgePM> edgePMs = new ArrayList<>();
 
         for(ClassPM clazz : classes) {
@@ -134,8 +132,6 @@ public class UmlPM {
             for (ClassPM implementedInterface : implementedInterfaces)
                 edgePMs.add(new EdgePM(clazz.getName(),implementedInterface.getName(),"implements"));
         }
-
-        logger.info("size edges " + edgePMs.size());
         return edgePMs;
     }
 

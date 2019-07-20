@@ -1,7 +1,6 @@
 package presentationmodel.instance;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +8,7 @@ import presentationmodel.uml.MethodPM;
 import presentationmodel.uml.UmlPM;
 import service.jshell.JShellService;
 
-
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,14 +23,17 @@ public class InstanceStatePMTest {
     @BeforeAll
     public static void setUp() {
         umlPM = new UmlPM();
-        jShellService.updateImports("file:INPUT.jar");
+        File file = new File("src/main/resources/testClasses.jar");
+        String jarStringPath = file.toURI().toString();
+
+        jShellService.updateImports(jarStringPath);
         instanceStatePM = new InstanceStatePM(umlPM);
     }
 
-    @BeforeEach
-    public void resetJShell() {
-        jShellService.reset();
-    }
+//    @BeforeEach
+//    public void resetJShell() {
+//        jShellService.reset();
+//    }
 
     @Test
     void getObjectPMsTest(){

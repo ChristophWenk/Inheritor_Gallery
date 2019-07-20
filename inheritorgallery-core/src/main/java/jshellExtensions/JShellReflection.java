@@ -28,6 +28,7 @@ public class JShellReflection {
     private final String packageName;
 
     public JShellReflection(String packageName) {
+        logger.debug("JShellReflection created");
         this.packageName = packageName;
     }
 
@@ -51,6 +52,7 @@ public class JShellReflection {
     }
 
     public List<ClassDTO> getClassDTOs(String pathToJar) {
+        logger.info("Reflection 1 " + pathToJar);
         URL jar = null;
         try {
             jar = new URL(pathToJar);
