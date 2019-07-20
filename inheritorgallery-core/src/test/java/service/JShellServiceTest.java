@@ -7,6 +7,8 @@ import jdk.jshell.VarSnippet;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import service.jshell.JShellService;
 import service.jshell.dto.FieldDTO;
 import service.jshell.dto.ObjectDTO;
@@ -19,12 +21,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class JShellServiceTest {
 
+    private static Logger logger = LoggerFactory.getLogger(JShellService.class);
     private static JShellService jShellService = JShellService.getInstance();
 
     @BeforeAll
     public static void setUp() {
         File file = new File("src/test/resources/testClasses.jar");
         String jarStringPath = file.toURI().toString();
+        logger.info(jarStringPath);
         jShellService.updateImports(jarStringPath.replace("%20"," "));
     }
 
