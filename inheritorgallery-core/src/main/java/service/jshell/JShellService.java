@@ -1,24 +1,25 @@
 package service.jshell;
 
 import exceptions.InvalidCodeException;
-import input.Auto;
 import jdk.jshell.JShell;
+import jdk.jshell.Snippet;
 import jdk.jshell.SnippetEvent;
 import jdk.jshell.VarSnippet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import service.FileService;
+import service.jshell.dto.ClassDTO;
+import service.jshell.dto.FieldDTO;
+import service.jshell.dto.ObjectDTO;
+import service.jshell.dto.ReferenceDTO;
 
-import javax.swing.text.html.ListView;
+import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.nio.file.Files;
+import java.io.ObjectInputStream;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -44,33 +45,31 @@ public class JShellService {
         String classpath = System.getProperty("java.class.path");
         String[] classpathEntries = classpath.split(File.pathSeparator);
         for (String cp : classpathEntries)
+            //todo
             jshell.addToClasspath(cp);
 
-        // Classes need to be explicitly imported to JShell similarly as if we wanted to import one into a class.
-        //jshell.eval("import "+packageName+".*;");
-        //jshell.eval("import java.lang.reflect.Field;");
-        importPackages();
+        importClasses();
     }
 
-    private void importPackages(){
-        FileService fileService = new FileService();
-        Path path = fileService.getPath("/"+packageName);
+    public void updateImports(Path path){
         logger.info(path.toString());
-        try {
-            Files.walk(path)
-                    .map(e -> new File(e.toString()))
-                    .filter(File::isDirectory)
-                    .map(e -> e.toURI().toString().split(packageName))
-                    .map(e -> packageName+e[1].replace("/","."))
-                    .map(e -> "import "+e+"*;")
-                    //.forEach(e -> logger.info(e));
-                    .forEach(e -> jshell.eval(e));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        jshell.addToClasspath(path.toString());
+        String packageName = path.getFileName().toString();
+        logger.info(packageName);
+        jshell.eval("import "+packageName+".*;");
+        jshell.eval("JShellReflection jshellReflection = new JShellReflection(\""+packageName+"\");");
+    }
 
+
+
+    private void importClasses(){
+        // Classes need to be explicitly imported to JShell similarly as if we wanted to import one into a class.
+        jshell.eval("import "+packageName+".*;");
+        jshell.eval("import jshellExtensions.*;");
+        jshell.eval("JShellReflection jshellReflection = new JShellReflection(\""+packageName+"\");");
         jshell.eval("import java.lang.reflect.Field;");
     }
+
 
     /**
      * Singleton pattern.
@@ -109,8 +108,34 @@ public class JShellService {
             logger.error("User code could not be interpreted by JShell: " + code);
             throw new InvalidCodeException("Code could not be interpreted by JShell. Please verify the statement.");
         }
-        //ToDo: When redeclaring an instance multiple snippets are created. Add Error Handling
         return snippetEventsList.get(0);
+    }
+
+    public List<ClassDTO> getClassDTOs(){
+
+        SnippetEvent snippetEvent = null;
+        try {
+            snippetEvent = jShellService.evaluateCode("jshellReflection.getClassDTOsSerialized();");
+        } catch (InvalidCodeException e) {
+            logger.error("There was a problem while retrieving ClassDTOs from JShell.", e);
+        }
+
+        //snippetEvent.value() return the serialized String with ""
+        String serializedString = snippetEvent.value().substring(1,snippetEvent.value().length()-1);
+        String classDTOsSerialized = serializedString;
+
+        List<ClassDTO> classDTOs = null;
+
+        // deserialize the object
+        try {
+            byte [] data = Base64.getDecoder().decode(classDTOsSerialized);
+            ObjectInputStream ois = new ObjectInputStream( new ByteArrayInputStream(data) );
+            classDTOs  = (List<ClassDTO>) ois.readObject();
+        } catch (Exception e) {
+            logger.error("Could not deserialize object: " + classDTOsSerialized, e);
+        }
+
+        return classDTOs;
     }
 
     public List<ObjectDTO> getObjectDTOs(){
@@ -119,7 +144,6 @@ public class JShellService {
         String refName;
 
         List<VarSnippet> variablesList = jshell.variables().collect(Collectors.toList());
-
         for(VarSnippet varSnippet : variablesList ){
             refName = getRefName(varSnippet);
 
@@ -128,13 +152,12 @@ public class JShellService {
                 ObjectDTO objectDTO = new ObjectDTO(
                         getHashcodeForReference(refName),
                         getClassForReference(refName),
-                        getFieldsForReference(refName)
+                        getFieldValuesReference(refName)
                 );
                 // Check for an existing item in the list
                 if(objectDTOList.stream()
                 .noneMatch(o -> o.getObjectId().equals(objectDTO.getObjectId())))
                 {  objectDTOList.add(objectDTO); }
-
             }
         }
         return objectDTOList;
@@ -165,18 +188,8 @@ public class JShellService {
         return snippetEvent.value();
     }
 
-    public String getRefName(SnippetEvent snippetEvent){
-        VarSnippet varSnippet = (VarSnippet) snippetEvent.snippet();
-        return varSnippet.name();
-    }
-
     public String getRefName(VarSnippet varSnippet){
         return varSnippet.name();
-    }
-
-    public String getRefType(SnippetEvent snippetEvent){
-        VarSnippet varSnippet = (VarSnippet) snippetEvent.snippet();
-        return varSnippet.typeName();
     }
 
     public String getRefType(VarSnippet varSnippet){
@@ -212,7 +225,7 @@ public class JShellService {
         try {
             snippetEvent = jShellService.evaluateCode(input);
         } catch (InvalidCodeException e) {
-            logger.debug("No package name found for reference: " + reference + ". It might be a primitive type.", e);
+            logger.error("No package name found for reference: " + reference + ". It might be a primitive type.", e);
             return "InvalidPackageName";
         }
 
@@ -221,85 +234,30 @@ public class JShellService {
         return packageNameFull.split(" ")[1];
     }
 
-    public void getMethodsForReference(String reference){
-        String input = reference+".getClass().getMethods();";
+    public List<FieldDTO> getFieldValuesReference(String reference){
         SnippetEvent snippetEvent = null;
         try {
-            snippetEvent = jShellService.evaluateCode(input);
+            snippetEvent = jShellService.evaluateCode("jshellReflection.getFieldValuesForReferenceSerialized("+reference+");");
         } catch (InvalidCodeException e) {
-            logger.debug("No methods found reference: " + reference + ". It might be a primitive type.", e);
-            //return "InvalidPackageName";
+            e.printStackTrace();
         }
 
-        //Method[] m = snippetEvent.value();
-        String[] methodsAsString =  snippetEvent.value().split(",");
-        for(String method : methodsAsString)  logger.info(method);
-    }
+        String serializedString = snippetEvent.value().substring(1,snippetEvent.value().length()-1);
+        String fieldDTOsSerialized = serializedString;
 
-    public void testReflectionGetDeclaringClassOfMethod(){
-        Auto a1 = new Auto("tesla", 20,3,3);
+        List<FieldDTO> fieldDTOs = null;
 
-        for(Method m : a1.getClass().getMethods()){
-            Class<?> declaringClass  = a1.getClass();
-            String sourceClass = declaringClass.getName();
-
-            while(declaringClass.getSuperclass() != null){
-                declaringClass = declaringClass.getSuperclass();
-                try {
-                    declaringClass.getMethod(m.getName(),m.getParameterTypes());
-                    sourceClass = declaringClass.getName();
-                } catch (NoSuchMethodException e) {
-                    //e.printStackTrace();
-                }
-            }
-            logger.info(m + " declared in class " + sourceClass);
-        }
-    }
-
-    public List<FieldDTO> getFieldsForReference(String reference){
-        String input1 = "String fieldDTOsString = \"\";";
-        String input2 = "        Class<?> declaringClass  = "+reference+".getClass();";
-        String input3 = " while(declaringClass.getSuperclass() != null) {\n" +
-                "            for (Field currentField_xyghw : declaringClass.getDeclaredFields()) {\n" +
-                "                try {\n" +
-                "                    currentField_xyghw.setAccessible(true);\n" +
-                "                    fieldDTOsString += \";;\"+declaringClass.getCanonicalName()+\";\"" +
-                "                                       +currentField_xyghw.getName()+\";\"" +
-                "                                       +currentField_xyghw.get("+reference+").toString();\n" +
-                "                } catch (IllegalAccessException e) {\n" +
-                "                    e.printStackTrace();\n" +
-                "                }\n" +
-                "            }\n" +
-                "            declaringClass = declaringClass.getSuperclass();\n" +
-                "        }";
-        String input4 = "fieldDTOsString;";
-
-        SnippetEvent snippetEvent = null;
+        // deserialize the object
         try {
-            jShellService.evaluateCode(input1);
-            jShellService.evaluateCode(input2);
-            jShellService.evaluateCode(input3);
-            snippetEvent = jShellService.evaluateCode(input4);
-        } catch (InvalidCodeException e) {
-            logger.debug("No methods found reference: " + reference + ". It might be a primitive type.", e);
-        }
-
-        List<FieldDTO> fieldDTOs = new ArrayList<>();
-        /*
-          String formatting source:
-          ";;classField1;nameField1;valueField1;;classField2;nameField2;valueField2"
-          Target:
-          String [classField1;nameField1;valueField1,   classField2;nameField2;valueField2]
-        */
-        if(snippetEvent.value().length() > 2){
-            String[] fieldDTOsAsString = snippetEvent.value().replace("\"","").substring(2).split(";;");
-            for(String fieldAsString : fieldDTOsAsString){
-                String[] fieldAsArray = fieldAsString.split(";");
-                fieldDTOs.add(new FieldDTO(fieldAsArray[0],fieldAsArray[1],fieldAsArray[2]));
-            }
+            byte [] data = Base64.getDecoder().decode( fieldDTOsSerialized );
+            ObjectInputStream ois = new ObjectInputStream( new ByteArrayInputStream( data ) );
+            fieldDTOs  = (List<FieldDTO>) ois.readObject();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return fieldDTOs;
+
     }
 
     /**
@@ -307,8 +265,34 @@ public class JShellService {
      */
     public void reset() {
         jshell.snippets().forEach(snippet -> jshell.drop(snippet));
-        //jshell.eval("import "+packageName+".*;");
-        //jshell.eval("import java.lang.reflect.Field;");
-        importPackages();
+        importClasses();
+    }
+
+    /**
+     * Check if there exists a reference declaration that needs to be deleted.
+     */
+    public void checkforDeletion() {
+        String isNullPattern = ".*=.*null;";
+        String deleteRefName = "";
+        String refName = "";
+        Snippet nullSnippet = null;
+
+        List<Snippet> snippetList = jshell.snippets().collect(Collectors.toList());
+        for (Snippet snippet : snippetList) {
+            if (Pattern.matches(isNullPattern,snippet.source()) && jshell.status(snippet).name().equals("VALID")) {
+                String parts[] = snippet.source().split("=");
+                deleteRefName = parts[0].replace(" ","");
+                nullSnippet = snippet;
+            }
+        }
+
+        List<VarSnippet> variablesList = jshell.variables().collect(Collectors.toList());
+        for(VarSnippet varSnippet : variablesList ) {
+            refName = getRefName(varSnippet);
+            if (refName.equals(deleteRefName)) {
+                jshell.drop(varSnippet);
+                jshell.drop(nullSnippet);
+            }
+        }
     }
 }

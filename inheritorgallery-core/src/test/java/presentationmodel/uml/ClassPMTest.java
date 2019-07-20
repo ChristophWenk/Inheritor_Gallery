@@ -22,18 +22,20 @@ class ClassPMTest {
         assertEquals("input.Antique",classPMAntique.getFullClassName());
         assertEquals("Antique",classPMAntique.getName());
         assertTrue(classPMAntique.isIsInterface());
-        assertEquals(0,classPMAntique.getImplementedInterfaces().size());
+        assertEquals(0,classPMAntique.getImplementedInterfacesAsString().size());
         assertNull(classPMAntique.getSuperClassName());
+        assertNull(classPMAntique.getSuperClass());
 
         //given
         ClassPM classPMAntiqueBuyableFahrrad = pm.getClasses().get(1);
         //then
         assertEquals("AntiqueBuyableFahrrad",classPMAntiqueBuyableFahrrad.getName());
         assertFalse(classPMAntiqueBuyableFahrrad.isIsInterface());
-        assertEquals(2,classPMAntiqueBuyableFahrrad.getImplementedInterfaces().size());
-        assertEquals("input.Antique",classPMAntiqueBuyableFahrrad.getImplementedInterfaces().get(0));
-        assertEquals("input.Buyable",classPMAntiqueBuyableFahrrad.getImplementedInterfaces().get(1));
+        assertEquals(2,classPMAntiqueBuyableFahrrad.getImplementedInterfacesAsString().size());
+        assertEquals("input.Antique",classPMAntiqueBuyableFahrrad.getImplementedInterfacesAsString().get(0));
+        assertEquals("input.Buyable",classPMAntiqueBuyableFahrrad.getImplementedInterfacesAsString().get(1));
         assertEquals("input.Fahrrad",classPMAntiqueBuyableFahrrad.getSuperClassName());
+        assertEquals("input.Fahrrad",classPMAntiqueBuyableFahrrad.getSuperClass().getFullClassName());
 
         //given
         ClassPM classPMAFahrrad = pm.getClasses().get(5);
@@ -41,6 +43,7 @@ class ClassPMTest {
         assertEquals("Fahrrad",classPMAFahrrad.getName());
         assertFalse(classPMAFahrrad.isIsInterface());
         assertEquals("input.Fahrzeug",classPMAFahrrad.getSuperClassName());
+        assertEquals("input.Fahrzeug",classPMAFahrrad.getSuperClass().getFullClassName());
     }
 
     @Test

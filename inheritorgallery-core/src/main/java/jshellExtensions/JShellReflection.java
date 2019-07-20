@@ -1,30 +1,52 @@
-package service.uml;
+package jshellExtensions;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.FileService;
+import service.jshell.dto.ClassDTO;
+import service.jshell.dto.ConstructorDTO;
+import service.jshell.dto.FieldDTO;
+import service.jshell.dto.MethodDTO;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
-public class UmlService {
-    private static Logger logger = LoggerFactory.getLogger(UmlService.class);
-    private final String packageName = "input";
+public class JShellReflection {
+    private static Logger logger = LoggerFactory.getLogger(JShellReflection.class);
+    private final String packageName;
 
-    public UmlService(){
+    public JShellReflection(String packageName){
+        this.packageName = packageName;
+    }
 
+    public String serialize(Object objectToSerialize){
+        String serializedString = null;
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ObjectOutputStream o = new ObjectOutputStream(byteArrayOutputStream);
+            o.writeObject(objectToSerialize);
+            o.flush();
+            o.close();
+            serializedString =  Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return serializedString;
+    }
+
+    public String getClassDTOsSerialized(){
+        return serialize(getClassDTOs());
     }
 
     public List<ClassDTO> getClassDTOs() {
@@ -69,6 +91,7 @@ public class UmlService {
     private ClassDTO getClassDTOForClass(Class c){
 
         return new ClassDTO(
+                Modifier.isAbstract(c.getModifiers()),
                 c.isInterface(),
                 c.getCanonicalName(),
                 c.getSimpleName(),
@@ -88,7 +111,12 @@ public class UmlService {
             String modifier =  Modifier.toString(f.getModifiers()).split(" ")[0];
             modifier = modifier.equals("") ? "package" : modifier;
 
-            fields.add(new FieldDTO(modifier, f.getType().getSimpleName(), f.getName()));
+            fields.add(new FieldDTO(
+                                    c.getCanonicalName(),
+                                    modifier,
+                                    f.getType().getSimpleName(),
+                                    f.getName(),
+                                    null));
         }
         return fields;
     }
@@ -117,7 +145,9 @@ public class UmlService {
 
         //ToDo: sort methods better so that getter and setter are site by side
         Stream<Method> methodList = Arrays.stream(c.getDeclaredMethods())
+                .sorted(Comparator.comparing(m -> m.getParameterTypes().length))
                 .sorted(Comparator.comparing(Method::getName));
+
 
         methodList.forEach(method -> {
             String modifier =  Modifier.toString(method.getModifiers()).split(" ")[0];
@@ -137,5 +167,36 @@ public class UmlService {
         return methods;
     }
 
+    public List<FieldDTO> getFieldValuesForReference(Object reference) {
+
+        List<FieldDTO> fieldDTOs = new ArrayList<>();
+        Class<?> declaringClass = reference.getClass();
+        while (declaringClass.getSuperclass() != null) {
+            for (Field currentField_xyghw : declaringClass.getDeclaredFields()) {
+                try {
+                      currentField_xyghw.setAccessible(true);
+                      String value;
+                      if(currentField_xyghw.get(reference) == null) value = "null";
+                      else value = currentField_xyghw.get(reference).toString();
+
+                      fieldDTOs.add(new FieldDTO(
+                               declaringClass.getCanonicalName(),
+                               null,
+                               currentField_xyghw.getType().getSimpleName(),
+                               currentField_xyghw.getName(),
+                               value
+                      ));
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+            declaringClass = declaringClass.getSuperclass();
+        }
+        return fieldDTOs;
+    }
+
+    public String  getFieldValuesForReferenceSerialized(Object reference){
+        return serialize(getFieldValuesForReference(reference));
+    }
 
 }

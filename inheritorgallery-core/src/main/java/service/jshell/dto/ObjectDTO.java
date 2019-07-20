@@ -1,15 +1,13 @@
-package service.jshell;
+package service.jshell.dto;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import java.io.Serializable;
 import java.util.List;
 
-public class ObjectDTO {
+public class ObjectDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String objectId;
     private String objectFullName; //e.g. Car, instatiated with "... = new Car()"
     private List<FieldDTO> fieldValues;
-    private static Logger logger = LoggerFactory.getLogger(ObjectDTO.class);
 
     public ObjectDTO(String objectId, String objectFullName, List<FieldDTO> fieldValues){
         this.objectFullName = objectFullName;

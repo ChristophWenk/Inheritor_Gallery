@@ -2,12 +2,12 @@ package inheritorgallery.view.uml;
 
 import inheritorgallery.view.ViewMixin;
 import javafx.application.Platform;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import presentationmodel.ColorPM;
 import presentationmodel.uml.ClassPM;
 import presentationmodel.uml.EdgePM;
 import presentationmodel.uml.UmlPM;
@@ -20,20 +20,19 @@ public class UmlPane extends StackPane implements ViewMixin {
 
     private static Logger logger = LoggerFactory.getLogger(UmlPane.class);
 
-    private final UmlPM model;
+    private final UmlPM umlPM;
+    private ColorPM colorPM;
 
     private ArrayList<UmlClass> umlClasses;
     private ArrayList<Line> lines;
-    private ArrayList<Polygon> triangles;
-    private ArrayList<HBox> hBoxes;
+    private ArrayList<Polygon> arrowHeadList;
+    private ArrayList<HBox> inheritanceLevelHBox;
     private VBox vBox;
     private Pane linePane;
-    private ScrollPane scrollPane;
 
-
-
-    public UmlPane(UmlPM model) {
-        this.model = model;
+    public UmlPane(UmlPM umlPM, ColorPM colorPM) {
+        this.umlPM = umlPM;
+        this.colorPM = colorPM;
         init();
         logger.info("Finished initializing UmlPane");
     }
@@ -42,47 +41,48 @@ public class UmlPane extends StackPane implements ViewMixin {
     public void initializeControls() {
         umlClasses = new ArrayList<>();
         lines = new ArrayList<>();
-        triangles = new ArrayList<>();
-        hBoxes = new ArrayList<>();
+        arrowHeadList = new ArrayList<>();
+        inheritanceLevelHBox = new ArrayList<>();
         vBox = new VBox(40);
         linePane = new Pane();
-        scrollPane = new ScrollPane();
 
-        for(ClassPM c : model.getClasses()){
-            umlClasses.add(new UmlClass(c));
+
+        for(ClassPM classPM : umlPM.getClasses()){
+            UmlClass umlClass = new UmlClass(classPM);
+            String color = colorPM.getColor(classPM.getFullClassName());
+            umlClass.setStyle("-fx-background-color:" + color);
+            umlClasses.add(umlClass);
         }
 
-        for(EdgePM ignored : model.getEdges()){
+        for(EdgePM ignored : umlPM.getEdges()){
             lines.add(new Line());
-            triangles.add(new Polygon());
+            arrowHeadList.add(new Polygon());
         }
-        for (int i = 0; i <= model.getInheritanceDeepness(); i++) {
-            hBoxes.add(new HBox(20));
+        for (int i = 0; i <= umlPM.getInheritanceDeepness(); i++) {
+            inheritanceLevelHBox.add(new HBox(20));
         }
-
-
     }
 
     @Override
     public void layoutControls() {
 
-        for (int i=0 ; i < model.getClasses().size(); i++) {
-            hBoxes.get(model.getClasses().get(i).getInheritanceLevel())
+        for (int i = 0; i < umlPM.getClasses().size(); i++) {
+            inheritanceLevelHBox.get(umlPM.getClasses().get(i).getInheritanceLevel())
                     .getChildren()
                     .add(umlClasses.get(i));
         }
-        vBox.getChildren().addAll(hBoxes);
+        vBox.getChildren().addAll(inheritanceLevelHBox);
 
         getChildren().addAll(vBox);
 
         Platform.runLater(() -> {
 
-            for (int i=0 ; i < model.getEdges().size(); i++){
+            for (int i = 0; i < umlPM.getEdges().size(); i++){
                 int finalI = i;
                 Optional<UmlClass> source = umlClasses.stream().filter(
-                        c -> c.getId().equals(model.getEdges().get(finalI).getSource())).findFirst();
+                        c -> c.getId().equals(umlPM.getEdges().get(finalI).getSource())).findFirst();
                 Optional<UmlClass> target = umlClasses.stream().filter(
-                        c -> c.getId().equals(model.getEdges().get(finalI).getTarget())).findFirst();
+                        c -> c.getId().equals(umlPM.getEdges().get(finalI).getTarget())).findFirst();
 
 
                 if (source.isPresent() && target.isPresent()) {
@@ -94,19 +94,19 @@ public class UmlPane extends StackPane implements ViewMixin {
                     lines.get(i).setEndX(target.get().getBoundsInParent().getCenterX());
                     lines.get(i).setEndY(target.get().getParent().getBoundsInParent().getMaxY());
 
-                    if(model.getEdges().get(i).getType().equals("extends")){
+                    if(umlPM.getEdges().get(i).getType().equals("extends")){
                         lines.get(i).getStyleClass().add("extendsLine");
-                    } else if(model.getEdges().get(i).getType().equals("implements")){
+                    } else if(umlPM.getEdges().get(i).getType().equals("implements")){
                         lines.get(i).getStyleClass().add("implementsLine");
                     }
 
                     //add arrow head to line
-                    triangles.get(i).getPoints().addAll(
+                    arrowHeadList.get(i).getPoints().addAll(
                             getArrowHeadForLine(lines.get(i))
                     );
 
                     linePane.getChildren().add(lines.get(i));
-                    linePane.getChildren().add(triangles.get(i));
+                    linePane.getChildren().add(arrowHeadList.get(i));
 
 
                 } else {
@@ -118,34 +118,25 @@ public class UmlPane extends StackPane implements ViewMixin {
 
     }
 
-    @Override
-    public void setupBindings() {
-
-    }
-
-
     private Double[] getArrowHeadForLine(Line line){
-        //adapted from https://stackoverflow.com/questions/41353685/how-to-draw-arrow-javafx-pane
 
-        double ex = line.getEndX();
-        double ey = line.getEndY();
-        double sx = line.getStartX();
-        double sy = line.getStartY();
+        double endX = line.getEndX();
+        double endY = line.getEndY();
+        double startX = line.getStartX();
+        double startY = line.getStartY();
 
-        double factor = 20 / Math.hypot(sx-ex, sy-ey);
-        double factorO = 10 / Math.hypot(sx-ex, sy-ey);
+        double factor = 20 / Math.hypot(startX-endX, startY-endY);
+        double factorO = 10 / Math.hypot(startX-endX, startY-endY);
 
         // part in direction of main line
-        double dx = (sx - ex) * factor;
-        double dy = (sy - ey) * factor;
+        double dx = (startX - endX) * factor;
+        double dy = (startY - endY) * factor;
 
         // part ortogonal to main line
-        double ox = (sx - ex) * factorO;
-        double oy = (sy - ey) * factorO;
+        double ortX = (startX - endX) * factorO;
+        double ortY = (startY - endY) * factorO;
 
-        Double[] arr = { ex, ey,  ex + dx - oy,ey + dy + ox ,  ex + dx + oy,ey + dy - ox};
-
-        return arr;
+        return new Double[]{ endX, endY,  endX + dx - ortY,endY + dy + ortX ,  endX + dx + ortY,endY + dy - ortX};
     }
 
 }

@@ -1,6 +1,9 @@
-package service.jshell;
+package service.jshell.dto;
 
-public class ReferenceDTO {
+import java.io.Serializable;
+
+public class ReferenceDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String refType;
     private String refName;
     private String pointedToObject;

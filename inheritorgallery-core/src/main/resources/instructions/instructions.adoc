@@ -1,61 +1,21 @@
-= InheritorGallery
-Dimitri Muralt, Christoph Wenk
+== Übung 1
 
-//Table of contents
-:toc: macro 
-// Path to the code references
-:sourcedir: ../inheritorgallery-core/src/main/java
-:sourcedirdemo: ../inheritorgallery-demo/src/main/java
+=== Aufgabe 1
+Gegeben sind die folgenden Referenzen und Objekte.
 
-== Front page
-image:images/FHNW_logo.png[FHNW, 20%]
+[source,java]
+----
+Fahrzeug f= new Fahrzeug("Fahrzeug1", 0);
+Fahrrad rad= new Fahrrad("Mein Rad", 48);
+Auto auto= new Auto("Ferrari",430, 2, 3);
+Cabriolet cabriolet= new Cabriolet("Mein Gabi", 150, 4, 2);
+----
 
-*InheritorGallery*
+Welche Zuweisungen sind (unabhängig voneinander) möglich?
 
-*Project report*
-
-Dimitri Muralt
-
-Christoph Wenk
-
-Barbara Scheuner
-
-Dieter Holz
-
-Windisch, 19. January 2019
-
-== Abstract / Management summary
-
-InheritorGallery is cool.
-
-
-=== What would we do different next time?
-* start at the beginning
-
-=== What would we keep doing?
-* Hackingdays (probably more often)
-* Usability-Tests
-* Meetings
-    - Meet in person when a release is published.
-    - Skype meeting for short updates.
-
-
-In conclusion we can proudly say, ..
-
-== Honesty Declaration
-It is hereby declared that the contents of this report, unless otherwise stated, have been authored by Dimitri Muralt and Christoph Wenk.
-All external sources have been named and quoted material has been attributed appropriately.
-
-The signatures are delivered separately.
-
-Windisch, 18. January 2019
-
-== Table of Content
-toc::[]
-
-== Introduction
-*Learning OOP-concepts is fun*
-
-
-
-
+ * f = rad;
+ * rad = f;
+ * auto = rad;
+ * cabriolet= auto;
+ * auto = f;
+ * auto= cabriolet;

@@ -20,4 +20,5 @@ public class AntiqueBuyableFahrrad extends Fahrrad implements Antique, Buyable {
     public double getPrice() {
         return this.price;
     }
+
 }

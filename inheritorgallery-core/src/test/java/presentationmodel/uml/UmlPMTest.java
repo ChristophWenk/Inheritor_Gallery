@@ -56,4 +56,19 @@ class UmlPMTest {
 
     }
 
+    @Test
+    public void testGetInterfaces(){
+
+        assertEquals("Antique", pm.getClasses().get(0).getName());
+        assertEquals("AntiqueBuyableFahrrad", pm.getClasses().get(1).getName());
+        assertEquals("Auto", pm.getClasses().get(2).getName());
+
+        assertEquals(0, pm.getClasses().get(2).getImplementedInterfacesAsString().size());
+        assertEquals(0, pm.getClasses().get(2).getImplementedInterfaces().size());
+
+        assertEquals(2, pm.getClasses().get(1).getImplementedInterfacesAsString().size());
+        assertEquals(2, pm.getClasses().get(1).getImplementedInterfaces().size());
+
+    }
+
 }

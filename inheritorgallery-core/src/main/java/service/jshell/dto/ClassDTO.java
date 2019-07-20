@@ -1,8 +1,11 @@
-package service.uml;
+package service.jshell.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ClassDTO {
+public class ClassDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private final Boolean isAbstract;
     private final Boolean isInterface;
     private final String fullClassName;
     private final String simpleClassName;
@@ -12,7 +15,8 @@ public class ClassDTO {
     private final List<ConstructorDTO> constructors;
     private final List<MethodDTO> methods;
 
-    public ClassDTO(Boolean isInterface,
+    public ClassDTO(Boolean isAbstract,
+                    Boolean isInterface,
                     String fullClassName,
                     String simpleClassName,
                     String superClassName,
@@ -21,6 +25,7 @@ public class ClassDTO {
                     List<ConstructorDTO> constructors,
                     List<MethodDTO> methods){
 
+        this.isAbstract = isAbstract;
         this.isInterface = isInterface;
         this.fullClassName = fullClassName;
         this.simpleClassName = simpleClassName;
@@ -29,6 +34,10 @@ public class ClassDTO {
         this.fields = fields;
         this.constructors = constructors;
         this.methods = methods;
+    }
+
+    public Boolean isAbstract() {
+        return isAbstract;
     }
 
     public Boolean isInterface() {

@@ -6,8 +6,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import service.uml.ClassDTO;
-import service.uml.UmlService;
+import service.jshell.JShellService;
+import service.jshell.dto.ClassDTO;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -15,31 +15,48 @@ import java.util.stream.Collectors;
 public class UmlPM {
 
     private static Logger logger = LoggerFactory.getLogger(UmlPM.class);
-
-    //ToDo Observable never used, overkill?
     private final ObservableList<ClassPM> classes = FXCollections.observableArrayList();
     private final ObservableList<EdgePM> edges = FXCollections.observableArrayList();
     private final IntegerProperty inheritanceDeepness = new SimpleIntegerProperty();
-    private UmlService umlService;
+    private JShellService jshellService = JShellService.getInstance();
 
     public UmlPM() {
-        umlService = new UmlService();
-        for(ClassDTO c : umlService.getClassDTOs()){
+        init();
+    }
+    public void init(){
+        classes.clear();
+        edges.clear();
+
+        for(ClassDTO c : jshellService.getClassDTOs()){
             classes.add(new ClassPM(
+                    c.isAbstract(),
                     c.isInterface(),
                     c.getFullClassName(),
                     c.getSimpleClassName(),
                     c.getSuperClassName(),
+                    null, //superclass ClassPM has to be created first, superclass is added below
                     c.getImplementedInterfaces(),
+                    null,//interfaces ClassPM have to be created first, added below
                     c.getFields(),
                     c.getConstructors(),
                     c.getMethods()
             ));
         }
+        for(ClassPM classPM : classes){ //add superclass ClassPM from superclass name
+            classPM.setSuperClass(getClassByFullName(classPM.getSuperClassName()));
+        }
+
+        for(ClassPM classPM : classes){ //add implemented Interfaces ClassPM
+            for(String implementedInterface : classPM.getImplementedInterfacesAsString())
+                classPM.addInterface(getClassByFullName(implementedInterface));
+        }
+
         setClassInheritanceLevelToHashMap(classes);
 
         edges.addAll(getEdgesForClasses(classes));
     }
+
+
 
 
     public ClassPM getClassByName(String s){
@@ -69,7 +86,7 @@ public class UmlPM {
                     .collect(Collectors.toList());
 
             List<String> classesImplemented = classesLevelNotSetYet.stream()
-                    .flatMap(e -> e.getImplementedInterfaces().stream())
+                    .flatMap(e -> e.getImplementedInterfacesAsString().stream())
                     .collect(Collectors.toList());
 
             List<String> classesExtendedOrImplemented = new ArrayList<>(classesExtended);
@@ -99,7 +116,7 @@ public class UmlPM {
             if(superClass != null && !superClass.getName().equals("Object"))
                 edgePMs.add(new EdgePM(clazz.getName(),superClass.getName(),"extends"));
 
-            List<ClassPM> implementedInterfaces = clazz.getImplementedInterfaces().stream()
+            List<ClassPM> implementedInterfaces = clazz.getImplementedInterfacesAsString().stream()
                     .map(e -> getClassByFullName(e))
                     .collect(Collectors.toList());
 

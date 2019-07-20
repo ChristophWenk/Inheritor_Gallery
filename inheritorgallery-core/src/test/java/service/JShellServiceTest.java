@@ -1,12 +1,14 @@
 package service;
 
 import exceptions.InvalidCodeException;
+import jdk.jshell.Snippet;
 import jdk.jshell.SnippetEvent;
+import jdk.jshell.VarSnippet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import service.jshell.FieldDTO;
 import service.jshell.JShellService;
-import service.jshell.ObjectDTO;
+import service.jshell.dto.FieldDTO;
+import service.jshell.dto.ObjectDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -123,21 +125,21 @@ class JShellServiceTest {
         assertEquals(5,fahrzeug.getFieldValues().size());
 
         Optional<FieldDTO> dieselTaxOptional = fahrzeug.getFieldValues().stream()
-                .filter(o -> o.getFieldName().equals("weight")).findFirst();
+                .filter(o -> o.getName().equals("weight")).findFirst();
         assertTrue(dieselTaxOptional.isPresent());
         FieldDTO dieselTax = dieselTaxOptional.get();
         assertEquals("input.Item",dieselTax.getDeclaringClass());
-        assertEquals("0.0",dieselTax.getFieldValue());
+        assertEquals("0.0",dieselTax.getValue());
 
 
         ObjectDTO item =  jShellService.getObjectDTOs().get(1);
         assertEquals("input.Fahrzeug",item.getObjectFullName());
         Optional<FieldDTO> nameOptional = fahrzeug.getFieldValues().stream()
-                .filter(o -> o.getFieldName().equals("name")).findFirst();
+                .filter(o -> o.getName().equals("name")).findFirst();
         assertTrue(nameOptional.isPresent());
         FieldDTO name = nameOptional.get();
         assertEquals("input.Fahrzeug",name.getDeclaringClass());
-        assertEquals("tesla",name.getFieldValue());
+        assertEquals("tesla",name.getValue());
 
 
     }
@@ -188,7 +190,7 @@ class JShellServiceTest {
         }
 
         //then
-        assertEquals("i",jShellService.getRefName(snippetEvent));
+        assertEquals("i",jShellService.getRefName((VarSnippet) snippetEvent.snippet()));
     }
 
     @Test
@@ -205,7 +207,7 @@ class JShellServiceTest {
         }
 
         //then
-        assertEquals("Item",jShellService.getRefType(snippetEvent));
+        assertEquals("Item",jShellService.getRefType((VarSnippet) snippetEvent.snippet()));
     }
 
     @Test
@@ -225,8 +227,8 @@ class JShellServiceTest {
         }
 
         //then
-        assertEquals("Fahrzeug",jShellService.getRefType(snippetEvent1));
-        assertEquals("Item",jShellService.getRefType(snippetEvent2));
+        assertEquals("Fahrzeug",jShellService.getRefType((VarSnippet) snippetEvent1.snippet()));
+        assertEquals("Item",jShellService.getRefType((VarSnippet) snippetEvent2.snippet()));
     }
 
     @Test
@@ -270,43 +272,7 @@ class JShellServiceTest {
     }
 
     @Test
-    void testGetMethodsForReference() {
-        //given
-        String input = "Auto a1 = new Auto(\"tesla\", 20,3,3);";
-
-        //when
-        try {
-            jShellService.evaluateCode(input);
-        } catch (InvalidCodeException e) {
-            e.printStackTrace();
-        }
-
-        //then
-        jShellService.getMethodsForReference("a1");
-
-    }
-
-
-    @Test
-    void testGetDeclaringClassOfMethod(){
-        //given
-        String input = "Auto a1 = new Auto(\"tesla\", 20,3,3);";
-        //when
-        try {
-            jShellService.evaluateCode(input);
-        } catch (InvalidCodeException e) {
-            e.printStackTrace();
-        }
-
-
-        jShellService.testReflectionGetDeclaringClassOfMethod();
-        //https://stackoverflow.com/questions/4821704/java-how-to-find-if-a-method-is-overridden-from-base-class?noredirect=1&lq=1
-
-
-    }
-
-    @Test
-    void testGetFieldsForReference(){
+    void testGetFieldValuesForReference(){
         //given
         String input = "Auto a1 = new Auto(\"tesla\", 20,100,3);";
 
@@ -316,36 +282,105 @@ class JShellServiceTest {
         } catch (InvalidCodeException e) {
             e.printStackTrace();
         }
-        List<FieldDTO> fieldDTOs = jShellService.getFieldsForReference("a1");
+        List<FieldDTO> fieldDTOs = jShellService.getFieldValuesReference("a1");
 
         //then
-        assertEquals("input.Auto", fieldDTOs.get(0).getDeclaringClass());
-        assertEquals("ps", fieldDTOs.get(0).getFieldName());
-        assertEquals("100", fieldDTOs.get(0).getFieldValue());
+        int i = 0;
+        assertEquals("input.Auto", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("ps", fieldDTOs.get(i).getName());
+        assertEquals("100", fieldDTOs.get(i).getValue());
+        i++;
+        assertEquals("input.Auto", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("color", fieldDTOs.get(i).getName());
+        assertEquals("3", fieldDTOs.get(i).getValue());
+        i++;
+        assertEquals("input.Auto", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("refTypeObjectNull", fieldDTOs.get(i).getName());
+        assertEquals("null", fieldDTOs.get(i).getValue());
+        i++;
+        assertEquals("input.Auto", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("refTypeObject", fieldDTOs.get(i).getName());
+        assertNotEquals("null", fieldDTOs.get(i).getValue());
+        i++;
+        assertEquals("input.Auto", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("p", fieldDTOs.get(i).getName());
+        assertEquals("John Doe", fieldDTOs.get(i).getValue());
+        i++;
+        assertEquals("input.Fahrzeug", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("speed", fieldDTOs.get(i).getName());
+        assertEquals("20.0", fieldDTOs.get(i).getValue());
+        i++;
+        assertEquals("input.Fahrzeug", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("name", fieldDTOs.get(i).getName());
+        assertEquals("tesla", fieldDTOs.get(i).getValue());
+        i++;
+        assertEquals("input.Fahrzeug", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("dieselTax", fieldDTOs.get(i).getName());
+        assertEquals("0.0", fieldDTOs.get(i).getValue());
+        i++;
+        assertEquals("input.Fahrzeug", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("gravity", fieldDTOs.get(i).getName());
+        assertEquals("9.81", fieldDTOs.get(i).getValue());
+        i++;
+        assertEquals("input.Item", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("weight", fieldDTOs.get(i).getName());
+        assertEquals("0.0", fieldDTOs.get(i).getValue());
+    }
 
-        assertEquals("input.Auto", fieldDTOs.get(1).getDeclaringClass());
-        assertEquals("color", fieldDTOs.get(1).getFieldName());
-        assertEquals("3", fieldDTOs.get(1).getFieldValue());
+    @Test
+    void testGetFieldValuesForReferenceViaSerialized(){
+        //given
+        String input = "Auto a1 = new Auto(\"tesla\", 20,100,3);";
 
-        assertEquals("input.Fahrzeug", fieldDTOs.get(2).getDeclaringClass());
-        assertEquals("speed", fieldDTOs.get(2).getFieldName());
-        assertEquals("20.0", fieldDTOs.get(2).getFieldValue());
+        //when
+        try {
+            jShellService.evaluateCode(input);
+        } catch (InvalidCodeException e) {
+            e.printStackTrace();
+        }
+        List<FieldDTO> fieldDTOs = jShellService.getFieldValuesReference("a1");
 
-        assertEquals("input.Fahrzeug", fieldDTOs.get(3).getDeclaringClass());
-        assertEquals("name", fieldDTOs.get(3).getFieldName());
-        assertEquals("tesla", fieldDTOs.get(3).getFieldValue());
-
-        assertEquals("input.Fahrzeug", fieldDTOs.get(4).getDeclaringClass());
-        assertEquals("dieselTax", fieldDTOs.get(4).getFieldName());
-        assertEquals("0.0", fieldDTOs.get(4).getFieldValue());
-
-        assertEquals("input.Fahrzeug", fieldDTOs.get(5).getDeclaringClass());
-        assertEquals("gravity", fieldDTOs.get(5).getFieldName());
-        assertEquals("9.81", fieldDTOs.get(5).getFieldValue());
-
-        assertEquals("input.Item", fieldDTOs.get(6).getDeclaringClass());
-        assertEquals("weight", fieldDTOs.get(6).getFieldName());
-        assertEquals("0.0", fieldDTOs.get(6).getFieldValue());
+        //then
+        int i = 0;
+        assertEquals("input.Auto", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("ps", fieldDTOs.get(i).getName());
+        assertEquals("100", fieldDTOs.get(i).getValue());
+        i++;
+        assertEquals("input.Auto", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("color", fieldDTOs.get(i).getName());
+        assertEquals("3", fieldDTOs.get(i).getValue());
+        i++;
+        assertEquals("input.Auto", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("refTypeObjectNull", fieldDTOs.get(i).getName());
+        assertEquals("null", fieldDTOs.get(i).getValue());
+        i++;
+        assertEquals("input.Auto", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("refTypeObject", fieldDTOs.get(i).getName());
+        assertNotEquals("null", fieldDTOs.get(i).getValue());
+        i++;
+        assertEquals("input.Auto", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("p", fieldDTOs.get(i).getName());
+        assertEquals("John Doe", fieldDTOs.get(i).getValue());
+        i++;
+        assertEquals("input.Fahrzeug", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("speed", fieldDTOs.get(i).getName());
+        assertEquals("20.0", fieldDTOs.get(i).getValue());
+        i++;
+        assertEquals("input.Fahrzeug", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("name", fieldDTOs.get(i).getName());
+        assertEquals("tesla", fieldDTOs.get(i).getValue());
+        i++;
+        assertEquals("input.Fahrzeug", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("dieselTax", fieldDTOs.get(i).getName());
+        assertEquals("0.0", fieldDTOs.get(i).getValue());
+        i++;
+        assertEquals("input.Fahrzeug", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("gravity", fieldDTOs.get(i).getName());
+        assertEquals("9.81", fieldDTOs.get(i).getValue());
+        i++;
+        assertEquals("input.Item", fieldDTOs.get(i).getDeclaringClass());
+        assertEquals("weight", fieldDTOs.get(i).getName());
+        assertEquals("0.0", fieldDTOs.get(i).getValue());
     }
 
     @Test
@@ -362,5 +397,35 @@ class JShellServiceTest {
 
         //then
         assertEquals("input",jShellService.getPackageForReference("i1"));
+    }
+
+    @Test
+    void testCheckforDeletion() {
+        //given
+        String input1 = "Item i1 = new Fahrzeug(\"tesla\", 20);";
+        String input2 = "i1 = null;";
+        Snippet snippet = null;
+        Snippet deleteSnippet = null;
+
+        //when/then
+        try {
+            SnippetEvent snippetEvent = jShellService.evaluateCode(input1);
+            snippet = snippetEvent.snippet();
+            List<ObjectDTO> list1 = jShellService.getObjectDTOs();
+            assertFalse(list1.isEmpty());
+
+            SnippetEvent deleteEvent = jShellService.evaluateCode(input2);
+            deleteSnippet = deleteEvent.snippet();
+            jShellService.checkforDeletion();
+            List<ObjectDTO> list2 = jShellService.getObjectDTOs();
+            assertTrue(list2.isEmpty());
+
+            SnippetEvent snippetEvent2 = jShellService.evaluateCode(input1);
+            snippet = snippetEvent.snippet();
+            List<ObjectDTO> list3 = jShellService.getObjectDTOs();
+            assertFalse(list1.isEmpty());
+        } catch (InvalidCodeException e) {
+            e.printStackTrace();
+        }
     }
 }

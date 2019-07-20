@@ -4,7 +4,10 @@ import inheritorgallery.view.ApplicationUI;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import presentationmodel.ColorPM;
+import presentationmodel.DirectoryChooserPM;
 import presentationmodel.instance.InstanceStatePM;
 import presentationmodel.instruction.InstructionPM;
 import presentationmodel.uml.UmlPM;
@@ -23,8 +26,10 @@ public class AppStarter extends Application {
         UmlPM umlPM = new UmlPM();
         InstanceStatePM instanceStatePM = new InstanceStatePM(umlPM);
         InstructionPM instructionPM = new InstructionPM(asciiDocService);
+        ColorPM colorPM = new ColorPM();
+        DirectoryChooserPM directoryChooserPM = new DirectoryChooserPM();
 
-        Parent rootPane = new ApplicationUI(instanceStatePM, umlPM, instructionPM);
+        Parent rootPane = new ApplicationUI(primaryStage, directoryChooserPM, instanceStatePM, umlPM, instructionPM, colorPM);
 
         Scene scene = new Scene(rootPane);
 
@@ -32,6 +37,7 @@ public class AppStarter extends Application {
         scene.getStylesheets().add(stylesheet);
 
         primaryStage.setTitle("Inheritor Gallery");
+        primaryStage.getIcons().add(new Image("icons/constructor.png"));
         primaryStage.setScene(scene);
         primaryStage.setWidth(1280);
         primaryStage.setHeight(640);
