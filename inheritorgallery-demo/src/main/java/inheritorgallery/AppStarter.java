@@ -27,7 +27,7 @@ public class AppStarter extends Application {
         InstanceStatePM instanceStatePM = new InstanceStatePM(umlPM);
         InstructionPM instructionPM = new InstructionPM(asciiDocService);
         ColorPM colorPM = new ColorPM();
-        FileChooserPM fileChooserPM = new FileChooserPM();
+        FileChooserPM fileChooserPM = new FileChooserPM(umlPM);
 
         Parent rootPane = new ApplicationUI(primaryStage, fileChooserPM, instanceStatePM, umlPM, instructionPM, colorPM);
 
