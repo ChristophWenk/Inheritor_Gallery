@@ -2,22 +2,22 @@ package presentationmodel;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import service.jshell.JShellService;
 
 import java.nio.file.Path;
 
-public class DirectoryChooserPM {
+public class FileChooserPM {
     private final ObjectProperty<Path> path = new SimpleObjectProperty<>();
-    private DirectoryChooser directoryChooser;
+    private FileChooser fileChooser;
     private JShellService jShellService = JShellService.getInstance();
 
-    public DirectoryChooserPM(){
-        directoryChooser = new DirectoryChooser();
+    public FileChooserPM(){
+        fileChooser = new FileChooser();
     }
 
-    public DirectoryChooser getDirectoryChooser() {
-        return directoryChooser;
+    public FileChooser getFileChooser() {
+        return fileChooser;
     }
 
     private void propagatePath(){

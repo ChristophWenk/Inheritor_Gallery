@@ -4,18 +4,18 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import presentationmodel.DirectoryChooserPM;
+import presentationmodel.FileChooserPM;
 
 import java.io.File;
 
 public class DirectoryChooserPane extends HBox implements ViewMixin {
     private Button button;
     private Stage primaryStage;
-    private DirectoryChooserPM directoryChooserPM;
+    private FileChooserPM fileChooserPM;
     private Label pathLabel;
 
-    public DirectoryChooserPane(Stage primaryStage, DirectoryChooserPM directoryChooserPM){
-        this.directoryChooserPM = directoryChooserPM;
+    public DirectoryChooserPane(Stage primaryStage, FileChooserPM fileChooserPM){
+        this.fileChooserPM = fileChooserPM;
         this.primaryStage = primaryStage;
         init();
 
@@ -37,14 +37,14 @@ public class DirectoryChooserPane extends HBox implements ViewMixin {
     @Override
     public void setupEventHandlers() {
         button.setOnAction(e -> {
-            File selectedDirectory = directoryChooserPM.getDirectoryChooser().showDialog(primaryStage);
-            directoryChooserPM.setPath(selectedDirectory.toPath());
+            File selectedDirectory = fileChooserPM.getFileChooser().showOpenDialog(primaryStage);
+            fileChooserPM.setPath(selectedDirectory.toPath());
         });
     }
 
     @Override
     public void setupBindings(){
-        pathLabel.textProperty().bind(directoryChooserPM.pathProperty().asString());
+        pathLabel.textProperty().bind(fileChooserPM.pathProperty().asString());
     }
 
 }
