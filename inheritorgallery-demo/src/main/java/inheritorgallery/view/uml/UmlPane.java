@@ -79,11 +79,13 @@ public class UmlPane extends StackPane implements ViewMixin {
         }
         vBox.getChildren().addAll(inheritanceLevelHBox);
 
+
+        getChildren().clear();
         getChildren().addAll(vBox);
 
         Platform.runLater(() -> {
 
-            logger.info("view size edges "+ umlPM.getEdges().size());
+            linePane.getChildren().clear();
             for (int i = 0; i < umlPM.getEdges().size(); i++){
                 int finalI = i;
                 Optional<UmlClassPane> source = umlClassPanes.stream().filter(
@@ -120,6 +122,8 @@ public class UmlPane extends StackPane implements ViewMixin {
                     logger.error("Class for Edge missing");
                 }
             }
+            getChildren().clear();
+            getChildren().addAll(vBox);
             getChildren().add(linePane);
         });
 
