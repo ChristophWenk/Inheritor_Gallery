@@ -3,6 +3,7 @@ package presentationmodel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.stage.FileChooser;
+import presentationmodel.instance.InstanceStatePM;
 import presentationmodel.uml.UmlPM;
 import service.jshell.JShellService;
 
@@ -13,11 +14,12 @@ public class FileChooserPM {
     private FileChooser fileChooser;
     private JShellService jShellService = JShellService.getInstance();
     private UmlPM umlPM;
+    private InstanceStatePM instanceStatePM;
 
-    public FileChooserPM(UmlPM umlPM){
-
+    public FileChooserPM(UmlPM umlPM, InstanceStatePM instanceStatePM){
         this.umlPM = umlPM;
-        fileChooser = new FileChooser();
+        this.instanceStatePM = instanceStatePM;
+        this.fileChooser = new FileChooser();
     }
 
     public FileChooser getFileChooser() {
@@ -28,7 +30,16 @@ public class FileChooserPM {
         jShellService.updateImports(getPath());
         //todo: update UML + Instruction
         umlPM.init();
+        instanceStatePM.setJShellInput(";");
     }
+
+    public void reset(){
+        umlPM.init();
+        jShellService.reset();
+        instanceStatePM.setJShellInput("\"refresh\";");
+
+    }
+
 
     public Path getPath() {
         return path.get();

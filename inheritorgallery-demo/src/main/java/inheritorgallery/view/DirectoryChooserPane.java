@@ -1,5 +1,6 @@
 package inheritorgallery.view;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -9,10 +10,9 @@ import presentationmodel.FileChooserPM;
 import java.io.File;
 
 public class DirectoryChooserPane extends HBox implements ViewMixin {
-    private Button button;
+    private Button loadButton, refreshButton;
     private Stage primaryStage;
     private FileChooserPM fileChooserPM;
-    private Label pathLabel;
 
     public DirectoryChooserPane(Stage primaryStage, FileChooserPM fileChooserPM){
         this.fileChooserPM = fileChooserPM;
@@ -24,27 +24,32 @@ public class DirectoryChooserPane extends HBox implements ViewMixin {
     @Override
     public void initializeControls() {
         //directoryChooser.setInitialDirectory(new File("input"));
-        button = new Button("Select Folder");
-        pathLabel = new Label();
+        loadButton = new Button("Load");
+        loadButton.setPrefWidth(200);
+        refreshButton = new Button("Refresh");
+        refreshButton.setPrefWidth(200);
     }
 
     @Override
     public void layoutControls() {
-        getChildren().addAll(button, pathLabel);
+        getChildren().addAll(loadButton,refreshButton);
+        setPadding(new Insets(0,2,3,2));
+        setSpacing(5);
 
     }
 
     @Override
     public void setupEventHandlers() {
-        button.setOnAction(e -> {
+        loadButton.setOnAction(e -> {
             File selectedDirectory = fileChooserPM.getFileChooser().showOpenDialog(primaryStage);
             fileChooserPM.setPath(selectedDirectory.toPath());
         });
-    }
 
-    @Override
-    public void setupBindings(){
-        pathLabel.textProperty().bind(fileChooserPM.pathProperty().asString());
+        refreshButton.setOnAction(e -> {
+            fileChooserPM.reset();
+        });
+
+
     }
 
 }
