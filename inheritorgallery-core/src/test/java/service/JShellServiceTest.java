@@ -29,7 +29,6 @@ class JShellServiceTest {
     public static void setUp() {
         File file = new File(JShellServiceTest.class.getClassLoader().getResource("testClasses.jar").getFile());
         String jarStringPath = file.toURI().toString();
-        logger.info(jarStringPath);
         jShellService.updateImports(jarStringPath.replace("%20"," "));
     }
 
