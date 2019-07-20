@@ -2,24 +2,29 @@ package jshellExtensions;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import service.FileService;
 import service.jshell.dto.ClassDTO;
 import service.jshell.dto.ConstructorDTO;
 import service.jshell.dto.FieldDTO;
 import service.jshell.dto.MethodDTO;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 
 public class JShellReflection {
@@ -50,10 +55,75 @@ public class JShellReflection {
     }
 
     public List<ClassDTO> getClassDTOs() {
-        FileService fileService = new FileService();
-        Path path = fileService.getPath("/"+packageName);
+        logger.info(packageName);
 
-        List<Class> classes = getClassesForPath(path);
+
+//        CodeSource src = JShellReflection.class.getProtectionDomain().getCodeSource();
+//        logger.info(src.getLocation().toExternalForm());
+        //if (src != null) {
+            //URL jar = src.getLocation();
+        URL jar = null;
+        try {
+            jar = new URL("file:/F:/Downloads/jarTest2/build/libs/fhnw-1.0-SNAPSHOT.jar");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        logger.info(jar.toExternalForm());
+            ZipInputStream zip = null;
+            try {
+                zip = new ZipInputStream(jar.openStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            while(true) {
+                ZipEntry e = null;
+                try {
+                    e = zip.getNextEntry();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                if (e == null) {
+                    break;
+                }
+
+                String name = e.getName();
+                if (name.startsWith("b")) {
+                    /* Do something with this entry. */
+                logger.info("Name of Content: " + e.getName());
+                }
+            }
+//        }
+//        else {
+//            /* Fail... */
+//        }
+
+
+
+
+
+        URL input = getClass().getResource("/b");
+        logger.info("URL: " + input);
+        File path = null;
+        path =new File(input.toExternalForm());
+
+        try {
+            logger.info("URI: " + input.toURI().toString());
+            Class c = Class.forName("b.B");
+            logger.info("ClassName: " + c.getName());
+            logger.info("Path: " + input.getPath());
+
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        logger.info(path.toString());
+
+//        Path path = fileService.getPath("/"+packageName);
+//        logger.info(path.toPath().toString());
+
+        List<Class> classes = getClassesForPath(path.toPath());
         return  classes.stream()
                 .map(this::getClassDTOForClass)
                 .collect(Collectors.toList());
@@ -61,6 +131,7 @@ public class JShellReflection {
     }
 
     public List<Class> getClassesForPath(Path path){
+        logger.info("Path: " + path.toString());
         List<String> classNamesAsString = new ArrayList<>();
         List<Class> classes = new ArrayList<>();
         try {
@@ -80,6 +151,7 @@ public class JShellReflection {
         for(String absoluteClassName : classNamesAsString) {
             try {
                 Class c = Class.forName(absoluteClassName);
+                logger.info(absoluteClassName);
                 classes.add(c);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();

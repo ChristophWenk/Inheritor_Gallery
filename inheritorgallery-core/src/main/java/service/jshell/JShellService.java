@@ -33,40 +33,51 @@ public class JShellService {
 
     private static JShellService jShellService;
     private JShell jshell;
-    private final String packageName = "input";
+
+
+
+    private String packageName;
 
     /**
      * JShellService Constructor.
      */
     private JShellService() {
         jshell = JShell.create();
+        //jshell = JShell.builder().executionEngine(new LocalExecutionControlProvider(), null).build();
 
         // The JVM classpath needs to be explicitly added to JShell so that it is able to use non-JDK classes.
         String classpath = System.getProperty("java.class.path");
         String[] classpathEntries = classpath.split(File.pathSeparator);
-        for (String cp : classpathEntries)
-            //todo
+        for (String cp : classpathEntries) {
             jshell.addToClasspath(cp);
+        }
 
-        importClasses();
+        importClasses("input");
     }
 
     public void updateImports(Path path){
-        logger.info(path.toString());
-        jshell.addToClasspath(path.toString());
-        String packageName = path.getFileName().toString();
-        logger.info(packageName);
-        jshell.eval("import "+packageName+".*;");
-        jshell.eval("JShellReflection jshellReflection = new JShellReflection(\""+packageName+"\");");
+//        FileService fileService = new FileService();
+//        jshell.addToClasspath("F:\\Downloads\\jarTest2\\build\\libs\\fhnw-1.0-SNAPSHOT.jar");
+//        List<SnippetEvent> eventList = jshell.eval("import "+"b"+".*;");
+
+//        logger.info(path.toString());
+//        jshell.addToClasspath(path.toString());
+//        String packageName = path.getFileName().toString();
+//        logger.info(packageName);
+//        List<SnippetEvent> eventList =  jshell.eval("import "+packageName+".*;");
+//        jshell.eval("JShellReflection jshellReflection = new JShellReflection(\""+packageName+"\");");
     }
 
 
 
-    private void importClasses(){
+    private void importClasses(String packageName){
+        setPackageName("b");
+        jshell.addToClasspath("F:\\Downloads\\jarTest2\\build\\libs\\fhnw-1.0-SNAPSHOT.jar");
+        jshell.eval("import "+"b"+".*;");
         // Classes need to be explicitly imported to JShell similarly as if we wanted to import one into a class.
-        jshell.eval("import "+packageName+".*;");
+        jshell.eval("import "+getPackageName()+".*;");
         jshell.eval("import jshellExtensions.*;");
-        jshell.eval("JShellReflection jshellReflection = new JShellReflection(\""+packageName+"\");");
+        jshell.eval("JShellReflection jshellReflection = new JShellReflection(\""+getPackageName()+"\");");
         jshell.eval("import java.lang.reflect.Field;");
     }
 
@@ -148,7 +159,7 @@ public class JShellService {
             refName = getRefName(varSnippet);
 
             if(varSnippet.subKind().toString().contains("VAR_DECLARATION")
-                    && getPackageForReference(refName).equals(packageName)){
+                    && getPackageForReference(refName).equals(getPackageName())){
                 ObjectDTO objectDTO = new ObjectDTO(
                         getHashcodeForReference(refName),
                         getClassForReference(refName),
@@ -173,7 +184,7 @@ public class JShellService {
             refName = getRefName(varSnippet);
 
             if(varSnippet.subKind().toString().contains("VAR_DECLARATION")
-                    && getPackageForReference(refName).equals(packageName)){
+                    && getPackageForReference(refName).equals(getPackageName())){
                 ReferenceDTO referenceDTO = new ReferenceDTO(
                         getRefType(varSnippet),
                         refName,
@@ -265,7 +276,7 @@ public class JShellService {
      */
     public void reset() {
         jshell.snippets().forEach(snippet -> jshell.drop(snippet));
-        importClasses();
+        importClasses(getPackageName());
     }
 
     /**
@@ -294,5 +305,13 @@ public class JShellService {
                 jshell.drop(nullSnippet);
             }
         }
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public String getPackageName() {
+        return packageName;
     }
 }
