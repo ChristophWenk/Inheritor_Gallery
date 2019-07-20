@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import presentationmodel.instance.InstanceStatePMTest;
 import service.jshell.JShellService;
 import service.jshell.dto.FieldDTO;
 import service.jshell.dto.ObjectDTO;
@@ -26,7 +27,7 @@ class JShellServiceTest {
 
     @BeforeAll
     public static void setUp() {
-        File file = new File("src/test/resources/testClasses.jar");
+        File file = new File(JShellServiceTest.class.getClassLoader().getResource("testClasses.jar").getFile());
         String jarStringPath = file.toURI().toString();
         logger.info(jarStringPath);
         jShellService.updateImports(jarStringPath.replace("%20"," "));
