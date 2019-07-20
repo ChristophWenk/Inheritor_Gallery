@@ -22,6 +22,7 @@ public class UmlPM {
     private final ObservableList<EdgePM> edges = FXCollections.observableArrayList();
     private final IntegerProperty inheritanceDeepness = new SimpleIntegerProperty();
     private JShellService jshellService = JShellService.getInstance();
+    private List<ClassPM> classes;
 
     public UmlPM() {
         init();
@@ -31,7 +32,7 @@ public class UmlPM {
         //classes.clear();
         edges.clear();
 
-        List<ClassPM> classes = new ArrayList<>();
+        classes = new ArrayList<>();
 
         for(ClassDTO c : jshellService.getClassDTOs()){
             classes.add(new ClassPM(
@@ -59,15 +60,10 @@ public class UmlPM {
 
         setClassInheritanceLevelToHashMap(classes);
 
-        edges.addAll(getEdgesForClasses(classes));
+        List<EdgePM> edgePMs = getEdgesForClasses(classes);
+        edges.addAll(edgePMs);
 
         setClassesObject(classes);
-
-
-        logger.info("size classesList "+classes.size());
-        logger.info("size classesObj "+getClassesObject().size());
-
-
     }
 
 
@@ -75,13 +71,13 @@ public class UmlPM {
 
     public ClassPM getClassByName(String s){
         Optional<ClassPM> targetClass =
-                getClassesObject().stream().filter(c -> c.getName().equals(s)).findFirst();
+                classes.stream().filter(c -> c.getName().equals(s)).findFirst();
         return targetClass.orElse(null);
     }
 
     public ClassPM getClassByFullName(String s){
         Optional<ClassPM> targetClass =
-                getClassesObject().stream().filter(c -> c.getFullClassName().equals(s)).findFirst();
+                classes.stream().filter(c -> c.getFullClassName().equals(s)).findFirst();
         return targetClass.orElse(null);
     }
 
@@ -114,7 +110,6 @@ public class UmlPM {
                 c.setInheritanceLevel(i);
                 classesLevelNotSetYet.remove(c);
             }
-
         }
 
         setInheritanceDeepness(i * -1);
@@ -122,10 +117,12 @@ public class UmlPM {
     }
 
     private List<EdgePM> getEdgesForClasses(List<ClassPM> classes) {
+        logger.info("classes inside edge " + classes.size());
         List<EdgePM> edgePMs = new ArrayList<>();
 
         for(ClassPM clazz : classes) {
             ClassPM superClass =   getClassByFullName(clazz.getSuperClassName());
+
             //Todo: Include Object class
             if(superClass != null && !superClass.getName().equals("Object"))
                 edgePMs.add(new EdgePM(clazz.getName(),superClass.getName(),"extends"));
@@ -137,6 +134,8 @@ public class UmlPM {
             for (ClassPM implementedInterface : implementedInterfaces)
                 edgePMs.add(new EdgePM(clazz.getName(),implementedInterface.getName(),"implements"));
         }
+
+        logger.info("size edges " + edgePMs.size());
         return edgePMs;
     }
 

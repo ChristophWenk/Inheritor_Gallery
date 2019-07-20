@@ -23,7 +23,10 @@ public class UmlPane extends StackPane implements ViewMixin {
 
     private final UmlPM umlPM;
     private ColorPM colorPM;
-    private ChangeListener pmStateListener = (observable, oldValue, newValue) -> this.init();
+    private ChangeListener pmStateListener = (observable, oldValue, newValue) -> {
+        this.getChildren().clear();
+        this.init();
+    };
 
 
     private ArrayList<UmlClassPane> umlClassPanes;
@@ -70,10 +73,6 @@ public class UmlPane extends StackPane implements ViewMixin {
     public void layoutControls() {
 
         for (int i = 0; i < umlPM.getClassesObject().size(); i++) {
-            logger.info("view class size "+ umlPM.getClassesObject().size());
-            logger.info("view class classPane size " + umlClassPanes.size());
-            logger.info("ihneritance size " + inheritanceLevelHBox.size());
-
             inheritanceLevelHBox.get(umlPM.getClassesObject().get(i).getInheritanceLevel())
                     .getChildren()
                     .add(umlClassPanes.get(i));
@@ -84,6 +83,7 @@ public class UmlPane extends StackPane implements ViewMixin {
 
         Platform.runLater(() -> {
 
+            logger.info("view size edges "+ umlPM.getEdges().size());
             for (int i = 0; i < umlPM.getEdges().size(); i++){
                 int finalI = i;
                 Optional<UmlClassPane> source = umlClassPanes.stream().filter(
