@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import presentationmodel.ColorPM;
-import presentationmodel.DirectoryChooserPM;
+import presentationmodel.FileChooserPM;
 import presentationmodel.instance.InstanceStatePM;
 import presentationmodel.instruction.InstructionPM;
 import presentationmodel.uml.UmlPM;
@@ -27,9 +27,9 @@ public class AppStarter extends Application {
         InstanceStatePM instanceStatePM = new InstanceStatePM(umlPM);
         InstructionPM instructionPM = new InstructionPM(asciiDocService);
         ColorPM colorPM = new ColorPM();
-        DirectoryChooserPM directoryChooserPM = new DirectoryChooserPM();
+        FileChooserPM fileChooserPM = new FileChooserPM(umlPM, instanceStatePM);
 
-        Parent rootPane = new ApplicationUI(primaryStage, directoryChooserPM, instanceStatePM, umlPM, instructionPM, colorPM);
+        Parent rootPane = new ApplicationUI(primaryStage, fileChooserPM, instanceStatePM, umlPM, instructionPM, colorPM);
 
         Scene scene = new Scene(rootPane);
 

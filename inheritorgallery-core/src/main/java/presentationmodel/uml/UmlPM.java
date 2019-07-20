@@ -1,7 +1,9 @@
 package presentationmodel.uml;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.slf4j.Logger;
@@ -15,6 +17,7 @@ import java.util.stream.Collectors;
 public class UmlPM {
 
     private static Logger logger = LoggerFactory.getLogger(UmlPM.class);
+    private final ObjectProperty<List<ClassPM>> classesObject = new SimpleObjectProperty<>();
     private final ObservableList<ClassPM> classes = FXCollections.observableArrayList();
     private final ObservableList<EdgePM> edges = FXCollections.observableArrayList();
     private final IntegerProperty inheritanceDeepness = new SimpleIntegerProperty();
@@ -23,6 +26,7 @@ public class UmlPM {
     public UmlPM() {
         init();
     }
+
     public void init(){
         classes.clear();
         edges.clear();
@@ -54,6 +58,8 @@ public class UmlPM {
         setClassInheritanceLevelToHashMap(classes);
 
         edges.addAll(getEdgesForClasses(classes));
+
+        setClassesObject(classes);
     }
 
 
@@ -144,5 +150,17 @@ public class UmlPM {
 
     public void setInheritanceDeepness(int inheritanceDeepness) {
         this.inheritanceDeepness.set(inheritanceDeepness);
+    }
+
+    public List<ClassPM> getClassesObject() {
+        return classesObject.get();
+    }
+
+    public ObjectProperty<List<ClassPM>> classesObjectProperty() {
+        return classesObject;
+    }
+
+    public void setClassesObject(List<ClassPM> classesObject) {
+        this.classesObject.set(classesObject);
     }
 }

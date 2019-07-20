@@ -2,6 +2,7 @@ package inheritorgallery.view.uml;
 
 import inheritorgallery.view.ViewMixin;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
@@ -22,6 +23,8 @@ public class UmlPane extends StackPane implements ViewMixin {
 
     private final UmlPM umlPM;
     private ColorPM colorPM;
+    private ChangeListener pmStateListener = (observable, oldValue, newValue) -> this.layoutControls();
+
 
     private ArrayList<UmlClass> umlClasses;
     private ArrayList<Line> lines;
@@ -116,6 +119,11 @@ public class UmlPane extends StackPane implements ViewMixin {
             getChildren().add(linePane);
         });
 
+    }
+
+    @Override
+    public void setupValueChangedListeners() {
+        umlPM.classesObjectProperty().addListener(pmStateListener);
     }
 
     private Double[] getArrowHeadForLine(Line line){
