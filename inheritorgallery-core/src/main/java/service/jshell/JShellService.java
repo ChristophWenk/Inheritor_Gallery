@@ -71,7 +71,7 @@ public class JShellService {
 
 
     private void importClasses(String packageName){
-        setPackageName("b");
+        setPackageName("input");
         jshell.addToClasspath("F:\\Downloads\\jarTest2\\build\\libs\\fhnw-1.0-SNAPSHOT.jar");
         jshell.eval("import "+"b"+".*;");
         // Classes need to be explicitly imported to JShell similarly as if we wanted to import one into a class.
