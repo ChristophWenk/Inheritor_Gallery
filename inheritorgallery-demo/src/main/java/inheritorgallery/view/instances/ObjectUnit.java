@@ -60,11 +60,7 @@ public class ObjectUnit extends VBox implements ViewMixin {
             VBox currentClassVBox = new VBox(objectPartUnit);
             StackPane objectPartUnitStackPane = new StackPane(currentClassVBox,refBorderClass);
 
-
-            if (classPM.getImplementedInterfaces().size() > 0)
-                currentClassVBox.setPrefWidth(partWidth * classPM.getImplementedInterfaces().size());
-            else
-                currentClassVBox.setPrefWidth(partWidth);
+            currentClassVBox.setMinWidth(partWidth);
 
             if (!referencesList.isEmpty()) {
                 refBorderClass.getStyleClass().add("referenceBorder");
@@ -88,7 +84,7 @@ public class ObjectUnit extends VBox implements ViewMixin {
 
                     StackPane currentInterfaceStackPane = new StackPane(currentInterfaceVBox,refBorderInterface);
 
-                    currentInterfaceVBox.setPrefWidth(partWidth);
+                    currentInterfaceVBox.setMinWidth(partWidth);
                     if (!referencesList.isEmpty()) {
                        refBorderInterface.getStyleClass().add("referenceBorder");
                     }
