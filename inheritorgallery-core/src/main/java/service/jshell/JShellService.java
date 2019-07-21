@@ -111,7 +111,7 @@ public class JShellService {
      * @throws InvalidCodeException
      */
     public String cleanseInput(String code) throws InvalidCodeException {
-        if (code.contains("//") || code.contains("/*")) {
+        if (!code.contains("file://") && (code.contains("//") || code.contains("/*"))) {
             logger.error("User entered comment: " + code);
             throw new InvalidCodeException("Comments are not allowed.");
         }

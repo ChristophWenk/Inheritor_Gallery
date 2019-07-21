@@ -27,19 +27,12 @@ public class InstanceStatePMTest {
         jShellService.updateImports(file.toPath());
 
         umlPM = new UmlPM();
-        umlPM.init();
         instanceStatePM = new InstanceStatePM(umlPM);
     }
 
     @BeforeEach
     public void resetJShell() {
         jShellService.reset();
-    }
-
-    @Test
-    public void getUmlPM(){
-        assertTrue(umlPM.toString().contains("presentationmodel.uml.UmlPM@"));
-        assertTrue(instanceStatePM.toString().contains("presentationmodel.instance.InstanceStatePM@"));
     }
 
     @Test

@@ -18,12 +18,6 @@ class UmlPMTest {
         File file = new File(Thread.currentThread().getContextClassLoader().getResource("testClasses.jar").getFile());
         jShellService.updateImports(file.toPath());
         pm = new UmlPM();
-        pm.init();
-    }
-
-    @Test
-    public void getUmlPM(){
-        assertTrue(pm.toString().contains("presentationmodel.uml.UmlPM@"));
     }
 
     @Test
