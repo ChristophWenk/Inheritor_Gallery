@@ -77,13 +77,13 @@ public class JShellService {
         logger.info("addToClasspath " + pathWithoutFile);
         jshell.addToClasspath(pathWithoutFile);
 
-        importClasses(packageNameFromJar);
+        setPackageName(packageNameFromJar);
+        importClasses();
     }
 
 
 
-    private void importClasses(String packageName){
-        setPackageName(packageName);
+    private void importClasses(){
         // Classes need to be explicitly imported to JShell similarly as if we wanted to import one into a class.
         logger.info("importing " + getPackageName());
         jshell.eval("import "+getPackageName()+".*;");
@@ -292,7 +292,7 @@ public class JShellService {
      */
     public void reset() {
         jshell.snippets().forEach(snippet -> jshell.drop(snippet));
-        importClasses(getPackageName());
+        importClasses();
     }
 
     /**
