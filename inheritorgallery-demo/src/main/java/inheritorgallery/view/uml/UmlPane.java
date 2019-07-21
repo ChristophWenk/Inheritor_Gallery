@@ -123,8 +123,9 @@ public class UmlPane extends StackPane implements ViewMixin {
                 }
             }
             getChildren().clear();
-            getChildren().addAll(vBox);
             getChildren().add(linePane);
+            getChildren().addAll(vBox);
+
         });
 
     }
