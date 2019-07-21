@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -54,7 +55,8 @@ public class JShellService {
         }
     }
 
-    public void updateImports(String path){
+    public void updateImports(Path pathAsObject){
+        String path = pathAsObject.toUri().toString().replace("file:///","file:/");
         logger.info("path " + path);
         setJarPath(path);
         logger.info("updateImports: " + getJarPath());

@@ -14,9 +14,8 @@ class UmlPMTest {
 
     @BeforeAll
     public static void setUp() {
-        File file = new File("src/test/resources/testClasses.jar");
-        String jarStringPath = file.toURI().toString();
-        jShellService.updateImports(jarStringPath.replace("%20"," "));
+        File file = new File(UmlPMTest.class.getClassLoader().getResource("testClasses.jar").getFile());
+        jShellService.updateImports(file.toPath());
         pm = new UmlPM();
     }
 

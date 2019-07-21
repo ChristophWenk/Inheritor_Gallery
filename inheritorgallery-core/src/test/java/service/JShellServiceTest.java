@@ -26,9 +26,12 @@ class JShellServiceTest {
 
     @BeforeAll
     public static void setUp() {
-        File file = new File("src/test/resources/testClasses.jar");
+        //File file = new File("src/test/resources/testClasses.jar");
+        File file = new File(JShellServiceTest.class.getClassLoader().getResource("testClasses.jar").getFile());
+        jShellService.updateImports(file.toPath());
         String jarStringPath = file.toURI().toString();
-        jShellService.updateImports(jarStringPath.replace("%20"," "));
+
+        //jShellService.updateImports(file.toPath());
     }
 
     @BeforeEach

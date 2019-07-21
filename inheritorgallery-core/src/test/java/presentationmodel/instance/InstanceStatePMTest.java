@@ -23,9 +23,8 @@ public class InstanceStatePMTest {
 
     @BeforeAll
     public static void setUp() {
-        File file = new File("src/test/resources/testClasses.jar");
-        String jarStringPath = file.toURI().toString();
-        jShellService.updateImports(jarStringPath.replace("%20"," "));
+        File file = new File(InstanceStatePMTest.class.getClassLoader().getResource("testClasses.jar").getFile());
+        jShellService.updateImports(file.toPath());
 
         umlPM = new UmlPM();
         instanceStatePM = new InstanceStatePM(umlPM);

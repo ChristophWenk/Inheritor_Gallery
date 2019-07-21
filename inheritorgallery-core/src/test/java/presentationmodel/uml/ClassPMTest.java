@@ -2,6 +2,7 @@ package presentationmodel.uml;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import presentationmodel.instance.InstanceStatePMTest;
 import service.jshell.JShellService;
 
 import java.io.File;
@@ -15,9 +16,8 @@ class ClassPMTest {
 
     @BeforeAll
     public static void setUp() {
-        File file = new File("src/test/resources/testClasses.jar");
-        String jarStringPath = file.toURI().toString();
-        jShellService.updateImports(jarStringPath.replace("%20"," "));
+        File file = new File(ClassPMTest.class.getClassLoader().getResource("testClasses.jar").getFile());
+        jShellService.updateImports(file.toPath());
         pm = new UmlPM();
     }
 

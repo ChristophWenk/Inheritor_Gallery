@@ -11,7 +11,6 @@ import service.jshell.JShellService;
 import java.nio.file.Path;
 
 public class FileChooserPM {
-    private final SimpleStringProperty pathAsString = new SimpleStringProperty();
     private final SimpleObjectProperty<Path> pathSimpleObjectProperty = new SimpleObjectProperty<>();
     private FileChooser fileChooser;
     private JShellService jShellService = JShellService.getInstance();
@@ -31,7 +30,7 @@ public class FileChooserPM {
     }
 
     private void propagatePath(){
-        jShellService.updateImports(getPath());
+        jShellService.updateImports(getPathSimpleObjectProperty());
         umlPM.init();
         instanceStatePM.setJShellInput(";");
         instanceStatePM.setJShellInput("\"Loading classes\";");
@@ -44,13 +43,12 @@ public class FileChooserPM {
 
     }
 
-    public String getPath() {
-        return pathAsString.get();
+    public Path getPathSimpleObjectProperty() {
+        return pathSimpleObjectProperty.get();
     }
 
-    public void setPathAsString(String path) {
-        this.pathAsString.set(path);
-        propagatePath();
+    public SimpleObjectProperty<Path> pathSimpleObjectPropertyProperty() {
+        return pathSimpleObjectProperty;
     }
 
     public void setPathSimpleObjectProperty(Path pathSimpleObjectProperty) {
