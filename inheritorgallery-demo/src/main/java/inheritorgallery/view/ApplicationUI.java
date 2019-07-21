@@ -61,7 +61,7 @@ public class ApplicationUI extends SplitPane implements ViewMixin {
                 leftPane,
                 new SplitPane(instanceScrollPane,umlScrollPane)
         );
-        setDividerPosition(0,0.15);
+        setDividerPosition(0,0.25);
 
     }
 

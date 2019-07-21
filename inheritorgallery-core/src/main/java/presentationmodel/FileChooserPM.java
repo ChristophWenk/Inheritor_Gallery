@@ -3,6 +3,7 @@ package presentationmodel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.stage.FileChooser;
 import presentationmodel.instance.InstanceStatePM;
+import presentationmodel.instruction.InstructionPM;
 import presentationmodel.uml.UmlPM;
 import service.jshell.JShellService;
 
@@ -12,8 +13,10 @@ public class FileChooserPM {
     private JShellService jShellService = JShellService.getInstance();
     private UmlPM umlPM;
     private InstanceStatePM instanceStatePM;
+    private InstructionPM instructionPM;
 
-    public FileChooserPM(UmlPM umlPM, InstanceStatePM instanceStatePM){
+    public FileChooserPM(UmlPM umlPM, InstanceStatePM instanceStatePM, InstructionPM instructionPM){
+        this.instructionPM = instructionPM;
         this.umlPM = umlPM;
         this.instanceStatePM = instanceStatePM;
         this.fileChooser = new FileChooser();
@@ -28,6 +31,7 @@ public class FileChooserPM {
         umlPM.init();
         instanceStatePM.setJShellInput(";");
         instanceStatePM.setJShellInput("\"Loading classes\";");
+        instructionPM.setInstructionText(getPath());
     }
 
     public void reset(){

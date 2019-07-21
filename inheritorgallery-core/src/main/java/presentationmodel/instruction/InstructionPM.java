@@ -11,11 +11,7 @@ public class InstructionPM {
 
     public InstructionPM(AsciiDocService asciiDocService) {
         this.asciiDocService = asciiDocService;
-        setInstructionText(asciiDocService.convertFile("/instructions/instructions.adoc"));
-    }
-
-    public void setInstructionText(String instructionText) {
-        this.instructionText.set(instructionText);
+        //setInstructionText(asciiDocService.convertFile("/instructions/instructions.adoc"));
     }
 
     public String getInstructionText() {
@@ -24,5 +20,11 @@ public class InstructionPM {
 
     public StringProperty instructionTextProperty() {
         return instructionText;
+    }
+
+    public void setInstructionText(String instructionText) {
+        //setInstructionText(asciiDocService.convertFile("/instructions/instructions.adoc"));
+        this.instructionText.set(asciiDocService.convertFile("/instructions/instructions.adoc"));
+        //this.instructionText.set(instructionText);
     }
 }

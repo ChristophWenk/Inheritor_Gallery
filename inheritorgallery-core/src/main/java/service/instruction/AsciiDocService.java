@@ -1,9 +1,13 @@
 package service.instruction;
 
 import org.asciidoctor.Asciidoctor;
+import org.asciidoctor.OptionsBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.FileService;
+
+import java.io.*;
+import java.nio.file.Path;
 
 import static org.asciidoctor.jruby.internal.JRubyAsciidoctor.create;
 
@@ -30,26 +34,24 @@ public class AsciiDocService {
      * @return HTML converted file as String
      */
     public String convertFile (String filepath) {
-//        FileReader reader = null;
-//        try {
-//            Path path = fileService.getPath(filepath);
-//            reader = new FileReader(new File(fileService.getPathAsString(path)));
-//        } catch (FileNotFoundException e) {
-//            logger.error("File path not valid: " + filepath, e);
-//        }
-//        StringWriter writer = new StringWriter();
-//
-//        try {
-//            asciidoctor.convert(reader, writer, options().asMap());
-//        } catch (IOException e) {
-//            logger.error("Could not convert .adoc file: " + filepath, e);
-//        }
-//
-//        StringBuffer htmlBuffer = writer.getBuffer();
-//        return htmlBuffer.toString();
-        return "<div class=\"paragraph\">\n" +
-                "<p>Writing AsciiDoc is <em>easy</em>!</p>\n" +
-                "</div>";
+        FileReader reader = null;
+        try {
+            Path path = fileService.getPath(filepath);
+            reader = new FileReader(new File(fileService.getPathAsString(path)));
+        } catch (FileNotFoundException e) {
+            logger.error("File path not valid: " + filepath, e);
+        }
+        StringWriter writer = new StringWriter();
+
+        try {
+            asciidoctor.convert(reader, writer, OptionsBuilder.options().asMap());
+        } catch (IOException e) {
+            logger.error("Could not convert .adoc file: " + filepath, e);
+        }
+
+        StringBuffer htmlBuffer = writer.getBuffer();
+        return htmlBuffer.toString();
+
     }
 
 
