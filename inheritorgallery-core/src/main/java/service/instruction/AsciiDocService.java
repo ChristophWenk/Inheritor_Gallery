@@ -34,10 +34,11 @@ public class AsciiDocService {
      * @return HTML converted file as String
      */
     public String convertFile (String filepath) {
+        logger.info("loading adoc " + filepath);
         FileReader reader = null;
         try {
-            Path path = fileService.getPath(filepath);
-            reader = new FileReader(new File(fileService.getPathAsString(path)));
+            reader = new FileReader(new File(filepath));
+            logger.info(reader.toString());
         } catch (FileNotFoundException e) {
             logger.error("File path not valid: " + filepath, e);
         }

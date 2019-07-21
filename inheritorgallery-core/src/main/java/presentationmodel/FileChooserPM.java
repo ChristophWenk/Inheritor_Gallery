@@ -31,7 +31,6 @@ public class FileChooserPM {
         umlPM.init();
         instanceStatePM.setJShellInput(";");
         instanceStatePM.setJShellInput("\"Loading classes\";");
-        instructionPM.setInstructionText(getPath());
     }
 
     public void reset(){
@@ -48,5 +47,9 @@ public class FileChooserPM {
     public void setPathAsString(String path) {
         this.pathAsString.set(path);
         propagatePath();
+    }
+
+    public void setInstructionText(String pathAsString){
+        instructionPM.setInstructionText(pathAsString.replace("file:/",""));
     }
 }

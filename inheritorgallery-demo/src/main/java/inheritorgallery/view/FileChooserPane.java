@@ -2,7 +2,10 @@ package inheritorgallery.view;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +15,7 @@ import java.io.File;
 
 public class FileChooserPane extends HBox implements ViewMixin {
     private static Logger logger = LoggerFactory.getLogger(FileChooserPane.class);
-    private Button loadButton, refreshButton;
+    private Button loadClassButton, refreshButton, loadInstructionButton;
     private Stage primaryStage;
     private FileChooserPM fileChooserPM;
 
@@ -26,15 +29,22 @@ public class FileChooserPane extends HBox implements ViewMixin {
     @Override
     public void initializeControls() {
         //directoryChooser.setInitialDirectory(new File("input"));
-        loadButton = new Button("Load");
-        loadButton.setPrefWidth(200);
-        refreshButton = new Button("Refresh");
-        refreshButton.setPrefWidth(200);
+        loadClassButton = new Button("Load Classes");
+        loadClassButton.setPrefWidth(170);
+        loadInstructionButton = new Button("Load Instruction");
+        loadInstructionButton.setPrefWidth(170);
+
+        refreshButton = new Button();
+        refreshButton.setPrefWidth(50);
+        refreshButton.setGraphic(
+            new ImageView(
+                    new Image("icons/refresh.png", 0, 17, true, false)
+            ));
     }
 
     @Override
     public void layoutControls() {
-        getChildren().addAll(loadButton,refreshButton);
+        getChildren().addAll(loadClassButton,loadInstructionButton,refreshButton);
         setPadding(new Insets(0,2,3,2));
         setSpacing(5);
 
@@ -42,9 +52,14 @@ public class FileChooserPane extends HBox implements ViewMixin {
 
     @Override
     public void setupEventHandlers() {
-        loadButton.setOnAction(e -> {
+        loadClassButton.setOnAction(e -> {
+            fileChooserPM.getFileChooser().getExtensionFilters().clear();
             File selectedFile = fileChooserPM.getFileChooser().showOpenDialog(primaryStage);
             fileChooserPM.setPathAsString(selectedFile.toURI().toString());
+        });
+        loadInstructionButton.setOnAction(e -> {
+            File selectedFile = fileChooserPM.getFileChooser().showOpenDialog(primaryStage);
+            fileChooserPM.setInstructionText(selectedFile.toURI().toString());
         });
 
         refreshButton.setOnAction(e -> {

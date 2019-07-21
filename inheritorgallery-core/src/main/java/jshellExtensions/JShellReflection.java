@@ -91,9 +91,7 @@ public class JShellReflection {
 
         for (String absoluteClassName : classNamesAsString) {
             try {
-                logger.info("Before Class: " + absoluteClassName);
                 Class c = Class.forName(absoluteClassName);
-                logger.info("After Class: " + c.getName());
                 classes.add(c);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
