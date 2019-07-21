@@ -33,11 +33,11 @@ public class AsciiDocService {
      * @param filepath A path to an .adoc file
      * @return HTML converted file as String
      */
-    public String convertFile (String filepath) {
+    public String convertFile (Path filepath) {
         logger.info("loading adoc " + filepath);
         FileReader reader = null;
         try {
-            reader = new FileReader(new File(filepath));
+            reader = new FileReader(filepath.toFile());
             logger.info(reader.toString());
         } catch (FileNotFoundException e) {
             logger.error("File path not valid: " + filepath, e);

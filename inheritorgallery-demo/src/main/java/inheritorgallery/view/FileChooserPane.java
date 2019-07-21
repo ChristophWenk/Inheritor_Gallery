@@ -58,7 +58,7 @@ public class FileChooserPane extends HBox implements ViewMixin {
         });
         loadInstructionButton.setOnAction(e -> {
             File selectedFile = fileChooserPM.getFileChooser().showOpenDialog(primaryStage);
-            fileChooserPM.setInstructionText(selectedFile.toURI().toString().replace("%20"," "));
+            fileChooserPM.setPathSimpleObjectProperty(selectedFile.toPath());
         });
 
         refreshButton.setOnAction(e -> {
