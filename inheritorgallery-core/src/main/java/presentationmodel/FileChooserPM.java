@@ -1,7 +1,6 @@
 package presentationmodel;
 
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.stage.FileChooser;
 import presentationmodel.instance.InstanceStatePM;
 import presentationmodel.instruction.InstructionPM;
@@ -12,6 +11,7 @@ import java.nio.file.Path;
 
 public class FileChooserPM {
     private final SimpleObjectProperty<Path> pathSimpleObjectProperty = new SimpleObjectProperty<>();
+    private final SimpleObjectProperty<Path> pathForClasses = new SimpleObjectProperty<>();
     private FileChooser fileChooser;
     private JShellService jShellService = JShellService.getInstance();
     private UmlPM umlPM;
@@ -30,7 +30,7 @@ public class FileChooserPM {
     }
 
     private void propagatePath(){
-        jShellService.updateImports(getPathSimpleObjectProperty());
+        jShellService.updateImports(getPathForClasses());
         umlPM.init();
         instanceStatePM.setJShellInput(";");
         instanceStatePM.setJShellInput("\"Loading classes\";");
@@ -54,5 +54,18 @@ public class FileChooserPM {
     public void setPathSimpleObjectProperty(Path pathSimpleObjectProperty) {
         this.pathSimpleObjectProperty.set(pathSimpleObjectProperty);
         instructionPM.setInstructionText(pathSimpleObjectProperty);
+    }
+
+    public Path getPathForClasses() {
+        return pathForClasses.get();
+    }
+
+    public SimpleObjectProperty<Path> pathForClassesProperty() {
+        return pathForClasses;
+    }
+
+    public void setPathForClasses(Path pathForClasses) {
+        this.pathForClasses.set(pathForClasses);
+        propagatePath();
     }
 }
