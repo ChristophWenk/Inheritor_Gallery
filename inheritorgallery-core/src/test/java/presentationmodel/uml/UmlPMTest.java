@@ -20,6 +20,11 @@ class UmlPMTest {
     }
 
     @Test
+    void testGetJShell() {
+        assertEquals("this path is nok",jShellService.getJarPath());
+    }
+
+    @Test
     public void getClasses(){
         //given
         //UmlPM umlPM = umlService.createUmlPM();

@@ -37,6 +37,11 @@ class JShellServiceTest {
     }
 
     @Test
+    void testGetJShell() {
+        assertEquals("this path is ok",jShellService.getJarPath());
+    }
+
+    @Test
     void testEvaluateCode() {
         //given
         String input1 = "Person p = new Person();";

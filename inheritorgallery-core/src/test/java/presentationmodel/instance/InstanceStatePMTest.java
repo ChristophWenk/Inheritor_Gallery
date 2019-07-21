@@ -36,6 +36,11 @@ public class InstanceStatePMTest {
     }
 
     @Test
+    void testGetJShell() {
+        assertEquals("this path is nok",jShellService.getJarPath());
+    }
+
+    @Test
     void getObjectPMsTest(){
         //given
 

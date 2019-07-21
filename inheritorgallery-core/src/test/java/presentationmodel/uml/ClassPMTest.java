@@ -22,6 +22,11 @@ class ClassPMTest {
     }
 
     @Test
+    void testGetJShell() {
+        assertEquals("this path is nok",jShellService.getJarPath());
+    }
+
+    @Test
     void testClassToClassPM(){
         //given
         ClassPM classPMAntique = pm.getClassesObject().get(0);
