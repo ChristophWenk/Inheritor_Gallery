@@ -7,6 +7,7 @@ import service.jshell.JShellService;
 import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class UmlPMTest {
     private static JShellService jShellService = JShellService.getInstance();
@@ -17,11 +18,12 @@ class UmlPMTest {
         File file = new File(Thread.currentThread().getContextClassLoader().getResource("testClasses.jar").getFile());
         jShellService.updateImports(file.toPath());
         pm = new UmlPM();
+        pm.init();
     }
 
     @Test
-    void testGetJShell() {
-        assertEquals("this path is nok",jShellService.getJarPath());
+    public void getUmlPM(){
+        assertTrue(pm.toString().contains("presentationmodel.uml.UmlPM@"));
     }
 
     @Test

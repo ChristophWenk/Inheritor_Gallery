@@ -36,10 +36,6 @@ class JShellServiceTest {
         jShellService.reset();
     }
 
-    @Test
-    void testGetJShell() {
-        assertEquals("this path is ok",jShellService.getJarPath());
-    }
 
     @Test
     void testEvaluateCode() {

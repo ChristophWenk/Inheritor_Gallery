@@ -19,11 +19,12 @@ class ClassPMTest {
         File file = new File(Thread.currentThread().getContextClassLoader().getResource("testClasses.jar").getFile());
         jShellService.updateImports(file.toPath());
         pm = new UmlPM();
+        pm.init();
     }
 
     @Test
-    void testGetJShell() {
-        assertEquals("this path is nok",jShellService.getJarPath());
+    public void getUmlPM(){
+        assertTrue(pm.toString().contains("presentationmodel.uml.UmlPM@"));
     }
 
     @Test

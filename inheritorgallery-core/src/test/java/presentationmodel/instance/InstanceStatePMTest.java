@@ -27,6 +27,7 @@ public class InstanceStatePMTest {
         jShellService.updateImports(file.toPath());
 
         umlPM = new UmlPM();
+        umlPM.init();
         instanceStatePM = new InstanceStatePM(umlPM);
     }
 
@@ -36,8 +37,9 @@ public class InstanceStatePMTest {
     }
 
     @Test
-    void testGetJShell() {
-        assertEquals("this path is nok",jShellService.getJarPath());
+    public void getUmlPM(){
+        assertTrue(umlPM.toString().contains("presentationmodel.uml.UmlPM@"));
+        assertTrue(instanceStatePM.toString().contains("presentationmodel.instance.InstanceStatePM@"));
     }
 
     @Test
