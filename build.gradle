@@ -1,35 +1,49 @@
 group 'ch.fhnw'
 version '0.1'
 
+apply plugin: 'java'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	testImplementation('org.junit.jupiter:junit-jupiter:5.4.0')
+	compile('org.apache.logging.log4j:log4j-api:2.11.2')
+	compile('org.apache.logging.log4j:log4j-core:2.11.2')
+	compile('org.apache.logging.log4j:log4j-slf4j-impl:2.11.2')
+	compile('org.asciidoctor:asciidoctorj:2.0.0')
+}
+
 subprojects {
 	group 'ch.fhnw'
 	version '0.1'
-	
+
 	apply plugin: 'java'
-	
+
 	sourceCompatibility = JavaVersion.VERSION_11
 	targetCompatibility = JavaVersion.VERSION_11
-	
+
 	repositories {
-	    mavenCentral()
+		mavenCentral()
 	}
-	
+
 	sourceSets {
-	    main {
-	        resources {
-	            srcDirs = ["src/main/java", "src/main/resources"]
-	        }
-	    }
+		main {
+			resources {
+				srcDirs = ["src/main/java", "src/main/resources"]
+			}
+		}
 	}
-	
+
 	dependencies {
 		testImplementation('org.junit.jupiter:junit-jupiter:5.4.0')
-		implementation('org.apache.logging.log4j:log4j-api:2.11.2')
-		implementation('org.apache.logging.log4j:log4j-core:2.11.2')
-		implementation('org.apache.logging.log4j:log4j-slf4j-impl:2.11.2')
-		implementation 'org.asciidoctor:asciidoctorj:2.0.0'
+		compile('org.apache.logging.log4j:log4j-api:2.11.2')
+		compile('org.apache.logging.log4j:log4j-core:2.11.2')
+		compile('org.apache.logging.log4j:log4j-slf4j-impl:2.11.2')
+		compile('org.asciidoctor:asciidoctorj:2.0.0')
 	}
-	
+
 	test {
 		useJUnitPlatform()
 		testLogging {
@@ -37,4 +51,18 @@ subprojects {
 			exceptionFormat "full"
 		}
 	}
+}
+
+jar {
+	dependsOn subprojects.assemble
+	baseName = 'InheritorGallery'
+	manifest {
+		attributes 'Main-Class': 'inheritorgallery.AppStarter'
+	}
+	subprojects.each { subproject ->
+		from subproject.configurations.archives.allArtifacts.files.collect {
+			zipTree(it)
+		}
+	}
+	from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
 }

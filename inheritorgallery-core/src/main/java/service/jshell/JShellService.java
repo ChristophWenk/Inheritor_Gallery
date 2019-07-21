@@ -14,13 +14,18 @@ import service.jshell.dto.ReferenceDTO;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 /**
  * Singleton JShellService.
@@ -33,7 +38,8 @@ public class JShellService {
 
     private static JShellService jShellService;
     private JShell jshell;
-    private final String packageName = "input";
+
+    private String packageName, jarPath;
 
     /**
      * JShellService Constructor.
@@ -44,29 +50,45 @@ public class JShellService {
         // The JVM classpath needs to be explicitly added to JShell so that it is able to use non-JDK classes.
         String classpath = System.getProperty("java.class.path");
         String[] classpathEntries = classpath.split(File.pathSeparator);
-        for (String cp : classpathEntries)
-            //todo
+        for (String cp : classpathEntries) {
             jshell.addToClasspath(cp);
-
-        importClasses();
+        }
     }
 
-    public void updateImports(Path path){
-        logger.info(path.toString());
-        jshell.addToClasspath(path.toString());
-        String packageName = path.getFileName().toString();
-        logger.info(packageName);
-        jshell.eval("import "+packageName+".*;");
-        jshell.eval("JShellReflection jshellReflection = new JShellReflection(\""+packageName+"\");");
+    public void updateImports(Path pathAsObject){
+        String path;
+
+        if(File.separator.equals("\\")){
+            logger.info("path separator"+ File.separator);
+            path = pathAsObject.toUri().toString().replace("file:///","file:/");
+        }
+        else {
+            logger.info("path separator"+ File.separator);
+            path = pathAsObject.toUri().toString();
+        }
+
+        logger.info("path " + path);
+        setJarPath(path);
+        logger.info("updateImports: " + getJarPath());
+        String packageNameFromJar = getPackageFromJar(path);
+
+        String pathWithoutFile = path.replace("file:/","");
+        pathWithoutFile = pathWithoutFile.replace("file:///","");
+        logger.info("addToClasspath " + pathWithoutFile);
+        jshell.addToClasspath(pathWithoutFile);
+
+        setPackageName(packageNameFromJar);
+        importClasses();
     }
 
 
 
     private void importClasses(){
         // Classes need to be explicitly imported to JShell similarly as if we wanted to import one into a class.
-        jshell.eval("import "+packageName+".*;");
+        logger.info("importing " + getPackageName());
+        jshell.eval("import "+getPackageName()+".*;");
         jshell.eval("import jshellExtensions.*;");
-        jshell.eval("JShellReflection jshellReflection = new JShellReflection(\""+packageName+"\");");
+        jshell.eval("JShellReflection jshellReflection = new JShellReflection(\""+getPackageName()+"\");");
         jshell.eval("import java.lang.reflect.Field;");
     }
 
@@ -89,7 +111,7 @@ public class JShellService {
      * @throws InvalidCodeException
      */
     public String cleanseInput(String code) throws InvalidCodeException {
-        if (code.contains("//") || code.contains("/*")) {
+        if (!code.contains("file://") && (code.contains("//") || code.contains("/*"))) {
             logger.error("User entered comment: " + code);
             throw new InvalidCodeException("Comments are not allowed.");
         }
@@ -112,27 +134,32 @@ public class JShellService {
     }
 
     public List<ClassDTO> getClassDTOs(){
+        List<ClassDTO> classDTOs = new ArrayList<>();
+        if(getJarPath() != null){
+            SnippetEvent snippetEvent = null;
+            try {
+                snippetEvent = jShellService.evaluateCode("jshellReflection.getClassDTOsSerialized(\""+getJarPath()+"\");");
+            } catch (InvalidCodeException e) {
+                logger.error("There was a problem while retrieving ClassDTOs from JShell.", e);
+            }
 
-        SnippetEvent snippetEvent = null;
-        try {
-            snippetEvent = jShellService.evaluateCode("jshellReflection.getClassDTOsSerialized();");
-        } catch (InvalidCodeException e) {
-            logger.error("There was a problem while retrieving ClassDTOs from JShell.", e);
-        }
+            //snippetEvent.value() return the serialized String with ""
+            try {
+                String serializedString = snippetEvent.value().substring(1, snippetEvent.value().length() - 1);
+                String classDTOsSerialized = serializedString;
 
-        //snippetEvent.value() return the serialized String with ""
-        String serializedString = snippetEvent.value().substring(1,snippetEvent.value().length()-1);
-        String classDTOsSerialized = serializedString;
 
-        List<ClassDTO> classDTOs = null;
-
-        // deserialize the object
-        try {
-            byte [] data = Base64.getDecoder().decode(classDTOsSerialized);
-            ObjectInputStream ois = new ObjectInputStream( new ByteArrayInputStream(data) );
-            classDTOs  = (List<ClassDTO>) ois.readObject();
-        } catch (Exception e) {
-            logger.error("Could not deserialize object: " + classDTOsSerialized, e);
+                // deserialize the object
+                try {
+                    byte[] data = Base64.getDecoder().decode(classDTOsSerialized);
+                    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));
+                    classDTOs = (List<ClassDTO>) ois.readObject();
+                } catch (Exception e) {
+                    logger.error("Could not deserialize object: " + classDTOsSerialized, e);
+                }
+            } catch (NullPointerException e) {
+                logger.error("Could not serialize ClassDTOs");
+            }
         }
 
         return classDTOs;
@@ -148,7 +175,7 @@ public class JShellService {
             refName = getRefName(varSnippet);
 
             if(varSnippet.subKind().toString().contains("VAR_DECLARATION")
-                    && getPackageForReference(refName).equals(packageName)){
+                    && getPackageForReference(refName).equals(getPackageName())){
                 ObjectDTO objectDTO = new ObjectDTO(
                         getHashcodeForReference(refName),
                         getClassForReference(refName),
@@ -173,7 +200,7 @@ public class JShellService {
             refName = getRefName(varSnippet);
 
             if(varSnippet.subKind().toString().contains("VAR_DECLARATION")
-                    && getPackageForReference(refName).equals(packageName)){
+                    && getPackageForReference(refName).equals(getPackageName())){
                 ReferenceDTO referenceDTO = new ReferenceDTO(
                         getRefType(varSnippet),
                         refName,
@@ -245,7 +272,7 @@ public class JShellService {
         String serializedString = snippetEvent.value().substring(1,snippetEvent.value().length()-1);
         String fieldDTOsSerialized = serializedString;
 
-        List<FieldDTO> fieldDTOs = null;
+        List<FieldDTO> fieldDTOs = new ArrayList<>();
 
         // deserialize the object
         try {
@@ -294,5 +321,57 @@ public class JShellService {
                 jshell.drop(nullSnippet);
             }
         }
+    }
+
+    private String getPackageFromJar(String jarPath) {
+        logger.info("getPackageFromJar: " + jarPath);
+        URL jar = null;
+        try {
+            jar = new URL(jarPath);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        ZipInputStream zip = null;
+        try {
+            zip = new ZipInputStream(jar.openStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        while (true) {
+            ZipEntry zipEntry = null;
+            try {
+                zipEntry = zip.getNextEntry();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            if (zipEntry == null) {
+                break;
+            }
+//            logger.debug(zipEntry.getName());
+            if (zipEntry.getName().endsWith("/") && !zipEntry.getName().equals("META-INF/")) {
+//                logger.debug("Name of Content: " + zipEntry.getName());
+
+                return zipEntry.getName().replace("/","");
+            }
+        }
+        return null;
+    }
+
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public String getJarPath() {
+        return jarPath;
+    }
+
+    public void setJarPath(String jarPath) {
+        this.jarPath = jarPath;
     }
 }

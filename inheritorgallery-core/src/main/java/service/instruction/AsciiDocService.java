@@ -1,6 +1,7 @@
 package service.instruction;
 
 import org.asciidoctor.Asciidoctor;
+import org.asciidoctor.OptionsBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.FileService;
@@ -8,7 +9,6 @@ import service.FileService;
 import java.io.*;
 import java.nio.file.Path;
 
-import static org.asciidoctor.OptionsBuilder.options;
 import static org.asciidoctor.jruby.internal.JRubyAsciidoctor.create;
 
 /**
@@ -33,24 +33,26 @@ public class AsciiDocService {
      * @param filepath A path to an .adoc file
      * @return HTML converted file as String
      */
-    public String convertFile (String filepath) {
+    public String convertFile (Path filepath) {
+        logger.info("loading adoc " + filepath);
         FileReader reader = null;
         try {
-            Path path = fileService.getPath(filepath);
-            reader = new FileReader(new File(fileService.getPathAsString(path)));
+            reader = new FileReader(filepath.toFile());
+            logger.info(reader.toString());
         } catch (FileNotFoundException e) {
             logger.error("File path not valid: " + filepath, e);
         }
         StringWriter writer = new StringWriter();
 
         try {
-            asciidoctor.convert(reader, writer, options().asMap());
+            asciidoctor.convert(reader, writer, OptionsBuilder.options().asMap());
         } catch (IOException e) {
             logger.error("Could not convert .adoc file: " + filepath, e);
         }
 
         StringBuffer htmlBuffer = writer.getBuffer();
         return htmlBuffer.toString();
+
     }
 
 

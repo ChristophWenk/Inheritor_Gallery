@@ -40,6 +40,7 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
 
         this.colorPM = colorPM;
         this.referencesList = referencesList;
+        this.minWidth(150);
         init();
     }
 

@@ -89,7 +89,7 @@ public class InstanceStatePM {
     }
 
     private void updateLastLastExecutedMethodUML(Boolean lastExecuted){
-        umlPM.getClasses().stream()
+        umlPM.getClassesObject().stream()
                 .flatMap(c -> c.getMethods().stream())
                 .filter(methodPM ->
                         // if method has been overridden, call equals with declaredInClass param
