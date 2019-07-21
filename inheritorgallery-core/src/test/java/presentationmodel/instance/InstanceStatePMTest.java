@@ -23,7 +23,7 @@ public class InstanceStatePMTest {
 
     @BeforeAll
     public static void setUp() {
-        File file = new File(InstanceStatePMTest.class.getClassLoader().getResource("testClasses.jar").getFile());
+        File file = new File(JShellService.class.getClassLoader().getResource("testClasses.jar").getFile());
         jShellService.updateImports(file.toPath());
 
         umlPM = new UmlPM();
