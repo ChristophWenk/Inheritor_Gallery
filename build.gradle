@@ -1,21 +1,6 @@
 group 'ch.fhnw'
 version '0.1'
 
-buildscript {
-	repositories {
-		maven {
-			url "https://nexus.gluonhq.com/nexus/content/repositories/releases"
-		}
-		maven {
-			url "https://plugins.gradle.org/m2/"
-		}
-	}
-	dependencies {
-		classpath 'com.gluonhq:client-gradle-plugin:0.0.11'
-	}
-}
-
-apply plugin: 'com.gluonhq.client-gradle-plugin'
 apply plugin: 'java'
 
 repositories {
