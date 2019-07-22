@@ -1,5 +1,6 @@
 package inheritorgallery.view;
 
+import javafx.beans.value.ChangeListener;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.web.WebView;
@@ -13,6 +14,7 @@ public class InstructionPane extends GridPane implements ViewMixin{
 
     private InstructionPM instructionPM;
     private WebView webView ;
+    private ChangeListener pmStateListener = (observable, oldValue, newValue) ->  this.init();
 
     private TextArea instructionTextArea;
 
@@ -36,4 +38,10 @@ public class InstructionPane extends GridPane implements ViewMixin{
         // Add controls
         add(webView,0,0,1,1);
     }
+
+    @Override
+    public void setupValueChangedListeners() {
+        instructionPM.instructionTextProperty().addListener(pmStateListener);
+    }
+
 }

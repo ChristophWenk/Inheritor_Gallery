@@ -2,14 +2,21 @@ package presentationmodel.uml;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import service.jshell.JShellService;
+
+import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class UmlPMTest {
+    private static JShellService jShellService = JShellService.getInstance();
     private static UmlPM pm;
 
     @BeforeAll
     public static void setUp() {
+        File file = new File(Thread.currentThread().getContextClassLoader().getResource("testClasses.jar").getFile());
+        jShellService.updateImports(file.toPath());
         pm = new UmlPM();
     }
 
@@ -19,9 +26,9 @@ class UmlPMTest {
         //UmlPM umlPM = umlService.createUmlPM();
 
         //then
-        assertEquals(9, pm.getClasses().size());
+        assertEquals(9, pm.getClassesObject().size());
 
-        ClassPM classPM = pm.getClasses().get(8);
+        ClassPM classPM = pm.getClassesObject().get(8);
         assertEquals("Person", classPM.getName());
         assertEquals(2, classPM.getFields().size());
         assertEquals(3, classPM.getConstructors().size());
@@ -42,7 +49,7 @@ class UmlPMTest {
         //given
 
         //then
-        assertEquals(pm.getClasses().get(8), pm.getClassByName("Person"));
+        assertEquals(pm.getClassesObject().get(8), pm.getClassByName("Person"));
 
     }
     @Test
@@ -59,15 +66,15 @@ class UmlPMTest {
     @Test
     public void testGetInterfaces(){
 
-        assertEquals("Antique", pm.getClasses().get(0).getName());
-        assertEquals("AntiqueBuyableFahrrad", pm.getClasses().get(1).getName());
-        assertEquals("Auto", pm.getClasses().get(2).getName());
+        assertEquals("Antique", pm.getClassesObject().get(0).getName());
+        assertEquals("AntiqueBuyableFahrrad", pm.getClassesObject().get(1).getName());
+        assertEquals("Auto", pm.getClassesObject().get(2).getName());
 
-        assertEquals(0, pm.getClasses().get(2).getImplementedInterfacesAsString().size());
-        assertEquals(0, pm.getClasses().get(2).getImplementedInterfaces().size());
+        assertEquals(0, pm.getClassesObject().get(2).getImplementedInterfacesAsString().size());
+        assertEquals(0, pm.getClassesObject().get(2).getImplementedInterfaces().size());
 
-        assertEquals(2, pm.getClasses().get(1).getImplementedInterfacesAsString().size());
-        assertEquals(2, pm.getClasses().get(1).getImplementedInterfaces().size());
+        assertEquals(2, pm.getClassesObject().get(1).getImplementedInterfacesAsString().size());
+        assertEquals(2, pm.getClassesObject().get(1).getImplementedInterfaces().size());
 
     }
 
