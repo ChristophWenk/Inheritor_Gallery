@@ -5,8 +5,6 @@ plugins {
 group 'ch.fhnw'
 version '0.1'
 
-
-
 subprojects {
 	apply plugin: 'java'
 	apply plugin: 'org.javamodularity.moduleplugin'
@@ -38,13 +36,13 @@ subprojects {
 		compile('org.asciidoctor:asciidoctorj:2.0.0')
 	}
 
-//	test {
-//		useJUnitPlatform()
-//		testLogging {
-//			events "passed", "skipped", "failed"
-//			exceptionFormat "full"
-//		}
-//	}
+	test {
+		useJUnitPlatform()
+		testLogging {
+			events "passed", "skipped", "failed"
+			exceptionFormat "full"
+		}
+	}
 }
 
 //jar {
@@ -65,18 +63,4 @@ subprojects {
 ////		}
 //	}
 //	from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-//}
-
-//jlink {
-//	imageZip = project.file("${buildDir}/distributions/${"inheritorgallery"}-${javafx.platform.classifier}.zip")
-//	options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
-//	launcher {
-//		name = "${"inheritorgallery"}"
-//	}
-//	forceMerge('log4j-api')
-//}
-//
-//task dist {
-//	dependsOn clean, jlinkZip
-//	description "Calls clean and then jlinkZip [default]"
 //}
