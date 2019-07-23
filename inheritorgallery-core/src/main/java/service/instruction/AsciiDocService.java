@@ -6,10 +6,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.FileService;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.nio.file.Path;
 
-import static org.asciidoctor.jruby.internal.JRubyAsciidoctor.create;
+import static org.asciidoctor.Asciidoctor.Factory.create;
 
 /**
  * This class provides tools to convert .adoc files to HTML
@@ -52,7 +55,6 @@ public class AsciiDocService {
 
         StringBuffer htmlBuffer = writer.getBuffer();
         return htmlBuffer.toString();
-
     }
 
 
