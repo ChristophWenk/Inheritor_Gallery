@@ -1,5 +1,4 @@
-===== Usablity Test Student
-
+===== Usablity Test HiFi Studierende
 
 *Test Objekt*
 Ausgedruckter HiFi Prototyp. Aufgabe ist, die Codezeilen auszuführen und die erstellten

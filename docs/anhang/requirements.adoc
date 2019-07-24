@@ -1,0 +1,270 @@
+= Requirements
+
+
+high, medium > muss Ziele
+low > kann Ziele
+
+
+.UseCases
+|===
+|# | Bezeichnung |
+
+|UC-1
+|Übung importieren
+|low
+
+|UC-2
+|Objekte instanzieren
+|high
+
+|UC-3
+|Mit Objekten interagieren
+|high
+
+|UC-4
+|Klassen erstellen und bearbeiten
+|high
+
+|===
+
+.Requirements
+|===
+|Name | Description | Prio
+
+
+|Sprache
+a|Sprache Dokumentation: Deutsch
+Sprache Code: Englisch
+|OK
+
+|Standalone
+a|Keine Abhängigkeiten zu anderen Applikationen,
+keine Plugin
+
+* Liberica Runtime benötigt zur Ausführung?
+|obsolete
+
+
+|Klassendiagramm
+|UML statisch?
+|high
+
+|Klassendiagramm
+|UML dynamisch (bei Klassencode Änderung)
+keine Rekomplilierung
+|none
+
+
+|UML Parser
+a|
+Lernsystem Input: 1..*  .java Files
+wird dargestellt als UML
+
+image::images/umlClassMethodAttribute.jpg[umlClassMethodAttribute.jpg, 460, 320]
+
+Class: class, abstract, interface
+
+Attribute: visibility, name, type
+
+Methods: visibility, name,
+input parameter, return
+
+image::images/umlConnections.jpg[umlConnections.jpg, 460, 320]
+
+Beziehungen:
+
+* extends, implements
+|high
+
+|UML Parser
+a|
+Package
+
+Beziehungen:
+
+* uses, assosiation/aggragation, cardinality (out of scope?)
+
+|none
+
+|Anleitung
+|statischer Text
+Input: txt, markdown, adoc?
+|high
+
+
+|Shell
+|Zeilenweises ausführen?
+|high
+
+|showInstance();
+a|[source,java]
+----
+Fahrzeug fahrzeug1  = new Fahrzeug("fahrzeug1", 22);
+fahrzeug1.print();
+>> Fahrzeug: fahrzeug1 fährt 22.0
+----
+|high
+
+|showAvailableMethods();
+a|[source,java]
+----
+Visualisation
+----
+|high
+
+
+|showAvailableAttributes();
+a|[source,java]
+----
+Visualisation
+----
+|high
+
+|showReference();
+a|[source,java]
+----
+Fahrzeug fahrzeug1  = new Fahrzeug("fahrzeug1", 23);
+Fahrzeug fahrzeug2 = fahrzeug1;
+fahrzeug1.print(); >>Fahrzeug: fahrzeug1 fährt 23.0
+fahrzeug2.print(); >>Fahrzeug: fahrzeug1 fährt 23.0
+
+fahrzeug1.setName("fahrzeug1-remastered");
+fahrzeug1.print();  >>Fahrzeug: fahrzeug1-remastered fährt 23.0
+fahrzeug2.print();  >>Fahrzeug: fahrzeug1-remastered fährt 23.0
+>> ? Point to copied class ?
+----
+|medium
+
+|showModifiability();
+a|[source,java]
+----
+>>final, static Variable
+>>Fahrzeug.gravity = 1; >>compile error, no changes allowed
+>>UML representation ok
+
+>>static Method call changes value in all instances
+Fahrzeug fahrzeug1  = new Fahrzeug("fahrzeug1", 33);
+Fahrzeug fahrzeug2  = new Fahrzeug("fahrzeug2", 44);
+
+
+Fahrzeug.setDieselTax(10);
+System.out.println(fahrzeug1.getDieselTax());  >>10.0
+System.out.println(fahrzeug2.getDieselTax());  >>10.0
+Fahrzeug.setDieselTax(20);
+System.out.println(fahrzeug1.getDieselTax());  >>20.0
+System.out.println(fahrzeug2.getDieselTax());  >>20.0
+----
+|none
+
+|objectMethods();
+a|[source,java]
+----
+>>(==), equals(),
+>> clone()  > shallow Copy, deep copy
+----
+|low
+
+|methodExecuted();
+a|[source,java]
+----
+Fahrzeug fahrzeug  = new Fahrzeug("fahrzeug1", 50);
+Auto auto          = new Auto("auto1", 20, 430, 2);
+Cabriolet cabrio   = new Cabriolet("cabrio1", 20, 430, 2);
+
+fahrzeug.print(); >>Fahrzeug: fahrzeug1 fährt 50.0
+>> nearest method executed
+auto.print();     >>Auto:     auto1 fährt 20.0
+>> parent method used if no overwrite available
+cabrio.print();  >>Auto:     auto1 fährt 20.0
+
+>> ??? overwrite final Methods not possible out of scope?
+----
+|high
+
+|methodsAvailableByRef();
+a|[source,java]
+----
+Fahrzeug auto1   = new Auto("auto1", 66, 430, 2);
+>>auto.getColor();
+>> only methods declared in Reference class available
+
+>> Casting in scope?
+Auto auto2 = (Auto) auto1;
+auto2.getColor();
+>> instanceof in scope?
+----
+|high  with casting
+
+|isAlsoA();
+a|[source,java]
+----
+Fahrzeug fahrzeug  = new Fahrzeug("fahrzeug1", 0);
+Fahrrad rad        = new Fahrrad("rad1", 48);
+Auto auto          = new Auto("auto1", 20,430, 2);
+Cabriolet cabrio   = new Cabriolet("cabrio1", 20,150, 4);
+
+>> compile error enough!!
+
+>> assign to parent class ok .. is also a ...
+fahrzeug = rad;
+auto = cabrio;
+
+>> assign to child, sibling class nok
+>>rad = fahrzeug;
+>>cabrio = auto;
+>>rad = auto;
+----
+|low
+
+|ReferenceVsObject();
+a|[source,java]
+----
+Fahrzeug f1 = new Fahrzeug("fahrzeug1", 0);
+Auto a      = new Auto("auto1",20, 430, 2);
+Fahrzeug f2  = new Auto("auto1",20, 430, 2);
+
+>> f2 is reference of Fahrzeug  (Fahrzeug _ ) defines allowed methods
+>> f2 is object of Auto (new ...) nearest method implementation used
+processFahrzeug(f1);  >> Referenz Fahrzeug: Fahrzeug: fahrzeug1 fährt 0.0
+processFahrzeug(a);   >> Referenz Auto:     Auto:     auto1 fährt 20.0
+processFahrzeug(f2);  >> Referenz Fahrzeug: Auto:     auto1 fährt 20.0
+
+>> in scope ?  > f2 is instance of Auto, Fahrzeug, Object
+System.out.println(f2 instanceof Auto);      >>True
+System.out.println(f2 instanceof Fahrzeug);  >>True
+System.out.println(f2 instanceof Object);    >>True
+
+System.out.println(f1 instanceof Auto);      >>False
+----
+|medium
+
+|abstactClass();
+a|[source,java]
+----
+>>instantiation not possible, visualize or compile error?
+>>Item item = new Item();
+
+>> abstract class as reference type, object Auto
+Item item = new Auto("auto1",77, 430, 2);
+item.print();  >>Auto:     auto1 fährt 20.0
+
+>> implemented method from abstract class can be executed
+item.setWeight(10);
+System.out.println(item.getWeight());  >>10.0
+----
+|medium
+
+|interfaces();
+a|[source,java]
+----
+>>method getPrice
+Buyable fahrrad = new AntiqueBuyableFahrrad("rad1", 48,"Mittelalter",9999);
+
+>>only getPrice() (= Buyable interface method) callable
+fahrrad.getPrice();
+
+>>visualize that Buyable interface
+----
+|medium
+
+|===

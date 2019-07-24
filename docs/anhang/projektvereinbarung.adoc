@@ -1,0 +1,260 @@
+= Projektvereinbarung
+
+
+*Autoren:* Dimitri Muralt, Christoph Wenk +
+*Auftraggeber:* Dieter Holz, Barbara Scheuner +
+*Betreuer:* Dieter Holz, Barbara Scheuner
+
+== Einleitung
+
+Dieses Dokument gilt als Vereinbarung zwischen den Auftraggebern Barbara Scheuner und Dieter Holz, die gleichzeitig auch die Funktion als Betreuungspersonen übernehmen, und dem Projektteam bestehend aus Christoph Wenk und Dimitri Muralt. Das Dokument enthält die Kontaktdaten sowie allgemeine Informationen über den Projektablauf und Umfang. Das Dokument muss von beiden Parteien akzeptiert werden  (via Pull Request mit allen Parteien als Reviewer auf Github) und legt fest, was bis zum Abschluss des Projektes fertiggestellt werden soll. Änderungen an diesem Dokument sind möglich, wenn sie von allen Seiten akzeptiert werden. Es ist erlaubt, die Änderungen per Pull Request mit allen Parteien als Reviewer auf Github mitzuteilen.
+
+== Vorliegende Dokumente
+
+Diese Vereinbarung basiert unter anderem auf dem Projektbeschrieb "IMVS21_inheritorGallery.pdf” sowie den Meetings vom 26. Februar 2019 und 19. März 2019.
+
+== Ausgangslage
+
+Das Klassendiagramm von UML stellt die Vererbungsbeziehungen zwischen Klassen und Interfaces dar. Dabei werden die Klassen mit ihren Attributen und Methoden als einzelne Quadrate gezeigt. Für die resultierenden Instanzen einer abgeleiteten Klasse ist diese Darstellung irreführend. Für das Verständnis was eine Instanz ausmacht wäre es für einen Programmieranfänger deutlich einfacher wenn die Instanz als eine Einheit visualisiert wird und nicht in mehreren Blöcken.
+
+Eine für Programmieranfänger geeignete Visualisierung von Instanzen müsste:
+
+- die verfügbaren Methoden und Attribute und deren Ursprungs-Klasse bzw. Interface nachvollziehbar machen
+- den statischen und dynamischen Typ eines Attributs bzw. einer Variablen berücksichtigen
+
+Ein Debugger bietet einige dieser Informationen an. Eine grafische Visualisierung existiert derzeit nicht.
+
+== Ziel der Arbeit
+
+Entwicklung einer interaktiven Lernumgebung für den Einsatz im Unterricht für Programmieranfänger auf Basis JavaFX.
+Für den Programmieranfänger soll es möglich sein, typische Aufgabenstellungen und Programmier-Übungen im Bereich Vererbung und Polymorphie schrittweise zu implementieren und mit bestehenden Klassenhierarchien zu experimentieren. Die entstehenden Instanzen sollen geeignet graphisch visualisiert werden.
+
+== Problemstellung
+
+InheritorGallery besteht aus zwei Teilen
+
+- Autorensystem mit dem neue Übungen erstellt werden (insbesondere Vererbungsstrukturen)
+- Lernsystem mit dem der Programmieranfänger die Übungen durchführt
+
+Für beide Teile
+
+- Evaluation bestehender Ansätze und Lösungen
+- Evaluation geeigneter Technologien
+
+Für die Lernumgebung
+
+- Entwurf eines geeigneten User-Interfaces
+- systematische Usability-Tests zur Weiterentwicklung der User-Interfaces
+- Entwurf der Visualisierung von Instanzen von Klassen mit mehreren Oberklassen und Interfaces
+- dynamische Veränderung der Visualisierung je nach Programmzustand
+
+== Rahmenbedingungen
+In folgenden Abschnitten wird zwischen Dokumenten und Komponenten, die zu erstellen bzw. nicht zu erstellen sind, unterschieden.
+
+=== In Scope
+
+.Ergebisse
+|===
+|Ergebisse | Inhalt
+
+|Projektvereinbarung
+a|
+- Projektbeschreibung
+- Rahmenbedingungen
+- Funktionale- / Nicht-funktionale Anforderungen
+- Projektplanung
+- Freigabe & Genehmigung
+
+|UX-Konzept
+a|
+- Usability-Tests
+- Finaler Prototyp
+- Personas
+
+|Fachbericht
+a|
+- Schwerpunkt
+- Vorgehen
+- Analysen
+- Architektur
+- Technologien / Software
+- Fazit
+
+
+|Produkt
+|===
+
+=== Out of Scope
+- Admin GUI
+
+== Anforderungen
+===  Use Cases
+
+.UseCases
+|===
+|# | Bezeichnung
+
+|UC-1
+|Übung importieren
+
+|UC-2
+|Objekte instanziieren
+
+|UC-3
+|Mit Objekten interagieren
+
+|UC-4
+|Klassen erstellen und bearbeiten
+
+|===
+=== Funktionale Anforderungen
+.Funktionale Anforderungen
+|===
+| UC | Bezeichnung | Beschreibung | Prio
+
+|UC-1
+|UML Parser
+a|Importiert werden 1..*  .java Files. Diese werden geparst und als UML dargestellt.
+
+Konkret werden folgende UML Eigenschaften dargestellt:
+* Klassenart: class, abstract, interface
+* Attribute mit Sichtbarkeit, Name und Typ.
+* Methoden mit Sichtbarkeit, Name, Inputparameter und Rückgabewert
+* Polymorphie-Beziehungen: extends und implements
+
+Der Input kann nachträglich nicht mehr geändert werden. Das heisst, wenn der Klassencode
+angepasst wurde, muss die Übung neu importiert werden.
+|high
+
+|UC-1
+|Anleitung
+|Die Übungs-Anleitung wird als statischer Text importiert.
+|high
+
+|UC-2
+|Shell
+|Es soll eine Shell vorhanden sein, in der Studierende zeilenweise Java Code
+ eingeben können.
+ Für die Übung relevanter Code soll dabei interpretiert werden können.
+|high
+
+|UC-2
+|Zeige Instanz
+|Via Shell kann mithilfe von Java Code eine Instanz aus der bestehenden
+Klassenstruktur erstellt werden. Diese wird auf der Oberfläche angezeigt.
+Bsp.:
+Fahrzeug fahrzeug1  = new Fahrzeug("fahrzeug1", 22);
+----
+|high
+
+|UC-2
+|Zeige verfügbare Methoden
+|Zu einer erstellten Instanz sind die verfügbaren Methoden sichtbar.
+Diese Methoden können ausgeführt werden.
+----
+|high
+
+|UC-2
+|Zeige verfügbare Attribute
+|Zu einer erstellten Instanz sind die verfügbaren Klassen Attribute sichtbar.
+----
+|high
+
+|UC-2
+|Zeige Werte der verfügbaren Attribute
+|Die Werte der Attribute einer erstellten Instanz werden angezeigt.
+Bsp.: Fahrzeug fahrzeug1  = new Fahrzeug("fahrzeug1", 22);
+name = "fahrzeug1"
+geschwindigkeit = 22
+|high
+
+
+|UC-2
+|Zeige Referenz auf Kopie
+|Es kann eine Kopie einer Instanz angelegt werden. Die neue Instanz ist als
+Kopie in der Visualisierung zu erkennen.
+Bsp.:
+Fahrzeug fahrzeug1  = new Fahrzeug("fahrzeug1", 23);
+Fahrzeug fahrzeug2 = fahrzeug1;
+|medium
+
+|UC-3
+|Ausführen von Objekt Methoden
+|Die Methode (==), equals() und clone() können auf vorhandene Instanzen
+angewendet werden.
+|low
+
+|UC-3
+|Methode ausgeführt bei Polymorphie
+|Sofern mehrere Methoden aufgrund von Vererbung vorhanden sind, soll visualisiert
+werden, welche der Methoden soeben ausgeführt wurden.
+|high
+
+|UC-3
+|Zeige verfügbare Methoden in Bezug auf Referenz
+|Bsp.: Fahrzeug auto1   = new Auto("auto1", 66, 430, 2);
+Nur Methoden in Referenzklasse können ausgeführt werden.
+Methoden aus Objektklasse sind sichtbar, jedoch als nicht ausführbar erkennbar.
+
+Bsp.:
+Fahrzeug f2  = new Auto("auto1",20, 430, 2);
+>> f2 ist Referenz von Fahrzeug  (Fahrzeug _ ) definiert verfügbare Methoden
+>> f2 ist Objekt von Auto (new ...) näheste Methodenomplementation verwendet
+|medium
+
+|UC-3
+|Abstrakte Klasse
+|Die Instanziierung einer abstrakten Klasse führt zu einem Kompilierfehler
+und wird in der Shell angezeigt.
+Implementierte Methoden in abstrakter Klasse können ausgeführt werden und werden
+bei Ausführung als ausgeführte Methode gekennzeichnet.
+|medium
+
+|UC-2
+|Interface
+|Die Instanziierung eines Interfaces führt zu einem Kompilierfehler.
+|medium
+
+
+|===
+
+=== Nicht-funktionale Anforderungen
+
+.Nichtfunktionale Anforderungen
+|===
+|# | Beschreibung
+
+|NF-1
+|Die Applikation soll mit jlink lauffähig sein und somit eigenständig ausgeführt werden können.
+
+|NF-2
+|Die Applikation muss von Java-Programmieranfängern (1. Semester FHNW) zu bedienen sein.
+
+|NF-3
+|Die Dokumentation wird in Deutsch erfasst.
+
+|===
+
+
+== Produkteinsatz
+=== Anwendungsbereiche
+Die Lernumgebung soll im Unterricht eingesetzt werden.
+
+=== Zielgruppe
+Zielgruppe sind Programmieranfänger auf Sekundär- oder Tertiärstufe. Im spezifischen 1. Semester der FHNW.
+
+== Projektplanung
+Die Projektplanung besteht aus Meilensteinen und Issues auf Github. Die Meilensteine enthalten Enddaten und diesen werden
+Issues zugeteilt. Ein agiles Vorgehen wird bevorzugt und die Projektplanung wird auf ein Minimum beschränkt.
+
+=== Meetings
+Es werden monatlich Face-to-Face Meetings stattfinden, jeweils Diestags um 17:30.
+Weitere Fragen können jederzeit via Github Issues mit der @User Funktion gestellt
+werden. Bei Bedarf kann anschliessend ein Skype Meeting vereinbart werden.
+
+== Freigabe / Genehmigung
+
+Mit dieser Projektvereinbarung werden die Ziele sowie die Rahmenbedingungen für das IP-5 Projekt “InheritorGallery“ festgehalten. Dieses Dokument dient als vertragliche Grundlage zwischen den vorgängig genannten Parteien.
+
+
+Diese Vereinbarung wird aufgrund eines Pull Requests auf dem InheritorGallery GitHub-Repository https://github.com/FHNW-IP5-IP6/InheritorGallery auf den master-Branch mit allen Beteiligten als Reviewer akzeptiert.
