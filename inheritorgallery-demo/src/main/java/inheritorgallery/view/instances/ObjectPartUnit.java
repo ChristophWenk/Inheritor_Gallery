@@ -34,13 +34,14 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
 
     public ObjectPartUnit(ClassPM classPM, ColorPM colorPM, List<ReferencePM> referencesList){
         this.classPM = classPM;
-        this.getStyleClass().add("plainBorder");
+        if(classPM.isIsInterface())   this.getStyleClass().add("dashedBorder");
+        else                          this.getStyleClass().add("plainBorder");
         String color = colorPM.getColor(classPM.getFullClassName());
         this.setStyle("-fx-background-color:" + color);
 
         this.colorPM = colorPM;
         this.referencesList = referencesList;
-        this.minWidth(150);
+
         init();
     }
 
@@ -98,7 +99,7 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
 
 
             referenceHBox.setAlignment(Pos.CENTER);
-            referenceHBox.setTranslateY(-2);
+            referenceHBox.setTranslateY(-7);
             referenceHBox.toFront();
             referenceHBox.getChildren().add(text);
         }
@@ -106,6 +107,8 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
 
     @Override
     public void layoutControls() {
+        this.minWidth(150);
+        this.setPadding(new Insets(5,5,5,5));
         getChildren().add(referenceHBox);
         getChildren().add(classNameHBox);
         getChildren().add(new Separator());
