@@ -1,7 +1,7 @@
 package inheritorgallery.view;
 
 import inheritorgallery.view.instances.InstancePane;
-import inheritorgallery.view.uml.UmlPane;
+import inheritorgallery.view.uml.UMLPane;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.stage.Stage;
@@ -26,7 +26,7 @@ public class ApplicationUI extends SplitPane implements ViewMixin {
 
     private LeftPane leftPane;
     private InstancePane instancePane;
-    private UmlPane umlPane;
+    private UMLPane umlPane;
 
     public ApplicationUI(Stage primaryStage, FileChooserPM fileChooserPM, InstanceStatePM instanceStatePM, UmlPM umlPM,
                          InstructionPM instructionPM, ColorPM colorPM) {
@@ -45,7 +45,7 @@ public class ApplicationUI extends SplitPane implements ViewMixin {
         // Initialize panes
         leftPane = new LeftPane(primaryStage, fileChooserPM, instanceStatePM, instructionPM);
         instancePane = new InstancePane(instanceStatePM, colorPM);
-        umlPane = new UmlPane(umlPM, colorPM);
+        umlPane = new UMLPane(umlPM, colorPM);
     }
 
     @Override
