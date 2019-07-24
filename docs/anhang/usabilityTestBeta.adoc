@@ -2,36 +2,52 @@
 
 *Test Objekt*
 
+image::../images/usabilityTestBeta.jpg[Usability Test Beta, 100%]
 
-image::../images/20190517_UsabilityTest.jpg[20190517_UsabilityTest.jpg, 100%]
 
 .FindingsProaband1
 |====
 | Typ Idee, Problem, Lob | Beobachtung | Handlungsempfehlung
 
 |Lob
-| 0:50 Klassendiagramm ist übersichtlich
+|1:55, übersichtlich
 |
 
 |Lob
-|15:35 Visualisierung hilfreich zum Lernen
+|2:43, Farben ansprechend
 |
 
-|Idee
-|16:10 Mehr explizite Informationen. Insbesondere Musiker m statt nur m schreiben.
-Und den Kreis Kennzeichnen
-|Weitere Kontext Informationen explizit zeigen. z.B. bei Hover auf Referenz
-"Referenz = definiert die Sicht, bearbeitbarer Bereich"
+|Problem
+|3:22, Pfeile nicht schön, Spitze nicht klar sichtbar. Pfeil hinten durch nicht klar.
+|Pfeilspitzen im Vordergrund zeichnen. Linien um Klasse herum führen, statt darunter.
+
+|Problem
+|5:04, Code Schrift schlecht lesbar
+|Code Schrift anpassen.
+
+|Problem
+|5:55, nicht klar, dass unten Links ein Eingabefeld vorhanden ist. Zu wenig prominent.
+|Eingabefeld prominenter gestalten, allenfalls grösser.
+
+|Lob
+|7:55, Instanz übersichtlich gestaltet
+|
+
+|Lob
+|8:30, Fabrzusammenhang wird klar.
+|
+
+|Problem
+|10:33 Referenz Rahmen wenig ansprechend
+|Referenz Rahmen ansprechender gestalten.
 
 |====
 
 
-..FindingsProaband2
+.FindingsProaband2
 |====
 | Typ Idee, Problem, Lob | Beobachtung | Handlungsempfehlung
 
-
-
 |
 |
 |
@@ -47,5 +63,31 @@ Und den Kreis Kennzeichnen
 |
 |
 |
+
+|
+|
+|
+
+|
+|
+|
+
+|
+|
+|
+
+|
+|
+|
+
+|
+|
+|
+
+|
+|
+|
+
+
 
 |====
