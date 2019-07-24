@@ -40,8 +40,8 @@ In diesem Kapitel ist die Analyse und Entstehung der Applikation InheritorGaller
 Die einzelnen Kapitel sind nicht zwingend chronologisch geordnet sondern sind in
 Themenbereiche gruppiert. Nachdem das Kapitel Problemstellung die zu lösenden Aufgabe
 aufzeigt, sind im Kapitel Analyse die bereits vorhanden und eingesetzten Technologien
-beschreiben. Weiter ist im Kapitel Design und Usability Testing die Entstehung und das
-Testen der Prototypen beschrieben und schliesslich wird im Kapitel Implementation die
+beschrieben. Weiter wird im Kapitel Design und Usability Testing die Entstehung und das
+Testen der Prototypen erklärt und schliesslich wird im Kapitel Implementation die
 technische Umsetzung geschildert.
 
 === Problemstellung
@@ -149,7 +149,7 @@ image::images/20190412_blueJ.jpg[BlueJ, 100%]
 
 *Examples (Run JShell from Java App)*
 https://dzone.com/articles/jdk9-execute-java-code-like-unix-shell-script
-Link to GitHub repo with example project: https://github.com/ChristophWenk/jshell_script_executor
+Link to GitHub repo with example project: https://github.com/kotari4u/jshell_script_executor
 
 *Hints*
 *External Code*
@@ -231,7 +231,7 @@ unflexibel zu wenig mächtig sind.
 
 === Design
 
-=== Entwürfe
+==== Entwürfe
 
 Dieses Kapitel zeigt und erläutert die erstellen visuellen Entwürfe. Dabei werden kurz
 die getroffenen Entscheide diskutiert und begründet. Die Entwürfe sind in zwei Gruppen
