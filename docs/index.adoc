@@ -413,6 +413,8 @@ Klassennamen, welcher mit dem Referenztypen übereinstimmt.
 
 //Todo: Architektur
 
+image::images/uml/UML_InheritorGalleryComponentDiagram.png[Usability Test HiFi, 100%]
+
 ==== Testing
 
 //Todo: Testing
