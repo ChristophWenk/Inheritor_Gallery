@@ -1,60 +1,116 @@
 = InheritorGallery
-Dimitri Muralt, Christoph Wenk
+:toc: macro
+:toc-title:
+:toclevels: 4
 
-//Table of contents
-:toc: macro 
-// Path to the code references
-:sourcedir: ../inheritorgallery-core/src/main/java
-:sourcedirdemo: ../inheritorgallery-demo/src/main/java
-
-== Front page
 image:images/FHNW_logo.png[FHNW, 20%]
 
 *InheritorGallery*
 
-*Project report*
+*IP5 Projektbericht*
 
-Dimitri Muralt
+Verfasser: Dimitri Muralt, Christoph Wenk
 
-Christoph Wenk
+Studiengang: iCompetence
 
-Barbara Scheuner
+Betreuer und Auftraggeber: Barbara Scheuner, Dieter Holz
 
-Dieter Holz
-
-Windisch, 19. January 2019
-
-== Abstract / Management summary
-
-InheritorGallery is cool.
+Windisch, 13. August 2019
 
 
-=== What would we do different next time?
-* start at the beginning
-
-=== What would we keep doing?
-* Hackingdays (probably more often)
-* Usability-Tests
-* Meetings
-    - Meet in person when a release is published.
-    - Skype meeting for short updates.
+// Path to the code references
+:sourcedir: ../inheritorgallery-core/src/main/java
+:sourcedirdemo: ../inheritorgallery-demo/src/main/java/inheritorgallery
 
 
-In conclusion we can proudly say, ..
+== Zusammenfassung
 
-== Honesty Declaration
-It is hereby declared that the contents of this report, unless otherwise stated, have been authored by Dimitri Muralt and Christoph Wenk.
-All external sources have been named and quoted material has been attributed appropriately.
+== Inhalt
 
-The signatures are delivered separately.
-
-Windisch, 18. January 2019
-
-== Table of Content
 toc::[]
 
-== Introduction
-*Learning OOP-concepts is fun*
+== Einleitung
+
+asdf
+
+== Hauptteil
+
+In diesem Kapitel ist die Analyse und Entstehung der Applikation InheritorGallery beschrieben.
+Die einzelnen Kapitel sind nicht zwingend chronologisch geordnet sondern sind in
+Themenbereiche gruppiert. Nachdem das Kapitel Problemstellung die zu lösenden Aufgabe
+aufzeigt, sind im Kapitel Analyse die bereits vorhanden und eingesetzten Technologien
+beschreiben. Weiter ist im Kapitel Design und Usability Testing die Entstehung und das
+Testen der Prototypen beschrieben und schliesslich wird im Kapitel Implementation die
+technische Umsetzung geschildert.
+
+include::problemstellung.adoc[]
+
+=== Analyse
+
+include::vizInstanzen.adoc[]
+
+include::jshell.adoc[]
+
+include::javaToUML.adoc[]
+
+
+=== Design
+
+include::entwuerfe.adoc[]
+
+=== Usability Testing
+
+Dieses Kapitel beschreibt die Art und Weise der durchgeführten
+Usability Tests sowie deren Ergebnisse.
+
+include::usability.adoc[]
+
+//Todo: Requirements zusammenfassen? Verlinken?
+
+=== Implementation
+
+include::architektur.adoc[]
+
+include::testing.adoc]
+
+== Ergebnisse
+
+//Todo: Ergebnisse
+Diskussion der Ergebnisse
+Erreichung Requirements
+
+
+== Schlusswort
+
+//Todo: Schlusswort
+Diskussion der Ergebnisse
+Retrospektive
+Lessons learned Zwischenpräsi:
+
+Zusammenarbeit mit Frau Scheuner sehr gut
+Usability Testing Probanden finden schwierig, Zielgruppe spezifischer als angenommen
+Aufsetzen von CI als External Collaborator einer Organization ist sehr umständlich
+Auch kleine Dinge wie ein vergessenes ; können dich einen Tag kosten
+
+
+Struktur auf GitHub ist gut
+Keine Probleme in der Organisation und Zusammenarbeit
+CI prüft Commits und gibt direkt Feedback
+Nächstes mal würden wir eher einen Fork machen um bessere Kontrolle über das
+Repository zu haben
+Wieder mal ohne Syntaxprüfung zu arbeite kann frustrierend sein, wenn man stundenlang
+nach einem sonst offensichtlichen Fehler suchen muss
+
+include::literatur.adoc[]
+
+== Ehrlichkeitserklärung
+
+== Anhang
+
+include::anhang/20190408_interviewDozent.adoc[]
+
+include::anhang/20190514_usabilityTestHiFi.adoc[]
+
 
 
 

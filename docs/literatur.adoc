@@ -1,0 +1,30 @@
+== Literatur
+
+[bibliography]
+
+- [[[Smith]]] , Nicholas et al. (2019):  Javaparser: Visited - Analyse,
+transform and generate your Java code base. Leanpub
+
+- [[[Lucidchart]]] (2019) https://www.lucidchart.com (abgerufen am 24.07.2019).
+
+- [[[Jive]]] (2019) https://cse.buffalo.edu/jive/ (abgerufen am 24.07.2019).
+
+- [[[Visualizing-java]]] (2019) https://daveagp.wordpress.com/2013/07/05/visualizing-java/ (abgerufen am 24.07.2019).
+
+- [[[ObjectGraphVisualization]]] (2019) https://github.com/Nurtak/ObjectGraphVisualization(abgerufen am 24.07.2019).
+
+- [[[BlueJ]]] (2019) https://bluej.org/ (abgerufen am 24.07.2019).
+
+- [[[JavaParser]]] (2019) https://javaparser.org/ (abgerufen am 24.07.2019).
+
+- [[[Reflection]]] (2019) https://docs.oracle.com/javase/tutorial/reflect/ (abgerufen am 24.07.2019).
+
+- [[[uml-parser-a]]] (2018) https://github.com/shubhamvadhera/uml-parser (abgerufen am 24.07.2019).
+
+- [[[Yuml]]] (2019)  https://yuml.me/ (abgerufen am 24.07.2019).
+
+- [[[uml-parser-b]]] (2017) https://github.com/rishirajrandive/uml-parser (abgerufen am 24.07.2019).
+
+- [[[Java-Parser-UML-Generator]]] (2016)
+https://github.com/pratiksanglikar/Java-Parser-UML-Generator:
+(abgerufen am 24.07.2019).

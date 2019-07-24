@@ -1,7 +1,7 @@
+===== Usablity Test Student
 
-= Usablity Test Student
 
-== Test Objekt
+*Test Objekt*
 Ausgedruckter HiFi Prototyp. Aufgabe ist, die Codezeilen auszuführen und die erstellten
 Instanzen zu beschreiben.
 Das verwendete Klassendiagramm wurde von den Studierenden in der
@@ -11,10 +11,10 @@ Ziel: Prüfen ob die einzelnen Teile der Darstellung und die Gesamtübersicht kl
 dabei möglichst viele Fehler und Unklarheiten in der Darstellung ausfindig machen.
 
 
-image::../images/20190517_UsabilityTest.jpg[20190517_UsabilityTest.jpg, 460, 320]
+image::../images/20190517_UsabilityTest.jpg[20190517_UsabilityTest.jpg, 100%]
 
 .FindingsStudent1
-|===
+|====
 | Typ Idee, Problem, Lob | Beobachtung | Handlungsempfehlung
 
 |Lob
@@ -80,11 +80,11 @@ Und den Kreis Kennzeichnen
 |Weitere Kontext Informationen explizit zeigen. z.B. bei Hover auf Referenz
 "Referenz = definiert die Sicht, bearbeitbarer Bereich"
 
-|===
+|====
 
 
 .FindingsStudent2
-|===
+|====
 | Typ Idee, Problem, Lob | Beobachtung | Handlungsempfehlung
 
 |Lob
@@ -129,11 +129,11 @@ gut.
 |12:15 Generell sehr hilfreiche die Darstellung.
 |
 
-|===
+|====
 
 
 .FindingsStudent3
-|===
+|====
 | Typ Idee, Problem, Lob | Beobachtung | Handlungsempfehlung
 
 |Problem
@@ -161,4 +161,4 @@ wenn man aber zwei Unterschiedliche Objekte neben einander hat, wird
 die Bedeutung des Kreises klar.
 |
 
-|===
+|====

@@ -1,4 +1,4 @@
-= Zusammenfassung
+===== Interview Dozent
 
 Besondere Schwierigkeiten für Studierende:
 
@@ -11,8 +11,8 @@ Konzepte Vererbung
 * Subklasse ist eine Spezialisierung, Umfang Funktionalität grösser
 * Referenz bestimmt die Sicht (Metapher Pfeil, Brille, Fernrohr)
 
-== Interview Notizen
-==== Wo kommt das Problem her? Wo liegen die Schwierigkeiten bei den Studenten mit Vererbung?
+*Interview Notizen*
+*Wo kommt das Problem her? Wo liegen die Schwierigkeiten bei den Studenten mit Vererbung?*
 
 * Ein Objekt kann mehrere Hüte aufsetzen
 * Wie kann man vermitteln, dass ein Objekt die Eigenschaften behält, wenn ein Typ der Oberklasse zugewiesen wird?
@@ -27,7 +27,7 @@ Wenn man in der Vererbungsstruktur oben ist, wieso sind die Methoden unterer Obj
 * Häufig vergessen: Wenn man eine Methoden überschrieben hat wird die Methode genommen, die zum Objekt passt, nicht die der Referenz.
 * Wenn man ein Objekt erstellt hat, ist es da und existiert und man kann damit arbeiten.
 
-==== Haben Sie Vorstellungen in Bezug auf Vererbung?
+*Haben Sie Vorstellungen in Bezug auf Vererbung?*
 
 * Man sieht ein Velo und ein Auto. Fahrzeug ist eine Garage --> Man kann ein Velo oder ein Auto in die Garage stellen. Man kann beide Unteren Klassen reinsetzen. 
 Stuhl/oder besser Mensch? : mit Student, Dozent
@@ -43,4 +43,4 @@ Der Pfeil ist flexibel, kann ändern (casting)
 * Metapher: Brille Farbfilter: Rotfilter filtert Farbe heraus, die anderen sind jedoch immer noch da
 * Visualisierung soll allgemeingültig sein (Nicht konkret mit Auto oder Fahrzeugbilder): Evtl. auch 3D
 
-image::../images/20190408_notesInterview.jpg[20190408_notesInterview.jpg, 460, 320]
+image::../images/20190408_notesInterview.jpg[20190408_notesInterview.jpg, 100%]
