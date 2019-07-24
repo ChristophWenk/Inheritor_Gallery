@@ -34,7 +34,7 @@ public class UMLPane extends StackPane implements ViewMixin {
     private ArrayList<Polygon> arrowHeadList;
     private ArrayList<HBox> inheritanceLevelHBox;
     private VBox vBox;
-    private Pane linePane;
+    private Pane linePane, arrowHeadPane;
 
     public UMLPane(UmlPM umlPM, ColorPM colorPM) {
         this.umlPM = umlPM;
@@ -51,6 +51,7 @@ public class UMLPane extends StackPane implements ViewMixin {
         inheritanceLevelHBox = new ArrayList<>();
         vBox = new VBox(40);
         linePane = new Pane();
+        arrowHeadPane = new Pane();
 
 
         for(ClassPM classPM : umlPM.getClassesObject()){
@@ -115,7 +116,7 @@ public class UMLPane extends StackPane implements ViewMixin {
                     );
 
                     linePane.getChildren().add(lines.get(i));
-                    linePane.getChildren().add(arrowHeadList.get(i));
+                    arrowHeadPane.getChildren().add(arrowHeadList.get(i));
 
 
                 } else {
@@ -125,6 +126,7 @@ public class UMLPane extends StackPane implements ViewMixin {
             getChildren().clear();
             getChildren().add(linePane);
             getChildren().addAll(vBox);
+            getChildren().add(arrowHeadPane);
 
         });
 
