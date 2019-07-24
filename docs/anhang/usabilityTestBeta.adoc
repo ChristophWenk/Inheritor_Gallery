@@ -1,0 +1,51 @@
+===== Usablity Test Beta
+
+*Test Objekt*
+
+
+image::../images/20190517_UsabilityTest.jpg[20190517_UsabilityTest.jpg, 100%]
+
+.FindingsProaband1
+|====
+| Typ Idee, Problem, Lob | Beobachtung | Handlungsempfehlung
+
+|Lob
+| 0:50 Klassendiagramm ist übersichtlich
+|
+
+|Lob
+|15:35 Visualisierung hilfreich zum Lernen
+|
+
+|Idee
+|16:10 Mehr explizite Informationen. Insbesondere Musiker m statt nur m schreiben.
+Und den Kreis Kennzeichnen
+|Weitere Kontext Informationen explizit zeigen. z.B. bei Hover auf Referenz
+"Referenz = definiert die Sicht, bearbeitbarer Bereich"
+
+|====
+
+
+..FindingsProaband2
+|====
+| Typ Idee, Problem, Lob | Beobachtung | Handlungsempfehlung
+
+
+
+|
+|
+|
+
+|
+|
+|
+
+|
+|
+|
+
+|
+|
+|
+
+|====

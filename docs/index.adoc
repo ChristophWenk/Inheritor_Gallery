@@ -124,7 +124,7 @@ umgesetzt. Der grösste Vorteil von ObjectGraphVisualization ist die Darstellung
 Ein grosser Nachteil ist allerdings, dass kein Java Code eingelesen werden kann, sonder die Strukturen mihilfe von
 XML erstellt werden müssen. Die gesamte Bachelorarbeit ist unter dem Link https://eprints.hsr.ch/459/ zu finden.
 
-image::/images/20190412_graphVisualizer.jpg[20190412_graphVisualizer.jpg, 100%]
+image::images/20190412_graphVisualizer.jpg[20190412_graphVisualizer.jpg, 100%]
 
 Das zweite Programm heisst Bluej (vgl. <<BlueJ>> 2019).
 Dieses entspricht als Gesamtlösung wohl am ehesten den Anforderungen für dieses Projekt.
@@ -136,7 +136,7 @@ Darstellung der Vererbung. Die Instanzen sehen stets gleich aus, bestehend aus e
 Die verfügbaren Methoden müssen via Menüs aufgerufen werden und sind nicht auf einen Blick sichtbar.
 Zudem wird nicht klar welche Methoden bei Vererbung ausgeführt werden.
 
-image::/images/20190412_blueJ.jpg[20190412_blueJ.jpg[BlueJ, 100%]
+image::images/20190412_blueJ.jpg[BlueJ, 100%]
 
 ==== JShell
 
@@ -266,7 +266,7 @@ Ausschnitte dieser Versionen zu sehen. Alle Entwürfe sind im Ordner
 “designs” (https://github.com/FHNW-IP5-IP6/InheritorGallery/tree/doc/docs/designs)
 zu finden.
 
-image::/images/20190507_DiskussionErsteSkinnen.jpg[LoFi Prototyp 1, 100%]
+image::images/20190507_DiskussionErsteSkinnen.jpg[LoFi Prototyp 1, 100%]
 
 Eine der Herausforderungen ist, bei Vererbung darzustellen, dass sich die
 Funktionalität erweitert. Dies ist beispielsweise möglich durch Ineinanderschachteln
@@ -281,7 +281,7 @@ Methoden, die auf der jeweiligen Referenz aufrufbar sind. Zudem ist der Referenz
 mit dem Referenznamen angeschrieben. Alternativen sind Punkte mit einem Pfeil, eine
 Fernrohr artige Form oder Labels die sich nicht durchgesetzt haben.
 
-image::/images/20190513_BesprechungSkizzen.jpg[LoFi Prototyp 2, 100%]
+image::images/20190513_BesprechungSkizzen.jpg[LoFi Prototyp 2, 100%]
 
 Beim Bild oben handelt es sich vor allem um die Darstellung von überschriebenen
 Methoden und der expliziten Darstellung von welcher Methode die Implementation
@@ -301,7 +301,7 @@ dieser Klasse die Implementation der Methode verwendet wird. So ist die Methode
 blau hervorgehoben, nämlich der Farbe der Klasse “Developer”.
 
 
-image::/images/20190514_BesprechungSkizzen.jpg[LoFi Prototyp 3, 100%]
+image::images/20190514_BesprechungSkizzen.jpg[LoFi Prototyp 3, 100%]
 
 Die Abbildung oben widmet sich insbesondere komplexeren Instanzen, die erben und
 gleichzeitig Interfaces implementieren. Auch hier gilt zu beachten, dass der Typ
@@ -324,7 +324,7 @@ in der JavaFX Applikation eingebunden werden. Der HiFi Prototyp ist unter folgen
 Link aufrufbar:
 https://www.figma.com/file/bmuP25sd6U1Mk7zopuCf3ApD/InheritorGallery
 
-image::/images/HiFi_Prototype.jpg[HioFi Prototyp, 100%]
+image::images/HiFi_Prototype.jpg[HioFi Prototyp, 100%]
 
 Im Gegensatz zum LoFi Prototyp stellt der HiFi Prototyp den gesamten Bildschirm dar.
 So sieht man hier oben links die importierte Anleitung und die Konsole zur Eingabe
@@ -360,7 +360,7 @@ Nun haben die Teilnehmenden 10 Sekunden Zeit pro Bild um die Begriffe der
 anderen Teilnehmer zu erraten. Auf dem Bild wird farblich jeweils markiert,
 ob ein Bild in gegebener Zeit erraten (grün) wurde oder nicht (rot).
 
-image::/images/20190416_montagsMalenAuswertung.jpg[Präkonzepterhebung, 100%]
+image::images/20190416_montagsMalenAuswertung.jpg[Präkonzepterhebung, 100%]
 
 Aufgrund der Auswertung oben lässt sich sagen, dass generell sehr viel UML
 verwendet wird. Dies ist wenig überraschend, da es meist die einzig bekannte
@@ -387,7 +387,7 @@ klar sind und dabei möglichst viele Fehler und Unklarheiten in der Darstellung 
 Der Test wurde auf Video aufgenommen und die Findings anschliessend aufgeschrieben.
 Die gesamte Auswertung ist im Anhang zu finden.
 
-image::/images/20190517_UsabilityTest.jpg[Usability Test HiFi, 100%]
+image::images/20190517_UsabilityTest.jpg[Usability Test HiFi, 100%]
 
 Aufgrund der Testergebnisse lässt sich zusammefassend sagen, dass die Darstellungen grösstenteils
 selbsterklärend sind und die Konzepte der Vererbung wie gewünscht darstellen. Als Findings
@@ -483,7 +483,7 @@ https://github.com/pratiksanglikar/Java-Parser-UML-Generator:
 
 include::anhang/20190408_interviewDozent.adoc[]
 
-include::anhang/20190514_usabilityTestHiFi.adoc[]
+include::anhang/usabilityTestHiFi.adoc[]
 
 
 

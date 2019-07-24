@@ -8,7 +8,7 @@ vorhergehen Lektion soeben in einer Übung verwendet.
 
 Ziel: Prüfen ob die einzelnen Teile der Darstellung und die Gesamtübersicht klar sind und
 dabei möglichst viele Fehler und Unklarheiten in der Darstellung ausfindig machen.
-
+a
 
 image::../images/20190517_UsabilityTest.jpg[20190517_UsabilityTest.jpg, 100%]
 
