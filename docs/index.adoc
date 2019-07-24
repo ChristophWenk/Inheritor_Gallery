@@ -17,7 +17,6 @@ Betreuer und Auftraggeber: Barbara Scheuner, Dieter Holz
 
 Windisch, 13. August 2019
 
-
 // Path to the code references
 :sourcedir: ../inheritorgallery-core/src/main/java
 :sourcedirdemo: ../inheritorgallery-demo/src/main/java/inheritorgallery
@@ -25,7 +24,7 @@ Windisch, 13. August 2019
 
 == Zusammenfassung
 
-//Todo: zusammenfassung
+//Todo: Zusammenfassung
 
 == Inhalt
 
@@ -406,13 +405,13 @@ Klassennamen, welcher mit dem Referenztypen übereinstimmt.
 
 //Todo: Beta Test zusammenfassen
 
-//Todo: Requirements zusammenfassen? Verlinken?
+//Todo: Requirements zusammenfassen? verlinken?
 
 === Implementation
 
 ==== Architektur
 
-//Todo: Archtektur
+//Todo: Architektur
 
 ==== Testing
 
@@ -478,6 +477,8 @@ https://github.com/pratiksanglikar/Java-Parser-UML-Generator:
 (abgerufen am 24.07.2019).
 
 == Ehrlichkeitserklärung
+
+//Todo: Ehrlichkeitserklärung
 
 == Anhang
 
