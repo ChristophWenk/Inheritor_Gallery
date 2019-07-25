@@ -85,7 +85,7 @@ public class UMLPane extends StackPane implements ViewMixin {
         getChildren().addAll(vBox);
 
         Platform.runLater(() -> {
-
+            arrowHeadPane.getChildren().clear();
             linePane.getChildren().clear();
             for (int i = 0; i < umlPM.getEdges().size(); i++){
                 int finalI = i;
