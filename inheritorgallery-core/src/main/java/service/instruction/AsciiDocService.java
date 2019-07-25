@@ -56,8 +56,9 @@ public class AsciiDocService {
         OptionsBuilder options = OptionsBuilder.options();
         options.safe(SafeMode.UNSAFE);
         options.attributes(attributes);
+        // headerFooter must be set to true in order to display the content with CSS
+        // unfortunately this also adds a timestamp to the output, which must be replaced again
         options.headerFooter(true);
-
         options.backend("html5");
 
         try {
