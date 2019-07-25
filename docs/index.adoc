@@ -148,6 +148,8 @@ image::images/20190412_blueJ.jpg[BlueJ, 100%]
 
 ==== JShell
 
+//Todo: JShell
+
 *Tutorials*
 
 - http://blog.thibaulthelsmoortel.be/java/introducing-jshell-and-its-api/
@@ -239,8 +241,6 @@ Diese Lösungen sind für die InheritorGallery eher ungeeignet, da sie zu
 unflexibel zu wenig mächtig sind.
 
 === Design
-
-==== Entwürfe
 
 Dieses Kapitel zeigt und erläutert die erstellen visuellen Entwürfe. Dabei werden kurz
 die getroffenen Entscheide diskutiert und begründet. Die Entwürfe sind in zwei Gruppen
@@ -439,10 +439,18 @@ image::images/uml/UML_InheritorGalleryComponentDiagram.png[Component Diagram, 10
 
 == Ergebnisse
 
-//Todo: Ergebnisse
-Diskussion der Ergebnisse
-Erreichung Requirements
+Aufgrund der Analyse der vorhandenen Darstellungen und Tools für Programmieranfänger lässt sich festhalten, dass keine Lösungen gefunden wurden, um Instanzen eines Java Programms visuell verständlich darzustellen.  
 
+Gemäss den Ergebnissen der durchgeführten Usability Test und der Interviews konnte eine Darstellungsart entworfen werden, um die erstellten Instanzen zur Laufzeit eines Java Programms geeignet darzustellen. Alle wesentlichen Aspekte der Vererbung sind in der Visualisierung explizit sichtbar. Beispielsweise ist klar, welche Methoden auf einer Referenz jeweils aufrufbar sind und welche Methoden Implementation bei Vererbung gewählt wird.
+
+Es konnten alle in in der Projektvereinbarung definierten funktionale Anforderungen umgesetzt werden. So können in die erstellte JavaFX Applikation Java Programme in Form von .jar Dateien importiert werden und auch eine Anleitung geladen werden. Daraus wird ein UML generiert und dargestellt. Die Applikation verfügt über eine Shell, in der Java Code eingegeben werden kann und der Rückgabewert wird jeweils in einer Liste angezeigt. Und allem voran werden die erstellten Instanzen angezeigt, so dass klar wird was die Instanz ausmacht.
+
+Bei den nicht funktionalen Anforderungen konnte die Anforderung “Die Applikation soll mit jlink lauffähig sein und somit eigenständig ausgeführt werden können.” aus zeitgründen nicht komplett umgesetzt werden können.
+//Todo: jlink ergänzen?
+
+Allerdings gilt es noch zu prüfen, wie sich die Applikation im Unterrichtsalltag bewährt. Die Usability Tests wurden aufgrund der Projektgrösse in sehr beschränkter Zahl durchgeführt. Auch die Usaibilty der JavaFX Applikation gilt es weiter zu testen und zu verbessern.
+
+Zusammenfassend lässt sich sagen, dass eine für Programmieranfänger hilfreiche Darstellung entworfen werden konnte und erfolgreich in der JavaFX Applikation umgesetzt wurde.
 
 == Schlusswort
 
