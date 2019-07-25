@@ -417,14 +417,13 @@ Der Beta Test wurde mit der erstellten JavaFX Applikation durchgeführt. Die Auf
 Ziel ist allfällige Usability Fehler festzuhalten und Bereiche des Designs zu bestimmen, die am meisten Verbesserungspotential aufweisen. Der Test wurde auf Video aufgenommen und die Findings anschliessend aufgeschrieben. Die gesamte Auswertung ist im Anhang zu finden.
 
 Zusammenfassend lässt sich sagen, dass sich die Applikation gut bedienen lässt und auch die Konzepte der Vererbung klar dargestellt werden. Die Applikation weist jedoch noch einige Unschönheiten im Design auf. Beispiele sind:
-Die Pfeilköpfe im UML sind hinter der Klasse versteckt und sind nur teilweise sichtbar.
-Die Schrift und Formatierung der Anleitung ist wenig ansprechend gestaltet und ist nicht gut lesbar. Auch entsteht beim Code kein Zeilenumbruch, so dass gescrollt werden muss um den gesamten Code zu sehen.
-Die Darstellung der Referenz scheint auf die Probanden wenig ansprechend.
-Die Pfeile im UML verlaufen bei komplexeren Objektstukturen hinter den Klassen, was zu Unklarheiten führen kann.
 
-Die Ergebnisse bieten die Grundlage für die Anpassungen für die finale Version der Applikation.
+* Die Pfeilköpfe im UML sind hinter der Klasse versteckt und sind nur teilweise sichtbar.
+* Die Schrift und Formatierung der Anleitung ist wenig ansprechend gestaltet und ist nicht gut lesbar. Auch entsteht beim Code kein Zeilenumbruch, so dass gescrollt werden muss um den gesamten Code zu sehen.
+* Die Darstellung der Referenz scheint auf die Probanden wenig ansprechend.
+* Die Pfeile im UML verlaufen bei komplexeren Objektstukturen hinter den Klassen, was zu Unklarheiten führen kann.
 
-//Todo: Requirements zusammenfassen? verlinken?
+Die Ergebnisse dienen als Grundlage für die Anpassungen der finalen Version der Applikation.
 
 === Implementation
 
@@ -503,13 +502,15 @@ https://github.com/pratiksanglikar/Java-Parser-UML-Generator:
 
 == Anhang
 
+include::anhang/projektvereinbarung.adoc[]
+
+include::anhang/requirements.adoc[]
+
 include::anhang/20190408_interviewDozent.adoc[]
 
 include::anhang/usabilityTestHiFi.adoc[]
 
 include::anhang/usabilityTestBeta.adoc[]
 
-
-
-
+include::anhang/requirements.adoc[]
 
