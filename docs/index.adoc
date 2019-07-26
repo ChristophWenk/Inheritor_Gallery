@@ -444,17 +444,22 @@ In diesem Kapitel soll die Implementation der Applikation besprochen werden. Es 
 *Architekturmodel*
 
 Als erstes gilt es zu erfassen, welche Anforderungen die Applikation erfüllen muss, um eine grobe Idee über die zu erstellende Architektur zu erhalten. Daraus lässt sich dann ein geeignetes Model zur Strukturierung des Codes ableiten.
+
 Aufgrund der Anforderungsanalyse ergeben sich folgende Kernfunktionen, die die Applikation zur Verfügung stellen muss:
+
 * Eingabe von Java-Code mittels JShell
 * Anzeige eines UML Klassendiagramms
 * Anzeige von Objektinstanzen
 * Laden einer Übung
+
 Es wird klar, dass mit der Applikation über eine graphische Oberfläche interagiert werden können soll. Somit wird ein grosser Teil der Applikation aus Elementen zur Anzeige des momentanen Programmzustands bestehen. Daher bietet es sich an GUI und Programmlogik in jeweils eigene Module auszulagern. Dies hat den Vorteil, dass Logik und Anzeige strikt getrennt sind. Damit ist es potenziell möglich, mit derselben Programmlogik verschiedene Visualisierungen zu unterstützen. Die Programmlogik wird vom Modul “inheritorgallery-core” beinhaltet währenddem die View im Modul “inheritorgallery-demo” liegt.
+
 Aufgrund dieser Voraussetzungen stellt das Presentation Model Pattern eine optimale Möglichkeit dar, wie die Applikation umgesetzt werden kann. Eine Alternative wäre das MVC Pattern, das für ein kleineres Projekt wie dieses jedoch überdimensioniert scheint. Ausserdem ist aus vorherigen Projekten bereits viel PM Know-how beim Projektteam vorhanden.
 
 *Packages*
 
 Die Kernfunktionen können dann weiter in Packages unterteilt werden. Es liegt nahe je ein Package für die Instanz-Logik (“instance”) sowie die UML-Logik (“uml”) sowohl in der View als auch im Backend anzulegen. Alle Presentation Models sollen zusammenfassend unter dem Package “presentationmodel” gehalten werden. Die zur Anzeige der Oberfläche verwendeten Klassen und Packages sollen unter einem umschliessenden Package “view” erstellt werden.
+
 Ausserdem soll ein Package für Services (“service”) angelegt werden. Darin werden dann Services für das Filehandling sowie die JShell erstellt.
 
 *Komponentendiagramm*
@@ -465,20 +470,34 @@ image::images/uml/UML_InheritorGalleryComponentDiagram.png[Component Diagram, 10
 
 ==== Programmabläufe
 
-* Erstellen des UML Diagramms *
+In diesem Kapitel werden die beiden komplexesten Abläufe der Applikation näher erläutert. Speziell das Erstellen des UML Diagramms bedarf genauerer Erklärungen, da das Interagieren mit nur in der JShell existierenden Klassen eher ungewöhnlich ist.
 
+*Erstellen des UML Diagramms*
 
-* Erstellen der Instanzen *
+Das UML Diagramm, das in der Applikation angezeigt wird, wird komplett mit Reflection erstellt. So kann ein dynamisches Generieren und das Abdecken verschiedener Inputklassen garantiert werden.
+
+image::images/uml/UML_DrawUMLClassesSequenceDiagram.png[Draw UML Sequence Diagram, 100%]
+
+Ein Benutzer kann auf der graphischen Oberfläche über die “FileChooserPane” eine .jar-Datei auswählen und vom Programm einlesen lassen. Via das “FileChooserPM” wird der Dateipfad and die Klasse “JShellService ” weitergegeben. Diese stellt das Herz der Applikation dar. JShellService ist die Schnittstelle zur JShell über die Benutzereingaben interpretiert und verwaltet werden.
+
+Die Applikation nutzt die JShell zur Verwaltung des Programmzustands inklusive Benutzereingaben und Referenzen. Eine weitere Möglichkeit wäre es gewesen, dies Eingaben und Referenzen in der Applikation zu verwalten. Dazu hätten jedoch ein eigenes Model sowie ein Handler zur Speicherung dieser Daten geschrieben werden müssen. Da JShell diese Funktionen bereits bietet, wurde entschieden, JShell diese Daten verwalten zu lassen.
+
+“JShellService” fügt die ausgewählte .jar-Datei zum JShell-Classpath hinzu und importiert diese. Das ist nötig, damit die importierten Klassen von der Shell interpretiert werden können. Danach erstellt sie die Klasse “JShellReflection” in der JShell.
+
+Für die Verwaltung des UMLs existiert die Klasse “UmlPM”. Diese beinhaltet die importierten Klassen und deren Aufbau. Um an diese Informationen zu gelangen ruft sie mittels “JShellService” die Klasse “JShellReflection” auf. Diese erstellt dann mit Hilfe von Reflection die Klassenobjekte. Dass “JShellReflection” in der JShell erstellt wird, hat den Vorteil, dass diese über die in der JShell existierenden Objektreferenzen informiert ist. Dies ist später bei der Erstellung der Instanzobjekte von Wichtigkeit.
+
+Via Serialisierung werden die erstellten KlassenDTOs wieder an “UmlPM” gesendet, die diese weiterverarbeitet und schliesslich der View “UMLPane” zur Anzeige übergibt.
+
+*Erstellen der Instanzen*
 
 * Kurzanleitung *
+
 
 
 //Todo: Architektur
 
 
 //Todo: Anleitung
-image::images/uml/UML_DrawUMLClassesSequenceDiagram.png[Draw UML Sequence Diagram, 100%]
-
 image::images/uml/UML_DrawObjectInstancesSequenceDiagram.png[Draw Object Instances Sequence Diagram, 100%]
 
 ==== Testing
