@@ -210,7 +210,7 @@ Auch die Verwendung der JavaSymbolSolver API ist eher umständlich
 *Reflection*
 
 Nebst den statischen Java Code muss für die InheritorGallery der
-Zustand des Programms zur Laufzeit überwacht werden. Die mit abstand
+Zustand des Programms zur Laufzeit überwacht werden. Die mit Abstand
 verbreitetste Lösung hierfür ist Reflection.
 
 _Reflection is commonly used by programs which require the ability to examine or
@@ -437,12 +437,46 @@ Die Ergebnisse dienen als Grundlage für die Anpassungen der finalen Version der
 
 === Implementation
 
+In diesem Kapitel soll die Implementation der Applikation besprochen werden. Es gilt wichtige Designentscheidungen zu begründen und für den Programmablauf kritische Implementationen zu erklären.
+
 ==== Architektur
 
-//Todo: Architektur
+*Architekturmodel*
+
+Als erstes gilt es zu erfassen, welche Anforderungen die Applikation erfüllen muss, um eine grobe Idee über die zu erstellende Architektur zu erhalten. Daraus lässt sich dann ein geeignetes Model zur Strukturierung des Codes ableiten.
+Aufgrund der Anforderungsanalyse ergeben sich folgende Kernfunktionen, die die Applikation zur Verfügung stellen muss:
+* Eingabe von Java-Code mittels JShell
+* Anzeige eines UML Klassendiagramms
+* Anzeige von Objektinstanzen
+* Laden einer Übung
+Es wird klar, dass mit der Applikation über eine graphische Oberfläche interagiert werden können soll. Somit wird ein grosser Teil der Applikation aus Elementen zur Anzeige des momentanen Programmzustands bestehen. Daher bietet es sich an GUI und Programmlogik in jeweils eigene Module auszulagern. Dies hat den Vorteil, dass Logik und Anzeige strikt getrennt sind. Damit ist es potenziell möglich, mit derselben Programmlogik verschiedene Visualisierungen zu unterstützen. Die Programmlogik wird vom Modul “inheritorgallery-core” beinhaltet währenddem die View im Modul “inheritorgallery-demo” liegt.
+Aufgrund dieser Voraussetzungen stellt das Presentation Model Pattern eine optimale Möglichkeit dar, wie die Applikation umgesetzt werden kann. Eine Alternative wäre das MVC Pattern, das für ein kleineres Projekt wie dieses jedoch überdimensioniert scheint. Ausserdem ist aus vorherigen Projekten bereits viel PM Know-how beim Projektteam vorhanden.
+
+*Packages*
+
+Die Kernfunktionen können dann weiter in Packages unterteilt werden. Es liegt nahe je ein Package für die Instanz-Logik (“instance”) sowie die UML-Logik (“uml”) sowohl in der View als auch im Backend anzulegen. Alle Presentation Models sollen zusammenfassend unter dem Package “presentationmodel” gehalten werden. Die zur Anzeige der Oberfläche verwendeten Klassen und Packages sollen unter einem umschliessenden Package “view” erstellt werden.
+Ausserdem soll ein Package für Services (“service”) angelegt werden. Darin werden dann Services für das Filehandling sowie die JShell erstellt.
+
+*Komponentendiagramm*
+
+Das Komponentendiagramm der fertigen Applikation beinhaltet dann auch die erwähnten Packages. Speziell zu erwähnen ist ebenfalls das Package “jshellExtensions”, das Klassen beinhaltet, die zur Verwendung innerhalb der JShell verwendet werden.
 
 image::images/uml/UML_InheritorGalleryComponentDiagram.png[Component Diagram, 100%]
 
+==== Programmabläufe
+
+* Erstellen des UML Diagramms *
+
+
+* Erstellen der Instanzen *
+
+* Kurzanleitung *
+
+
+//Todo: Architektur
+
+
+//Todo: Anleitung
 image::images/uml/UML_DrawUMLClassesSequenceDiagram.png[Draw UML Sequence Diagram, 100%]
 
 image::images/uml/UML_DrawObjectInstancesSequenceDiagram.png[Draw Object Instances Sequence Diagram, 100%]
@@ -453,7 +487,7 @@ image::images/uml/UML_DrawObjectInstancesSequenceDiagram.png[Draw Object Instanc
 
 == Ergebnisse
 
-Aufgrund der Analyse der vorhandenen Darstellungen und Tools für Programmieranfänger lässt sich festhalten, dass keine Lösungen gefunden wurden, um Instanzen eines Java Programms visuell verständlich darzustellen.  
+Aufgrund der Analyse der vorhandenen Darstellungen und Tools für Programmieranfänger lässt sich festhalten, dass keine Lösungen gefunden wurden, um Instanzen eines Java Programms visuell verständlich darzustellen.
 
 Gemäss den Ergebnissen der durchgeführten Usability Test und der Interviews konnte eine Darstellungsart entworfen werden, um die erstellten Instanzen zur Laufzeit eines Java Programms geeignet darzustellen. Alle wesentlichen Aspekte der Vererbung sind in der Visualisierung explizit sichtbar. Beispielsweise ist klar, welche Methoden auf einer Referenz jeweils aufrufbar sind und welche Methoden Implementation bei Vererbung gewählt wird.
 
