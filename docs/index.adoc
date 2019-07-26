@@ -433,7 +433,7 @@ Die Ergebnisse dienen als Grundlage für die Anpassungen der finalen Version der
 
 image::images/uml/UML_InheritorGalleryComponentDiagram.png[Component Diagram, 100%]
 
-
+image::images/uml/UML_DrawUMLClassesSequenceDiagram.png[Draw UML Sequence Diagram, 100%]
 
 image::images/uml/UML_DrawObjectInstancesSequenceDiagram.png[Draw Object Instances Sequence Diagram, 100%]
 
