@@ -46,7 +46,7 @@ public class UMLClassPane extends VBox implements ViewMixin {
 
         classNameHBox = new HBox(
                 classIconStackPane,
-                classPM.isIsAbstract() ? new Label(" <abstract> ") : new Label(""),
+                classPM.isIsAbstract() && !classPM.isIsInterface() ? new Label(" <abstract> ") : new Label(""),
                 new Label(classPM.getName()));
         classNameHBox.setAlignment(Pos.CENTER);
 
