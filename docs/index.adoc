@@ -454,24 +454,18 @@ Zusammenfassend lässt sich sagen, dass eine für Programmieranfänger hilfreich
 
 == Schlusswort
 
-//Todo: Schlusswort
-Diskussion der Ergebnisse
-Retrospektive
-Lessons learned Zwischenpräsi:
+In diesem Kapitel soll als Ergänzung zum Kapitel Ergebnisse der Arbeitsprozess für bei der Durchführung dieses IP5 Projektes reflektiert werden. Das es hier um persönliche Erfahrungen der Verfasser dieses Berichts geht, ist dieses Kapitel in Wir-Form geschrieben.
 
-Zusammenarbeit mit Frau Scheuner sehr gut
-Usability Testing Probanden finden schwierig, Zielgruppe spezifischer als angenommen
-Aufsetzen von CI als External Collaborator einer Organization ist sehr umständlich
-Auch kleine Dinge wie ein vergessenes ; können dich einen Tag kosten
+Die Zusammenarbeit mit den Betreuenden hat sehr gut funktioniert. So konnten früh im Projekt Entwürfe unkompliziert und häufig diskutiert werden und auch später bei der Erstellung der JavaFX Applikation konnte mithilfe der Issues in GitHub rasch und effizient Hilfe eingeholt werden.
+Zufrieden sind wir auch mit dem Einsatz der verwendeten Toolchain. So hat das Einrichten der Continuous Integration mit Travis zwar zu Beginn zu einigem Aufwand geführt, während der Entwicklung konnten so jedoch Fehler frühzeitig erkannt werden. Auch die Arbeit mit Issues und Branches in Github konnte effizient durchgeführt werden.
 
+Als eher schwierig hat sich die Rekrutierung von geeigneten Probanden erwiesen. Je nach Priorisierung im Projekt, würden wir hier ein nächstes mal mehr Zeit investieren. Weiter wurde während der Entwicklung teilweise zu viel Zeit für gewisse Funktionalitäten aufgewendet. Beispielsweise hat die Implementierung der Imports von .jar Files in JShell viele unerwartete Herausforderungen mit sich gebracht. Hier würden wir ein nächstes mal früher innehalten und prüfen, ob diese Funktionalität umgesetzt werden soll oder besser die Anforderungen besser neu priorisiert werden müssen.
 
-Struktur auf GitHub ist gut
-Keine Probleme in der Organisation und Zusammenarbeit
-CI prüft Commits und gibt direkt Feedback
-Nächstes mal würden wir eher einen Fork machen um bessere Kontrolle über das
-Repository zu haben
-Wieder mal ohne Syntaxprüfung zu arbeite kann frustrierend sein, wenn man stundenlang
-nach einem sonst offensichtlichen Fehler suchen muss
+// ToDo CI Organisation Reflexion: 
+Keine Probleme in der Organisation und Zusammenarbeit CI prüft Commits und gibt direkt Feedback Nächstes mal würden wir eher einen Fork machen um bessere Kontrolle über das Repository zu haben.
+
+Zusammenfassend sind wir mit der Umsetzung des Projektes sehr zufrieden und sind der Ansicht die Arbeitsmittel effizient und gewinnbringend eingesetzt zu haben.
+
 
 == Literatur
 
