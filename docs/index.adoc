@@ -24,7 +24,17 @@ Windisch, 13. August 2019
 
 == Zusammenfassung
 
-//Todo: Zusammenfassung
+*Problemstellung*
+
+Dieser Bericht beschreibt die Analyse und Entstehung einer Applikation im Bereich der objektorientierten Programmierung mit Java, die eine für Programmieranfänger geeignete Darstellung einer Instanz bieten soll. So soll beispielsweise im Falle von Vererbung klar werden, aus welchen Klassen diese Instanz besteht. Bisher bekannte Darstellungen wie UML sind für die Darstellung einer Instanz unzureichend. Auftraggeber sind zwei Dozierende an der FHNW in Brugg. Die Applikation soll mit JavaFX umgesetzt werden und im Unterricht eingesetzt werden können.
+
+*Vorgehen*
+
+In dieser Arbeit werden bestehende Ansätze und Lösungen evaluiert. Dies schliesst sowohl die vorhandenen Darstellungen einer Instanz dar wie auch die Technologien  ein, die eine Analyse eines laufenden Java Programms ermöglichen. Weiter werden eigene Darstellungen einer Instanz entwickelt und deren Qualität in Usability Tests geprüft und weiterentwickelt. Gemäss der erstellten Visualisierung wird eine JavaFX Applikation entwickelt. Der Entwicklungsstand wird in GitHub dokumentiert, sowohl die Applikation wie auch die Evaluation.
+
+*Hauptergebnisse*
+
+Aufgrund der Analyse der vorhandenen Darstellungen und Tools für Programmieranfänger lässt sich festhalten, dass keine Lösungen gefunden wurden, um Instanzen eines Java Programms visuell verständlich darzustellen. Weiter konnten geeignete Visualisierungen von Instanzen entworfen und getestet werden. Das Hauptergebnis dieser Arbeit stellt die erstellte JavaFX Applikation dar, welche gemäss den entworfenen Visualisierungen entwickelt wurde. Um Java Programme zur Laufzeit darstellen zu können wurde JShell eingesetzt. So können externe Programme in Form von JAR Dateien importiert werden. Daraus wird ein UML generiert und dargestellt. Die Applikation verfügt über eine Konsole, in der Java Code eingegeben werden kann. Bei Erstellung von Instanzen werden diese visualisiert, so dass klar wird aus welchen Ursprungs Klassen die Instant bei Vererbung besteht und welche Methoden auf jeweiligen Referenzen aufrufbar sind. Die Instanzen können zudem weiter zur Laufzeit modifiziert werden und auch diese Änderungen werden sichtbar. Zur Analyse von Java Code zur Laufzeit wurde Java Reflection verwendet.
 
 == Inhalt
 
