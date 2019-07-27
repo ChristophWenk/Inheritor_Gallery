@@ -470,7 +470,7 @@ image::images/uml/UML_InheritorGalleryComponentDiagram.png[Component Diagram, 10
 
 ==== Programmabläufe
 
-In diesem Kapitel werden die beiden komplexesten Abläufe der Applikation näher erläutert. Speziell das Erstellen des UML Diagramms bedarf genauerer Erklärungen, da das Interagieren mit nur in der JShell existierenden Klassen eher ungewöhnlich ist.
+In diesem Kapitel werden die beiden komplexesten Abläufe der Applikation näher erläutert. Speziell das Erstellen des UML Diagramms bedarf genauerer Erklärungen, da das Interagieren mit nur in der JShell existierenden Klassen eher ungewöhnlich ist. Die Beschreibung der Abläufe verzichtet dabei bewusst darauf, sich zu sehr in Details zu verlieren, da diese direkt dem Programmcode entnommen werden können.
 
 *Erstellen des UML Diagramms*
 
@@ -480,8 +480,6 @@ image::images/uml/UML_DrawUMLClassesSequenceDiagram.png[Draw UML Sequence Diagra
 
 Ein Benutzer kann auf der graphischen Oberfläche über die “FileChooserPane” eine .jar-Datei auswählen und vom Programm einlesen lassen. Via das “FileChooserPM” wird der Dateipfad and die Klasse “JShellService ” weitergegeben. Diese stellt das Herz der Applikation dar. JShellService ist die Schnittstelle zur JShell über die Benutzereingaben interpretiert und verwaltet werden.
 
-Die Applikation nutzt die JShell zur Verwaltung des Programmzustands inklusive Benutzereingaben und Referenzen. Eine weitere Möglichkeit wäre es gewesen, dies Eingaben und Referenzen in der Applikation zu verwalten. Dazu hätten jedoch ein eigenes Model sowie ein Handler zur Speicherung dieser Daten geschrieben werden müssen. Da JShell diese Funktionen bereits bietet, wurde entschieden, JShell diese Daten verwalten zu lassen.
-
 “JShellService” fügt die ausgewählte .jar-Datei zum JShell-Classpath hinzu und importiert diese. Das ist nötig, damit die importierten Klassen von der Shell interpretiert werden können. Danach erstellt sie die Klasse “JShellReflection” in der JShell.
 
 Für die Verwaltung des UMLs existiert die Klasse “UmlPM”. Diese beinhaltet die importierten Klassen und deren Aufbau. Um an diese Informationen zu gelangen ruft sie mittels “JShellService” die Klasse “JShellReflection” auf. Diese erstellt dann mit Hilfe von Reflection die Klassenobjekte. Dass “JShellReflection” in der JShell erstellt wird, hat den Vorteil, dass diese über die in der JShell existierenden Objektreferenzen informiert ist. Dies ist später bei der Erstellung der Instanzobjekte von Wichtigkeit.
@@ -490,7 +488,16 @@ Via Serialisierung werden die erstellten KlassenDTOs wieder an “UmlPM” gesen
 
 *Erstellen der Instanzen*
 
-* Kurzanleitung *
+Benutzereingaben werden via die “JShellPane” an das “InstanceStatePM” weitergeleitet. Dieses speichert die Befehle und übernimmt die Interaktion mit der Klasse “JShellService”. Das Presentation Model liefert dem Benutzer Rückmeldungen zur Gültigkeit seiner Eingaben und erstellt intern die “ObjectPM” Objekte, die für die Anzeige auf der Objektinstanzen und der Referenzen der graphischen Oberfläche benötigt werden. Die Informationen dazu werden von “JShellService” mittels DTOs geliefert. Sollte der Benutzer eine Referenz = null gesetzt haben, wird diese entsprechend gelöscht.
+
+image::images/uml/UML_DrawObjectInstancesSequenceDiagram.png[Draw Object Instances Sequence Diagram, 100%]
+
+Die Applikation nutzt die JShell zur Verwaltung des Programmzustands inklusive Benutzereingaben und Referenzen. Eine weitere Möglichkeit wäre es gewesen, dies Eingaben und Referenzen in der Applikation zu verwalten. Dazu hätten jedoch ein eigenes Model sowie ein Handler zur Speicherung und Verarbeitung dieser Daten geschrieben werden müssen. Da JShell diese Funktionen bereits bietet, wurde entschieden, JShell diese Daten verwalten zu lassen.
+
+Dies bedeutet jedoch, dass bei jeder Benutzereingabe der aktuelle Stand der JShell abgerufen und alle Objektinstanzen und Referenzen neu erstellt werden müssen. Durch Setzen eines entsprechenden Properties wird ein Listener der “InstancePane” informiert, dass die Objektinstanzen neu gezeichnet werden müssen.
+
+
+*Kurzanleitung*
 
 
 
@@ -498,7 +505,7 @@ Via Serialisierung werden die erstellten KlassenDTOs wieder an “UmlPM” gesen
 
 
 //Todo: Anleitung
-image::images/uml/UML_DrawObjectInstancesSequenceDiagram.png[Draw Object Instances Sequence Diagram, 100%]
+
 
 ==== Testing
 
