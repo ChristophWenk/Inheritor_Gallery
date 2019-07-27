@@ -158,6 +158,7 @@ image::images/20190412_blueJ.jpg[BlueJ, 100%]
 
 ==== JShell
 
+
 //Todo: JShell
 
 *Tutorials*
@@ -186,7 +187,7 @@ https://www.vojtechruzicka.com/jshell-repl/#using-jshell-programmatically
 
 ==== Java to UML Parser
 
-Dieses Kapitel beschreibt mögliche Ansätze um aus .java FIles UML darzustellen.
+Dieses Kapitel beschreibt mögliche Ansätze um aus .java Files UML darzustellen.
 
 *JavaParser*
 
@@ -197,7 +198,7 @@ Das Javaparser Projekt ist relativ gut dokumentiert und wird beispielsweise
 von IntelliJ verwendet (vgl. <<JavaParser>>: 2019).
 Eine erste Variante der InheritorGallery wurde mit JavaParser umgesetzt.
 Später wurde jedoch die Generierung des UMLs mithilfe von Reflection erstellt.
-Dazu unter mehr.
+Dazu unten mehr.
 
 *JavaSymbolSolver*
 
@@ -209,7 +210,7 @@ Auch die Verwendung der JavaSymbolSolver API ist eher umständlich
 
 *Reflection*
 
-Nebst den statischen Java Code muss für die InheritorGallery der
+Nebst dem statischen Java Code muss für die InheritorGallery der
 Zustand des Programms zur Laufzeit überwacht werden. Die mit Abstand
 verbreitetste Lösung hierfür ist Reflection.
 
@@ -224,8 +225,7 @@ vorhanden waren bereits verloren. Dies stellt auch den einzigen Nachteil von Ref
 für dieses Projekt dar. Namentlich kann die Reihenfolge der Definition der Attribute und
 Methoden nicht aufrechterhalten werden. Das ist mit JavaParser möglich. Reflection verfügt
 jedoch über weitaus mehr Vorteile. Da der Code zur Laufzeit analysiert wird, wird sichergestellt,
-dass nur korrekter Code dargestellt wird. Auch die Handhabung von Reflection ist r
-elativ einfach und sehr gut dokumentiert. So kann man etwa die Zusammenstellung
+dass nur korrekter Code dargestellt wird. Auch die Handhabung von Reflection ist relativ einfach und sehr gut dokumentiert. So kann man etwa die Zusammenstellung
 einer Instanz aus den jeweiligen Klassen mit Methoden wie getSuperclass() oder
 getInterfaces() einfach und natürlich traversieren. Weiter ist es mit Reflection
 möglich die Werte der Attribute herauszulesen oder die Herkunft einer Methode bei
@@ -498,6 +498,8 @@ Dies bedeutet jedoch, dass bei jeder Benutzereingabe der aktuelle Stand der JShe
 
 
 *Kurzanleitung*
+
+
 
 
 
