@@ -496,6 +496,21 @@ Die Applikation nutzt die JShell zur Verwaltung des Programmzustands inklusive B
 
 Dies bedeutet jedoch, dass bei jeder Benutzereingabe der aktuelle Stand der JShell abgerufen und alle Objektinstanzen und Referenzen neu erstellt werden müssen. Durch Setzen eines entsprechenden Properties wird ein Listener der “InstancePane” informiert, dass die Objektinstanzen neu gezeichnet werden müssen.
 
+==== Contiuous Integration
+Für eine Arbeit dieser Grösse und über einen längeren Zeitraum macht es durchaus Sinn eine Contiuous Integration (CI) aufzubauen. So können mittels fehlschlagenden Tests schnell Fehler im Quellcode ausfindig gemacht werden.
+
+Die Arbeit ist jedoch nicht gross genug, dass eine umfangreiche Buildpipeline mit einer eigenen CI-Infrastruktur gerechtfertigt wäre. Deshalb wurde auf das leichtgewichtige Travis CI gesetzt. Travis hat den Vorteil, dass bereits eine cloudbasierte Infrastruktur existiert, die als Student gratis genutzt werden kann. Ausserdem bietet Travis eine optimale Integration mit GitHub. Über eine .yml-Konfigurationsdatei kann das CI-Werkzeug konfiguriert werden.
+
+Da die Applikation auf Windows-basierten Rechnern entwickelt wurde, wurde entschieden auf eine Unix-basierte Buildmaschine zu setzen, da so plattformspezifische Fehler erkannt werden konnten. Diese Entscheidung erwies sich aufgrund von Problemen bei plattformspezifischen Dateipfaden als korrekt.
+
+Travis wurde so konfiguriert, dass bei jedem Git Push oder Pull Request auf GitHub ein Build erstellt wird. Dieser muss zwingend erfolgreich sein, damit ein Git Merge durchgeführt werden kann.
+
+
+
+
+
+
+
 
 *Kurzanleitung*
 
