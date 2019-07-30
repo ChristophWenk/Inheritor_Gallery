@@ -586,7 +586,12 @@ https://github.com/pratiksanglikar/Java-Parser-UML-Generator:
 
 == Ehrlichkeitserklärung
 
-//Todo: Ehrlichkeitserklärung
+Hiermit erklären wir, die vorliegende Facharbeit selbständig, ohne Hilfe Dritter und nur unter Benutzung angegebener Quellen verfasst zu haben.
+
+Ort, Datum: 	Windisch, 13. August 2019
+
+Diese Ehrlichkeitserklärung gilt mit einem separatem Pull Request der Verfasser als unterzeichnet.
+
 
 == Anhang
 
