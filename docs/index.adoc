@@ -158,32 +158,31 @@ image::images/20190412_blueJ.jpg[BlueJ, 100%]
 
 ==== JShell
 
+In diesem Kapitel wird die JShell beschrieben, die als Kernelement für diese Arbeit eingesetzt werden soll.
 
-//Todo: JShell
+*Konzept*
 
-*Tutorials*
+JShell ist ein Read-Evaluate-Print Loop (REPL) und kann Benutzereingaben wie Deklarationen, Statements und Ausdrücke direkt nach Eingabe interpretieren und dem Benutzer entsprechende Rückmeldungen geben. (vgl. <<JShell-a>>: 2018). JShell kann via die Kommandozeile gestartet werden oder über ein entsprechendes Java API aufgerufen werden. Die JShell ist seit JDK 9 Bestandteil der Java Development Kits. Sie erlaubt das schnelle Ausführen und Testen einzelner Codezeilen ohne dass dazu ein ganzes Programm geschrieben werden muss.
 
-- http://blog.thibaulthelsmoortel.be/java/introducing-jshell-and-its-api/
+*Evaluation*
 
-- http://cr.openjdk.java.net/~rfield/tutorial/JShellTutorial.html
+Im Rahmen dieser Arbeit bietet sich JShell an, um einem Benutzer die Interaktion mit der Java Virtual Machine zu ermöglichen. Ob und wie JShell, das ermöglichen kann, musste zuerst evaluiert werden. Zuerst wurden die Möglichkeiten der JShell als Kommandozeilenwerkzeug überprüft. Im Internet finden sich diverse Tutorials (vgl. <<JShell-b>>: 2018) wie JShell in dieser Form angewendet werden kann.
 
-- https://www.vojtechruzicka.com/jshell-repl/
+Beispielsweise lassen sich mittels der JShell REPL bestehende Klassen sehr einfach zum Java Classpath hinzufügen und importieren. Mittels Spezialfunktionen kann der momentane Zustand der JShell ausgegeben werden. Damit lassen sich zum Beispiel alle momentan in der JShell vorhandenen Referenzvariablen ausgeben. (vgl. <<JShell-c>>: 2018) Dies ist eine sehr mächtige Funktion, die sich für diese Arbeit als äusserst praktisch erwiesen hat.
 
-*Examples (Run JShell from Java App)*
-https://dzone.com/articles/jdk9-execute-java-code-like-unix-shell-script
-Link to GitHub repo with example project: https://github.com/kotari4u/jshell_script_executor
+Etwas anders verhält es sich mit der JShell in der Verwendung als API. Für diesen Anwendungsfall gibt es vergleichsweise nur wenige Tutorials (vgl. << JShell-d>>: 2017) und diese decken auch nur die grundlegendsten Anwendungsfälle ab. Der Aufbau und die Möglichkeiten des APIs mussten daher grösstenteils selbst erarbeitet werden.
 
-*Hints*
-*External Code*
-JShell can only interpret .class files or .jsh files.
-You need to set a classpath for JShell: `jshell> /env --class-path myOwnClassPath`
-Import the packages with the classes you need: `jshell> import my.cool.code.*`
+Das JShell API arbeitet mit sogenannten Snippets, die als Antwort auf einen Vom Benutzer gesendeten Java String zurückgegeben werden. Alle Informationen des JShell APIs werden in Form dieser Snippets zurückgeliefert (vgl. <<- [[[JShell-e]]]>>: 2017). Daher musste evaluiert werden, welche Art von Informationen dies sind und wie diese verwendet werden können. Die Snippets beinhalten unter anderem einen Status zur Gültigkeit des gesendeten Java Codes, den Namen des Objekttypens oder die Art des Snippets. Ausserdem wird ein Wert in Form eines Strings aufgrund des evaluierten Codes zurückgegeben. Hat eine Referenz eine “toString()”-Methode, so wird dieser Wert zurückgegeben.
 
-*Execution on startup*
-http://cr.openjdk.java.net/~rfield/tutorial/JShellTutorial.html#start-up-scripts
+image::images/Snippet.png[JShell Snippet, 100%]
 
-*Using JShell in code*
-https://www.vojtechruzicka.com/jshell-repl/#using-jshell-programmatically
+Die Deutung der Snippet-Variablenwerte war anfangs etwas schwierig aufgrund der bisher fehlenden Erfahrung im Umgang einer solchen REPL API. Mit Hilfe von simplen, in JShell importierten, Testklassen konnte deren Bedeutung etwas klarer gemacht werden.
+
+Genau wie bei der JShell in REPL Form muss eine Klasse auch beim JShell API zuerst zum Classpath hinzugefügt und importiert werden, damit diese benutzt werden kann.
+
+*Entscheid*
+
+Es wurde schnell klar, dass JShell für diese Arbeit zumindest in Teilen absolut notwendig sein würde. Die Fähigkeit Java Code zur Laufzeit zu interpretieren alleine macht diese zu einer Notwendigkeit. Dass ebenfalls Informationen wie die momentan vorhandenen Referenzvariablen und deren zugeordnete Objekttypen abgerufen werden können, ist ebenfalls sehr praktisch, da so auf eine eigene zur Verwaltung der Referenzen verzichtet werden konnte. Es wurde daher entschieden JShell nicht nur zur Evaluierung von Code zu benützen, sondern diese auch gleich zur massgebenden Instanz für die Verwaltung des Systemzustandes zu erklären. Somit konnte die Applikation v.A. darauf ausgelegt werden, die in der JShell vorhanden Informationen für den Benutzer visuell aufzubereiten.
 
 ==== Java to UML Parser
 
@@ -506,22 +505,8 @@ Da die Applikation auf Windows-basierten Rechnern entwickelt wurde, wurde entsch
 Travis wurde so konfiguriert, dass bei jedem Git Push oder Pull Request auf GitHub ein Build erstellt wird. Dieser muss zwingend erfolgreich sein, damit ein Git Merge durchgeführt werden kann.
 
 
-
-
-
-
-
-
-*Kurzanleitung*
-
-
-
-
-
-//Todo: Architektur
-
-
 //Todo: Anleitung
+*Kurzanleitung*
 
 
 ==== Testing
@@ -587,6 +572,17 @@ transform and generate your Java code base. Leanpub
 - [[[Java-Parser-UML-Generator]]] (2016)
 https://github.com/pratiksanglikar/Java-Parser-UML-Generator:
 (abgerufen am 24.07.2019).
+
+- [[[JShell-a]]] (2018) https://docs.oracle.com/javase/10/jshell/introduction-jshell.htm#JSHEL-GUID-630F27C8-1195-4989-9F6B-2C51D46F52C8 (abgerufen am 27.07.2019).
+
+- [[[JShell-b]]] (2018) https://www.vojtechruzicka.com/jshell-repl/ (abgerufen am 27.07.2019).
+
+- [[[JShell-c]]] (2017) http://cr.openjdk.java.net/~rfield/tutorial/JShellTutorial.html#commands----introduction (abgerufen am 29.07.2019).
+
+- [[[JShell-d]]] (2017) https://dzone.com/articles/jdk9-execute-java-code-like-unix-shell-script (abgerufen am 29.07.2019).
+
+- [[[JShell-e]]] (2017) https://docs.oracle.com/javase/9/docs/api/jdk/jshell/package-summary.html (abgerufen am 29.07.2019).
+
 
 == Ehrlichkeitserklärung
 
