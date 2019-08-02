@@ -157,22 +157,22 @@ Zudem wird nicht klar welche Methoden bei Vererbung ausgeführt werden.
 image::images/20190412_blueJ.jpg[BlueJ, 100%]
 
 ==== JShell
-
+//TODO JShell Quellen umbenennen
 In diesem Kapitel wird die JShell beschrieben, die als Kernelement für diese Arbeit eingesetzt werden soll.
 
 *Konzept*
 
-JShell ist ein Read-Evaluate-Print Loop (REPL) und kann Benutzereingaben wie Deklarationen, Statements und Ausdrücke direkt nach Eingabe interpretieren und dem Benutzer entsprechende Rückmeldungen geben. (vgl. <<JShell-a>>: 2018). JShell kann via die Kommandozeile gestartet werden oder über ein entsprechendes Java API aufgerufen werden. Die JShell ist seit JDK 9 Bestandteil der Java Development Kits. Sie erlaubt das schnelle Ausführen und Testen einzelner Codezeilen ohne dass dazu ein ganzes Programm geschrieben werden muss.
+JShell ist ein Read-Evaluate-Print Loop (REPL) und kann Benutzereingaben wie Deklarationen, Statements und Ausdrücke direkt nach Eingabe interpretieren und dem Benutzer entsprechende Rückmeldungen geben. (vgl. <<Oracle-a>>: 2018). JShell kann via die Kommandozeile gestartet werden oder über ein entsprechendes Java API aufgerufen werden. Die JShell ist seit JDK 9 Bestandteil der Java Development Kits. Sie erlaubt das schnelle Ausführen und Testen einzelner Codezeilen ohne dass dazu ein ganzes Programm geschrieben werden muss.
 
 *Evaluation*
 
-Im Rahmen dieser Arbeit bietet sich JShell an, um einem Benutzer die Interaktion mit der Java Virtual Machine zu ermöglichen. Ob und wie JShell, das ermöglichen kann, musste zuerst evaluiert werden. Zuerst wurden die Möglichkeiten der JShell als Kommandozeilenwerkzeug überprüft. Im Internet finden sich diverse Tutorials (vgl. <<JShell-b>>: 2018) wie JShell in dieser Form angewendet werden kann.
+Im Rahmen dieser Arbeit bietet sich JShell an, um einem Benutzer die Interaktion mit der Java Virtual Machine zu ermöglichen. Ob und wie JShell, das ermöglichen kann, musste zuerst evaluiert werden. Zuerst wurden die Möglichkeiten der JShell als Kommandozeilenwerkzeug überprüft. Im Internet finden sich diverse Tutorials (vgl. <<Vojtech>>: 2018) wie JShell in dieser Form angewendet werden kann.
 
-Beispielsweise lassen sich mittels der JShell REPL bestehende Klassen sehr einfach zum Java Classpath hinzufügen und importieren. Mittels Spezialfunktionen kann der momentane Zustand der JShell ausgegeben werden. Damit lassen sich zum Beispiel alle momentan in der JShell vorhandenen Referenzvariablen ausgeben. (vgl. <<JShell-c>>: 2018) Dies ist eine sehr mächtige Funktion, die sich für diese Arbeit als äusserst praktisch erwiesen hat.
+Beispielsweise lassen sich mittels der JShell REPL bestehende Klassen sehr einfach zum Java Classpath hinzufügen und importieren. Mittels Spezialfunktionen kann der momentane Zustand der JShell ausgegeben werden. Damit lassen sich zum Beispiel alle momentan in der JShell vorhandenen Referenzvariablen ausgeben. (vgl. <<Field>>: 2018) Dies ist eine sehr mächtige Funktion, die sich für diese Arbeit als äusserst praktisch erwiesen hat.
 
-Etwas anders verhält es sich mit der JShell in der Verwendung als API. Für diesen Anwendungsfall gibt es vergleichsweise nur wenige Tutorials (vgl. <<JShell-d>>: 2017) und diese decken auch nur die grundlegendsten Anwendungsfälle ab. Der Aufbau und die Möglichkeiten des APIs mussten daher grösstenteils selbst erarbeitet werden.
+Etwas anders verhält es sich mit der JShell in der Verwendung als API. Für diesen Anwendungsfall gibt es vergleichsweise nur wenige Tutorials (vgl. <<Kotari>>: 2017) und diese decken auch nur die grundlegendsten Anwendungsfälle ab. Der Aufbau und die Möglichkeiten des APIs mussten daher grösstenteils selbst erarbeitet werden.
 
-Das JShell API arbeitet mit sogenannten Snippets, die als Antwort auf einen Vom Benutzer gesendeten Java String zurückgegeben werden. Alle Informationen des JShell APIs werden in Form dieser Snippets zurückgeliefert (vgl. <<JShell-e>>: 2017). Daher musste evaluiert werden, welche Art von Informationen dies sind und wie diese verwendet werden können. Die Snippets beinhalten unter anderem einen Status zur Gültigkeit des gesendeten Java Codes, den Namen des Objekttypens oder die Art des Snippets. Ausserdem wird ein Wert in Form eines Strings aufgrund des evaluierten Codes zurückgegeben. Hat eine Referenz eine “toString()”-Methode, so wird dieser Wert zurückgegeben.
+Das JShell API arbeitet mit sogenannten Snippets, die als Antwort auf einen Vom Benutzer gesendeten Java String zurückgegeben werden. Alle Informationen des JShell APIs werden in Form dieser Snippets zurückgeliefert (vgl. <<Oracle-b>>: 2017). Daher musste evaluiert werden, welche Art von Informationen dies sind und wie diese verwendet werden können. Die Snippets beinhalten unter anderem einen Status zur Gültigkeit des gesendeten Java Codes, den Namen des Objekttypens oder die Art des Snippets. Ausserdem wird ein Wert in Form eines Strings aufgrund des evaluierten Codes zurückgegeben. Hat eine Referenz eine “toString()”-Methode, so wird dieser Wert zurückgegeben.
 
 image::images/Snippet.png[JShell Snippet, 100%]
 
@@ -573,15 +573,15 @@ transform and generate your Java code base. Leanpub
 https://github.com/pratiksanglikar/Java-Parser-UML-Generator:
 (abgerufen am 24.07.2019).
 
-- [[[JShell-a]]] (2018) https://docs.oracle.com/javase/10/jshell/introduction-jshell.htm#JSHEL-GUID-630F27C8-1195-4989-9F6B-2C51D46F52C8 (abgerufen am 27.07.2019).
+- [[[Oracle-a]]] (2018) https://docs.oracle.com/javase/10/jshell/introduction-jshell.htm#JSHEL-GUID-630F27C8-1195-4989-9F6B-2C51D46F52C8 (abgerufen am 27.07.2019).
 
-- [[[JShell-b]]] (2018) https://www.vojtechruzicka.com/jshell-repl/ (abgerufen am 27.07.2019).
+- [[[Vojtech]]] (2018) https://www.vojtechruzicka.com/jshell-repl/ (abgerufen am 27.07.2019).
 
-- [[[JShell-c]]] (2017) http://cr.openjdk.java.net/~rfield/tutorial/JShellTutorial.html#commands----introduction (abgerufen am 29.07.2019).
+- [[[Field]]] (2017) http://cr.openjdk.java.net/~rfield/tutorial/JShellTutorial.html#commands----introduction (abgerufen am 29.07.2019).
 
-- [[[JShell-d]]] (2017) https://dzone.com/articles/jdk9-execute-java-code-like-unix-shell-script (abgerufen am 29.07.2019).
+- [[[Kotari]]] (2017) https://dzone.com/articles/jdk9-execute-java-code-like-unix-shell-script (abgerufen am 29.07.2019).
 
-- [[[JShell-e]]] (2017) https://docs.oracle.com/javase/9/docs/api/jdk/jshell/package-summary.html (abgerufen am 29.07.2019).
+- [[[Oracle-b]]] (2017) https://docs.oracle.com/javase/9/docs/api/jdk/jshell/package-summary.html (abgerufen am 29.07.2019).
 
 
 == Ehrlichkeitserklärung
