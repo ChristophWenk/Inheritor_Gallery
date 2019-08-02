@@ -504,10 +504,9 @@ Da die Applikation auf Windows-basierten Rechnern entwickelt wurde, wurde entsch
 
 Travis wurde so konfiguriert, dass bei jedem Git Push oder Pull Request auf GitHub ein Build erstellt wird. Dieser muss zwingend erfolgreich sein, damit ein Git Merge durchgeführt werden kann.
 
-//Todo: Anleitung
 ==== Kurzanleitung
 
-image::images/InstructionPanel.png[Instructions, 100%]
+image::images/app/InstructionPanel.png[Instructions, 100%]
 
 Die Applikation bietet dem Benutzer 4 Möglichkeiten zur Interaktion.
 
@@ -533,8 +532,7 @@ Genau wie in Java muss jede Codezeile mit einem Semikolon (;) abgeschlossen werd
 Eine neu erstellte Objektinstanz wird Links neben dem Klassendiagramm angezeigt. Dabei wird der Referenztyp umrahmt und zeigt so die Sicht an, die momentan auf die ObjektInstanz möglich ist. Methoden ausserhalb der Referenzsicht, sind dementsprechend nicht ausführbar.
 Wenn eine Methode ausgeführt wird, wird im Klassendiagramm die gerade ausgeführte Methode gemäss Vererbungshierarchie korrekt angezeigt.
 
-
-==== Testing
+image::images/app/App.png[App, 100%]
 
 //Todo: Testing
 
