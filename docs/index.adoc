@@ -157,7 +157,6 @@ Zudem wird nicht klar welche Methoden bei Vererbung ausgeführt werden.
 image::images/20190412_blueJ.jpg[BlueJ, 100%]
 
 ==== JShell
-//TODO JShell Quellen umbenennen
 In diesem Kapitel wird die JShell beschrieben, die als Kernelement für diese Arbeit eingesetzt werden soll.
 
 *Konzept*
