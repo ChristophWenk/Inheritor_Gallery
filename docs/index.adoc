@@ -495,6 +495,7 @@ Die Applikation nutzt die JShell zur Verwaltung des Programmzustands inklusive B
 Dies bedeutet jedoch, dass bei jeder Benutzereingabe der aktuelle Stand der JShell abgerufen und alle Objektinstanzen und Referenzen neu erstellt werden müssen. Durch Setzen eines entsprechenden Properties wird ein Listener der “InstancePane” informiert, dass die Objektinstanzen neu gezeichnet werden müssen.
 
 ==== Contiuous Integration
+
 Für eine Arbeit dieser Grösse und über einen längeren Zeitraum macht es durchaus Sinn eine Contiuous Integration (CI) aufzubauen. So können mittels fehlschlagenden Tests schnell Fehler im Quellcode ausfindig gemacht werden.
 
 Die Arbeit ist jedoch nicht gross genug, dass eine umfangreiche Buildpipeline mit einer eigenen CI-Infrastruktur gerechtfertigt wäre. Deshalb wurde auf das leichtgewichtige Travis CI gesetzt. Travis hat den Vorteil, dass bereits eine cloudbasierte Infrastruktur existiert, die als Student gratis genutzt werden kann. Ausserdem bietet Travis eine optimale Integration mit GitHub. Über eine .yml-Konfigurationsdatei kann das CI-Werkzeug konfiguriert werden.
@@ -503,9 +504,34 @@ Da die Applikation auf Windows-basierten Rechnern entwickelt wurde, wurde entsch
 
 Travis wurde so konfiguriert, dass bei jedem Git Push oder Pull Request auf GitHub ein Build erstellt wird. Dieser muss zwingend erfolgreich sein, damit ein Git Merge durchgeführt werden kann.
 
-
 //Todo: Anleitung
-*Kurzanleitung*
+==== Kurzanleitung
+
+image::images/InstructionPanel.png[Instructions, 100%]
+
+Die Applikation bietet dem Benutzer 4 Möglichkeiten zur Interaktion.
+
+*Laden von Klassen*
+
+Mit dem Button “Load Classes” (oben in blau) können neue Klassen geladen werden. Nach Klick auf den Button, wird der Benutzer oder die Benutzerin aufgefordert, eine .jar-Datei auszuwählen.
+Sobald diese geladen ist, wird entsprechend der geladenen Klassen ein neues Klassendiagramm generiert und die Klassen in die JShell importiert.
+Die neuen Klassen können nun verwendet werden.
+
+*Laden einer Anleitung*
+
+Mit dem Button “Load Instruction” (oben in grün) kann eine neue Anleitung geladen werden. Nach Klick auf den Button, wird der Benutzer oder die Benutzerin aufgefordert, eine .adoc-Datei auszuwählen.
+Sobald diese geladen ist, wird sie unterhalb der Buttons angezeigt. Die .adoc-Dateien müssen in AsciiDoc geschrieben sein, um korrekt angezeigt zu werden.
+
+*Reset der Applikation*
+
+Mit dem Button “Reset state” (oben in orange) kann ein Benutzer oder eine Benutzering den Stand der Applikation zurücksetzen. Nach Klick auf den Button werden alle Objektinstanzen gelöscht und somit nicht mehr angezeigt.
+
+*Interaktion mit der Applikation*
+
+Mit dem Textfeld links unten (oben in rot) kann ein Benutzer oder eine Benutzerin Javacode an die JShell übermitteln. Es können z.B. neue Objektinstanzen erstellt oder Methoden auf Referenzen ausgeführt werden.
+Genau wie in Java muss jede Codezeile mit einem Semikolon (;) abgeschlossen werden. Wird dieses vergessen, kann JShell den Code nicht interpretieren.
+Eine neu erstellte Objektinstanz wird Links neben dem Klassendiagramm angezeigt. Dabei wird der Referenztyp umrahmt und zeigt so die Sicht an, die momentan auf die ObjektInstanz möglich ist. Methoden ausserhalb der Referenzsicht, sind dementsprechend nicht ausführbar.
+Wenn eine Methode ausgeführt wird, wird im Klassendiagramm die gerade ausgeführte Methode gemäss Vererbungshierarchie korrekt angezeigt.
 
 
 ==== Testing
