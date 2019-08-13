@@ -7,11 +7,20 @@ import javafx.collections.ObservableList;
 
 import java.util.List;
 
+/**
+ * Presentationmodel that stores the current state of a constructor
+ */
 public class ConstructorPM {
     private final StringProperty modifier = new SimpleStringProperty();
     private final StringProperty name = new SimpleStringProperty();
     private final ObservableList<String> inputParameters = FXCollections.observableArrayList();
 
+    /**
+     * Create the ConstructorPM
+     * @param modifier Modifier (e.g. public) for the constructor
+     * @param name Name of the constructor
+     * @param inputParameters List of input parameters of the constructor
+     */
     public ConstructorPM(String modifier, String name, List<String> inputParameters) {
         setModifier(modifier);
         setName(name);

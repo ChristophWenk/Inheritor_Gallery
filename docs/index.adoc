@@ -38,7 +38,7 @@ In dieser Arbeit werden bestehende Ansätze und Lösungen evaluiert. Dies schlie
 einer Instanz wie auch die Technologien ein, die eine Analyse eines laufenden Java Programms ermöglichen. Weiter
 werden eigene Darstellungen einer Instanz entwickelt und deren Qualität in Usability Tests geprüft und weiterentwickelt.
 Gemäss der erstellten Visualisierung wird eine JavaFX Applikation entwickelt. Der Entwicklungsstand wird in GitHub
-dokumentiert, sowohl die Applikation wie auch die Evaluation.
+dokumentiert, sowohl für die Applikation wie auch die Evaluation.
 
 *Hauptergebnisse*
 
@@ -66,23 +66,23 @@ dieser Applikation sind Programmieranfänger im Bereich der objektorientierten P
 Die InheritorGallery soll eine für Programmieranfänger geeignete Darstellung einer Instanz bieten. So soll
 beispielsweise im Falle von Vererbung klar werden, aus welchen Klassen diese Instanz besteht. Bisher bekannte
 Darstellungen wie UML sind für die Darstellung einer Instanz unzureichend. Die gesamte Problemstellung ist im
-Kapitel Problemstellung zu finden.
+Kapitel <<Problemstellung>> zu finden.
 
 In dieser Arbeit sollen bereits vorhandene Darstellungen einer Instanz ausgewertet werden. Weiter werden eigene
 Visualisierungen entworfen und mit Studierenden getestet. Schliesslich soll eine Applikation mit JavaFX umgesetzt werden,
-welche eine Visualisierung der Instanzen ermöglicht. Die detaillierte Projektvereinbarung ist im Anhang zu finden.
+welche eine Visualisierung der Instanzen ermöglicht. Die detaillierte Projektvereinbarung ist im <<Anhang>> zu finden.
 Die Applikation soll keinen Debugger ersetzen, sondern die relevanten Informationen im Bereich der objektorientierten
 Vererbung darstellen.
 
-Der Hauptteil des Berichts ist nicht zwingend chronologisch geordnet sondern in
-Themenbereiche gruppiert. Nachdem das Kapitel Problemstellung die zu lösende Aufgabe
-aufzeigt, sind im Kapitel Analyse die bereits vorhandenen und eingesetzten Technologien
-beschrieben. Weiter erklärt das Kapitel Design und Usability Testing die Entstehung und das
-Testen der Prototypen und schliesslich schildert das Kapitel Implementation die
+Der Hauptteil des Berichts ist nicht zwingend chronologisch geordnet, sondern in
+Themenbereiche gruppiert. Nachdem das Kapitel <<Problemstellung>> die zu lösende Aufgabe
+aufzeigt, sind im Kapitel <<Analyse>> die bereits vorhandenen und eingesetzten Technologien
+beschrieben. Weiter erklärt das Kapitel <<Design>> und <<Usability Testing>> die Entstehung und das
+Testen der Prototypen und schliesslich schildert das Kapitel <<Implementation>> die
 technische Umsetzung.
 
-Im Kapitel Ergebnisse werden die Resultate und Erreichung der
-Projektvereinbarung diskutiert. Das Schlusswort stellt eine Reflexion über den Arbeitsprozess dar. Wesentlicher
+Im Kapitel <<Ergebnisse>> werden die Resultate und Erreichung der
+Projektvereinbarung diskutiert. Das <<Schlusswort>> stellt eine Reflexion über den Arbeitsprozess dar. Wesentlicher
 Bestandteil ist zudem die erstellte JavaFX Applikation, die unter
 // Todo: Applikation referenzieren
 zu finden ist.
@@ -99,8 +99,8 @@ https://github.com/FHNW-IP5-IP6/InheritorGallery/tree/doc/docs/anhang/IMVS21inhe
 Das Klassendiagramm von UML stellt die Vererbungsbeziehungen zwischen Klassen und Interfaces dar.
 Dabei werden die Klassen mit ihren Attributen und Methoden als einzelne Quadrate gezeigt.
 Für die resultierenden Instanzen einer abgeleiteten Klasse ist diese Darstellung irreführend.
-Für das Verständnis was eine Instanz ausmacht wäre es für einen Programmieranfänger deutlich
-einfacher wenn die Instanz als eine Einheit visualisiert wird und nicht in mehreren Blöcken.
+Für das Verständnis was eine Instanz ausmacht, wäre es für einen Programmieranfänger deutlich
+einfacher, wenn die Instanz als eine Einheit visualisiert wird und nicht in mehreren Blöcken.
 
 Eine für Programmieranfänger geeignete Visualisierung von Instanzen müsste:
 
@@ -153,7 +153,7 @@ wie IntelliJ oder Eclipse vorhanden.
 UML sagt nicht genügend über den Programmzustand zur Laufzeit aus, was jedoch zur Visualisierung von Instanzen
 und Vererbung zwingend notwendig ist. So sind auch hier Tools zu finden, die ein Java Programm zur Laufzeit sehr
 detailliert darstellen. Solche Tools wie Jive (vgl. <<Jive>>: 2019)  oder
-Java Visualizer (vgl. <<Visualizing-java>>: 2019) eignen sich gut zum Debuggen jedoch eher wenig zum
+Java Visualizer (vgl. <<Visualizing-java>>: 2019) eignen sich gut zum Debuggen jedoch weniger zum
 Erlernen von Vererbung für Programmieranfänger.
 
 
@@ -162,12 +162,12 @@ image::images/20190412_buffaloEdu.jpg[Darstellung Java Programmablauf, 100%, tit
 
 *Visualisierung von Instanzen*
 
-Es wurden zwei Programme gefunden, die Java Instanzen visualisieren und sich an Programmieranfänger richten
+Es wurden zwei Programme gefunden, die Java Instanzen visualisieren, sich an Programmieranfänger richten
 und sich somit am ehesten für die Anforderungen dieser Arbeit eignen.
 Das erste Programm heisst ObjectGraphVisualization (vgl. <<ObjectGraphVisualization>>:  2019).
 Es handelt sich hier um eine Bachelorarbeit zweier Studierender der HSG aus dem Jahr 2015.
 Das Programm ist mit JavaFX
-umgesetzt. Der grösste Vorteil von ObjectGraphVisualization ist die Darstellung die sich an Studierende richtet.
+umgesetzt. Der grösste Vorteil von ObjectGraphVisualization ist die Darstellung, die sich an Studierende richtet.
 Ein grosser Nachteil ist allerdings, dass kein Java Code eingelesen werden kann, sondern die Strukturen mithilfe von
 XML erstellt werden müssen. Die gesamte Bachelorarbeit ist unter dem Link https://eprints.hsr.ch/459/ zu finden.
 
@@ -178,9 +178,9 @@ image::images/20190412_graphVisualizer.jpg[Bachelorarbeit ObjectGraphVisualizati
 Das zweite Programm heisst BlueJ (vgl. <<BlueJ>> 2019).
 Dieses entspricht als Gesamtlösung wohl am ehesten den Anforderungen für dieses Projekt.
 Es kann Java Code eingelesen oder geschrieben werden. Dabei wird ein vereinfachtes Klassendiagramm angezeigt.
-BlueJ verfügt zudem über eine Konsole und es können Instanzen angezeigt werden und mit diesem kann man auch
+BlueJ verfügt zudem über eine Konsole, es können Instanzen angezeigt werden und mit diesen kann man auch
 interagieren.
-Die verfügbaren Methoden werden in Dropout Menüs angezeigt. Der Nachteil hier ist die mangelnde
+Die verfügbaren Methoden werden in Dropdown Menüs angezeigt. Der Nachteil hier ist die mangelnde
 Darstellung der Vererbung. Die Instanzen sehen stets gleich aus, bestehend aus einem einzigen Viereck und dem Referenznamen.
 Die verfügbaren Methoden müssen via Menüs aufgerufen werden und sind nicht auf einen Blick sichtbar.
 Zudem wird nicht klar welche Methoden bei Vererbung ausgeführt werden. In der der Abbildung unten wurde
@@ -204,7 +204,7 @@ einzelner Codezeilen ohne dass dazu ein ganzes Programm geschrieben werden muss.
 *Evaluation*
 
 Im Rahmen dieser Arbeit bietet sich JShell an, um einem Benutzer die Interaktion mit der Java Virtual Machine zu
-ermöglichen. Ob und wie JShell, das ermöglichen kann, musste zuerst evaluiert werden. Zuerst wurden die Möglichkeiten
+ermöglichen. Ob und wie JShell das ermöglichen kann, musste zuerst evaluiert werden. Als erstes wurden die Möglichkeiten
 der JShell als Kommandozeilenwerkzeug überprüft. Im Internet finden sich diverse Tutorials (vgl. <<Vojtech>>: 2018),
 wie JShell in dieser Form angewendet werden kann.
 
@@ -241,7 +241,7 @@ Die Fähigkeit Java Code zur Laufzeit zu interpretieren alleine macht diese zu e
 Informationen wie die momentan vorhandenen Referenzvariablen und deren zugeordnete Objekttypen abgerufen werden können,
 ist ebenfalls sehr praktisch, da so auf eine eigene Verwaltung der Referenzen verzichtet werden konnte.
 Es wurde daher entschieden JShell nicht nur zur Evaluierung von Code zu benutzen, sondern diese auch gleich zur
-für die Verwaltung des Systemzustandes zu erklären. Somit konnte die Applikation vor allem
+Verwalterin des Systemzustandes zu erklären. Somit konnte die Applikation vor allem
 darauf ausgelegt werden, die in der JShell vorhanden Informationen für den Benutzer visuell aufzubereiten.
 
 === Java to UML Parser
@@ -291,22 +291,22 @@ dokumentiert. So kann man etwa die Zusammenstellung
 einer Instanz aus den jeweiligen Klassen mit Methoden wie getSuperclass() oder
 getInterfaces() einfach und natürlich traversieren. Weiter ist es mit Reflection
 möglich die Werte der Attribute herauszulesen oder die Herkunft einer Methode bei
-Vererbung ausfindig zu machen. Im Gegensatz zu JavaParsser kann auch die Object Klasse mithilfe von Reflection genutzt werden.
+Vererbung ausfindig zu machen. Im Gegensatz zu JavaParser kann auch die “Object” Klasse mithilfe von Reflection genutzt werden.
 Folglich wurde auf JavaParser verzichtet, um die Funktionalitäten von Refection nutzen zu können und
 den Aufbau der InheritorGallery möglichst einfach und konsistent zu belassen.
 
 *Teilweise vorgefertigte Lösungen*
 
 Hier sollen kurz einige weitere in Betracht gezogene Varianten aufgelistet werden,
-die die Erstellung von UML aus .java Files möglich machen.
+die die Erstellung von UML aus .java Dateien möglich machen.
 Der UML-Parser von Github User Shubham Vadhera
-(vgl. <<uml-parser-a>>: 2018) benutzt JavaParser für das Einlesen der Files und Yuml
+(vgl. <<uml-parser-a>>: 2018) benutzt JavaParser für das Einlesen der Dateien und Yuml
 (vgl. <<Yuml>>: 2019) für die Erstellung der Grafiken.
 Ähnlich gehen auch Rishiraj Randive
 (vgl. <<uml-parser-b>>: 2017)
 und Pratik Sanglikar (vgl. <<Java-Parser-UML-Generator>>: 2016) vor.
 Diese Lösungen sind für die InheritorGallery eher ungeeignet, da sie zu
-unflexibel zu wenig mächtig sind.
+unflexibel und zu wenig mächtig sind.
 
 == Design
 
@@ -385,13 +385,13 @@ image::images/20190514_BesprechungSkizzen.jpg[letzte Version der LoFi Prototypen
 Die Abbildung oben widmet sich insbesondere komplexeren Instanzen, die erben und
 gleichzeitig Interfaces implementieren. Auch hier gilt es zu beachten, dass der Typ
 der Referenz auch ein Interface sein kann und so explizit ersichtlich sein muss.
-So wurde entschieden eine Instanz bei Implementierung von Interfaces in die breite
+So wurde entschieden eine Instanz bei Implementierung von Interfaces in die Breite
 wachsen zu lassen. Dadurch lassen sich die aufrufbaren Methoden im Falle eines
-Referenztypen Interface klar darstellen.
+Referenztypen-Interfaces klar darstellen.
 
 *HiFi Prototyp*
 
-Die gewonnenen Erkenntnisse aus den Interviews mit den LoFi Prototypen und den
+Mittels der gewonnenen Erkenntnisse aus den Interviews mit den LoFi Prototypen und den
 durchgeführten Usability Tests (dazu mehr im Kapitel Usability Testing) wurde ein
 HiFi Prototyp erstellt. Der HiFi Prototyp erfüllt zwei Aufgaben. Einerseits wurde
 er für Usability Tests verwendet, mit dem Ziel möglichst stark dem Endprodukt zu
@@ -408,10 +408,10 @@ image::images/HiFi_Prototype.jpg[HiFi Prototyp aus Figma, 100%, title="HiFi Prot
 
 Im Gegensatz zum LoFi Prototyp stellt der HiFi Prototyp den gesamten Bildschirm dar.
 So sieht man hier oben links die importierte Anleitung und die Konsole zur Eingabe
-von Java Befehlen. Links ist das UML der importierten Übung zu sehen, welches
+von Java Befehlen. Rechts ist das UML der importierten Übung zu sehen, welches
 automatisch generiert werden soll. In der Mitte ist der Hauptteil der Applikation
 ersichtlich, die erstellten Instanzen. Die Teile der Instanzen stimmen mit der
-Farbgebung aus dem UML überein um klarer zu zeigen, aus welchen Klassen eine
+Farbgebung aus dem UML überein, um klarer zu zeigen, aus welchen Klassen eine
 Instanz zusammengesetzt wurde. In Kindklassen überschriebene Methoden werden jeweils
 in der Farbe hervorgehoben, in der sich die benutzte Implementation befindet.
 
@@ -438,8 +438,8 @@ Spezialisierung, Generalisierung.
 An einem Test nehmen 4 Studierende Teil. Jeder Teilnehmer oder Teilnehmerin zeichnet
 die 11 Begriffe in maximal 45 Sekunden. Nachdem alle Begriffe gezeichnet wurden,
 werden die Zeichnungen getauscht und deren Reihenfolge gemischt.
-Nun haben die Teilnehmenden 10 Sekunden Zeit pro Bild um die Begriffe der
-anderen Teilnehmenden zu erraten. Auf dem Bild wird farblich jeweils markiert,
+Nun haben die Teilnehmenden 10 Sekunden Zeit pro Bild, um die Begriffe der
+anderen Teilnehmenden zu erraten. Auf dem Bild wird jeweils farblich markiert,
 ob ein Bild in gegebener Zeit erraten wurde (grün) oder nicht (rot).
 
 image::images/20190416_montagsMalenAuswertung.jpg[Zusammenstellung der Zeichnungen von Studierenden aus der Präkonzepterhebung, 100%, title="Zusammenstellung der Zeichnungen von Studierenden aus der Präkonzepterhebung"]
@@ -460,7 +460,7 @@ ist und auch noch keine Vorstellungen hierfür vorhanden sind.
 In diesem Kapitel wird die Durchführung und Auswertung des Usability Tests mit dem HiFi
 Prototyp beschrieben. Die Erstellung des Prototyps ist im Kapitel Entwürfe zu finden.
 
-Test Objekt ist ein ausgedruckter HiFi Prototyp. Aufgabe ist es, bei Ausführung der vorgegebener Codezeilen
+Testobjekt ist ein ausgedruckter HiFi Prototyp. Aufgabe ist es, bei Ausführung der vorgegebener Codezeilen
 die erstellten Instanzen zu beschreiben. Das verwendete Klassendiagramm wurde von den
 Studierenden in der vorhergehenden Lektion in einer Übung verwendet.
 
@@ -580,7 +580,7 @@ die importierten Klassen von der Shell interpretiert werden können. Danach erst
 in der JShell.
 
 Für die Verwaltung des UMLs existiert die Klasse “UmlPM”. Diese beinhaltet die importierten Klassen und deren Aufbau.
-Um an diese Informationen zu gelangen ruft sie mittels “JShellService” die Klasse “JShellReflection” auf.
+Um an diese Informationen zu gelangen, ruft sie mittels “JShellService” die Klasse “JShellReflection” auf.
 Diese erstellt mit Hilfe von Reflection die Klassenobjekte. Dass “JShellReflection” in der JShell erstellt wird,
 hat den Vorteil, dass diese über die in der JShell existierenden Objektreferenzen informiert ist. Dies ist später bei
 der Erstellung der Instanzen von Bedeutung.
@@ -602,35 +602,53 @@ image::images/uml/UML_DrawObjectInstancesSequenceDiagram.png[Programmablauf Erst
 Die Applikation nutzt die JShell zur Verwaltung des Programmzustands inklusive Benutzereingaben und Referenzen.
 Eine weitere Möglichkeit wäre es gewesen, diese Eingaben und Referenzen in der Applikation zu verwalten. Dazu hätte
 jedoch ein eigenes Model sowie ein Handler zur Speicherung und Verarbeitung dieser Daten geschrieben werden müssen.
-Da JShell diese Funktionen bereits bietet, wurde entschieden JShell diese Daten verwalten zu lassen.
+Da JShell diese Funktionen bereits bietet, wurde entschieden, JShell diese Daten verwalten zu lassen.
 
 Dies bedeutet jedoch, dass bei jeder Benutzereingabe der aktuelle Stand der JShell abgerufen und alle Instanzen und
 Referenzen neu erstellt werden müssen. Durch Setzen eines entsprechenden Properties wird ein Listener der “InstancePane”
 informiert, dass die Instanzen neu gezeichnet werden müssen.
 
-=== Contiuous Integration
+=== Continuous Integration
 
-Für eine Arbeit dieser Grösse und über einen längeren Zeitraum macht es durchaus Sinn eine Contiuous Integration (CI)
+Für eine Arbeit dieser Grösse und über einen längeren Zeitraum macht es durchaus Sinn eine Continuous Integration (CI)
 aufzubauen. So können mittels fehlschlagenden Tests schnell Fehler im Quellcode ausfindig gemacht werden.
+
+*Travis CI*
 
 Die Arbeit ist jedoch nicht gross genug, dass eine umfangreiche Buildpipeline mit einer eigenen CI-Infrastruktur
 gerechtfertigt wäre. Deshalb wurde auf das leichtgewichtige Travis CI gesetzt. Travis hat den Vorteil, dass bereits
 eine cloudbasierte Infrastruktur existiert, die von Studierenden gratis genutzt werden kann. Ausserdem bietet Travis eine
 optimale Integration mit GitHub. Über eine .yml-Konfigurationsdatei kann das CI-Werkzeug konfiguriert werden.
 
-Da die Applikation auf Windows-basierten Rechnern entwickelt wurde, wurde entschieden auf eine Unix-basierte
+Da die Applikation auf Windows-basierten Rechnern entwickelt wurde, wurde entschieden, auf eine Unix-basierte
 Buildmaschine zu setzen, da so plattformspezifische Fehler erkannt werden konnten. Diese Entscheidung erwies sich
 aufgrund von Problemen bei plattformspezifischen Dateipfaden als korrekt.
 
 Travis wurde so konfiguriert, dass bei jedem Git Push oder Pull Request auf GitHub ein Build erstellt wird. Dieser
 muss zwingend erfolgreich sein, damit ein Git Merge durchgeführt werden kann.
 
+*Java Archiv*
+
+Gradle erstellt bei jedem `gradle clean build` automatisch eine .jar-Datei im Verzeichnis /build/libs.
+Mit dem Befehl `java -jar InheritorGallery-0.1.jar` in der Konsole kann dieses Archiv ausgeführt werden.
+Voraussetzung dafür ist eine in der Systemvariable %JAVA_HOME% hinterlegte Java Runtime, die die benötigten Module zur Verfügung stellt.
+
+*Java Runtime*
+
+Mittels jlink kann eine eigene Java Laufzeitumgebung erstellt werden, die nur die effektiv benötigten Module enthält (vgl. <<jlink>>: 2017).
+Dies geschieht mittels folgendem Konsolenbefehl:
+[source,options="nowrap"]
+jlink --add-modules=javafx.base,javafx.controls,javafx.graphics,javafx.web,jdk.jshell,jdk.localedata,jdk.charsets --include-locales en,de --bind-services --output outputDir
+
+Das Verzeichnis /outputDir/bin/ der neu erstellten Laufzeitumgebung kann dann in %JAVA_HOME% hinterlegt werden.
+Die .jar-Datei ist dann mittels dieser Laufzeitumgebung ausführbar.
+
 === Kurzanleitung
 
 image::images/app/InstructionPanel.png[GUI der InheritorGallery nach dem Start, 100%, title="GUI der InheritorGallery nach dem Start"]
 {nbsp} +
 
-Die Applikation bietet dem Benutzer oder Benutzerin 4 Möglichkeiten zur Interaktion.
+Die Applikation bietet dem Benutzer oder Benutzerin vier Möglichkeiten zur Interaktion.
 
 *Laden von Klassen*
 
@@ -675,17 +693,20 @@ zufriedenstellenden Lösungen gefunden wurden, um Instanzen eines Java Programms
 Gemäss den Ergebnissen der durchgeführten Usability Tests und der Interviews konnte eine Darstellungsart entworfen werden,
 um die erstellten Instanzen zur Laufzeit eines Java Programms geeignet darzustellen. Alle wesentlichen Aspekte der
 Vererbung sind in der Visualisierung explizit sichtbar. Beispielsweise ist klar, welche Methoden auf einer Referenz
-jeweils aufrufbar sind und welche Methoden Implementation bei Vererbung gewählt wird.
+jeweils aufrufbar sind und welche Methodenimplementation bei Vererbung gewählt wird.
 
-Es konnten alle in der Projektvereinbarung definierten funktionale Anforderungen umgesetzt werden. So können in die
-erstellte JavaFX Applikation Java Programme in Form von .jar Dateien importiert werden und auch eine Anleitung geladen
+Es konnten alle in der Projektvereinbarung definierten funktionalen Anforderungen umgesetzt werden. So können in die
+erstellte JavaFX Applikation Java Klassen in Form von .jar Dateien importiert werden und auch eine Anleitung geladen
 werden. Daraus wird ein UML generiert und dargestellt. Die Applikation verfügt über eine Shell, in der Java Code
 eingegeben werden kann und der Rückgabewert wird jeweils in einer Liste angezeigt. Und allem voran werden die erstellten
-Instanzen angezeigt, so dass klar wird was die Instanz ausmacht.
+Instanzen angezeigt, so dass klar wird, was die Instanz ausmacht.
 
-Bei den nicht funktionalen Anforderungen konnte die Anforderung “Die Applikation soll mit jlink lauffähig sein und
-somit eigenständig ausgeführt werden können.” aus Zeitgründen nicht komplett umgesetzt werden können.
-//Todo: jlink ergänzen?
+Auch die nicht funktionalen Anforderungen konnten alle umgesetzt werden.
+Aus zeitlichen Gründen und aufgrund der Aufgabenpriorisierung wurde die Anforderung “Die Applikation soll mit jlink lauffähig sein und
+somit eigenständig ausgeführt werden können.” auf das Nötigste reduziert. Die Anforderung ist erfüllt, kann in Zukunft jedoch noch erweitert werden.
+Beispielsweise liesse sich mittels Gradle der Bau einer Laufzeitumgebung vollständig automatisieren.
+Dazu ist jedoch eine vollständige Modularisierung des Projekts einhergehend mit Refactoring und Anpassung des Gradle-Builds nötig.
+Ein Basis dafür kann auf dem Branch “jrebuild” gefunden werden. Ausserdem fehlt der erstellten Laufzeitumgebung momentan noch die UTF-8 Unterstützung.
 
 Allerdings gilt es noch zu prüfen, wie sich die Applikation im Unterrichtsalltag bewährt. Die Usability Tests wurden
 aufgrund der Projektgrösse in sehr beschränkter Zahl durchgeführt. Auch die Usability der JavaFX Applikation gilt es
@@ -703,9 +724,10 @@ Kapitel in Wir-Form geschrieben.
 Die Zusammenarbeit mit den Betreuenden hat sehr gut funktioniert. So konnten früh im Projekt Entwürfe unkompliziert
 und häufig diskutiert werden und auch später bei der Erstellung der JavaFX Applikation konnte mithilfe der Issues in
 GitHub rasch und effizient Hilfe eingeholt werden.
+
 Zufrieden sind wir auch mit dem Einsatz der verwendeten Toolchain. So hat das Einrichten der Continuous Integration
 mit Travis zwar zu Beginn zu einigem Aufwand geführt, während der Entwicklung konnten so jedoch Fehler frühzeitig
-erkannt werden. Auch die Arbeit mit Issues und Branches in Github konnte effizient durchgeführt werden.
+erkannt werden. Auch die Zusammenarbeit mit Issues und Branches in Github konnte effizient durchgeführt werden.
 
 Als eher schwierig hat sich die Rekrutierung von geeigneten Probanden erwiesen. Je nach Priorisierung im Projekt,
 würden wir hier ein nächstes mal mehr Zeit investieren. Weiter wurde während der Entwicklung teilweise zu viel Zeit
@@ -713,13 +735,8 @@ für gewisse Funktionalitäten aufgewendet. Beispielsweise hat die Implementieru
 viele unerwartete Herausforderungen mit sich gebracht. Hier würden wir ein nächstes mal früher innehalten und prüfen,
 ob diese Funktionalität umgesetzt werden soll oder besser die Anforderungen neu priorisiert werden müssen.
 
-Sehr positiv war das Erlebnis der Zusammenarbeit mit GitHub und der Continuous Integration. Da wir meist auf
-unterschiedlichen Branches und nicht an denselben Files arbeiteten, stiessen wir auf keine nennenswerten Probleme.
-Falls doch einmal unsauberer Code gepushed wurde, konnte dies mit Hilfe von Travis CI schnell ausfindig gemacht werden.
-
 Zusammenfassend sind wir mit der Umsetzung des Projektes sehr zufrieden und sind der Ansicht die Arbeitsmittel
 effizient und gewinnbringend eingesetzt zu haben.
-
 
 == Literatur
 
@@ -736,6 +753,8 @@ https://github.com/pratiksanglikar/Java-Parser-UML-Generator:
 (abgerufen am 24.07.2019).
 
 - [[[Jive]]] (2019) https://cse.buffalo.edu/jive/ (abgerufen am 24.07.2019).
+
+- [[[jlink]]] (2017) https://docs.oracle.com/javase/9/tools/jlink.htm (abgerufen am 13.08.2019).
 
 - [[[Kotari]]] (2017) https://dzone.com/articles/jdk9-execute-java-code-like-unix-shell-script (abgerufen am 29.07.2019).
 
