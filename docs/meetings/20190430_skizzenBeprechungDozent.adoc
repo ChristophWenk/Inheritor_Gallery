@@ -1,0 +1,87 @@
+
+= Diskussion erste Skizzen
+
+Requirements - Übersicht Figma, passt das?
+-> UML und Instanzen müssen beide angezeigt werden.
+
+Besondere Schwierigkeiten für Studierende gemäss Interview:
+
+* Objekt behält Eigenschaft (Infos sind nicht verloren), wenn Oberklasse zugewiesen
+* Methoden nicht mehr aufrufbar, wenn Oberklasse zugewiesen
+* Bei überschriebenen Methoden wird die Methode genommen, die zum Objekt passt.
+
+Konzepte Vererbung gemäss Interview:
+
+* Subklasse ist eine Spezialisierung, Umfang Funktionalität grösser
+* Referenz bestimmt die Sicht (Metapher Pfeil, Brille, Fernrohr)
+
+Allgemeine Fragen:
+
+* Gibt es Fehler, Unstimmigkeiten, Unschönheiten?
+* Was finden Sie besonders gelungen, passend? Was hiervon könnten Sie sich im Endpdukt vorstellen?
+
+-> Lego ist super!
+
+-> Wie könnte man die Methoden darstellen?
+Wie kann man darstellen, welche Methode genommen wird? Auf die Noppen könnte man evtl. 1x1 Bricks setzen, die die Methoden darstellen.
+Wenn es viele Methoden sind, kann man ein Maximum setzen, das dargestellt wird. Es geht nur ums Prinzip.
+
+-> Ausgegraut ist klar.
+
+-> Lego von oben nach unten ist weniger gut, da es nicht das Aufbauen aufeinander zeigt.
+
+-> Kreise sind schon zu abstrakt. Lego viel besser. Könnte sich vorstellen, Legos in den Unterricht mitzunehmen.
+
+-> Kreise mit Dreiecke. Man kann sich das so vorstellen, dass kleines Dreieck zwar auf grössere Kreise gelegt werden können,
+aber grosse Dreiecke können nicht auf kleine Kreise gelegt werden. Diese würden sonst wegkippen.
+Nebst den Legosteinen, wäre dies die beste Darstellung.
+
+-> Skizze mit Punkten. Der Punkt (Referenz) ist eine weniger gute Lösung. Auf einen Kreis zeigen stimmt nicht.
+
+-> Nichts mit Klicken oder Hovern machen. Nur Einblenden oder Ausblenden.
+
+-> 3D Legos. Man sollte unbedingt bei 2D bleiben. Die Darstellung mit den Kreisen ist dann ähnlich wie bei der Darstellung mit den Dreiecken.
+Kreise sind wohl besser verständlich (Highlighting wie bei einem Presenter).
+
+.Diskussion erste Skizzen
+|===
+| Skizze  |
+Objekt behält Eigenschaft aber Methoden nicht mehr aufrufbar wenn Oberklasse zugewiesen |
+Bei Überschreiben Methode, die zum Objekt passt. |
+Subklasse ist eine Spezialisierung, Umfang Funktionalität grösser |
+Referenz bestimmt die Sicht |
+Gibt es Fehler, Unstimmigkeiten, Unschönheiten? |
+Was gelungen, passend? Im Endpdukt?
+
+|
+|
+|
+|
+|
+|
+|
+
+
+
+|===
+
+
+Evlt. für alle Entwürfe:
+
+==== Welchen Entwurf, oder welche Teile der einzelnen Entwürfe finden Sie sinnvoll?
+
+
+-> 2D Legos gut
+
+-> 2D Legos von oben nach unten nicht gut
+
+-> Legos: Keine Striche zwischen Legos
+
+-> Kreise in sich nicht so gut
+
+-> Besser Kreise als Dreiecke
+
+-> Legosteine TODO: Darstellung der Methoden bei Legosteinen muss nochmal überdacht werden,
+sodass diese klarer wird.
+
+image::../images/20190507_DiskussionErsteSkinnen.jpg[20190507_DiskussionErsteSkinnen.jpg, 460, 320]
