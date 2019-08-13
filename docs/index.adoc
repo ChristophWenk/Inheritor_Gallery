@@ -70,7 +70,7 @@ Kapitel <<Problemstellung>> zu finden.
 
 In dieser Arbeit sollen bereits vorhandene Darstellungen einer Instanz ausgewertet werden. Weiter werden eigene
 Visualisierungen entworfen und mit Studierenden getestet. Schliesslich soll eine Applikation mit JavaFX umgesetzt werden,
-welche eine Visualisierung der Instanzen ermöglicht. Die detaillierte <<Projektvereinbarung>> ist im <<Anhang>> zu finden.
+welche eine Visualisierung der Instanzen ermöglicht. Die detaillierte Projektvereinbarung ist im <<Anhang>> zu finden.
 Die Applikation soll keinen Debugger ersetzen, sondern die relevanten Informationen im Bereich der objektorientierten
 Vererbung darstellen.
 
