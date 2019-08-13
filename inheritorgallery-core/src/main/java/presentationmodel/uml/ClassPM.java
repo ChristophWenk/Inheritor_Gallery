@@ -12,6 +12,9 @@ import service.jshell.dto.MethodDTO;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Presentationmodel that stores the current state of a class
+ */
 public class ClassPM {
 
     private static Logger logger = LoggerFactory.getLogger(ClassPM.class);
@@ -29,35 +32,20 @@ public class ClassPM {
     private final ObservableList<ConstructorPM> constructors = FXCollections.observableArrayList();
     private final ObservableList<MethodPM> methods = FXCollections.observableArrayList();
 
-    @Override
-    public ClassPM clone(){
-        List<FieldDTO> fields = new ArrayList<>();
-        List<ConstructorDTO> constructors  = new ArrayList<>();
-        List<MethodDTO> methods  = new ArrayList<>();
-        for(FieldPM f : getFields())
-            fields.add(new FieldDTO(f.getDeclaringClass(),f.getModifier(),f.getType(),f.getName(),f.getValue()));
-        for(ConstructorPM c : getConstructors())
-            constructors.add(new ConstructorDTO(c.getModifier(),c.getName(),c.getInputParameters()));
-        for(MethodPM m : getMethods())
-            methods.add(new MethodDTO(m.getModifier(), m.getReturnType(),m.getName(),m.getInputParameters()));
-        List<ClassPM> implementedInterfaces = new ArrayList<>(getImplementedInterfaces());
-
-        return new ClassPM(
-                this.isAbstract.getValue(),
-                this.isInterface.getValue(),
-                this.fullClassName.getValue(),
-                this.name.getValue(),
-                this.superClassName.getValue(),
-                superClass.getValue() != null ? this.superClass.getValue().clone() : null,
-                this.implementedInterfacesAsString,
-                implementedInterfaces,
-                fields,
-                constructors,
-                methods
-                );
-    }
-
-
+    /**
+     * Create the ClassPM
+     * @param isAbstract Mark the ClassPM as abstract
+     * @param isInterface Mark the ClassPM as interface
+     * @param fullClassName The full name including package of the class
+     * @param name The simple name of the class
+     * @param superClassName The name of the class inherited from
+     * @param superclass The full name of the class inherited from
+     * @param implementedInterfacesAsString The interfaces the class implements in String form
+     * @param implementedInterfaces The interfaces the class implements as ClassPMs
+     * @param fields The fields the class implements
+     * @param constructors The constructors the class implements
+     * @param methods The methods the class implements
+     */
     public ClassPM(
             Boolean isAbstract,
             Boolean isInterface,
@@ -102,8 +90,42 @@ public class ClassPM {
                 m.getInputParameters())));}
     }
 
+    /**
+     * Clone the ClassPM
+     * @return A new ClassPM
+     */
+    @Override
+    public ClassPM clone(){
+        List<FieldDTO> fields = new ArrayList<>();
+        List<ConstructorDTO> constructors  = new ArrayList<>();
+        List<MethodDTO> methods  = new ArrayList<>();
+        for(FieldPM f : getFields())
+            fields.add(new FieldDTO(f.getDeclaringClass(),f.getModifier(),f.getType(),f.getName(),f.getValue()));
+        for(ConstructorPM c : getConstructors())
+            constructors.add(new ConstructorDTO(c.getModifier(),c.getName(),c.getInputParameters()));
+        for(MethodPM m : getMethods())
+            methods.add(new MethodDTO(m.getModifier(), m.getReturnType(),m.getName(),m.getInputParameters()));
+        List<ClassPM> implementedInterfaces = new ArrayList<>(getImplementedInterfaces());
 
+        return new ClassPM(
+                this.isAbstract.getValue(),
+                this.isInterface.getValue(),
+                this.fullClassName.getValue(),
+                this.name.getValue(),
+                this.superClassName.getValue(),
+                superClass.getValue() != null ? this.superClass.getValue().clone() : null,
+                this.implementedInterfacesAsString,
+                implementedInterfaces,
+                fields,
+                constructors,
+                methods
+        );
+    }
 
+    /**
+     * Check for a class that the current class might inherit from
+     * @return
+     */
     public boolean hasSuperClass(){
         return this.getSuperClassName() != null && !this.getSuperClassName().equals("java.lang.Object");
     }

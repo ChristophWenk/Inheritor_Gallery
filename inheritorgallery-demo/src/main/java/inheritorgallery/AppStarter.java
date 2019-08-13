@@ -14,6 +14,7 @@ import presentationmodel.uml.UmlPM;
 import service.instruction.AsciiDocService;
 
 /**
+ * InheritorGallery Application Starter
  * @author Christoph Wenk, Dimitri Muralt
  */
 public class AppStarter extends Application {

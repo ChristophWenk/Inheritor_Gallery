@@ -17,21 +17,32 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Presentationmodel that stores the current state of all instances
+ */
 public class InstanceStatePM {
     private static Logger logger = LoggerFactory.getLogger(InstanceStatePM.class);
 
     private JShellService jShellService = JShellService.getInstance();
-    private final ObservableList<String > commandHistory = FXCollections.observableArrayList();
+    // Code commands given by the user and JShell output
+    private final ObservableList<String> commandHistory = FXCollections.observableArrayList();
     private final ObjectProperty<List<ObjectPM>> objectPMProperty = new SimpleObjectProperty<>();
     private final ObjectProperty<MethodPM> lastExecutedMethod = new SimpleObjectProperty<>();
     private UmlPM umlPM;
 
+    /**
+     * Create the InstanceStatePM
+     * @param umlPM The UmlPM the InstanceStatePM is based on
+     */
     public InstanceStatePM(UmlPM umlPM){
         this.umlPM = umlPM;
     }
 
+    /**
+     * Handle a new input for the JShell
+     * @param input JShell input as given by the user
+     */
     public void setJShellInput(String input) {
-
         try {
             String output = jShellService.getOutputAsString(jShellService.evaluateCode(input));
             commandHistory.addAll(input,output);
@@ -43,6 +54,9 @@ public class InstanceStatePM {
         }
     }
 
+    /**
+     * Update all existing instances after a new input has been processed
+     */
     private void updateInstances(){
         List<ObjectPM> objectPMList = new ArrayList<>();
         for(ObjectDTO objectDTO : jShellService.getObjectDTOs() ){
@@ -61,6 +75,10 @@ public class InstanceStatePM {
         setObjectPMProperty(objectPMList);
     }
 
+    /**
+     * Mark the last executed method in instance and UML
+     * @param lastCodeInput JShell input as given by the user
+     */
     private void updateLastExecutedMethod(String lastCodeInput){
         resetLastExecutedMethod();
 
@@ -88,6 +106,10 @@ public class InstanceStatePM {
         }
     }
 
+    /**
+     * Mark the last executed method in UML
+     * @param lastExecuted Flag that globally sets the last found executed method
+     */
     private void updateLastLastExecutedMethodUML(Boolean lastExecuted){
         umlPM.getClassesObject().stream()
                 .flatMap(c -> c.getMethods().stream())
@@ -102,6 +124,13 @@ public class InstanceStatePM {
                 .forEach(methodPM -> methodPM.setLastExecuted(lastExecuted));
     }
 
+    /**
+     * Get the amount of parameters for a method
+     * @param code JShell input as given by the user
+     * @param refName The name of the reference
+     * @param methodName The name of the method
+     * @return The amount of parameters
+     */
     private int getParamCountOfMethod(String code, String refName, String methodName){
         String[] stringAfterMethodName = code.split(refName+"\\."+methodName+"\\(");
         if(stringAfterMethodName.length > 1) {
@@ -112,6 +141,9 @@ public class InstanceStatePM {
         return 0;
     }
 
+    /**
+     * Reset the last executed method marking
+     */
     private void resetLastExecutedMethod(){
         if(getLastExecutedMethod() != null)  {
             getLastExecutedMethod().setLastExecuted(false);
@@ -119,6 +151,11 @@ public class InstanceStatePM {
         }
     }
 
+    /**
+     * Get all methods for a specific reference
+     * @param refInCode The reference for which the methods should be retrieved
+     * @return List of MethodPMs with all the methods for the reference
+     */
     private List<MethodPM> getMethodsOfReference(ReferencePM refInCode){
         List<MethodPM> methodsOfObject = new ArrayList<>();
 
@@ -135,9 +172,10 @@ public class InstanceStatePM {
         return methodsOfObject;
     }
 
-
-
-
+    /**
+     * Get all names for all references
+     * @return List of ReferencePMs with all currently existing reference names
+     */
     private List<ReferencePM> getAllReferenceNames(){
         return getObjectPMs().stream()
                 .flatMap(objectPM -> objectPM.getReferences().stream())

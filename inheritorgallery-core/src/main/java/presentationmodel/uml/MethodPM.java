@@ -6,6 +6,9 @@ import javafx.collections.ObservableList;
 
 import java.util.List;
 
+/**
+ * Presentationmodel that stores the current state of a method
+ */
 public class MethodPM {
     private final ObjectProperty<ClassPM> declaredInClass = new SimpleObjectProperty<>();
     private final SimpleBooleanProperty lastExecuted = new SimpleBooleanProperty(false);
@@ -17,7 +20,14 @@ public class MethodPM {
     private final SimpleListProperty<String> inputParametersProperty = new SimpleListProperty<String>(inputParameters);
     private final StringProperty implementedInClass = new SimpleStringProperty();
 
-
+    /**
+     * Create the MethodPM
+     * @param classPM The class where the method is declared in
+     * @param modifier Modifier of the method (e.g. public)
+     * @param returnType Return type of the method (e.g. String)
+     * @param name Name of the method
+     * @param inputParameters Parameters that may be passed to the method
+     */
     public MethodPM(ClassPM classPM, String modifier, String returnType, String name, List<String> inputParameters ) {
         setDeclaredInClass(classPM);
         setModifier(modifier);
@@ -26,11 +36,22 @@ public class MethodPM {
         this.inputParameters.addAll(inputParameters);
     }
 
+    /**
+     * Compare MethodPM to other MethodPM
+     * @param m The MethodPM that should be compared
+     * @return True if the other MethodPM is equal to this MethodPM
+     */
     public boolean equals(MethodPM m){
         return  this.getName().equals(m.getName()) &&
                 this.getInputParameters().equals(m.getInputParameters());
     }
 
+    /**
+     * Compare MethodPM to other MethodPM declared in a specific class
+     * @param m The MethodPM that should be compared
+     * @param classPM The class that should be compared
+     * @return True if the other MethodPM is equal to this MethodPM
+     */
     public boolean equals(MethodPM m, ClassPM classPM){
         return  getDeclaredInClass().getName().equals(classPM.getName()) &&
                 this.getName().equals(m.getName()) &&

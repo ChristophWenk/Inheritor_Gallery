@@ -8,6 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import presentationmodel.instruction.InstructionPM;
 
+/**
+ * View that displays the exercise text
+ */
 public class InstructionPane extends GridPane implements ViewMixin{
 
     private static Logger logger = LoggerFactory.getLogger(InstructionPane.class);

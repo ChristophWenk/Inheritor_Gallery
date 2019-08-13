@@ -1,16 +1,21 @@
 package presentationmodel.instance;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * Presentationmodel that stores the current state of a reference
+ */
 public class ReferencePM {
 
     private final StringProperty referenceType = new SimpleStringProperty();
     private final StringProperty referenceName = new SimpleStringProperty();
 
-
+    /**
+     * Create the ReferencePM
+     * @param referenceType ObjectType of a reference
+     * @param referenceName Name of a reference
+     */
     public ReferencePM(String referenceType, String referenceName ){
         setReferenceType(referenceType);
         setReferenceName(referenceName);
