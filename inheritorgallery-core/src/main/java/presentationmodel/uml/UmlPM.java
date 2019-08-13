@@ -121,7 +121,6 @@ public class UmlPM {
         for(ClassPM clazz : classes) {
             ClassPM superClass =   getClassByFullName(clazz.getSuperClassName());
 
-            //Todo: Include Object class
             if(superClass != null && !superClass.getName().equals("Object"))
                 edgePMs.add(new EdgePM(clazz.getName(),superClass.getName(),"extends"));
 

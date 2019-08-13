@@ -159,7 +159,6 @@ public class JShellReflection {
     private List<MethodDTO> getMethodsForClass(Class c) {
         List<MethodDTO> methods = new ArrayList<>();
 
-        //ToDo: sort methods better so that getter and setter are site by side
         Stream<Method> methodList = Arrays.stream(c.getDeclaredMethods())
                 .sorted(Comparator.comparing(m -> m.getParameterTypes().length))
                 .sorted(Comparator.comparing(Method::getName));
