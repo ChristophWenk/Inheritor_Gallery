@@ -12,20 +12,32 @@ import service.jshell.dto.FieldDTO;
 
 import java.util.*;
 
+/**
+ * Presentationmodel that stores the current state of an instance
+ */
 public class ObjectPM {
-
     private static Logger logger = LoggerFactory.getLogger(ObjectPM.class);
 
     private final StringProperty objectId = new SimpleStringProperty();
     private final ObjectProperty<ClassPM> objectTree = new SimpleObjectProperty<>();
     private final ObservableList<ReferencePM> references = FXCollections.observableArrayList();
 
+    /**
+     * Create the ObjectPM
+     * @param objectId HashCodeID for the object
+     * @param objectRootClass The root class where the object has been created from
+     * @param fieldDTOs The FieldDTOs holding the field values to be set
+     */
     public ObjectPM(String objectId, ClassPM objectRootClass, List<FieldDTO> fieldDTOs){
-
         setObjectId(objectId);
         generateObjectTree(objectRootClass,fieldDTOs);
     }
 
+    /**
+     * Generate an inheritance tree out of the superclasses of the root class
+     * @param objectRootClass The base class where the tree should be built from
+     * @param fieldDTOs The FieldDTOs holding the field values to be set
+     */
     private void generateObjectTree(ClassPM objectRootClass, List<FieldDTO> fieldDTOs){
         setObjectTree(objectRootClass.clone());
 
@@ -34,7 +46,7 @@ public class ObjectPM {
         while (true){
             setFieldValues(currentNode,fieldDTOs);
             addInterfacesToNode(currentNode);
-            updateOverridenMethodsTree(currentNode);
+            updateOverwrittenMethodsTree(currentNode);
 
             //setup next iteration
             if(objectRootClass.hasSuperClass()){
@@ -46,6 +58,10 @@ public class ObjectPM {
         }
     }
 
+    /**
+     * Add the implemented interfaces to a ClassPM
+     * @param currentNode The object part under construction
+     */
     private void addInterfacesToNode(ClassPM currentNode){
         //add interfaces
         if(currentNode.getImplementedInterfaces() != null){
@@ -58,7 +74,11 @@ public class ObjectPM {
         }
     }
 
-
+    /**
+     * Set the field values for a class part of the object
+     * @param part The object part under construction
+     * @param fieldDTOs The FieldDTOs holding the value information
+     */
     private void setFieldValues(ClassPM part, List<FieldDTO> fieldDTOs){
         for (FieldPM field : part.getFields()){
             Optional<FieldDTO> fieldOptional =  fieldDTOs.stream()
@@ -69,7 +89,11 @@ public class ObjectPM {
         }
     }
 
-    private void updateOverridenMethodsTree(ClassPM classPMtoAdd){
+    /**
+     * Check for overwritten methods and remove them from nodes where they are not used
+     * @param classPMtoAdd The object part under construction
+     */
+    private void updateOverwrittenMethodsTree(ClassPM classPMtoAdd){
         ClassPM currentNode = getObjectTree();
 
         List<MethodPM> duplicateMethodsToDelete = new ArrayList<>();
@@ -103,6 +127,12 @@ public class ObjectPM {
         deleteMethods(duplicateMethodsToDelete);
     }
 
+    /**
+     * Get duplicate methods that are overwritten
+     * @param classPM A root object part of the object part under construction
+     * @param methods List of methods of the object part under construction
+     * @return
+     */
     private List<MethodPM> getMethodsToDelete(ClassPM classPM, List<MethodPM> methods){
         List<MethodPM> duplicateMethodsToDelete = new ArrayList<>();
 
@@ -117,6 +147,11 @@ public class ObjectPM {
         return duplicateMethodsToDelete;
     }
 
+    /**
+     * Check for duplicate methods and mark where they are implemented eventually
+     * @param classPM The node under construction
+     * @param methods The list of methods that needs to be checked for duplicates
+     */
     private void updateMethodImplementedIn(ClassPM classPM, List<MethodPM> methods){
         methods.forEach(methodOfClassPMtoAdd -> {
             Optional<MethodPM> duplicateMethod = classPM.getMethods().stream()
@@ -135,6 +170,10 @@ public class ObjectPM {
         });
     }
 
+    /**
+     * Delete unused methods
+     * @param methodsToDelete The list of methods to delete
+     */
     private void deleteMethods(List<MethodPM> methodsToDelete){
 
         ClassPM currentNode = getObjectTree();

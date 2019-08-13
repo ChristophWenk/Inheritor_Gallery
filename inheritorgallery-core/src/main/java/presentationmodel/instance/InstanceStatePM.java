@@ -18,7 +18,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * Presentationmodel that handles the current state of all instances
+ * Presentationmodel that stores the current state of all instances
  */
 public class InstanceStatePM {
     private static Logger logger = LoggerFactory.getLogger(InstanceStatePM.class);
