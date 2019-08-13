@@ -613,6 +613,8 @@ informiert, dass die Instanzen neu gezeichnet werden müssen.
 Für eine Arbeit dieser Grösse und über einen längeren Zeitraum macht es durchaus Sinn eine Contiuous Integration (CI)
 aufzubauen. So können mittels fehlschlagenden Tests schnell Fehler im Quellcode ausfindig gemacht werden.
 
+*Travis CI*
+
 Die Arbeit ist jedoch nicht gross genug, dass eine umfangreiche Buildpipeline mit einer eigenen CI-Infrastruktur
 gerechtfertigt wäre. Deshalb wurde auf das leichtgewichtige Travis CI gesetzt. Travis hat den Vorteil, dass bereits
 eine cloudbasierte Infrastruktur existiert, die von Studierenden gratis genutzt werden kann. Ausserdem bietet Travis eine
@@ -624,6 +626,22 @@ aufgrund von Problemen bei plattformspezifischen Dateipfaden als korrekt.
 
 Travis wurde so konfiguriert, dass bei jedem Git Push oder Pull Request auf GitHub ein Build erstellt wird. Dieser
 muss zwingend erfolgreich sein, damit ein Git Merge durchgeführt werden kann.
+
+*Java Archiv*
+
+Gradle erstellt bei jedem `gradle clean build` automatisch eine .jar-Datei im Verzeichnis /build/libs.
+Mit dem Befehl `java -jar InheritorGallery-0.1.jar` in der Konsole kann dieses Archiv ausgeführt werden.
+Voraussetzung dafür ist eine in der Systemvariable %JAVA_HOME% hinterlegte Java Runtime, die die benötigten Module zur Verfügung stellt.
+
+*Java Runtime*
+
+Mittels jlink kann eine eigene Java Laufzeitumgebung erstellt werden, die nur die effektiv benötigten Module enthält (vgl. <<jlink>>: 2017).
+Dies geschieht mittels folgendem Konsolenbefehl:
+[source,options="nowrap"]
+jlink --add-modules=javafx.base,javafx.controls,javafx.graphics,javafx.web,jdk.jshell,jdk.localedata,jdk.charsets --include-locales en,de --bind-services --output outputDir
+
+Das Verzeichnis /outputDir/bin/ der neu erstellten Laufzeitumgebung kann dann in %JAVA_HOME% hinterlegt werden.
+Die .jar-Datei ist dann mittels dieser Laufzeitumgebung ausführbar.
 
 === Kurzanleitung
 
@@ -683,9 +701,12 @@ werden. Daraus wird ein UML generiert und dargestellt. Die Applikation verfügt 
 eingegeben werden kann und der Rückgabewert wird jeweils in einer Liste angezeigt. Und allem voran werden die erstellten
 Instanzen angezeigt, so dass klar wird was die Instanz ausmacht.
 
-Bei den nicht funktionalen Anforderungen konnte die Anforderung “Die Applikation soll mit jlink lauffähig sein und
-somit eigenständig ausgeführt werden können.” aus Zeitgründen nicht komplett umgesetzt werden können.
-//Todo: jlink ergänzen?
+Auch die nicht funktionalen Anforderungen konnten alle umgesetzt werden.
+Aus zeitlichen Gründen und aufgrund der Aufgabenpriorisierung wurde die Anforderung “Die Applikation soll mit jlink lauffähig sein und
+somit eigenständig ausgeführt werden können.” auf das Nötigste reduziert. Die Anforderung ist erfüllt, kann in Zukunft jedoch noch erweitert werden.
+Beispielsweise liesse sich mittels Gradle der Bau einer Laufzeitumgebung vollständig automatisieren.
+Dazu ist jedoch eine vollständige Modularisierung des Projekts einhergehend mit Refactoring und Anpassung des Gradle-Builds nötig.
+Ein Basis dafür kann auf dem Branch “jrebuild” gefunden werden. Ausserdem fehlt der erstellten Laufzeitumgebung momentan noch die UTF-8 Unterstützung.
 
 Allerdings gilt es noch zu prüfen, wie sich die Applikation im Unterrichtsalltag bewährt. Die Usability Tests wurden
 aufgrund der Projektgrösse in sehr beschränkter Zahl durchgeführt. Auch die Usability der JavaFX Applikation gilt es
@@ -736,6 +757,8 @@ https://github.com/pratiksanglikar/Java-Parser-UML-Generator:
 (abgerufen am 24.07.2019).
 
 - [[[Jive]]] (2019) https://cse.buffalo.edu/jive/ (abgerufen am 24.07.2019).
+
+- [[[jlink]]] (2017) https://docs.oracle.com/javase/9/tools/jlink.htm (abgerufen am 13.08.2019).
 
 - [[[Kotari]]] (2017) https://dzone.com/articles/jdk9-execute-java-code-like-unix-shell-script (abgerufen am 29.07.2019).
 
