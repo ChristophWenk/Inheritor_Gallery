@@ -22,16 +22,28 @@ import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-
+/**
+ * This class provides reflection information like a classes methods and fields.
+ * It is meant to be executed within JShell.
+ */
 public class JShellReflection {
     private static Logger logger = LoggerFactory.getLogger(JShellReflection.class);
     private final String packageName;
 
+    /**
+     * Create the JShellReflection
+     * @param packageName The package name of the classes to be analyzed
+     */
     public JShellReflection(String packageName) {
         logger.debug("JShellReflection created");
         this.packageName = packageName;
     }
 
+    /**
+     * Serialize an object
+     * @param objectToSerialize
+     * @return String of the serialized object
+     */
     public String serialize(Object objectToSerialize) {
         String serializedString = null;
         try {
@@ -47,10 +59,20 @@ public class JShellReflection {
         return serializedString;
     }
 
+    /**
+     * Get all ClassDTOs in serialized form
+     * @param pathToJar Path to the .jar holding the classes
+     * @return String of the serialized ClassDTOs
+     */
     public String getClassDTOsSerialized(String pathToJar) {
         return serialize(getClassDTOs(pathToJar));
     }
 
+    /**
+     * Get a List of ClassDTOs created by classes belonging to a specific .jar
+     * @param pathToJar Path to the .jar holding the classes
+     * @return List of ClassDTOs
+     */
     public List<ClassDTO> getClassDTOs(String pathToJar) {
         logger.info("Reflection 1 " + pathToJar);
         URL jar = null;
@@ -104,8 +126,12 @@ public class JShellReflection {
 
     }
 
+    /**
+     * Create a classDTOFor
+     * @param c The class for which a ClassDTO should be created
+     * @return a ClassDTO holding information like methods and fields
+     */
     private ClassDTO getClassDTOForClass(Class c) {
-
         return new ClassDTO(
                 Modifier.isAbstract(c.getModifiers()),
                 c.isInterface(),
@@ -119,6 +145,11 @@ public class JShellReflection {
                 getMethodsForClass(c));
     }
 
+    /**
+     * Get all fields for a class
+     * @param c The class for which the fields should be analyzed
+     * @return List of FieldsDTOs holding information like modifier and name
+     */
     private List<FieldDTO> getFieldsForClass(Class c) {
         List<FieldDTO> fields = new ArrayList<>();
 
@@ -137,6 +168,11 @@ public class JShellReflection {
         return fields;
     }
 
+    /**
+     * Get all constructors for a class
+     * @param c The class for which the constructors should be analyzed
+     * @return List of ConstructorDTOs holding information like modifier and name
+     */
     private List<ConstructorDTO> getConstructorsForClass(Class c) {
         List<ConstructorDTO> constructors = new ArrayList<>();
 
@@ -156,6 +192,11 @@ public class JShellReflection {
         return constructors;
     }
 
+    /**
+     * Get all methods for a class
+     * @param c The class for which the methods should be analyzed
+     * @return List of MethodDTOs holding information like modifier and name
+     */
     private List<MethodDTO> getMethodsForClass(Class c) {
         List<MethodDTO> methods = new ArrayList<>();
 
@@ -183,6 +224,11 @@ public class JShellReflection {
         return methods;
     }
 
+    /**
+     * Get the currently set values of all fields for a reference
+     * @param reference The reference for which the fields should be analyzed
+     * @return List of FieldsDTOs including the field values
+     */
     public List<FieldDTO> getFieldValuesForReference(Object reference) {
 
         List<FieldDTO> fieldDTOs = new ArrayList<>();
@@ -211,6 +257,11 @@ public class JShellReflection {
         return fieldDTOs;
     }
 
+    /**
+     * Get the currently set values of all fields for a reference in serialized form
+     * @param reference The reference for which the fields should be analyzed
+     * @return String of the serialized field values
+     */
     public String getFieldValuesForReferenceSerialized(Object reference) {
         return serialize(getFieldValuesForReference(reference));
     }
