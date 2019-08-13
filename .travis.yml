@@ -9,11 +9,3 @@ before_install:
 
 after_failure:
   - cat /home/travis/build/FHNW-IP5-IP6/InheritorGallery/inheritorgallery-core/build/reports/tests/test/index.html
-
-deploy:
-  provider: releases
-  api_key: e9bef81874bd3bd8491ad08b1b23854b10b79682
-  file: README.md
-  skip_cleanup: true
-  on:
-    tags: true
