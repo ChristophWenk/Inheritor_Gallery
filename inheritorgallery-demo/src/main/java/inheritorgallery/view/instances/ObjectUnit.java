@@ -2,10 +2,6 @@ package inheritorgallery.view.instances;
 
 
 import inheritorgallery.view.ViewMixin;
-import javafx.scene.control.Label;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Glow;
-import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -17,7 +13,6 @@ import presentationmodel.instance.ObjectPM;
 import presentationmodel.instance.ReferencePM;
 import presentationmodel.uml.ClassPM;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
