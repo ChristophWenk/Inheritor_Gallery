@@ -12,7 +12,6 @@ public class LeftPane extends VBox implements ViewMixin {
 
     private static Logger logger = LoggerFactory.getLogger(LeftPane.class);
 
-
     private InstanceStatePM instanceStatePM;
     private InstructionPM instructionPM;
     private FileChooserPM fileChooserPM;

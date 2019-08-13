@@ -11,7 +11,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import presentationmodel.uml.MethodPM;
 
-
+/**
+ * View that displays the method part of an UML class
+ */
 public class UMLMethodPane extends BorderPane implements ViewMixin {
 
     private MethodPM methodPM;

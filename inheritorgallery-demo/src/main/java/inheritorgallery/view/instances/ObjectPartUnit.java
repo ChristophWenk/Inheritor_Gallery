@@ -22,6 +22,9 @@ import presentationmodel.uml.MethodPM;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * View that displays a single part of an instance. E.g. an interface or a superclass.
+ */
 public class ObjectPartUnit extends VBox implements ViewMixin {
     private ArrayList<Label> fieldLabels;
     private ArrayList<HBox> methodHBoxes;
@@ -30,7 +33,6 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
     private ClassPM classPM;
     private ColorPM colorPM;
     private List<ReferencePM> referencesList;
-
 
     public ObjectPartUnit(ClassPM classPM, ColorPM colorPM, List<ReferencePM> referencesList){
         this.classPM = classPM;
@@ -60,7 +62,6 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
             fieldLabels.add(new Label(
                     fieldPM.getName() + ": "+
                     fieldPM.getValue()));
-
 
         for (MethodPM methodPM : classPM.getMethods()) {
 
@@ -125,6 +126,5 @@ public class ObjectPartUnit extends VBox implements ViewMixin {
             methodHBoxes.get(i).styleProperty()
                     .bind(classPM.getMethods().get(i).lastExecutedAsStringProperty());
         }
-
     }
 }

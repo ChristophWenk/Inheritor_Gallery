@@ -11,7 +11,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import presentationmodel.uml.ConstructorPM;
 
-
+/**
+ * View that displays the constructor part of an UML class
+ */
 public class UMLConstructorPane extends BorderPane implements ViewMixin {
 
     private ConstructorPM constructorPM;
