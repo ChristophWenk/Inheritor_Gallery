@@ -763,15 +763,6 @@ transform and generate your Java code base. Leanpub
 - [[[Yuml]]] (2019)  https://yuml.me/ (abgerufen am 24.07.2019).
 
 
-== Ehrlichkeitserklärung
-
-Hiermit erklären wir, die vorliegende Facharbeit selbständig, ohne Hilfe Dritter und nur unter Benutzung angegebener Quellen verfasst zu haben.
-
-Ort, Datum: 	Windisch, 13. August 2019
-
-Diese Ehrlichkeitserklärung gilt mit einem separatem Pull Request der Verfasser als unterzeichnet.
-
-
 == Anhang
 
 include::anhang/projektvereinbarung.adoc[]
