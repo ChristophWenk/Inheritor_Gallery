@@ -52,7 +52,6 @@ public class JShellReflection {
     }
 
     public List<ClassDTO> getClassDTOs(String pathToJar) {
-        logger.info("Reflection 1 " + pathToJar);
         URL jar = null;
         try {
             jar = new URL(pathToJar);

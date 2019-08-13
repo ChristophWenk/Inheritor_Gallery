@@ -46,7 +46,7 @@ public class AsciiDocService {
         FileReader reader = null;
         try {
             reader = new FileReader(filepath.toFile());
-            logger.info(reader.toString());
+            logger.debug(reader.toString());
         } catch (FileNotFoundException e) {
             logger.error("File path not valid: " + filepath, e);
         }

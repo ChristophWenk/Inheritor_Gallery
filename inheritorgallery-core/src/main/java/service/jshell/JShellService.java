@@ -59,22 +59,22 @@ public class JShellService {
         String path;
 
         if(File.separator.equals("\\")){
-            logger.info("path separator"+ File.separator);
+            logger.debug("path separator"+ File.separator);
             path = pathAsObject.toUri().toString().replace("file:///","file:/");
         }
         else {
-            logger.info("path separator"+ File.separator);
+            logger.debug("path separator"+ File.separator);
             path = pathAsObject.toUri().toString();
         }
 
         logger.info("path " + path);
         setJarPath(path);
-        logger.info("updateImports: " + getJarPath());
+        logger.debug("updateImports: " + getJarPath());
         String packageNameFromJar = getPackageFromJar(path);
 
         String pathWithoutFile = path.replace("file:/","");
         pathWithoutFile = pathWithoutFile.replace("file:///","");
-        logger.info("addToClasspath " + pathWithoutFile);
+        logger.debug("addToClasspath " + pathWithoutFile);
         jshell.addToClasspath(pathWithoutFile);
 
         setPackageName(packageNameFromJar);
@@ -324,7 +324,7 @@ public class JShellService {
     }
 
     private String getPackageFromJar(String jarPath) {
-        logger.info("getPackageFromJar: " + jarPath);
+        logger.debug("getPackageFromJar: " + jarPath);
         URL jar = null;
         try {
             jar = new URL(jarPath);
