@@ -174,33 +174,53 @@ In diesem Kapitel wird die JShell beschrieben, die als Kernelement für diese Ar
 
 *Konzept*
 
-JShell ist ein Read-Evaluate-Print Loop (REPL) und kann Benutzereingaben wie Deklarationen, Statements und Ausdrücke direkt nach Eingabe interpretieren und dem Benutzer entsprechende Rückmeldungen geben. (vgl. <<Oracle-a>>: 2018). JShell kann via die Kommandozeile gestartet werden oder über ein entsprechendes Java API aufgerufen werden. Die JShell ist seit JDK 9 Bestandteil der Java Development Kits. Sie erlaubt das schnelle Ausführen und Testen einzelner Codezeilen ohne dass dazu ein ganzes Programm geschrieben werden muss.
+JShell ist ein Read-Evaluate-Print Loop (REPL) und kann Benutzereingaben wie Deklarationen, Statements und Ausdrücke
+direkt nach Eingabe interpretieren und dem Benutzer entsprechende Rückmeldungen geben (vgl. <<Oracle-a>>: 2018).
+JShell kann via die Kommandozeile gestartet werden oder über ein entsprechendes Java API aufgerufen werden.
+Die JShell ist seit JDK 9 Bestandteil der Java Development Kits. Sie erlaubt das schnelle Ausführen und Testen
+einzelner Codezeilen ohne dass dazu ein ganzes Programm geschrieben werden muss.
 
 *Evaluation*
 
-Im Rahmen dieser Arbeit bietet sich JShell an, um einem Benutzer die Interaktion mit der Java Virtual Machine zu ermöglichen. Ob und wie JShell, das ermöglichen kann, musste zuerst evaluiert werden. Zuerst wurden die Möglichkeiten der JShell als Kommandozeilenwerkzeug überprüft. Im Internet finden sich diverse Tutorials (vgl. <<Vojtech>>: 2018) wie JShell in dieser Form angewendet werden kann.
+Im Rahmen dieser Arbeit bietet sich JShell an, um einem Benutzer die Interaktion mit der Java Virtual Machine zu
+ermöglichen. Ob und wie JShell, das ermöglichen kann, musste zuerst evaluiert werden. Zuerst wurden die Möglichkeiten
+der JShell als Kommandozeilenwerkzeug überprüft. Im Internet finden sich diverse Tutorials (vgl. <<Vojtech>>: 2018),
+wie JShell in dieser Form angewendet werden kann.
 
-Beispielsweise lassen sich mittels der JShell REPL bestehende Klassen sehr einfach zum Java Classpath hinzufügen und importieren. Mittels Spezialfunktionen kann der momentane Zustand der JShell ausgegeben werden. Damit lassen sich zum Beispiel alle momentan in der JShell vorhandenen Referenzvariablen ausgeben. (vgl. <<Field>>: 2018) Dies ist eine sehr mächtige Funktion, die sich für diese Arbeit als äusserst praktisch erwiesen hat.
+Beispielsweise lassen sich mittels der JShell REPL bestehende Klassen sehr einfach zum Java Classpath hinzufügen und
+importieren. Mittels Spezialfunktionen kann der momentane Zustand der JShell ausgegeben werden. Damit lassen sich zum
+Beispiel alle momentan in der JShell vorhandenen Referenzvariablen ausgeben (vgl. <<Field>>: 2018). Dies ist eine sehr
+mächtige Funktion, die sich für diese Arbeit als äusserst praktisch erwiesen hat.
 
-Etwas anders verhält es sich mit der JShell in der Verwendung als API. Für diesen Anwendungsfall gibt es vergleichsweise nur wenige Tutorials (vgl. <<Kotari>>: 2017) und diese decken auch nur die grundlegendsten Anwendungsfälle ab. Der Aufbau und die Möglichkeiten des APIs mussten daher grösstenteils selbst erarbeitet werden.
+Etwas anders verhält es sich mit der JShell in der Verwendung als API. Für diesen Anwendungsfall gibt es
+vergleichsweise nur wenige Tutorials (vgl. <<Kotari>>: 2017) und diese decken auch nur die grundlegendsten
+Anwendungsfälle ab. Der Aufbau und die Möglichkeiten des APIs mussten daher grösstenteils selbst erarbeitet werden.
 
-Das JShell API arbeitet mit sogenannten Snippets, die als Antwort auf einen Vom Benutzer gesendeten Java String zurückgegeben werden. Alle Informationen des JShell APIs werden in Form dieser Snippets zurückgeliefert (vgl. <<Oracle-b>>: 2017). Daher musste evaluiert werden, welche Art von Informationen dies sind und wie diese verwendet werden können. Die Snippets beinhalten unter anderem einen Status zur Gültigkeit des gesendeten Java Codes, den Namen des Objekttypens oder die Art des Snippets. Ausserdem wird ein Wert in Form eines Strings aufgrund des evaluierten Codes zurückgegeben. Hat eine Referenz eine “toString()”-Methode, so wird dieser Wert zurückgegeben.
+Das JShell API arbeitet mit sogenannten Snippets, die als Antwort auf einen gesendeten Java String
+zurückgegeben werden. Alle Informationen des JShell APIs werden in Form dieser Snippets zurückgeliefert
+(vgl. <<Oracle-b>>: 2017). Daher musste evaluiert werden, welche Art von Informationen dies sind und wie diese
+verwendet werden können. Die Snippets beinhalten unter anderem einen Status zur Gültigkeit des gesendeten Java Codes,
+den Namen des Objekttyps oder die Art des Snippets. Ausserdem wird ein Wert in Form eines Strings aufgrund des
+evaluierten Codes zurückgegeben. Hat eine Referenz eine “toString()”-Methode, so wird dieser Wert zurückgegeben.
 
 image::images/Snippet.png[JShell Snippet, 100%, title="JShell Snippet im IntelliJ Debugger"]
 {nbsp} +
 
-Die Deutung der Snippet-Variablenwerte war anfangs etwas schwierig aufgrund der bisher fehlenden Erfahrung im Umgang einer solchen REPL API. Mit Hilfe von simplen, in JShell importierten, Testklassen konnte deren Bedeutung etwas klarer gemacht werden.
+Die Deutung der Snippet-Variablenwerte war anfangs etwas schwierig aufgrund der bisher fehlenden Erfahrung im
+Umgang mit einer solchen REPL API. Mit Hilfe von simplen, in JShell importierten, Testklassen konnte deren Bedeutung
+etwas klarer gemacht werden.
 
-Genau wie bei der JShell in REPL Form muss eine Klasse auch beim JShell API zuerst zum Classpath hinzugefügt und importiert werden, damit diese benutzt werden kann.
+Genau wie bei der JShell in REPL Form muss eine Klasse auch beim JShell API zuerst zum Classpath hinzugefügt und
+importiert werden, damit diese benutzt werden kann.
 
 *Entscheid*
 
 Es wurde schnell klar, dass JShell für diese Arbeit zumindest in Teilen absolut notwendig sein würde.
 Die Fähigkeit Java Code zur Laufzeit zu interpretieren alleine macht diese zu einer Notwendigkeit. Dass ebenfalls
 Informationen wie die momentan vorhandenen Referenzvariablen und deren zugeordnete Objekttypen abgerufen werden können,
-ist ebenfalls sehr praktisch, da so auf eine eigene zur Verwaltung der Referenzen verzichtet werden konnte.
-Es wurde daher entschieden JShell nicht nur zur Evaluierung von Code zu benützen, sondern diese auch gleich zur
-massgebenden Instanz für die Verwaltung des Systemzustandes zu erklären. Somit konnte die Applikation vor allem
+ist ebenfalls sehr praktisch, da so auf eine eigene Verwaltung der Referenzen verzichtet werden konnte.
+Es wurde daher entschieden JShell nicht nur zur Evaluierung von Code zu benutzen, sondern diese auch gleich zur
+für die Verwaltung des Systemzustandes zu erklären. Somit konnte die Applikation vor allem
 darauf ausgelegt werden, die in der JShell vorhanden Informationen für den Benutzer visuell aufzubereiten.
 
 === Java to UML Parser
@@ -243,7 +263,8 @@ vorhanden waren bereits verloren. Dies stellt auch den einzigen Nachteil von Ref
 für dieses Projekt dar. Namentlich kann die Reihenfolge der Definition der Attribute und
 Methoden nicht aufrechterhalten werden. Das ist mit JavaParser möglich. Reflection verfügt
 jedoch über weitaus mehr Vorteile. Da der Code zur Laufzeit analysiert wird, wird sichergestellt,
-dass nur korrekter Code dargestellt wird. Auch die Handhabung von Reflection ist relativ einfach und sehr gut dokumentiert. So kann man etwa die Zusammenstellung
+dass nur korrekter Code dargestellt wird. Auch die Handhabung von Reflection ist relativ einfach und sehr gut
+dokumentiert. So kann man etwa die Zusammenstellung
 einer Instanz aus den jeweiligen Klassen mit Methoden wie getSuperclass() oder
 getInterfaces() einfach und natürlich traversieren. Weiter ist es mit Reflection
 möglich die Werte der Attribute herauszulesen oder die Herkunft einer Methode bei
@@ -461,13 +482,15 @@ Die Ergebnisse dienen als Grundlage für die Anpassungen der finalen Version der
 
 == Implementation
 
-In diesem Kapitel soll die Implementation der Applikation besprochen werden. Es gilt wichtige Designentscheidungen zu begründen und für den Programmablauf kritische Implementationen zu erklären.
+In diesem Kapitel soll die Implementation der Applikation besprochen werden. Es gilt wichtige Designentscheidungen
+zu begründen und für den Programmablauf kritische Implementationen zu erklären.
 
 === Architektur
 
 *Architekturmodel*
 
-Als erstes gilt es zu erfassen, welche Anforderungen die Applikation erfüllen muss, um eine grobe Idee über die zu erstellende Architektur zu erhalten. Daraus lässt sich dann ein geeignetes Model zur Strukturierung des Codes ableiten.
+Als erstes gilt es zu erfassen, welche Anforderungen die Applikation erfüllen muss, um eine grobe Idee über die zu
+erstellende Architektur zu erhalten. Daraus lässt sich dann ein geeignetes Model zur Strukturierung des Codes ableiten.
 
 Aufgrund der Anforderungsanalyse ergeben sich folgende Kernfunktionen, die die Applikation zur Verfügung stellen muss:
 
@@ -476,122 +499,200 @@ Aufgrund der Anforderungsanalyse ergeben sich folgende Kernfunktionen, die die A
 * Anzeige von Instanzen
 * Laden einer Übung
 
-Es wird klar, dass mit der Applikation über eine graphische Oberfläche interagiert werden können soll. Somit wird ein grosser Teil der Applikation aus Elementen zur Anzeige des momentanen Programmzustands bestehen. Daher bietet es sich an GUI und Programmlogik in jeweils eigene Module auszulagern. Dies hat den Vorteil, dass Logik und Anzeige strikt getrennt sind. Damit ist es potenziell möglich, mit derselben Programmlogik verschiedene Visualisierungen zu unterstützen. Die Programmlogik wird vom Modul “inheritorgallery-core” beinhaltet währenddem die View im Modul “inheritorgallery-demo” liegt.
+Es wird klar, dass mit der Applikation über eine graphische Oberfläche interagiert werden können soll. Somit wird ein
+grosser Teil der Applikation aus Elementen zur Anzeige des momentanen Programmzustands bestehen. Daher bietet es sich
+an, GUI und Programmlogik in jeweils eigene Module auszulagern. Dies hat den Vorteil, dass Logik und Anzeige strikt
+getrennt sind. Damit ist es potenziell möglich, mit derselben Programmlogik verschiedene Visualisierungen zu
+unterstützen. Die Programmlogik ist im Modul “inheritorgallery-core” zu finden während die View im Modul
+“inheritorgallery-demo” liegt.
 
-Aufgrund dieser Voraussetzungen stellt das Presentation Model Pattern eine optimale Möglichkeit dar, wie die Applikation umgesetzt werden kann. Eine Alternative wäre das MVC Pattern, das für ein kleineres Projekt wie dieses jedoch überdimensioniert scheint. Ausserdem ist aus vorherigen Projekten bereits viel PM Know-how beim Projektteam vorhanden.
+Aufgrund dieser Voraussetzungen stellt das Presentation Model Pattern eine optimale Möglichkeit dar, wie die Applikation
+umgesetzt werden kann. Eine Alternative wäre das MVC Pattern, das für ein kleineres Projekt wie dieses jedoch
+überdimensioniert scheint. Ausserdem ist aus vorherigen Projekten bereits viel PM Wissen beim Projektteam vorhanden.
 
 *Packages*
 
-Die Kernfunktionen können dann weiter in Packages unterteilt werden. Es liegt nahe je ein Package für die Instanz-Logik (“instance”) sowie die UML-Logik (“uml”) sowohl in der View als auch im Backend anzulegen. Alle Presentation Models sollen zusammenfassend unter dem Package “presentationmodel” gehalten werden. Die zur Anzeige der Oberfläche verwendeten Klassen und Packages sollen unter einem umschliessenden Package “view” erstellt werden.
+Die Kernfunktionen können weiter in Packages unterteilt werden. Es liegt nahe je ein Package für die Instanz-Logik
+(“instance”) sowie die UML-Logik (“uml”) sowohl in der View als auch im Backend anzulegen. Alle Presentation Models
+sollen zusammenfassend unter dem Package “presentationmodel” gehalten werden. Die zur Anzeige der Oberfläche verwendeten
+Klassen und Packages sollen unter einem übergreifenden Package “view” erstellt werden.
 
-Ausserdem soll ein Package für Services (“service”) angelegt werden. Darin werden dann Services für das Filehandling sowie die JShell erstellt.
+Ausserdem soll ein Package für Services (“service”) angelegt werden. Darin werden Services für das Filehandling
+sowie die JShell erstellt.
 
 *Komponentendiagramm*
 
-Das Komponentendiagramm der fertigen Applikation beinhaltet dann auch die erwähnten Packages. Speziell zu erwähnen ist ebenfalls das Package “jshellExtensions”, das Klassen beinhaltet, die zur Verwendung innerhalb der JShell verwendet werden.
+Das Komponentendiagramm der fertigen Applikation beinhaltet auch die erwähnten Packages. Speziell zu erwähnen ist
+das Package “jshellExtensions”, das Klassen beinhaltet, die zur Verwendung innerhalb der JShell
+verwendet werden.
 
 image::images/uml/UML_InheritorGalleryComponentDiagram.png[Komponentendiagramm, 100%, title="Komponentendiagramm"]
 {nbsp} +
 
 === Programmabläufe
 
-In diesem Kapitel werden die beiden komplexesten Abläufe der Applikation näher erläutert. Speziell das Erstellen des UML Diagramms bedarf genauerer Erklärungen, da das Interagieren mit nur in der JShell existierenden Klassen eher ungewöhnlich ist. Die Beschreibung der Abläufe verzichtet dabei bewusst darauf, sich zu sehr in Details zu verlieren, da diese direkt dem Programmcode entnommen werden können.
+In diesem Kapitel werden die beiden komplexesten Abläufe der Applikation näher erläutert. Speziell das Erstellen
+des UML Diagramms bedarf genauerer Erklärungen, da das Interagieren mit nur in der JShell existierenden Klassen
+eher ungewöhnlich ist. Die Beschreibung der Abläufe verzichtet dabei bewusst darauf, sich zu sehr in Details zu
+verlieren, da diese direkt dem Programmcode entnommen werden können.
 
 *Erstellen des UML Diagramms*
 
-Das UML Diagramm, das in der Applikation angezeigt wird, wird komplett mit Reflection erstellt. So kann ein dynamisches Generieren und das Abdecken verschiedener Inputklassen garantiert werden.
+Das UML Diagramm, das in der Applikation angezeigt wird, wird komplett mit Reflection erstellt. So kann ein
+dynamisches Generieren und das Abdecken verschiedener Inputklassen garantiert werden.
 
 image::images/uml/UML_DrawUMLClassesSequenceDiagram.png[Programmablauf Erstellung der UML Diagramms, 100%, title="Programmablauf Erstellung der UML Diagramms"]
 {nbsp} +
 
-Ein Benutzer kann auf der graphischen Oberfläche über die “FileChooserPane” eine .jar-Datei auswählen und vom Programm einlesen lassen. Via das “FileChooserPM” wird der Dateipfad and die Klasse “JShellService ” weitergegeben. Diese stellt das Herz der Applikation dar. JShellService ist die Schnittstelle zur JShell über die Benutzereingaben interpretiert und verwaltet werden.
+Ein Benutzer kann auf der graphischen Oberfläche über die “FileChooserPane” eine .jar-Datei auswählen und vom
+Programm einlesen lassen. Via das “FileChooserPM” wird der Dateipfad und die Klasse “JShellService ” weitergegeben.
+Diese stellt das Herz der Applikation dar. JShellService ist die Schnittstelle zur JShell über die Benutzereingaben
+interpretiert und verwaltet werden.
 
-“JShellService” fügt die ausgewählte .jar-Datei zum JShell-Classpath hinzu und importiert diese. Das ist nötig, damit die importierten Klassen von der Shell interpretiert werden können. Danach erstellt sie die Klasse “JShellReflection” in der JShell.
+“JShellService” fügt die ausgewählte .jar-Datei zum JShell-Classpath hinzu und importiert diese. Das ist nötig, damit
+die importierten Klassen von der Shell interpretiert werden können. Danach erstellt sie die Klasse “JShellReflection”
+in der JShell.
 
-Für die Verwaltung des UMLs existiert die Klasse “UmlPM”. Diese beinhaltet die importierten Klassen und deren Aufbau. Um an diese Informationen zu gelangen ruft sie mittels “JShellService” die Klasse “JShellReflection” auf. Diese erstellt dann mit Hilfe von Reflection die Klassenobjekte. Dass “JShellReflection” in der JShell erstellt wird, hat den Vorteil, dass diese über die in der JShell existierenden Objektreferenzen informiert ist. Dies ist später bei der Erstellung der Instanzen von Wichtigkeit.
+Für die Verwaltung des UMLs existiert die Klasse “UmlPM”. Diese beinhaltet die importierten Klassen und deren Aufbau.
+Um an diese Informationen zu gelangen ruft sie mittels “JShellService” die Klasse “JShellReflection” auf.
+Diese erstellt mit Hilfe von Reflection die Klassenobjekte. Dass “JShellReflection” in der JShell erstellt wird,
+hat den Vorteil, dass diese über die in der JShell existierenden Objektreferenzen informiert ist. Dies ist später bei
+der Erstellung der Instanzen von Bedeutung.
 
-Via Serialisierung werden die erstellten KlassenDTOs wieder an “UmlPM” gesendet, die diese weiterverarbeitet und schliesslich der View “UMLPane” zur Anzeige übergibt.
+Via Serialisierung werden die erstellten KlassenDTOs wieder an “UmlPM” gesendet, die diese weiterverarbeitet und
+schliesslich der View “UMLPane” zur Anzeige übergibt.
 
 *Erstellen der Instanzen*
 
-Benutzereingaben werden via die “JShellPane” an das “InstanceStatePM” weitergeleitet. Dieses speichert die Befehle und übernimmt die Interaktion mit der Klasse “JShellService”. Das Presentation Model liefert dem Benutzer Rückmeldungen zur Gültigkeit seiner Eingaben und erstellt intern die “ObjectPM” Objekte, die für die Anzeige auf der Instanzen und der Referenzen der graphischen Oberfläche benötigt werden. Die Informationen dazu werden von “JShellService” mittels DTOs geliefert. Sollte der Benutzer eine Referenz = null gesetzt haben, wird diese entsprechend gelöscht.
+Benutzereingaben werden via die “JShellPane” an das “InstanceStatePM” weitergeleitet. Dieses speichert die Befehle und
+übernimmt die Interaktion mit der Klasse “JShellService”. Das Presentation Model liefert dem Benutzer Rückmeldungen
+zur Gültigkeit seiner Eingaben und erstellt intern die “ObjectPM” Objekte, die für die Anzeige der Instanzen und
+Referenzen auf der graphischen Oberfläche benötigt werden. Die Informationen dazu werden von “JShellService” mittels
+DTOs geliefert. Sollte der Benutzer eine Referenz = null gesetzt haben, wird diese entsprechend gelöscht.
 
 image::images/uml/UML_DrawObjectInstancesSequenceDiagram.png[Programmablauf Erstellen der Instanzen, 100%, title="Programmablauf Erstellen der Instanzen"]
 {nbsp} +
 
-Die Applikation nutzt die JShell zur Verwaltung des Programmzustands inklusive Benutzereingaben und Referenzen. Eine weitere Möglichkeit wäre es gewesen, dies Eingaben und Referenzen in der Applikation zu verwalten. Dazu hätten jedoch ein eigenes Model sowie ein Handler zur Speicherung und Verarbeitung dieser Daten geschrieben werden müssen. Da JShell diese Funktionen bereits bietet, wurde entschieden, JShell diese Daten verwalten zu lassen.
+Die Applikation nutzt die JShell zur Verwaltung des Programmzustands inklusive Benutzereingaben und Referenzen.
+Eine weitere Möglichkeit wäre es gewesen, diese Eingaben und Referenzen in der Applikation zu verwalten. Dazu hätte
+jedoch ein eigenes Model sowie ein Handler zur Speicherung und Verarbeitung dieser Daten geschrieben werden müssen.
+Da JShell diese Funktionen bereits bietet, wurde entschieden JShell diese Daten verwalten zu lassen.
 
-Dies bedeutet jedoch, dass bei jeder Benutzereingabe der aktuelle Stand der JShell abgerufen und alle Instanzen und Referenzen neu erstellt werden müssen. Durch Setzen eines entsprechenden Properties wird ein Listener der “InstancePane” informiert, dass die Instanzen neu gezeichnet werden müssen.
+Dies bedeutet jedoch, dass bei jeder Benutzereingabe der aktuelle Stand der JShell abgerufen und alle Instanzen und
+Referenzen neu erstellt werden müssen. Durch Setzen eines entsprechenden Properties wird ein Listener der “InstancePane”
+informiert, dass die Instanzen neu gezeichnet werden müssen.
 
 === Contiuous Integration
 
-Für eine Arbeit dieser Grösse und über einen längeren Zeitraum macht es durchaus Sinn eine Contiuous Integration (CI) aufzubauen. So können mittels fehlschlagenden Tests schnell Fehler im Quellcode ausfindig gemacht werden.
+Für eine Arbeit dieser Grösse und über einen längeren Zeitraum macht es durchaus Sinn eine Contiuous Integration (CI)
+aufzubauen. So können mittels fehlschlagenden Tests schnell Fehler im Quellcode ausfindig gemacht werden.
 
-Die Arbeit ist jedoch nicht gross genug, dass eine umfangreiche Buildpipeline mit einer eigenen CI-Infrastruktur gerechtfertigt wäre. Deshalb wurde auf das leichtgewichtige Travis CI gesetzt. Travis hat den Vorteil, dass bereits eine cloudbasierte Infrastruktur existiert, die als Student gratis genutzt werden kann. Ausserdem bietet Travis eine optimale Integration mit GitHub. Über eine .yml-Konfigurationsdatei kann das CI-Werkzeug konfiguriert werden.
+Die Arbeit ist jedoch nicht gross genug, dass eine umfangreiche Buildpipeline mit einer eigenen CI-Infrastruktur
+gerechtfertigt wäre. Deshalb wurde auf das leichtgewichtige Travis CI gesetzt. Travis hat den Vorteil, dass bereits
+eine cloudbasierte Infrastruktur existiert, die von Studierenden gratis genutzt werden kann. Ausserdem bietet Travis eine
+optimale Integration mit GitHub. Über eine .yml-Konfigurationsdatei kann das CI-Werkzeug konfiguriert werden.
 
-Da die Applikation auf Windows-basierten Rechnern entwickelt wurde, wurde entschieden auf eine Unix-basierte Buildmaschine zu setzen, da so plattformspezifische Fehler erkannt werden konnten. Diese Entscheidung erwies sich aufgrund von Problemen bei plattformspezifischen Dateipfaden als korrekt.
+Da die Applikation auf Windows-basierten Rechnern entwickelt wurde, wurde entschieden auf eine Unix-basierte
+Buildmaschine zu setzen, da so plattformspezifische Fehler erkannt werden konnten. Diese Entscheidung erwies sich
+aufgrund von Problemen bei plattformspezifischen Dateipfaden als korrekt.
 
-Travis wurde so konfiguriert, dass bei jedem Git Push oder Pull Request auf GitHub ein Build erstellt wird. Dieser muss zwingend erfolgreich sein, damit ein Git Merge durchgeführt werden kann.
+Travis wurde so konfiguriert, dass bei jedem Git Push oder Pull Request auf GitHub ein Build erstellt wird. Dieser
+muss zwingend erfolgreich sein, damit ein Git Merge durchgeführt werden kann.
 
 === Kurzanleitung
 
 image::images/app/InstructionPanel.png[GUI der InheritorGallery nach dem Start, 100%, title="GUI der InheritorGallery nach dem Start"]
 {nbsp} +
 
-Die Applikation bietet dem Benutzer 4 Möglichkeiten zur Interaktion.
+Die Applikation bietet dem Benutzer oder Benutzerin 4 Möglichkeiten zur Interaktion.
 
 *Laden von Klassen*
 
-Mit dem Button “Load Classes” (oben in blau) können neue Klassen geladen werden. Nach Klick auf den Button, wird der Benutzer oder die Benutzerin aufgefordert, eine .jar-Datei auszuwählen.
-Sobald diese geladen ist, wird entsprechend der geladenen Klassen ein neues Klassendiagramm generiert und die Klassen in die JShell importiert.
+Mit dem Button “Load Classes” (oben in blau) können neue Klassen geladen werden. Nach Klick auf den Button, wird der
+Benutzer oder die Benutzerin aufgefordert, eine .jar-Datei auszuwählen.
+Sobald diese geladen ist, wird entsprechend den geladenen Klassen ein neues Klassendiagramm generiert und die Klassen
+in die JShell importiert.
 Die neuen Klassen können nun verwendet werden.
 
 *Laden einer Anleitung*
 
-Mit dem Button “Load Instruction” (oben in grün) kann eine neue Anleitung geladen werden. Nach Klick auf den Button, wird der Benutzer oder die Benutzerin aufgefordert, eine .adoc-Datei auszuwählen.
-Sobald diese geladen ist, wird sie unterhalb der Buttons angezeigt. Die .adoc-Dateien müssen in AsciiDoc geschrieben sein, um korrekt angezeigt zu werden.
+Mit dem Button “Load Instruction” (oben in grün) kann eine neue Anleitung geladen werden. Nach einem Klick auf den Button,
+wird der Benutzer oder die Benutzerin aufgefordert, eine .adoc-Datei auszuwählen.
+Sobald diese geladen ist, wird sie unterhalb der Buttons angezeigt. Die .adoc-Dateien müssen in AsciiDoc
+geschrieben sein, um korrekt angezeigt zu werden.
 
 *Reset der Applikation*
 
-Mit dem Button “Reset state” (oben in orange) kann ein Benutzer oder eine Benutzerin den Stand der Applikation zurücksetzen. Nach Klick auf den Button werden alle Instanzen gelöscht und somit nicht mehr angezeigt.
+Mit dem Button “Reset state” (oben in orange) kann ein Benutzer oder eine Benutzerin den Stand der Applikation
+zurücksetzen. Nach einem Klick auf den Button werden alle Instanzen gelöscht und somit nicht mehr angezeigt.
 
 *Interaktion mit der Applikation*
 
-Mit dem Textfeld links unten (oben in rot) kann ein Benutzer oder eine Benutzerin Javacode an die JShell übermitteln. Es können z.B. neue Instanzen erstellt oder Methoden auf Referenzen ausgeführt werden.
-Genau wie in Java muss jede Codezeile mit einem Semikolon (;) abgeschlossen werden. Wird dieses vergessen, kann JShell den Code nicht interpretieren.
-Eine neu erstellte Instanz wird Links neben dem Klassendiagramm angezeigt. Dabei wird der Referenztyp umrahmt und zeigt so die Sicht an, die momentan auf die Instanz möglich ist. Methoden ausserhalb der Referenzsicht, sind dementsprechend nicht ausführbar.
-Wenn eine Methode ausgeführt wird, wird im Klassendiagramm die gerade ausgeführte Methode gemäss Vererbungshierarchie korrekt angezeigt.
+Mit dem Textfeld links unten (oben in rot) kann ein Benutzer oder eine Benutzerin Javacode an die JShell übermitteln.
+Es können z.B. neue Instanzen erstellt oder Methoden auf Referenzen ausgeführt werden.
+Genau wie in Java muss jede Codezeile mit einem Semikolon (;) abgeschlossen werden. Wird dieses vergessen, kann JShell
+den Code nicht interpretieren.
+Eine neu erstellte Instanz wird Links neben dem Klassendiagramm angezeigt. Dabei wird der Referenztyp umrahmt und zeigt
+so die Sicht der jeweiligen Referenz auf die Instanz. Methoden ausserhalb der Referenzsicht, sind dementsprechend
+nicht ausführbar.
+Wenn eine Methode ausgeführt wird, wird im Klassendiagramm die gerade ausgeführte Methode gemäss Vererbungshierarchie
+korrekt hervorgehoben.
 
 image::images/app/App.png[GUI der InheritorGallery während einer Übung, 100%, title="GUI der InheritorGallery während einer Übung"]
 {nbsp} +
 
 == Ergebnisse
 
-Aufgrund der Analyse der vorhandenen Darstellungen und Tools für Programmieranfänger lässt sich festhalten, dass keine Lösungen gefunden wurden, um Instanzen eines Java Programms visuell verständlich darzustellen.
+Aufgrund der Analyse der vorhandenen Darstellungen und Tools für Programmieranfänger lässt sich festhalten, dass keine
+Lösungen gefunden wurden, um Instanzen eines Java Programms visuell verständlich darzustellen.
 
-Gemäss den Ergebnissen der durchgeführten Usability Test und der Interviews konnte eine Darstellungsart entworfen werden, um die erstellten Instanzen zur Laufzeit eines Java Programms geeignet darzustellen. Alle wesentlichen Aspekte der Vererbung sind in der Visualisierung explizit sichtbar. Beispielsweise ist klar, welche Methoden auf einer Referenz jeweils aufrufbar sind und welche Methoden Implementation bei Vererbung gewählt wird.
+Gemäss den Ergebnissen der durchgeführten Usability Test und der Interviews konnte eine Darstellungsart entworfen werden,
+um die erstellten Instanzen zur Laufzeit eines Java Programms geeignet darzustellen. Alle wesentlichen Aspekte der
+Vererbung sind in der Visualisierung explizit sichtbar. Beispielsweise ist klar, welche Methoden auf einer Referenz
+jeweils aufrufbar sind und welche Methoden Implementation bei Vererbung gewählt wird.
 
-Es konnten alle in der Projektvereinbarung definierten funktionale Anforderungen umgesetzt werden. So können in die erstellte JavaFX Applikation Java Programme in Form von .jar Dateien importiert werden und auch eine Anleitung geladen werden. Daraus wird ein UML generiert und dargestellt. Die Applikation verfügt über eine Shell, in der Java Code eingegeben werden kann und der Rückgabewert wird jeweils in einer Liste angezeigt. Und allem voran werden die erstellten Instanzen angezeigt, so dass klar wird was die Instanz ausmacht.
+Es konnten alle in der Projektvereinbarung definierten funktionale Anforderungen umgesetzt werden. So können in die
+erstellte JavaFX Applikation Java Programme in Form von .jar Dateien importiert werden und auch eine Anleitung geladen
+werden. Daraus wird ein UML generiert und dargestellt. Die Applikation verfügt über eine Shell, in der Java Code
+eingegeben werden kann und der Rückgabewert wird jeweils in einer Liste angezeigt. Und allem voran werden die erstellten
+Instanzen angezeigt, so dass klar wird was die Instanz ausmacht.
 
-Bei den nicht funktionalen Anforderungen konnte die Anforderung “Die Applikation soll mit jlink lauffähig sein und somit eigenständig ausgeführt werden können.” aus Zeitgründen nicht komplett umgesetzt werden können.
+Bei den nicht funktionalen Anforderungen konnte die Anforderung “Die Applikation soll mit jlink lauffähig sein und
+somit eigenständig ausgeführt werden können.” aus Zeitgründen nicht komplett umgesetzt werden können.
 //Todo: jlink ergänzen?
 
-Allerdings gilt es noch zu prüfen, wie sich die Applikation im Unterrichtsalltag bewährt. Die Usability Tests wurden aufgrund der Projektgrösse in sehr beschränkter Zahl durchgeführt. Auch die Usability der JavaFX Applikation gilt es weiter zu testen und zu verbessern.
+Allerdings gilt es noch zu prüfen, wie sich die Applikation im Unterrichtsalltag bewährt. Die Usability Tests wurden
+aufgrund der Projektgrösse in sehr beschränkter Zahl durchgeführt. Auch die Usability der JavaFX Applikation gilt es
+weiter zu testen und zu verbessern.
 
-Zusammenfassend lässt sich sagen, dass eine für Programmieranfänger hilfreiche Darstellung entworfen werden konnte und erfolgreich in der JavaFX Applikation umgesetzt wurde.
+Zusammenfassend lässt sich sagen, dass eine für Programmieranfänger hilfreiche Darstellung entworfen werden konnte
+und erfolgreich in der JavaFX Applikation umgesetzt wurde.
 
 == Schlusswort
 
-In diesem Kapitel soll als Ergänzung zum Kapitel Ergebnisse der Arbeitsprozess für bei der Durchführung dieses IP5 Projektes reflektiert werden. Das es hier um persönliche Erfahrungen der Verfasser dieses Berichts geht, ist dieses Kapitel in Wir-Form geschrieben.
+In diesem Kapitel soll als Ergänzung zum Kapitel Ergebnisse der Arbeitsprozess für bei der Durchführung dieses IP5
+Projektes reflektiert werden. Das es hier um persönliche Erfahrungen der Verfasser dieses Berichts geht, ist dieses
+Kapitel in Wir-Form geschrieben.
 
-Die Zusammenarbeit mit den Betreuenden hat sehr gut funktioniert. So konnten früh im Projekt Entwürfe unkompliziert und häufig diskutiert werden und auch später bei der Erstellung der JavaFX Applikation konnte mithilfe der Issues in GitHub rasch und effizient Hilfe eingeholt werden.
-Zufrieden sind wir auch mit dem Einsatz der verwendeten Toolchain. So hat das Einrichten der Continuous Integration mit Travis zwar zu Beginn zu einigem Aufwand geführt, während der Entwicklung konnten so jedoch Fehler frühzeitig erkannt werden. Auch die Arbeit mit Issues und Branches in Github konnte effizient durchgeführt werden.
+Die Zusammenarbeit mit den Betreuenden hat sehr gut funktioniert. So konnten früh im Projekt Entwürfe unkompliziert
+und häufig diskutiert werden und auch später bei der Erstellung der JavaFX Applikation konnte mithilfe der Issues in
+GitHub rasch und effizient Hilfe eingeholt werden.
+Zufrieden sind wir auch mit dem Einsatz der verwendeten Toolchain. So hat das Einrichten der Continuous Integration
+mit Travis zwar zu Beginn zu einigem Aufwand geführt, während der Entwicklung konnten so jedoch Fehler frühzeitig
+erkannt werden. Auch die Arbeit mit Issues und Branches in Github konnte effizient durchgeführt werden.
 
-Als eher schwierig hat sich die Rekrutierung von geeigneten Probanden erwiesen. Je nach Priorisierung im Projekt, würden wir hier ein nächstes mal mehr Zeit investieren. Weiter wurde während der Entwicklung teilweise zu viel Zeit für gewisse Funktionalitäten aufgewendet. Beispielsweise hat die Implementierung der Imports von .jar Files in JShell viele unerwartete Herausforderungen mit sich gebracht. Hier würden wir ein nächstes mal früher innehalten und prüfen, ob diese Funktionalität umgesetzt werden soll oder besser die Anforderungen besser neu priorisiert werden müssen.
+Als eher schwierig hat sich die Rekrutierung von geeigneten Probanden erwiesen. Je nach Priorisierung im Projekt,
+würden wir hier ein nächstes mal mehr Zeit investieren. Weiter wurde während der Entwicklung teilweise zu viel Zeit
+für gewisse Funktionalitäten aufgewendet. Beispielsweise hat die Implementierung der Imports von .jar Files in JShell
+viele unerwartete Herausforderungen mit sich gebracht. Hier würden wir ein nächstes mal früher innehalten und prüfen,
+ob diese Funktionalität umgesetzt werden soll oder besser die Anforderungen besser neu priorisiert werden müssen.
 
-Sehr positiv war das Erlebnis der Zusammenarbeit mit GitHub und der Continuous Integration. Da wir meist auf unterschiedlichen Branches und nicht an denselben Files arbeiteten stiessen wir auf keine nennenswerten Probleme. Falls doch einmal unsauberer Code gepushed wurde, so konnte dies mit Hilfe von Travis CI schnell ausfindig gemacht werden.
+Sehr positiv war das Erlebnis der Zusammenarbeit mit GitHub und der Continuous Integration. Da wir meist auf
+unterschiedlichen Branches und nicht an denselben Files arbeiteten stiessen wir auf keine nennenswerten Probleme.
+Falls doch einmal unsauberer Code gepushed wurde, so konnte dies mit Hilfe von Travis CI schnell ausfindig gemacht werden.
 
-Zusammenfassend sind wir mit der Umsetzung des Projektes sehr zufrieden und sind der Ansicht die Arbeitsmittel effizient und gewinnbringend eingesetzt zu haben.
+Zusammenfassend sind wir mit der Umsetzung des Projektes sehr zufrieden und sind der Ansicht die Arbeitsmittel
+effizient und gewinnbringend eingesetzt zu haben.
 
 
 == Literatur
