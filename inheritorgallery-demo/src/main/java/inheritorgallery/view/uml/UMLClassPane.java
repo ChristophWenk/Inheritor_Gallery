@@ -18,14 +18,14 @@ import presentationmodel.uml.MethodPM;
 import java.util.ArrayList;
 
 
-public class UmlClassPane extends VBox implements ViewMixin {
+public class UMLClassPane extends VBox implements ViewMixin {
     private final ClassPM classPM;
     private ArrayList<UMLFieldPane> umlFieldPanes;
     private ArrayList<UMLConstructorPane> umlConstructorPanes;
     private ArrayList<UMLMethodPane> umlMethodPanes;
     private HBox classNameHBox;
 
-    UmlClassPane(ClassPM classPM){
+    UMLClassPane(ClassPM classPM){
         this.classPM = classPM;
         this.setId(classPM.getName());
         this.getStyleClass().add("plainBorder");
@@ -46,7 +46,7 @@ public class UmlClassPane extends VBox implements ViewMixin {
 
         classNameHBox = new HBox(
                 classIconStackPane,
-                classPM.isIsAbstract() ? new Label(" <abstract> ") : new Label(""),
+                classPM.isIsAbstract() && !classPM.isIsInterface() ? new Label(" <abstract> ") : new Label(""),
                 new Label(classPM.getName()));
         classNameHBox.setAlignment(Pos.CENTER);
 
