@@ -3,6 +3,9 @@ package presentationmodel.uml;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * Presentationmodel that stores the state of a field
+ */
 public class FieldPM {
     private final StringProperty declaringClass = new SimpleStringProperty();
     private final StringProperty modifier = new SimpleStringProperty();
@@ -10,6 +13,14 @@ public class FieldPM {
     private final StringProperty name = new SimpleStringProperty();
     private final StringProperty value = new SimpleStringProperty();
 
+    /**
+     * Create the FieldPM
+     * @param declaringClass The class that declares the field
+     * @param modifier Modifier of the field (e.g. public)
+     * @param type Type of the field (e.g. static)
+     * @param name Name of the field
+     * @param value Value of the field
+     */
     public FieldPM(String declaringClass, String modifier, String type, String name, String value) {
         setDeclaringClass(declaringClass);
         setModifier(modifier);
