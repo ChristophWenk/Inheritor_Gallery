@@ -147,22 +147,22 @@ Das erste Programm heisst ObjectGraphVisualization
 Es handelt sich hier um eine Bachelorarbeit zweier Studierender der HSG aus dem Jahr 2015.
 Das Programm ist mit JavaFX
 umgesetzt. Der grösste Vorteil von ObjectGraphVisualization ist die Darstellung die sich an Studierende richtet.
-Ein grosser Nachteil ist allerdings, dass kein Java Code eingelesen werden kann, sonder die Strukturen mihilfe von
+Ein grosser Nachteil ist allerdings, dass kein Java Code eingelesen werden kann, sondern die Strukturen mithilfe von
 XML erstellt werden müssen. Die gesamte Bachelorarbeit ist unter dem Link https://eprints.hsr.ch/459/ zu finden.
 
 
 image::images/20190412_graphVisualizer.jpg[Bachelorarbeit ObjectGraphVisualization, 100%, title="Bachelorarbeit ObjectGraphVisualization"]
 
-Das zweite Programm heisst Bluej (vgl. <<BlueJ>> 2019).
+Das zweite Programm heisst BlueJ (vgl. <<BlueJ>> 2019).
 Dieses entspricht als Gesamtlösung wohl am ehesten den Anforderungen für dieses Projekt.
 Es kann Java Code eingelesen oder geschrieben werden. Dabei wird ein vereinfachtes Klassendiagramm angezeigt.
-Bluej verfügt zudem über eine Konsole und es können Instanzen angezeigt werden und mit diesem kann man auch
+BlueJ verfügt zudem über eine Konsole und es können Instanzen angezeigt werden und mit diesem kann man auch
 interagieren.
 Die verfügbaren Methoden werden in Dropout Menüs angezeigt. Der Nachteil hier ist die mangelnde
 Darstellung der Vererbung. Die Instanzen sehen stets gleich aus, bestehend aus einem einzigen Viereck.
 Die verfügbaren Methoden müssen via Menüs aufgerufen werden und sind nicht auf einen Blick sichtbar.
 Zudem wird nicht klar welche Methoden bei Vererbung ausgeführt werden. Inder der Abbildung untern wurde
-eine Klassenstruktur eingelesen und zwei Instanzen erstellt. Die Instanzen können angeglickt werden um
+eine Klassenstruktur eingelesen und zwei Instanzen erstellt. Die Instanzen können angeklickt werden um
 verfügbare Methoden anzuzeigen.
 
 image::images/20190412_blueJ.jpg[BlueJ, 100%, title="BlueJ mit Klassendiagramm (braun) und Instanzen (rot) samt Kontextmenü"]
@@ -192,7 +192,13 @@ Genau wie bei der JShell in REPL Form muss eine Klasse auch beim JShell API zuer
 
 *Entscheid*
 
-Es wurde schnell klar, dass JShell für diese Arbeit zumindest in Teilen absolut notwendig sein würde. Die Fähigkeit Java Code zur Laufzeit zu interpretieren alleine macht diese zu einer Notwendigkeit. Dass ebenfalls Informationen wie die momentan vorhandenen Referenzvariablen und deren zugeordnete Objekttypen abgerufen werden können, ist ebenfalls sehr praktisch, da so auf eine eigene zur Verwaltung der Referenzen verzichtet werden konnte. Es wurde daher entschieden JShell nicht nur zur Evaluierung von Code zu benützen, sondern diese auch gleich zur massgebenden Instanz für die Verwaltung des Systemzustandes zu erklären. Somit konnte die Applikation v.A. darauf ausgelegt werden, die in der JShell vorhanden Informationen für den Benutzer visuell aufzubereiten.
+Es wurde schnell klar, dass JShell für diese Arbeit zumindest in Teilen absolut notwendig sein würde.
+Die Fähigkeit Java Code zur Laufzeit zu interpretieren alleine macht diese zu einer Notwendigkeit. Dass ebenfalls
+Informationen wie die momentan vorhandenen Referenzvariablen und deren zugeordnete Objekttypen abgerufen werden können,
+ist ebenfalls sehr praktisch, da so auf eine eigene zur Verwaltung der Referenzen verzichtet werden konnte.
+Es wurde daher entschieden JShell nicht nur zur Evaluierung von Code zu benützen, sondern diese auch gleich zur
+massgebenden Instanz für die Verwaltung des Systemzustandes zu erklären. Somit konnte die Applikation vor allem
+darauf ausgelegt werden, die in der JShell vorhanden Informationen für den Benutzer visuell aufzubereiten.
 
 === Java to UML Parser
 
@@ -296,7 +302,7 @@ zu finden.
 image::images/20190507_DiskussionErsteSkinnen.jpg[Auswahl erster LoFi Prototypen, 100%, title="Auswahl erster LoFi Prototypen"]
 
 Eine der Herausforderungen ist, bei Vererbung darzustellen, dass sich die
-Funktionalität erweitert. Dies ist beispielsweise möglich durch Ineinanderschachteln
+Funktionalität erweitert. Dies ist beispielsweise möglich durch Ineinander schachteln
 von Kreisen oder durch das Stapeln von Elementen. Das Stapeln hat sich als
 übersichtlicher und verständlicher erwiesen. Zu erwähnen ist zudem, dass die
 Reihenfolge der einzelnen Bausteine im Vergleich zu UML umgedreht ist. Grund dafür
@@ -416,7 +422,7 @@ Die gesamte Auswertung ist im Anhang zu finden.
 
 image::images/20190517_UsabilityTest.jpg[Momentaufnahme des Usability Tests, 100%, title="Momentaufnahme des Usability Tests"]
 
-Aufgrund der Testergebnisse lässt sich zusammefassend sagen, dass die Darstellungen grösstenteils
+Aufgrund der Testergebnisse lässt sich zusammenfassend sagen, dass die Darstellungen grösstenteils
 selbsterklärend sind und die Konzepte der Vererbung wie gewünscht darstellen. Als Findings
 festgehalten wurden unter anderem folgende Punkte:
 
@@ -458,7 +464,7 @@ Aufgrund der Anforderungsanalyse ergeben sich folgende Kernfunktionen, die die A
 
 * Eingabe von Java-Code mittels JShell
 * Anzeige eines UML Klassendiagramms
-* Anzeige von Objektinstanzen
+* Anzeige von Instanzen
 * Laden einer Übung
 
 Es wird klar, dass mit der Applikation über eine graphische Oberfläche interagiert werden können soll. Somit wird ein grosser Teil der Applikation aus Elementen zur Anzeige des momentanen Programmzustands bestehen. Daher bietet es sich an GUI und Programmlogik in jeweils eigene Module auszulagern. Dies hat den Vorteil, dass Logik und Anzeige strikt getrennt sind. Damit ist es potenziell möglich, mit derselben Programmlogik verschiedene Visualisierungen zu unterstützen. Die Programmlogik wird vom Modul “inheritorgallery-core” beinhaltet währenddem die View im Modul “inheritorgallery-demo” liegt.
@@ -491,19 +497,19 @@ Ein Benutzer kann auf der graphischen Oberfläche über die “FileChooserPane�
 
 “JShellService” fügt die ausgewählte .jar-Datei zum JShell-Classpath hinzu und importiert diese. Das ist nötig, damit die importierten Klassen von der Shell interpretiert werden können. Danach erstellt sie die Klasse “JShellReflection” in der JShell.
 
-Für die Verwaltung des UMLs existiert die Klasse “UmlPM”. Diese beinhaltet die importierten Klassen und deren Aufbau. Um an diese Informationen zu gelangen ruft sie mittels “JShellService” die Klasse “JShellReflection” auf. Diese erstellt dann mit Hilfe von Reflection die Klassenobjekte. Dass “JShellReflection” in der JShell erstellt wird, hat den Vorteil, dass diese über die in der JShell existierenden Objektreferenzen informiert ist. Dies ist später bei der Erstellung der Instanzobjekte von Wichtigkeit.
+Für die Verwaltung des UMLs existiert die Klasse “UmlPM”. Diese beinhaltet die importierten Klassen und deren Aufbau. Um an diese Informationen zu gelangen ruft sie mittels “JShellService” die Klasse “JShellReflection” auf. Diese erstellt dann mit Hilfe von Reflection die Klassenobjekte. Dass “JShellReflection” in der JShell erstellt wird, hat den Vorteil, dass diese über die in der JShell existierenden Objektreferenzen informiert ist. Dies ist später bei der Erstellung der Instanzen von Wichtigkeit.
 
 Via Serialisierung werden die erstellten KlassenDTOs wieder an “UmlPM” gesendet, die diese weiterverarbeitet und schliesslich der View “UMLPane” zur Anzeige übergibt.
 
 *Erstellen der Instanzen*
 
-Benutzereingaben werden via die “JShellPane” an das “InstanceStatePM” weitergeleitet. Dieses speichert die Befehle und übernimmt die Interaktion mit der Klasse “JShellService”. Das Presentation Model liefert dem Benutzer Rückmeldungen zur Gültigkeit seiner Eingaben und erstellt intern die “ObjectPM” Objekte, die für die Anzeige auf der Objektinstanzen und der Referenzen der graphischen Oberfläche benötigt werden. Die Informationen dazu werden von “JShellService” mittels DTOs geliefert. Sollte der Benutzer eine Referenz = null gesetzt haben, wird diese entsprechend gelöscht.
+Benutzereingaben werden via die “JShellPane” an das “InstanceStatePM” weitergeleitet. Dieses speichert die Befehle und übernimmt die Interaktion mit der Klasse “JShellService”. Das Presentation Model liefert dem Benutzer Rückmeldungen zur Gültigkeit seiner Eingaben und erstellt intern die “ObjectPM” Objekte, die für die Anzeige auf der Instanzen und der Referenzen der graphischen Oberfläche benötigt werden. Die Informationen dazu werden von “JShellService” mittels DTOs geliefert. Sollte der Benutzer eine Referenz = null gesetzt haben, wird diese entsprechend gelöscht.
 
 image::images/uml/UML_DrawObjectInstancesSequenceDiagram.png[Programmablauf Erstellen der Instanzen, 100%, title="Programmablauf Erstellen der Instanzen"]
 
 Die Applikation nutzt die JShell zur Verwaltung des Programmzustands inklusive Benutzereingaben und Referenzen. Eine weitere Möglichkeit wäre es gewesen, dies Eingaben und Referenzen in der Applikation zu verwalten. Dazu hätten jedoch ein eigenes Model sowie ein Handler zur Speicherung und Verarbeitung dieser Daten geschrieben werden müssen. Da JShell diese Funktionen bereits bietet, wurde entschieden, JShell diese Daten verwalten zu lassen.
 
-Dies bedeutet jedoch, dass bei jeder Benutzereingabe der aktuelle Stand der JShell abgerufen und alle Objektinstanzen und Referenzen neu erstellt werden müssen. Durch Setzen eines entsprechenden Properties wird ein Listener der “InstancePane” informiert, dass die Objektinstanzen neu gezeichnet werden müssen.
+Dies bedeutet jedoch, dass bei jeder Benutzereingabe der aktuelle Stand der JShell abgerufen und alle Instanzen und Referenzen neu erstellt werden müssen. Durch Setzen eines entsprechenden Properties wird ein Listener der “InstancePane” informiert, dass die Instanzen neu gezeichnet werden müssen.
 
 === Contiuous Integration
 
@@ -534,13 +540,13 @@ Sobald diese geladen ist, wird sie unterhalb der Buttons angezeigt. Die .adoc-Da
 
 *Reset der Applikation*
 
-Mit dem Button “Reset state” (oben in orange) kann ein Benutzer oder eine Benutzering den Stand der Applikation zurücksetzen. Nach Klick auf den Button werden alle Objektinstanzen gelöscht und somit nicht mehr angezeigt.
+Mit dem Button “Reset state” (oben in orange) kann ein Benutzer oder eine Benutzerin den Stand der Applikation zurücksetzen. Nach Klick auf den Button werden alle Instanzen gelöscht und somit nicht mehr angezeigt.
 
 *Interaktion mit der Applikation*
 
-Mit dem Textfeld links unten (oben in rot) kann ein Benutzer oder eine Benutzerin Javacode an die JShell übermitteln. Es können z.B. neue Objektinstanzen erstellt oder Methoden auf Referenzen ausgeführt werden.
+Mit dem Textfeld links unten (oben in rot) kann ein Benutzer oder eine Benutzerin Javacode an die JShell übermitteln. Es können z.B. neue Instanzen erstellt oder Methoden auf Referenzen ausgeführt werden.
 Genau wie in Java muss jede Codezeile mit einem Semikolon (;) abgeschlossen werden. Wird dieses vergessen, kann JShell den Code nicht interpretieren.
-Eine neu erstellte Objektinstanz wird Links neben dem Klassendiagramm angezeigt. Dabei wird der Referenztyp umrahmt und zeigt so die Sicht an, die momentan auf die ObjektInstanz möglich ist. Methoden ausserhalb der Referenzsicht, sind dementsprechend nicht ausführbar.
+Eine neu erstellte Instanz wird Links neben dem Klassendiagramm angezeigt. Dabei wird der Referenztyp umrahmt und zeigt so die Sicht an, die momentan auf die Instanz möglich ist. Methoden ausserhalb der Referenzsicht, sind dementsprechend nicht ausführbar.
 Wenn eine Methode ausgeführt wird, wird im Klassendiagramm die gerade ausgeführte Methode gemäss Vererbungshierarchie korrekt angezeigt.
 
 image::images/app/App.png[GUI der InheritorGallery während einer Übung, 100%, title="GUI der InheritorGallery während einer Übung"]
@@ -552,12 +558,12 @@ Aufgrund der Analyse der vorhandenen Darstellungen und Tools für Programmieranf
 
 Gemäss den Ergebnissen der durchgeführten Usability Test und der Interviews konnte eine Darstellungsart entworfen werden, um die erstellten Instanzen zur Laufzeit eines Java Programms geeignet darzustellen. Alle wesentlichen Aspekte der Vererbung sind in der Visualisierung explizit sichtbar. Beispielsweise ist klar, welche Methoden auf einer Referenz jeweils aufrufbar sind und welche Methoden Implementation bei Vererbung gewählt wird.
 
-Es konnten alle in in der Projektvereinbarung definierten funktionale Anforderungen umgesetzt werden. So können in die erstellte JavaFX Applikation Java Programme in Form von .jar Dateien importiert werden und auch eine Anleitung geladen werden. Daraus wird ein UML generiert und dargestellt. Die Applikation verfügt über eine Shell, in der Java Code eingegeben werden kann und der Rückgabewert wird jeweils in einer Liste angezeigt. Und allem voran werden die erstellten Instanzen angezeigt, so dass klar wird was die Instanz ausmacht.
+Es konnten alle in der Projektvereinbarung definierten funktionale Anforderungen umgesetzt werden. So können in die erstellte JavaFX Applikation Java Programme in Form von .jar Dateien importiert werden und auch eine Anleitung geladen werden. Daraus wird ein UML generiert und dargestellt. Die Applikation verfügt über eine Shell, in der Java Code eingegeben werden kann und der Rückgabewert wird jeweils in einer Liste angezeigt. Und allem voran werden die erstellten Instanzen angezeigt, so dass klar wird was die Instanz ausmacht.
 
-Bei den nicht funktionalen Anforderungen konnte die Anforderung “Die Applikation soll mit jlink lauffähig sein und somit eigenständig ausgeführt werden können.” aus zeitgründen nicht komplett umgesetzt werden können.
+Bei den nicht funktionalen Anforderungen konnte die Anforderung “Die Applikation soll mit jlink lauffähig sein und somit eigenständig ausgeführt werden können.” aus Zeitgründen nicht komplett umgesetzt werden können.
 //Todo: jlink ergänzen?
 
-Allerdings gilt es noch zu prüfen, wie sich die Applikation im Unterrichtsalltag bewährt. Die Usability Tests wurden aufgrund der Projektgrösse in sehr beschränkter Zahl durchgeführt. Auch die Usaibilty der JavaFX Applikation gilt es weiter zu testen und zu verbessern.
+Allerdings gilt es noch zu prüfen, wie sich die Applikation im Unterrichtsalltag bewährt. Die Usability Tests wurden aufgrund der Projektgrösse in sehr beschränkter Zahl durchgeführt. Auch die Usability der JavaFX Applikation gilt es weiter zu testen und zu verbessern.
 
 Zusammenfassend lässt sich sagen, dass eine für Programmieranfänger hilfreiche Darstellung entworfen werden konnte und erfolgreich in der JavaFX Applikation umgesetzt wurde.
 
