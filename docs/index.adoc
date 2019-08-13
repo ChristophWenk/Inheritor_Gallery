@@ -3,7 +3,7 @@
 :toc-title:
 :toclevels: 4
 
-image:images/FHNW_logo.png[FHNW, 20%]
+image:images/FHNW_logo.png[FHNW Logo, 20%]
 
 *InheritorGallery*
 
@@ -134,7 +134,8 @@ detailliert darstellen. Solche Tools wie Jive (vgl. <<Jive>>: 2019)  oder
 Java Visualizer (vgl. <<Visualizing-java>>: 2019) eignen sich gut zum Debuggen jedoch eher wenig zum
 Erlernen von Vererbung für Programmieranfänger.
 
-image:images/20190412_buffaloEdu.jpg[FHNW, 100%]
+
+image::images/20190412_buffaloEdu.jpg[Darstellung Java Programmablauf, 100%, title="Darstellung Java Programmablauf"]
 
 
 *Visualisierung von Instanzen*
@@ -149,7 +150,8 @@ umgesetzt. Der grösste Vorteil von ObjectGraphVisualization ist die Darstellung
 Ein grosser Nachteil ist allerdings, dass kein Java Code eingelesen werden kann, sonder die Strukturen mihilfe von
 XML erstellt werden müssen. Die gesamte Bachelorarbeit ist unter dem Link https://eprints.hsr.ch/459/ zu finden.
 
-image::images/20190412_graphVisualizer.jpg[20190412_graphVisualizer.jpg, 100%]
+
+image::images/20190412_graphVisualizer.jpg[Bachelorarbeit ObjectGraphVisualization, 100%, title="Bachelorarbeit ObjectGraphVisualization"]
 
 Das zweite Programm heisst Bluej (vgl. <<BlueJ>> 2019).
 Dieses entspricht als Gesamtlösung wohl am ehesten den Anforderungen für dieses Projekt.
@@ -159,9 +161,11 @@ interagieren.
 Die verfügbaren Methoden werden in Dropout Menüs angezeigt. Der Nachteil hier ist die mangelnde
 Darstellung der Vererbung. Die Instanzen sehen stets gleich aus, bestehend aus einem einzigen Viereck.
 Die verfügbaren Methoden müssen via Menüs aufgerufen werden und sind nicht auf einen Blick sichtbar.
-Zudem wird nicht klar welche Methoden bei Vererbung ausgeführt werden.
+Zudem wird nicht klar welche Methoden bei Vererbung ausgeführt werden. Inder der Abbildung untern wurde
+eine Klassenstruktur eingelesen und zwei Instanzen erstellt. Die Instanzen können angeglickt werden um
+verfügbare Methoden anzuzeigen.
 
-image::images/20190412_blueJ.jpg[BlueJ, 100%]
+image::images/20190412_blueJ.jpg[BlueJ, 100%, title="BlueJ mit Klassendiagramm (braun) und Instanzen (rot) samt Kontextmenü"]
 
 === JShell
 In diesem Kapitel wird die JShell beschrieben, die als Kernelement für diese Arbeit eingesetzt werden soll.
@@ -180,7 +184,7 @@ Etwas anders verhält es sich mit der JShell in der Verwendung als API. Für die
 
 Das JShell API arbeitet mit sogenannten Snippets, die als Antwort auf einen Vom Benutzer gesendeten Java String zurückgegeben werden. Alle Informationen des JShell APIs werden in Form dieser Snippets zurückgeliefert (vgl. <<Oracle-b>>: 2017). Daher musste evaluiert werden, welche Art von Informationen dies sind und wie diese verwendet werden können. Die Snippets beinhalten unter anderem einen Status zur Gültigkeit des gesendeten Java Codes, den Namen des Objekttypens oder die Art des Snippets. Ausserdem wird ein Wert in Form eines Strings aufgrund des evaluierten Codes zurückgegeben. Hat eine Referenz eine “toString()”-Methode, so wird dieser Wert zurückgegeben.
 
-image::images/Snippet.png[JShell Snippet, 100%]
+image::images/Snippet.png[JShell Snippet, 100%, title="JShell Snippet im IntelliJ Debugger"]
 
 Die Deutung der Snippet-Variablenwerte war anfangs etwas schwierig aufgrund der bisher fehlenden Erfahrung im Umgang einer solchen REPL API. Mit Hilfe von simplen, in JShell importierten, Testklassen konnte deren Bedeutung etwas klarer gemacht werden.
 
@@ -289,7 +293,7 @@ Ausschnitte dieser Versionen zu sehen. Alle Entwürfe sind im Ordner
 “designs” (https://github.com/FHNW-IP5-IP6/InheritorGallery/tree/doc/docs/designs)
 zu finden.
 
-image::images/20190507_DiskussionErsteSkinnen.jpg[LoFi Prototyp 1, 100%]
+image::images/20190507_DiskussionErsteSkinnen.jpg[Auswahl erster LoFi Prototypen, 100%, title="Auswahl erster LoFi Prototypen"]
 
 Eine der Herausforderungen ist, bei Vererbung darzustellen, dass sich die
 Funktionalität erweitert. Dies ist beispielsweise möglich durch Ineinanderschachteln
@@ -304,7 +308,7 @@ Methoden, die auf der jeweiligen Referenz aufrufbar sind. Zudem ist der Referenz
 mit dem Referenznamen angeschrieben. Alternativen sind Punkte mit einem Pfeil, eine
 Fernrohr artige Form oder Labels die sich nicht durchgesetzt haben.
 
-image::images/20190513_BesprechungSkizzen.jpg[LoFi Prototyp 2, 100%]
+image::images/20190513_BesprechungSkizzen.jpg[Erweiterte LoFi Prototypen, 100%, title="Erweiterte LoFi Prototypen"]
 
 Beim Bild oben handelt es sich vor allem um die Darstellung von überschriebenen
 Methoden und der expliziten Darstellung von welcher Methode die Implementation
@@ -324,7 +328,7 @@ dieser Klasse die Implementation der Methode verwendet wird. So ist die Methode
 blau hervorgehoben, nämlich der Farbe der Klasse “Developer”.
 
 
-image::images/20190514_BesprechungSkizzen.jpg[LoFi Prototyp 3, 100%]
+image::images/20190514_BesprechungSkizzen.jpg[letzte Version der LoFi Prototypen, 100%, title="letzte Version der LoFi Prototypen"]
 
 Die Abbildung oben widmet sich insbesondere komplexeren Instanzen, die erben und
 gleichzeitig Interfaces implementieren. Auch hier gilt zu beachten, dass der Typ
@@ -347,7 +351,7 @@ in der JavaFX Applikation eingebunden werden. Der HiFi Prototyp ist unter folgen
 Link aufrufbar:
 https://www.figma.com/file/bmuP25sd6U1Mk7zopuCf3ApD/InheritorGallery
 
-image::images/HiFi_Prototype.jpg[HioFi Prototyp, 100%]
+image::images/HiFi_Prototype.jpg[HiFi Prototyp aus Figma, 100%, title="HiFi Prototyp aus Figma"]
 
 Im Gegensatz zum LoFi Prototyp stellt der HiFi Prototyp den gesamten Bildschirm dar.
 So sieht man hier oben links die importierte Anleitung und die Konsole zur Eingabe
@@ -383,7 +387,7 @@ Nun haben die Teilnehmenden 10 Sekunden Zeit pro Bild um die Begriffe der
 anderen Teilnehmer zu erraten. Auf dem Bild wird farblich jeweils markiert,
 ob ein Bild in gegebener Zeit erraten (grün) wurde oder nicht (rot).
 
-image::images/20190416_montagsMalenAuswertung.jpg[Präkonzepterhebung, 100%]
+image::images/20190416_montagsMalenAuswertung.jpg[Zusammenstellung der Zeichnungen von Studierenden aus der Präkonzepterhebung, 100%, title="Zusammenstellung der Zeichnungen von Studierenden aus der Präkonzepterhebung"]
 
 Aufgrund der Auswertung oben lässt sich sagen, dass generell sehr viel UML
 verwendet wird. Dies ist wenig überraschend, da es meist die einzig bekannte
@@ -410,7 +414,7 @@ klar sind und dabei möglichst viele Fehler und Unklarheiten in der Darstellung 
 Der Test wurde auf Video aufgenommen und die Findings anschliessend aufgeschrieben.
 Die gesamte Auswertung ist im Anhang zu finden.
 
-image::images/20190517_UsabilityTest.jpg[Usability Test HiFi, 100%]
+image::images/20190517_UsabilityTest.jpg[Momentaufnahme des Usability Tests, 100%, title="Momentaufnahme des Usability Tests"]
 
 Aufgrund der Testergebnisse lässt sich zusammefassend sagen, dass die Darstellungen grösstenteils
 selbsterklärend sind und die Konzepte der Vererbung wie gewünscht darstellen. Als Findings
@@ -471,7 +475,7 @@ Ausserdem soll ein Package für Services (“service”) angelegt werden. Darin 
 
 Das Komponentendiagramm der fertigen Applikation beinhaltet dann auch die erwähnten Packages. Speziell zu erwähnen ist ebenfalls das Package “jshellExtensions”, das Klassen beinhaltet, die zur Verwendung innerhalb der JShell verwendet werden.
 
-image::images/uml/UML_InheritorGalleryComponentDiagram.png[Component Diagram, 100%]
+image::images/uml/UML_InheritorGalleryComponentDiagram.png[Komponentendiagramm, 100%, title="Komponentendiagramm"]
 
 === Programmabläufe
 
@@ -481,7 +485,7 @@ In diesem Kapitel werden die beiden komplexesten Abläufe der Applikation näher
 
 Das UML Diagramm, das in der Applikation angezeigt wird, wird komplett mit Reflection erstellt. So kann ein dynamisches Generieren und das Abdecken verschiedener Inputklassen garantiert werden.
 
-image::images/uml/UML_DrawUMLClassesSequenceDiagram.png[Draw UML Sequence Diagram, 100%]
+image::images/uml/UML_DrawUMLClassesSequenceDiagram.png[Programmablauf Erstellung der UML Diagramms, 100%, title="Programmablauf Erstellung der UML Diagramms"]
 
 Ein Benutzer kann auf der graphischen Oberfläche über die “FileChooserPane” eine .jar-Datei auswählen und vom Programm einlesen lassen. Via das “FileChooserPM” wird der Dateipfad and die Klasse “JShellService ” weitergegeben. Diese stellt das Herz der Applikation dar. JShellService ist die Schnittstelle zur JShell über die Benutzereingaben interpretiert und verwaltet werden.
 
@@ -495,7 +499,7 @@ Via Serialisierung werden die erstellten KlassenDTOs wieder an “UmlPM” gesen
 
 Benutzereingaben werden via die “JShellPane” an das “InstanceStatePM” weitergeleitet. Dieses speichert die Befehle und übernimmt die Interaktion mit der Klasse “JShellService”. Das Presentation Model liefert dem Benutzer Rückmeldungen zur Gültigkeit seiner Eingaben und erstellt intern die “ObjectPM” Objekte, die für die Anzeige auf der Objektinstanzen und der Referenzen der graphischen Oberfläche benötigt werden. Die Informationen dazu werden von “JShellService” mittels DTOs geliefert. Sollte der Benutzer eine Referenz = null gesetzt haben, wird diese entsprechend gelöscht.
 
-image::images/uml/UML_DrawObjectInstancesSequenceDiagram.png[Draw Object Instances Sequence Diagram, 100%]
+image::images/uml/UML_DrawObjectInstancesSequenceDiagram.png[Programmablauf Erstellen der Instanzen, 100%, title="Programmablauf Erstellen der Instanzen"]
 
 Die Applikation nutzt die JShell zur Verwaltung des Programmzustands inklusive Benutzereingaben und Referenzen. Eine weitere Möglichkeit wäre es gewesen, dies Eingaben und Referenzen in der Applikation zu verwalten. Dazu hätten jedoch ein eigenes Model sowie ein Handler zur Speicherung und Verarbeitung dieser Daten geschrieben werden müssen. Da JShell diese Funktionen bereits bietet, wurde entschieden, JShell diese Daten verwalten zu lassen.
 
@@ -513,7 +517,7 @@ Travis wurde so konfiguriert, dass bei jedem Git Push oder Pull Request auf GitH
 
 === Kurzanleitung
 
-image::images/app/InstructionPanel.png[Instructions, 100%]
+image::images/app/InstructionPanel.png[GUI der InheritorGallery nach dem Start, 100%, title="GUI der InheritorGallery nach dem Start"]
 
 Die Applikation bietet dem Benutzer 4 Möglichkeiten zur Interaktion.
 
@@ -539,9 +543,8 @@ Genau wie in Java muss jede Codezeile mit einem Semikolon (;) abgeschlossen werd
 Eine neu erstellte Objektinstanz wird Links neben dem Klassendiagramm angezeigt. Dabei wird der Referenztyp umrahmt und zeigt so die Sicht an, die momentan auf die ObjektInstanz möglich ist. Methoden ausserhalb der Referenzsicht, sind dementsprechend nicht ausführbar.
 Wenn eine Methode ausgeführt wird, wird im Klassendiagramm die gerade ausgeführte Methode gemäss Vererbungshierarchie korrekt angezeigt.
 
-image::images/app/App.png[App, 100%]
+image::images/app/App.png[GUI der InheritorGallery während einer Übung, 100%, title="GUI der InheritorGallery während einer Übung"]
 
-//Todo: Testing
 
 == Ergebnisse
 
