@@ -27,7 +27,7 @@ public class FileChooserPM {
      * @param umlPM The UmlPM that the classes should be loaded into
      * @param instanceStatePM The InstanceStatePM that will inform the user about the changes
      */
-    public FileChooserPM(InstructionPM instructionPM, UmlPM umlPM, InstanceStatePM instanceStatePM){
+    public FileChooserPM(UmlPM umlPM, InstanceStatePM instanceStatePM, InstructionPM instructionPM){
         this.instructionPM = instructionPM;
         this.umlPM = umlPM;
         this.instanceStatePM = instanceStatePM;
