@@ -11,7 +11,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import presentationmodel.uml.FieldPM;
 
-
+/**
+ * View that displays the field part of an UML class
+ */
 public class UMLFieldPane extends BorderPane implements ViewMixin {
 
     private FieldPM fieldPM;

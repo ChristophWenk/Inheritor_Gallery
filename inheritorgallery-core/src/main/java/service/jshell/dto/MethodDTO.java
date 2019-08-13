@@ -3,6 +3,9 @@ package service.jshell.dto;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Data transfer object for method
+ */
 public class MethodDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     private final String modifier;
@@ -10,6 +13,13 @@ public class MethodDTO implements Serializable {
     private final String name;
     private List<String> inputParameters;
 
+    /**
+     * Create the MethodDTO
+     * @param modifier Modifier of the method (e.g. public)
+     * @param returnType Return type of the method (e.g. String)
+     * @param name Name of the method
+     * @param inputParameters Parameters that may be passed to the method
+     */
     public MethodDTO(String modifier, String returnType, String name, List<String> inputParameters){
         this.modifier = modifier;
         this.returnType = returnType;

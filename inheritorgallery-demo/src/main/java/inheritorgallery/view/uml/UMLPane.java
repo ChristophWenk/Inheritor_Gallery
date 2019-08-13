@@ -16,7 +16,9 @@ import presentationmodel.uml.UmlPM;
 import java.util.ArrayList;
 import java.util.Optional;
 
-
+/**
+ * View that displays all UML classes available in the JShell
+ */
 public class UMLPane extends StackPane implements ViewMixin {
 
     private static Logger logger = LoggerFactory.getLogger(UMLPane.class);
@@ -27,7 +29,6 @@ public class UMLPane extends StackPane implements ViewMixin {
         this.getChildren().clear();
         this.init();
     };
-
 
     private ArrayList<UMLClassPane> UMLClassPanes;
     private ArrayList<Line> lines;

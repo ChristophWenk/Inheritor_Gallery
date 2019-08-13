@@ -55,6 +55,11 @@ public class JShellService {
         }
     }
 
+    /**
+     * Set a new file path and add its classes to the JShell classpath.
+     * Update the package name where the imported classes are located in.
+     * @param pathAsObject Path to the imported .jar file
+     */
     public void updateImports(Path pathAsObject){
         String path;
 
@@ -81,8 +86,9 @@ public class JShellService {
         importClasses();
     }
 
-
-
+    /**
+     * Import new classes of a specific package into JShell
+     */
     private void importClasses(){
         // Classes need to be explicitly imported to JShell similarly as if we wanted to import one into a class.
         logger.info("importing " + getPackageName());
@@ -91,7 +97,6 @@ public class JShellService {
         jshell.eval("JShellReflection jshellReflection = new JShellReflection(\""+getPackageName()+"\");");
         jshell.eval("import java.lang.reflect.Field;");
     }
-
 
     /**
      * Singleton pattern.
@@ -119,6 +124,7 @@ public class JShellService {
     }
 
     /**
+     * Evaluate if the code given to JShell is valid
      * @param code The code the JShell should execute.
      * @return The output returned by JShell.
      */
@@ -133,6 +139,10 @@ public class JShellService {
         return snippetEventsList.get(0);
     }
 
+    /**
+     * Retrieve all imported classes from JShell
+     * @return List of imported classes by JShell
+     */
     public List<ClassDTO> getClassDTOs(){
         List<ClassDTO> classDTOs = new ArrayList<>();
         if(getJarPath() != null){
@@ -165,6 +175,10 @@ public class JShellService {
         return classDTOs;
     }
 
+    /**
+     * Retrieve all created instances from JShell
+     * @return List of created instances
+     */
     public List<ObjectDTO> getObjectDTOs(){
         List<ObjectDTO> objectDTOList = new ArrayList<>();
 
@@ -190,6 +204,10 @@ public class JShellService {
         return objectDTOList;
     }
 
+    /**
+     * Retrieve all created references from JShell
+     * @return List of created references
+     */
     public List<ReferenceDTO> getReferenceDTOs(){
         List<ReferenceDTO> referenceDTOsList = new ArrayList<>();
         String refName;
@@ -211,18 +229,11 @@ public class JShellService {
         return referenceDTOsList;
     }
 
-    public String getOutputAsString(SnippetEvent snippetEvent){
-        return snippetEvent.value();
-    }
-
-    public String getRefName(VarSnippet varSnippet){
-        return varSnippet.name();
-    }
-
-    public String getRefType(VarSnippet varSnippet){
-        return varSnippet.typeName();
-    }
-
+    /**
+     * Lookup which class a reference points to
+     * @param reference The reference to be checked
+     * @return Name of the class
+     */
     public String getClassForReference(String reference){
         String input = reference+".getClass().getCanonicalName();";
         SnippetEvent snippetEvent = null;
@@ -235,6 +246,11 @@ public class JShellService {
         return snippetEvent.value().replace("\"","");
     }
 
+    /**
+     * Get the hash ID for a reference
+     * @param reference The reference the hash code should be retrieved for
+     * @return Hashcode for the reference
+     */
     public String getHashcodeForReference(String reference){
         String input = reference+".hashCode();";
         SnippetEvent snippetEvent = null;
@@ -246,6 +262,11 @@ public class JShellService {
         return snippetEvent.value().replace("\"","");
     }
 
+    /**
+     * Get the package name for a reference
+     * @param reference The reference the package should be retrieved for
+     * @return Package name for the reference
+     */
     public String getPackageForReference(String reference){
         String input = reference+".getClass().getPackage();";
         SnippetEvent snippetEvent = null;
@@ -261,6 +282,11 @@ public class JShellService {
         return packageNameFull.split(" ")[1];
     }
 
+    /**
+     * Get the field values for a reference
+     * @param reference The reference the field values should be retrieved for
+     * @return Field values for the reference
+     */
     public List<FieldDTO> getFieldValuesReference(String reference){
         SnippetEvent snippetEvent = null;
         try {
@@ -323,6 +349,11 @@ public class JShellService {
         }
     }
 
+    /**
+     * Open a .jar file and lookup the package name where the classes are located in
+     * @param jarPath Path to the .jar file
+     * @return Package name
+     */
     private String getPackageFromJar(String jarPath) {
         logger.debug("getPackageFromJar: " + jarPath);
         URL jar = null;
@@ -348,16 +379,24 @@ public class JShellService {
             if (zipEntry == null) {
                 break;
             }
-//            logger.debug(zipEntry.getName());
             if (zipEntry.getName().endsWith("/") && !zipEntry.getName().equals("META-INF/")) {
-//                logger.debug("Name of Content: " + zipEntry.getName());
-
                 return zipEntry.getName().replace("/","");
             }
         }
         return null;
     }
 
+    public String getOutputAsString(SnippetEvent snippetEvent){
+        return snippetEvent.value();
+    }
+
+    public String getRefName(VarSnippet varSnippet){
+        return varSnippet.name();
+    }
+
+    public String getRefType(VarSnippet varSnippet){
+        return varSnippet.typeName();
+    }
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
