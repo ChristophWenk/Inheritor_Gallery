@@ -15,7 +15,7 @@ public class EdgePM {
      * Create the EdgePM
      * @param source Class where the edge is drawn from
      * @param target Class where the edge is drawn to
-     * @param edgeType Type of the edge (e.g. interface)
+     * @param edgeType Type of the edge (e.g. implements)
      */
     public EdgePM(String source, String target, String edgeType){
         setSource(source);
