@@ -12,6 +12,9 @@ import presentationmodel.instance.ObjectPM;
 
 import java.util.ArrayList;
 
+/**
+ * View that displays all instances available in the JShell
+ */
 public class InstancePane extends FlowPane implements ViewMixin {
 
     private static Logger logger = LoggerFactory.getLogger(InstancePane.class);

@@ -17,7 +17,9 @@ import presentationmodel.uml.MethodPM;
 
 import java.util.ArrayList;
 
-
+/**
+ * View that displays a whole UML class
+ */
 public class UMLClassPane extends VBox implements ViewMixin {
     private final ClassPM classPM;
     private ArrayList<UMLFieldPane> umlFieldPanes;
@@ -78,6 +80,5 @@ public class UMLClassPane extends VBox implements ViewMixin {
 
     @Override
     public void setupBindings() {
-
     }
 }

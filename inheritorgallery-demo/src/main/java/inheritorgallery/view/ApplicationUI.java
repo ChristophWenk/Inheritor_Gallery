@@ -13,6 +13,9 @@ import presentationmodel.instance.InstanceStatePM;
 import presentationmodel.instruction.InstructionPM;
 import presentationmodel.uml.UmlPM;
 
+/**
+ * View that displays and setups all panes needed to run the application
+ */
 public class ApplicationUI extends SplitPane implements ViewMixin {
 
     private static Logger logger = LoggerFactory.getLogger(ApplicationUI.class);
@@ -62,7 +65,6 @@ public class ApplicationUI extends SplitPane implements ViewMixin {
                 new SplitPane(instanceScrollPane,umlScrollPane)
         );
         setDividerPosition(0,0.25);
-
     }
 
     @Override

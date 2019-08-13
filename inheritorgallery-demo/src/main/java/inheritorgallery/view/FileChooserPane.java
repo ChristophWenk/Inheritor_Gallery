@@ -10,6 +10,9 @@ import presentationmodel.FileChooserPM;
 
 import java.io.File;
 
+/**
+ * View that displays all buttons needed to load classes and instructions as well as to reset the application
+ */
 public class FileChooserPane extends HBox implements ViewMixin {
     private static Logger logger = LoggerFactory.getLogger(FileChooserPane.class);
     private Button loadClassButton, refreshButton, loadInstructionButton;
