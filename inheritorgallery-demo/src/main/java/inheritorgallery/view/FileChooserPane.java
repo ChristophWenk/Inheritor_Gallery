@@ -2,10 +2,7 @@ package inheritorgallery.view;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,16 +27,12 @@ public class FileChooserPane extends HBox implements ViewMixin {
     public void initializeControls() {
         //directoryChooser.setInitialDirectory(new File("input"));
         loadClassButton = new Button("Load Classes");
-        loadClassButton.setPrefWidth(170);
+        loadClassButton.setPrefWidth(130);
         loadInstructionButton = new Button("Load Instruction");
-        loadInstructionButton.setPrefWidth(170);
+        loadInstructionButton.setPrefWidth(140);
 
-        refreshButton = new Button();
-        refreshButton.setPrefWidth(50);
-        refreshButton.setGraphic(
-            new ImageView(
-                    new Image("icons/refresh.png", 0, 17, true, false)
-            ));
+        refreshButton = new Button("Reset state");
+        refreshButton.setPrefWidth(120);
     }
 
     @Override
