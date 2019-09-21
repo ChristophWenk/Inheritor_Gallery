@@ -14,14 +14,5 @@ jobs:
       with:
         java-version: '11.0.2'
         javafx: true
-#         architecture: x64
-#         jdkFile: https://github.com/bell-sw/Liberica/releases/download/11.0.2/bellsoft-jdk11.0.2-linux-amd64.tar.gz
-#     - name: Set up Liberica JDK 11.0.2
-#       run: |
-#         sudo wget https://github.com/bell-sw/Liberica/releases/download/11.0.2/bellsoft-jdk11.0.2-linux-amd64.deb
-#         sudo apt-get update -q
-#         sudo apt-get install ./bellsoft-jdk11.0.2-linux-amd64.deb -y
-#         export JAVA_HOME=/usr/lib/jvm/jdk-11-bellsoft-amd64
-#         echo $JAVA_HOME
     - name: Build with Gradle
       run: ./gradlew build
