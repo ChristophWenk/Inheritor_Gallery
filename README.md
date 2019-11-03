@@ -10,6 +10,8 @@ This application is meant for Java beginners. It should visualize inheritance st
 
 The following abstract is taken out of the documentation and gives a short introduction to the project in German.
 
+![App](https://github.com/ChristophWenk/Inheritor_Gallery/blob/master/docs/images/app/App.png)
+
 ## Ausgangslage
 
 Das Klassendiagramm von UML stellt die Vererbungsbeziehungen zwischen Klassen und Interfaces dar. Dabei werden die Klassen mit ihren Attributen und Methoden als einzelne Quadrate gezeigt. Für die resultierenden Instanzen einer abgeleiteten Klasse ist diese Darstellung irreführend. Für das Verständnis was eine Instanz ausmacht, wäre es für einen Programmieranfänger deutlich einfacher, wenn die Instanz als eine Einheit visualisiert wird und nicht in mehreren Blöcken.
