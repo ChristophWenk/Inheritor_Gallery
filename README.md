@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.com/FHNW-IP5-IP6/InheritorGallery.svg?token=qWRopjoJzCncJVxseK5R&branch=master)](https://travis-ci.com/FHNW-IP5-IP6/InheritorGallery)
 
 This application has been developed as part of a study project at Fachhochschule Nordwestschweiz FHNW in Brugg, Switzerland.
-The [documentation](https://github.com/ChristophWenk/InheritorGallery/blob/master/docs/index.adoc) has been written in German as this was the language of communication at the time of development. It is not planned to translate it anytime soon. Thank you for your understanding.
+The [documentation](https://github.com/ChristophWenk/Inheritor_Gallery/blob/master/docs/index.adoc) has been written in German as this was the language of communication at the time of development. It is not planned to translate it anytime soon. Thank you for your understanding.
 
 This application is meant for Java beginners. It should visualize inheritance structures of Java objects and make them better understandable for new programmers.
 
